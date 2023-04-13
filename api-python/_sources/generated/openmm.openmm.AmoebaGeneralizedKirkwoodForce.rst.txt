@@ -1,0 +1,48 @@
+﻿AmoebaGeneralizedKirkwoodForce
+============================================
+
+.. currentmodule:: openmm.openmm
+
+.. autoclass:: AmoebaGeneralizedKirkwoodForce
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~AmoebaGeneralizedKirkwoodForce.__init__
+      ~AmoebaGeneralizedKirkwoodForce.addParticle
+      ~AmoebaGeneralizedKirkwoodForce.getForceGroup
+      ~AmoebaGeneralizedKirkwoodForce.getIncludeCavityTerm
+      ~AmoebaGeneralizedKirkwoodForce.getName
+      ~AmoebaGeneralizedKirkwoodForce.getNumParticles
+      ~AmoebaGeneralizedKirkwoodForce.getParticleParameters
+      ~AmoebaGeneralizedKirkwoodForce.getProbeRadius
+      ~AmoebaGeneralizedKirkwoodForce.getSoluteDielectric
+      ~AmoebaGeneralizedKirkwoodForce.getSolventDielectric
+      ~AmoebaGeneralizedKirkwoodForce.getSurfaceAreaFactor
+      ~AmoebaGeneralizedKirkwoodForce.setForceGroup
+      ~AmoebaGeneralizedKirkwoodForce.setIncludeCavityTerm
+      ~AmoebaGeneralizedKirkwoodForce.setName
+      ~AmoebaGeneralizedKirkwoodForce.setParticleParameters
+      ~AmoebaGeneralizedKirkwoodForce.setProbeRadius
+      ~AmoebaGeneralizedKirkwoodForce.setSoluteDielectric
+      ~AmoebaGeneralizedKirkwoodForce.setSolventDielectric
+      ~AmoebaGeneralizedKirkwoodForce.setSurfaceAreaFactor
+      ~AmoebaGeneralizedKirkwoodForce.updateParametersInContext
+      ~AmoebaGeneralizedKirkwoodForce.usesPeriodicBoundaryConditions
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AmoebaGeneralizedKirkwoodForce.thisown
+   
+   

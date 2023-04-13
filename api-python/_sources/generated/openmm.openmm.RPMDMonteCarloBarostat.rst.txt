@@ -1,0 +1,40 @@
+﻿RPMDMonteCarloBarostat
+====================================
+
+.. currentmodule:: openmm.openmm
+
+.. autoclass:: RPMDMonteCarloBarostat
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~RPMDMonteCarloBarostat.Pressure
+      ~RPMDMonteCarloBarostat.__init__
+      ~RPMDMonteCarloBarostat.getDefaultPressure
+      ~RPMDMonteCarloBarostat.getForceGroup
+      ~RPMDMonteCarloBarostat.getFrequency
+      ~RPMDMonteCarloBarostat.getName
+      ~RPMDMonteCarloBarostat.getRandomNumberSeed
+      ~RPMDMonteCarloBarostat.setDefaultPressure
+      ~RPMDMonteCarloBarostat.setForceGroup
+      ~RPMDMonteCarloBarostat.setFrequency
+      ~RPMDMonteCarloBarostat.setName
+      ~RPMDMonteCarloBarostat.setRandomNumberSeed
+      ~RPMDMonteCarloBarostat.usesPeriodicBoundaryConditions
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RPMDMonteCarloBarostat.thisown
+   
+   

@@ -1,0 +1,54 @@
+﻿AmoebaWcaDispersionForce
+======================================
+
+.. currentmodule:: openmm.openmm
+
+.. autoclass:: AmoebaWcaDispersionForce
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~AmoebaWcaDispersionForce.__init__
+      ~AmoebaWcaDispersionForce.addParticle
+      ~AmoebaWcaDispersionForce.getAwater
+      ~AmoebaWcaDispersionForce.getDispoff
+      ~AmoebaWcaDispersionForce.getEpsh
+      ~AmoebaWcaDispersionForce.getEpso
+      ~AmoebaWcaDispersionForce.getForceGroup
+      ~AmoebaWcaDispersionForce.getName
+      ~AmoebaWcaDispersionForce.getNumParticles
+      ~AmoebaWcaDispersionForce.getParticleParameters
+      ~AmoebaWcaDispersionForce.getRminh
+      ~AmoebaWcaDispersionForce.getRmino
+      ~AmoebaWcaDispersionForce.getShctd
+      ~AmoebaWcaDispersionForce.getSlevy
+      ~AmoebaWcaDispersionForce.setAwater
+      ~AmoebaWcaDispersionForce.setDispoff
+      ~AmoebaWcaDispersionForce.setEpsh
+      ~AmoebaWcaDispersionForce.setEpso
+      ~AmoebaWcaDispersionForce.setForceGroup
+      ~AmoebaWcaDispersionForce.setName
+      ~AmoebaWcaDispersionForce.setParticleParameters
+      ~AmoebaWcaDispersionForce.setRminh
+      ~AmoebaWcaDispersionForce.setRmino
+      ~AmoebaWcaDispersionForce.setShctd
+      ~AmoebaWcaDispersionForce.setSlevy
+      ~AmoebaWcaDispersionForce.updateParametersInContext
+      ~AmoebaWcaDispersionForce.usesPeriodicBoundaryConditions
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AmoebaWcaDispersionForce.thisown
+   
+   

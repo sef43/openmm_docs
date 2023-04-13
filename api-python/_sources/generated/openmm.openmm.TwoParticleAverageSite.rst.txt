@@ -1,0 +1,31 @@
+﻿TwoParticleAverageSite
+====================================
+
+.. currentmodule:: openmm.openmm
+
+.. autoclass:: TwoParticleAverageSite
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~TwoParticleAverageSite.__init__
+      ~TwoParticleAverageSite.getNumParticles
+      ~TwoParticleAverageSite.getParticle
+      ~TwoParticleAverageSite.getWeight
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~TwoParticleAverageSite.thisown
+   
+   

@@ -1,0 +1,35 @@
+﻿CMMotionRemover
+=============================
+
+.. currentmodule:: openmm.openmm
+
+.. autoclass:: CMMotionRemover
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~CMMotionRemover.__init__
+      ~CMMotionRemover.getForceGroup
+      ~CMMotionRemover.getFrequency
+      ~CMMotionRemover.getName
+      ~CMMotionRemover.setForceGroup
+      ~CMMotionRemover.setFrequency
+      ~CMMotionRemover.setName
+      ~CMMotionRemover.usesPeriodicBoundaryConditions
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CMMotionRemover.thisown
+   
+   

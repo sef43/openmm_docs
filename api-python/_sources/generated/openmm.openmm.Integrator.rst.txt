@@ -1,0 +1,35 @@
+﻿Integrator
+========================
+
+.. currentmodule:: openmm.openmm
+
+.. autoclass:: Integrator
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Integrator.__init__
+      ~Integrator.getConstraintTolerance
+      ~Integrator.getIntegrationForceGroups
+      ~Integrator.getStepSize
+      ~Integrator.setConstraintTolerance
+      ~Integrator.setIntegrationForceGroups
+      ~Integrator.setStepSize
+      ~Integrator.step
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Integrator.thisown
+   
+   

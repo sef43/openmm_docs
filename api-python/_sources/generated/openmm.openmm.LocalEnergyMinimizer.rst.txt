@@ -1,0 +1,29 @@
+﻿LocalEnergyMinimizer
+==================================
+
+.. currentmodule:: openmm.openmm
+
+.. autoclass:: LocalEnergyMinimizer
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~LocalEnergyMinimizer.__init__
+      ~LocalEnergyMinimizer.minimize
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~LocalEnergyMinimizer.thisown
+   
+   
