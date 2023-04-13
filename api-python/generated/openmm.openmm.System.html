@@ -1,0 +1,550 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>System &#8212; OpenMM Python API c2d2539933259d85365b465b39e6c3113559e016 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Context" href="openmm.openmm.Context.html" />
+    <link rel="prev" title="Library Layer" href="../library.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="system">
+<h1>System<a class="headerlink" href="#system" title="Permalink to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="openmm.openmm.System">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openmm.openmm.</span></span><span class="sig-name descname"><span class="pre">System</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openmm.openmm.System" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class represents a molecular system. The definition of a System involves four elements:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>The set of particles in the system</p></li>
+<li><p>The forces acting on them</p></li>
+<li><p>Pairs of particles whose separation should be constrained to a fixed value</p></li>
+<li><p>For periodic systems, the dimensions of the periodic box</p></li>
+</ul>
+</div></blockquote>
+<p>The particles and constraints are defined directly by the System object, while forces are defined by objects that extend the Force class. After creating a System, call addParticle() once for each particle, addConstraint() for each constraint, and addForce() for each Force.</p>
+<p>In addition, particles may be designated as “virtual sites”. These are particles whose positions are computed automatically based on the positions of other particles. To define a virtual site, call setVirtualSite(), passing in a VirtualSite object that defines the rules for computing its position.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.System.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#openmm.openmm.System" title="openmm.openmm.System"><span class="pre">System</span></a></span></span><a class="headerlink" href="#openmm.openmm.System.__init__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#openmm.openmm.System" title="openmm.openmm.System"><span class="pre">System</span></a></span></span></dt>
+<dd><p>Create a new System.</p>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#openmm.openmm.System.__init__" title="openmm.openmm.System.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(-&gt; System)</p></td>
+<td><p>Create a new System.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#openmm.openmm.System.addConstraint" title="openmm.openmm.System.addConstraint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">addConstraint</span></code></a>(self, particle1, particle2, ...)</p></td>
+<td><p>Add a constraint to the System.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#openmm.openmm.System.addForce" title="openmm.openmm.System.addForce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">addForce</span></code></a>(self, force)</p></td>
+<td><p>Add a Force to the System.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#openmm.openmm.System.addParticle" title="openmm.openmm.System.addParticle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">addParticle</span></code></a>(self, mass)</p></td>
+<td><p>Add a particle to the System.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#openmm.openmm.System.getConstraintParameters" title="openmm.openmm.System.getConstraintParameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getConstraintParameters</span></code></a>(self, index)</p></td>
+<td><p>Get the parameters defining a distance constraint.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#openmm.openmm.System.getDefaultPeriodicBoxVectors" title="openmm.openmm.System.getDefaultPeriodicBoxVectors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getDefaultPeriodicBoxVectors</span></code></a>(self)</p></td>
+<td><p>Get the default values of the vectors defining the axes of the periodic box (measured in nm).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#openmm.openmm.System.getForce" title="openmm.openmm.System.getForce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getForce</span></code></a>(-&gt; Force)</p></td>
+<td><p>Get a writable reference to one of the Forces in this System.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#openmm.openmm.System.getForces" title="openmm.openmm.System.getForces"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getForces</span></code></a>()</p></td>
+<td><p>Get the list of Forces in this System</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#openmm.openmm.System.getNumConstraints" title="openmm.openmm.System.getNumConstraints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getNumConstraints</span></code></a>(self)</p></td>
+<td><p>Get the number of distance constraints in this System.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#openmm.openmm.System.getNumForces" title="openmm.openmm.System.getNumForces"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getNumForces</span></code></a>(self)</p></td>
+<td><p>Get the number of Force objects that have been added to the System.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#openmm.openmm.System.getNumParticles" title="openmm.openmm.System.getNumParticles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getNumParticles</span></code></a>(self)</p></td>
+<td><p>Get the number of particles in this System.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#openmm.openmm.System.getParticleMass" title="openmm.openmm.System.getParticleMass"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParticleMass</span></code></a>(self, index)</p></td>
+<td><p>Get the mass (in atomic mass units) of a particle.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#openmm.openmm.System.getVirtualSite" title="openmm.openmm.System.getVirtualSite"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getVirtualSite</span></code></a>(self, index)</p></td>
+<td><p>Get VirtualSite object for a particle.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#openmm.openmm.System.isVirtualSite" title="openmm.openmm.System.isVirtualSite"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isVirtualSite</span></code></a>(self, index)</p></td>
+<td><p>Get whether a particle is a VirtualSite.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#openmm.openmm.System.removeConstraint" title="openmm.openmm.System.removeConstraint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">removeConstraint</span></code></a>(self, index)</p></td>
+<td><p>Remove a constraint from the System.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#openmm.openmm.System.removeForce" title="openmm.openmm.System.removeForce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">removeForce</span></code></a>(self, index)</p></td>
+<td><p>Remove a Force from the System.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#openmm.openmm.System.setConstraintParameters" title="openmm.openmm.System.setConstraintParameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setConstraintParameters</span></code></a>(self, index, ...)</p></td>
+<td><p>Set the parameters defining a distance constraint.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#openmm.openmm.System.setDefaultPeriodicBoxVectors" title="openmm.openmm.System.setDefaultPeriodicBoxVectors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setDefaultPeriodicBoxVectors</span></code></a>(self, a, b, c)</p></td>
+<td><p>Set the default values of the vectors defining the axes of the periodic box (measured in nm).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#openmm.openmm.System.setParticleMass" title="openmm.openmm.System.setParticleMass"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParticleMass</span></code></a>(self, index, mass)</p></td>
+<td><p>Set the mass (in atomic mass units) of a particle.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#openmm.openmm.System.setVirtualSite" title="openmm.openmm.System.setVirtualSite"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setVirtualSite</span></code></a>(self, index, virtualSite)</p></td>
+<td><p>Set a particle to be a virtual site.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#openmm.openmm.System.usesPeriodicBoundaryConditions" title="openmm.openmm.System.usesPeriodicBoundaryConditions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">usesPeriodicBoundaryConditions</span></code></a>(self)</p></td>
+<td><p>Returns whether or not any forces in this System use periodic boundaries.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#openmm.openmm.System.thisown" title="openmm.openmm.System.thisown"><code class="xref py py-obj docutils literal notranslate"><span class="pre">thisown</span></code></a></p></td>
+<td><p>The membership flag</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py property">
+<dt class="sig sig-object py" id="openmm.openmm.System.thisown">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">thisown</span></span><a class="headerlink" href="#openmm.openmm.System.thisown" title="Permalink to this definition">¶</a></dt>
+<dd><p>The membership flag</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.System.getNumParticles">
+<span class="sig-name descname"><span class="pre">getNumParticles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openmm.openmm.System.getNumParticles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the number of particles in this System.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.System.addParticle">
+<span class="sig-name descname"><span class="pre">addParticle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openmm.openmm.System.addParticle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a particle to the System. If the mass is 0, Integrators will ignore the particle and not modify its position or velocity. This is most often used for virtual sites, but can also be used as a way to prevent a particle from moving.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mass</strong> (<em>double</em>) – the mass of the particle (in atomic mass units)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the index of the particle that was added</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.System.getParticleMass">
+<span class="sig-name descname"><span class="pre">getParticleMass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">double</span></span></span><a class="headerlink" href="#openmm.openmm.System.getParticleMass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the mass (in atomic mass units) of a particle. If the mass is 0, Integrators will ignore the particle and not modify its position or velocity. This is most often used for virtual sites, but can also be used as a way to prevent a particle from moving.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – the index of the particle for which to get the mass</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.System.setParticleMass">
+<span class="sig-name descname"><span class="pre">setParticleMass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openmm.openmm.System.setParticleMass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the mass (in atomic mass units) of a particle. If the mass is 0, Integrators will ignore the particle and not modify its position or velocity. This is most often used for virtual sites, but can also be used as a way to prevent a particle from moving.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – the index of the particle for which to set the mass</p></li>
+<li><p><strong>mass</strong> (<em>double</em>) – the mass of the particle</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.System.setVirtualSite">
+<span class="sig-name descname"><span class="pre">setVirtualSite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">virtualSite</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openmm.openmm.System.setVirtualSite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a particle to be a virtual site. The VirtualSite object should have been created on the heap with the “new” operator. The System takes over ownership of it, and deletes it when the System itself is deleted.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – the index of the particle that should be treated as a virtual site</p></li>
+<li><p><strong>virtualSite</strong> (<em>VirtualSite *</em>) – a pointer to the VirtualSite object describing it</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.System.isVirtualSite">
+<span class="sig-name descname"><span class="pre">isVirtualSite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#openmm.openmm.System.isVirtualSite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get whether a particle is a VirtualSite.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – the index of the particle to check</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.System.getVirtualSite">
+<span class="sig-name descname"><span class="pre">getVirtualSite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="openmm.openmm.VirtualSite.html#openmm.openmm.VirtualSite" title="openmm.openmm.VirtualSite"><span class="pre">VirtualSite</span></a></span></span><a class="headerlink" href="#openmm.openmm.System.getVirtualSite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get VirtualSite object for a particle. If the particle is not a virtual site, this throws an exception.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – the index of the particle to get</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.System.getNumConstraints">
+<span class="sig-name descname"><span class="pre">getNumConstraints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openmm.openmm.System.getNumConstraints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the number of distance constraints in this System.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.System.addConstraint">
+<span class="sig-name descname"><span class="pre">addConstraint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">particle1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">particle2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openmm.openmm.System.addConstraint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a constraint to the System. Particles whose mass is 0 cannot participate in constraints.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>particle1</strong> (<em>int</em>) – the index of the first particle involved in the constraint</p></li>
+<li><p><strong>particle2</strong> (<em>int</em>) – the index of the second particle involved in the constraint</p></li>
+<li><p><strong>distance</strong> (<em>double</em>) – the required distance between the two particles, measured in nm</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the index of the constraint that was added</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.System.getConstraintParameters">
+<span class="sig-name descname"><span class="pre">getConstraintParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openmm.openmm.System.getConstraintParameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the parameters defining a distance constraint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – the index of the constraint for which to get parameters</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>particle1</strong> (<em>int</em>) – the index of the first particle involved in the constraint</p></li>
+<li><p><strong>particle2</strong> (<em>int</em>) – the index of the second particle involved in the constraint</p></li>
+<li><p><strong>distance</strong> (<em>double</em>) – the required distance between the two particles, measured in nm</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.System.setConstraintParameters">
+<span class="sig-name descname"><span class="pre">setConstraintParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">particle1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">particle2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openmm.openmm.System.setConstraintParameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the parameters defining a distance constraint. Particles whose mass is 0 cannot participate in constraints.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – the index of the constraint for which to set parameters</p></li>
+<li><p><strong>particle1</strong> (<em>int</em>) – the index of the first particle involved in the constraint</p></li>
+<li><p><strong>particle2</strong> (<em>int</em>) – the index of the second particle involved in the constraint</p></li>
+<li><p><strong>distance</strong> (<em>double</em>) – the required distance between the two particles, measured in nm</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.System.removeConstraint">
+<span class="sig-name descname"><span class="pre">removeConstraint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openmm.openmm.System.removeConstraint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a constraint from the System.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – the index of the constraint to remove</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.System.addForce">
+<span class="sig-name descname"><span class="pre">addForce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openmm.openmm.System.addForce" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a Force to the System. The Force should have been created on the heap with the “new” operator. The System takes over ownership of it, and deletes the Force when the System itself is deleted.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>force</strong> (<em>Force *</em>) – a pointer to the Force object to be added</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the index within the System of the Force that was added</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.System.getNumForces">
+<span class="sig-name descname"><span class="pre">getNumForces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openmm.openmm.System.getNumForces" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the number of Force objects that have been added to the System.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.System.getForce">
+<span class="sig-name descname"><span class="pre">getForce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="openmm.openmm.Force.html#openmm.openmm.Force" title="openmm.openmm.Force"><span class="pre">Force</span></a></span></span><a class="headerlink" href="#openmm.openmm.System.getForce" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">getForce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="openmm.openmm.Force.html#openmm.openmm.Force" title="openmm.openmm.Force"><span class="pre">Force</span></a></span></span></dt>
+<dd><p>Get a writable reference to one of the Forces in this System.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – the index of the Force to get</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.System.removeForce">
+<span class="sig-name descname"><span class="pre">removeForce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openmm.openmm.System.removeForce" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a Force from the System. The memory associated with the removed Force object is deleted.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – the index of the Force to remove</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.System.getDefaultPeriodicBoxVectors">
+<span class="sig-name descname"><span class="pre">getDefaultPeriodicBoxVectors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openmm.openmm.System.getDefaultPeriodicBoxVectors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the default values of the vectors defining the axes of the periodic box (measured in nm). Any newly created Context will have its box vectors set to these. They will affect any Force added to the System that uses periodic boundary conditions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>a</strong> (<em>Vec3</em>) – the vector defining the first edge of the periodic box</p></li>
+<li><p><strong>b</strong> (<em>Vec3</em>) – the vector defining the second edge of the periodic box</p></li>
+<li><p><strong>c</strong> (<em>Vec3</em>) – the vector defining the third edge of the periodic box</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.System.setDefaultPeriodicBoxVectors">
+<span class="sig-name descname"><span class="pre">setDefaultPeriodicBoxVectors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openmm.openmm.System.setDefaultPeriodicBoxVectors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the default values of the vectors defining the axes of the periodic box (measured in nm). Any newly created Context will have its box vectors set to these. They will affect any Force added to the System that uses periodic boundary conditions.</p>
+<p>Triclinic boxes are supported, but the vectors must satisfy certain requirements. In particular, a must point in the x direction, b must point “mostly” in the y direction, and c must point “mostly” in the z direction. See the documentation for details.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<a class="reference internal" href="openmm.vec3.Vec3.html#openmm.vec3.Vec3" title="openmm.vec3.Vec3"><em>Vec3</em></a>) – the vector defining the first edge of the periodic box</p></li>
+<li><p><strong>b</strong> (<a class="reference internal" href="openmm.vec3.Vec3.html#openmm.vec3.Vec3" title="openmm.vec3.Vec3"><em>Vec3</em></a>) – the vector defining the second edge of the periodic box</p></li>
+<li><p><strong>c</strong> (<a class="reference internal" href="openmm.vec3.Vec3.html#openmm.vec3.Vec3" title="openmm.vec3.Vec3"><em>Vec3</em></a>) – the vector defining the third edge of the periodic box</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.System.usesPeriodicBoundaryConditions">
+<span class="sig-name descname"><span class="pre">usesPeriodicBoundaryConditions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#openmm.openmm.System.usesPeriodicBoundaryConditions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether or not any forces in this System use periodic boundaries.</p>
+<p>If a force in this System does not implement usesPeriodicBoundaryConditions a OpenMM::OpenMMException is thrown</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>true if at least one force uses PBC and false otherwise</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.System.getForces">
+<span class="sig-name descname"><span class="pre">getForces</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#openmm.openmm.System.getForces" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the list of Forces in this System</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.System.__copy__">
+<span class="sig-name descname"><span class="pre">__copy__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#openmm.openmm.System" title="openmm.openmm.System"><span class="pre">System</span></a></span></span><a class="headerlink" href="#openmm.openmm.System.__copy__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="../library.html" title="Previous document">Library Layer</a>
+        </li>
+        <li>
+          <a href="openmm.openmm.Context.html" title="Next document">Context</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM Python API</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+<script>
+function report(value) {
+    newlink = "http://docs.openmm.org/"+value+"/api-python/";
+    location.href = newlink;
+}
+</script>
+<div class="extra-nav-links">
+These docs are for <a href="https://github.com/openmm/openmm/tree/c2d2539933259d85365b465b39e6c3113559e016">OpenMM version = 8.0.0.dev-c2d2539</a>
+</div>
+<div class="extra-nav-links">
+You can change to a different version:
+<select name="version" id="version_selector" onchange="report(this.value)">
+    <options selected disabled>version</option>
+    <option>development</option>
+    <option>latest</option>
+    <option>7.7.0</option>
+    <option>7.6.0</option>
+    <option>7.5.0</option>
+    <option>7.4.0</option>
+    <option>7.3.0</option>
+    <option>7.2.0</option>
+    <option>7.1.0</option>
+</select>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../app.html">Application Layer</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../library.html">Library Layer</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../library.html#core-objects">Core Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../library.html#forces">Forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../library.html#integrators">Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../library.html#extras">Extras</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../userguide/">
+                User's Manual
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../developerguide/">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../api-c++/">
+                C++ API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Stanford University and the Authors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.1.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../_sources/generated/openmm.openmm.System.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,378 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>OpenMM User’s Manual and Theory Guide &#8212; OpenMM User Guide c2d2539933259d85365b465b39e6c3113559e016 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="1. Introduction" href="introduction.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="openmm-user-s-manual-and-theory-guide">
+<h1>OpenMM User’s Manual and Theory Guide<a class="headerlink" href="#openmm-user-s-manual-and-theory-guide" title="Permalink to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#online-resources">1.1. Online Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#referencing-openmm">1.2. Referencing OpenMM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#acknowledgments">1.3. Acknowledgments</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="application.html">Part I: The OpenMM Application Layer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="application/01_getting_started.html">2. Getting Started</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="application/01_getting_started.html#introduction">2.1. Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/01_getting_started.html#installing-openmm">2.2. Installing OpenMM</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="application/02_running_sims.html">3. Running Simulations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="application/02_running_sims.html#a-first-example">3.1. A First Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/02_running_sims.html#using-amber-files">3.2. Using AMBER Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/02_running_sims.html#using-gromacs-files">3.3. Using Gromacs Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/02_running_sims.html#using-charmm-files">3.4. Using CHARMM Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/02_running_sims.html#the-openmm-setup-application">3.5. The OpenMM-Setup Application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/02_running_sims.html#simulation-parameters">3.6. Simulation Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="application/03_model_building_editing.html">4. Model Building and Editing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="application/03_model_building_editing.html#adding-hydrogens">4.1. Adding Hydrogens</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/03_model_building_editing.html#adding-solvent">4.2. Adding Solvent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/03_model_building_editing.html#adding-a-membrane">4.3. Adding a Membrane</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/03_model_building_editing.html#adding-or-removing-extra-particles">4.4. Adding or Removing Extra Particles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/03_model_building_editing.html#removing-water">4.5. Removing Water</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/03_model_building_editing.html#saving-the-results">4.6. Saving The Results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="application/04_advanced_sim_examples.html">5. Advanced Simulation Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="application/04_advanced_sim_examples.html#simulated-annealing">5.1. Simulated Annealing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/04_advanced_sim_examples.html#applying-an-external-force-to-particles-a-spherical-container">5.2. Applying an External Force to Particles: a Spherical Container</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/04_advanced_sim_examples.html#extracting-and-reporting-forces-and-other-data">5.3. Extracting and Reporting Forces (and other data)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/04_advanced_sim_examples.html#computing-energies">5.4. Computing Energies</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="application/05_creating_ffs.html">6. Creating Force Fields</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#basic-concepts">6.1. Basic Concepts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#writing-the-xml-file">6.2. Writing the XML File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#using-multiple-files">6.3. Using Multiple Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#extending-forcefield">6.4. Extending ForceField</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="library.html">Part II: The OpenMM Library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="library/01_introduction.html">7. Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="library/01_introduction.html#what-is-the-openmm-library">7.1. What Is the OpenMM Library?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library/01_introduction.html#design-principles">7.2. Design Principles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library/01_introduction.html#choice-of-language">7.3. Choice of Language</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library/01_introduction.html#architectural-overview">7.4. Architectural Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library/01_introduction.html#the-openmm-public-api">7.5. The OpenMM Public API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library/01_introduction.html#the-openmm-low-level-api">7.6. The OpenMM Low Level API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library/01_introduction.html#platforms">7.7. Platforms</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="library/02_compiling.html">8. Compiling OpenMM from Source Code</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="library/02_compiling.html#compiling-on-linux-and-mac">8.1. Compiling on Linux and Mac</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library/02_compiling.html#compiling-on-windows">8.2. Compiling on Windows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library/02_compiling.html#building-the-documentation-optional">8.3. Building the Documentation (Optional)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library/02_compiling.html#using-local-build-of-openmm-alongside-conda-tools-that-depend-on-it">8.4. Using local build of OpenMM alongside conda tools that depend on it</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="library/03_tutorials.html">9. OpenMM Tutorials</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="library/03_tutorials.html#example-files-overview">9.1. Example Files Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library/03_tutorials.html#running-example-files">9.2. Running Example Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library/03_tutorials.html#helloargon-program">9.3. HelloArgon Program</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library/03_tutorials.html#hellosodiumchloride-program">9.4. HelloSodiumChloride Program</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library/03_tutorials.html#helloethane-program">9.5. HelloEthane Program</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="library/04_platform_specifics.html">10. Platform-Specific Properties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="library/04_platform_specifics.html#opencl-platform">10.1. OpenCL Platform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library/04_platform_specifics.html#cuda-platform">10.2. CUDA Platform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library/04_platform_specifics.html#cpu-platform">10.3. CPU Platform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library/04_platform_specifics.html#determinism">10.4. Determinism</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="library/05_languages_not_cpp.html">11. Using OpenMM with Software Written in Languages Other than C++</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="library/05_languages_not_cpp.html#c-api">11.1. C API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library/05_languages_not_cpp.html#fortran-95-api">11.2. Fortran 95 API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library/05_languages_not_cpp.html#python-api">11.3. Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="library/06_integration_examples.html">12. Examples of OpenMM Integration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="library/06_integration_examples.html#gromacs">12.1. GROMACS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library/06_integration_examples.html#tinker-openmm">12.2. TINKER-OpenMM</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="library/07_testing_validation.html">13. Testing and Validation of OpenMM</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="library/07_testing_validation.html#description-of-tests">13.1. Description of Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library/07_testing_validation.html#test-results">13.2. Test Results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="library/08_amoeba_plugin.html">14. AMOEBA Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="library/08_amoeba_plugin.html#openmm-amoeba-supported-forces-and-options">14.1. OpenMM AMOEBA Supported Forces and Options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library/08_amoeba_plugin.html#openmm-amoeba-validation">14.2. OpenMM AMOEBA Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="library/09_rpmd_plugin.html">15. Ring Polymer Molecular Dynamics (RPMD) Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library/10_drude_plugin.html">16. Drude Plugin</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Part III: The Theory Behind OpenMM</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="theory/01_introduction.html">17. Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="theory/01_introduction.html#overview">17.1. Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/01_introduction.html#units">17.2. Units</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/01_introduction.html#physical-constants">17.3. Physical Constants</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="theory/02_standard_forces.html">18. Standard Forces</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="theory/02_standard_forces.html#harmonicbondforce">18.1. HarmonicBondForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/02_standard_forces.html#harmonicangleforce">18.2. HarmonicAngleForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/02_standard_forces.html#periodictorsionforce">18.3. PeriodicTorsionForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/02_standard_forces.html#rbtorsionforce">18.4. RBTorsionForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/02_standard_forces.html#cmaptorsionforce">18.5. CMAPTorsionForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/02_standard_forces.html#nonbondedforce">18.6. NonbondedForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/02_standard_forces.html#gbsaobcforce">18.7. GBSAOBCForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/02_standard_forces.html#gayberneforce">18.8. GayBerneForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/02_standard_forces.html#andersenthermostat">18.9. AndersenThermostat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/02_standard_forces.html#montecarlobarostat">18.10. MonteCarloBarostat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/02_standard_forces.html#montecarloanisotropicbarostat">18.11. MonteCarloAnisotropicBarostat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/02_standard_forces.html#montecarlomembranebarostat">18.12. MonteCarloMembraneBarostat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/02_standard_forces.html#montecarloflexiblebarostat">18.13. MonteCarloFlexibleBarostat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/02_standard_forces.html#cmmotionremover">18.14. CMMotionRemover</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/02_standard_forces.html#rmsdforce">18.15. RMSDForce</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="theory/03_custom_forces.html">19. Custom Forces</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="theory/03_custom_forces.html#custombondforce">19.1. CustomBondForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/03_custom_forces.html#customangleforce">19.2. CustomAngleForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/03_custom_forces.html#customtorsionforce">19.3. CustomTorsionForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/03_custom_forces.html#customnonbondedforce">19.4. CustomNonbondedForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/03_custom_forces.html#customexternalforce">19.5. CustomExternalForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/03_custom_forces.html#customcompoundbondforce">19.6. CustomCompoundBondForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/03_custom_forces.html#customcentroidbondforce">19.7. CustomCentroidBondForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/03_custom_forces.html#custommanyparticleforce">19.8. CustomManyParticleForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/03_custom_forces.html#customgbforce">19.9. CustomGBForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/03_custom_forces.html#customhbondforce">19.10. CustomHbondForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/03_custom_forces.html#customcvforce">19.11. CustomCVForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/03_custom_forces.html#writing-custom-expressions">19.12. Writing Custom Expressions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/03_custom_forces.html#setting-parameters">19.13. Setting Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/03_custom_forces.html#parameter-derivatives">19.14. Parameter Derivatives</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="theory/04_integrators.html">20. Integrators</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="theory/04_integrators.html#verletintegrator">20.1. VerletIntegrator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/04_integrators.html#langevinintegator">20.2. LangevinIntegator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/04_integrators.html#langevinmiddleintegrator">20.3. LangevinMiddleIntegrator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/04_integrators.html#nosehooverintegrator">20.4. NoseHooverIntegrator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/04_integrators.html#brownianintegrator">20.5. BrownianIntegrator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/04_integrators.html#variableverletintegrator">20.6. VariableVerletIntegrator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/04_integrators.html#variablelangevinintegrator">20.7. VariableLangevinIntegrator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/04_integrators.html#customintegrator">20.8. CustomIntegrator</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="theory/05_other_features.html">21. Other Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="theory/05_other_features.html#periodic-boundary-conditions">21.1. Periodic Boundary Conditions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/05_other_features.html#localenergyminimizer">21.2. LocalEnergyMinimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/05_other_features.html#xmlserializer">21.3. XMLSerializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/05_other_features.html#force-groups">21.4. Force Groups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/05_other_features.html#virtual-sites">21.5. Virtual Sites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/05_other_features.html#random-numbers-with-stochastic-integrators-and-forces">21.6. Random Numbers with Stochastic Integrators and Forces</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="zbibliography.html">22. Bibliography</a></li>
+</ul>
+</div>
+<p>Portions copyright (c) 2008-2017 Stanford University and the Authors</p>
+<p>Contributors:  Kyle Beauchamp, Christopher Bruns, John Chodera, Peter Eastman, Mark
+Friedrichs, Joy P. Ku, Tom Markland, Vijay Pande, Randy Radmer, Michael Sherman,
+Jason Swails, Lee-Ping Wang</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of
+this document (the “Document”), to deal in the Document without restriction,
+including without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Document, and to permit
+persons to whom the Document is furnished to do so, subject to the following
+conditions:</p>
+<p>This copyright and permission notice shall be included in all copies or
+substantial portions of the Document.</p>
+<p>THE DOCUMENT IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE AUTHORS,
+CONTRIBUTORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE DOCUMENT OR THE USE OR OTHER DEALINGS IN THE
+DOCUMENT.</p>
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          <a href="introduction.html" title="Next document"><span class="section-number">1. </span>Introduction</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="#">
+    <img class="logo" src="_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM User Guide</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+<script>
+function report(value) {
+    newlink = "http://docs.openmm.org/"+value+"/api-python/";
+    location.href = newlink;
+}
+</script>
+<div class="extra-nav-links">
+These docs are for <a href="https://github.com/openmm/openmm/tree/c2d2539933259d85365b465b39e6c3113559e016">OpenMM version = 8.0.0.dev-c2d2539</a>
+</div>
+<div class="extra-nav-links">
+You can change to a different version:
+<select name="version" id="version_selector" onchange="report(this.value)">
+    <options selected disabled>version</option>
+    <option>development</option>
+    <option>latest</option>
+    <option>7.7.0</option>
+    <option>7.6.0</option>
+    <option>7.5.0</option>
+    <option>7.4.0</option>
+    <option>7.3.0</option>
+    <option>7.2.0</option>
+    <option>7.1.0</option>
+</select>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="application.html">Part I: The OpenMM Application Layer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="library.html">Part II: The OpenMM Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Part III: The Theory Behind OpenMM</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="zbibliography.html">22. Bibliography</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../developerguide/">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../api-python/">
+                Python API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../api-c++/">
+                C++ API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2008-2017, Stanford University.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.1.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,1697 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>3. Running Simulations &#8212; OpenMM User Guide c2d2539933259d85365b465b39e6c3113559e016 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4. Model Building and Editing" href="03_model_building_editing.html" />
+    <link rel="prev" title="2. Getting Started" href="01_getting_started.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="running-simulations">
+<span id="id1"></span><h1><span class="section-number">3. </span>Running Simulations<a class="headerlink" href="#running-simulations" title="Permalink to this heading">¶</a></h1>
+<section id="a-first-example">
+<span id="id2"></span><h2><span class="section-number">3.1. </span>A First Example<a class="headerlink" href="#a-first-example" title="Permalink to this heading">¶</a></h2>
+<p>Let’s begin with our first example of an OpenMM script. It loads a PDB file
+called <code class="file docutils literal notranslate"><span class="pre">input.pdb</span></code> that defines a biomolecular system, parameterizes it using the Amber14 force field and TIP3P-FB water
+model, energy minimizes it, simulates it for 10,000 steps with a Langevin
+integrator, and saves a snapshot frame to a PDB file called <code class="file docutils literal notranslate"><span class="pre">output.pdb</span></code> every 1000 time
+steps.</p>
+<div class="compound">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">openmm.app</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">openmm</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">openmm.unit</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">stdout</span>
+
+<span class="n">pdb</span> <span class="o">=</span> <span class="n">PDBFile</span><span class="p">(</span><span class="s1">&#39;input.pdb&#39;</span><span class="p">)</span>
+<span class="n">forcefield</span> <span class="o">=</span> <span class="n">ForceField</span><span class="p">(</span><span class="s1">&#39;amber14-all.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;amber14/tip3pfb.xml&#39;</span><span class="p">)</span>
+<span class="n">system</span> <span class="o">=</span> <span class="n">forcefield</span><span class="o">.</span><span class="n">createSystem</span><span class="p">(</span><span class="n">pdb</span><span class="o">.</span><span class="n">topology</span><span class="p">,</span> <span class="n">nonbondedMethod</span><span class="o">=</span><span class="n">PME</span><span class="p">,</span>
+        <span class="n">nonbondedCutoff</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">nanometer</span><span class="p">,</span> <span class="n">constraints</span><span class="o">=</span><span class="n">HBonds</span><span class="p">)</span>
+<span class="n">integrator</span> <span class="o">=</span> <span class="n">LangevinMiddleIntegrator</span><span class="p">(</span><span class="mi">300</span><span class="o">*</span><span class="n">kelvin</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">picosecond</span><span class="p">,</span> <span class="mf">0.004</span><span class="o">*</span><span class="n">picoseconds</span><span class="p">)</span>
+<span class="n">simulation</span> <span class="o">=</span> <span class="n">Simulation</span><span class="p">(</span><span class="n">pdb</span><span class="o">.</span><span class="n">topology</span><span class="p">,</span> <span class="n">system</span><span class="p">,</span> <span class="n">integrator</span><span class="p">)</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">setPositions</span><span class="p">(</span><span class="n">pdb</span><span class="o">.</span><span class="n">positions</span><span class="p">)</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">minimizeEnergy</span><span class="p">()</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">reporters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PDBReporter</span><span class="p">(</span><span class="s1">&#39;output.pdb&#39;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">))</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">reporters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">StateDataReporter</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">potentialEnergy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="caption compound">
+<p>Example 3-1</p>
+</div>
+</div>
+<p>You can find this script in the <code class="file docutils literal notranslate"><span class="pre">examples</span></code> folder of your OpenMM installation.
+It is called <code class="file docutils literal notranslate"><span class="pre">simulatePdb.py</span></code>.  To execute it from a command line, go to your
+terminal/console/command prompt window (see Section <a class="reference internal" href="01_getting_started.html#installing-openmm"><span class="std std-numref">2.2</span></a>
+on setting up the window to use OpenMM).  Navigate to the <code class="file docutils literal notranslate"><span class="pre">examples</span></code> folder by typing</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">&lt;</span><span class="n">examples_directory</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>where the typical directory is <code class="file docutils literal notranslate"><span class="pre">/usr/local/openmm/examples</span></code> on Linux
+and Mac machines and  <code class="file docutils literal notranslate"><span class="pre">C:\Program</span> <span class="pre">Files\OpenMM\examples</span></code> on Windows
+machines.</p>
+<p>Then type</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">simulatePdb</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>You can name your own scripts whatever you want.  Let’s go through the script line
+by line and see how it works.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">openmm.app</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">openmm</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">openmm.unit</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">stdout</span>
+</pre></div>
+</div>
+<p>These lines are just telling the Python interpreter about some libraries we will
+be using.  Don’t worry about exactly what they mean.  Just include them at the
+start of your scripts.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pdb</span> <span class="o">=</span> <span class="n">PDBFile</span><span class="p">(</span><span class="s1">&#39;input.pdb&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This line loads the PDB file from disk.  (The <code class="file docutils literal notranslate"><span class="pre">input.pdb</span></code> file in the <code class="file docutils literal notranslate"><span class="pre">examples</span></code>
+directory contains the villin headpiece in explicit solvent.)  More precisely,
+it creates a <code class="xref py py-class docutils literal notranslate"><span class="pre">PDBFile</span></code> object, passes the file name <code class="file docutils literal notranslate"><span class="pre">input.pdb</span></code> to it as an
+argument, and assigns the object to a variable called <code class="code docutils literal notranslate"><span class="pre">pdb</span></code>.  The
+<code class="xref py py-class docutils literal notranslate"><span class="pre">PDBFile</span></code> object contains the information that was read from the file: the
+molecular topology and atom positions.  Your file need not be called
+<code class="file docutils literal notranslate"><span class="pre">input.pdb</span></code>.  Feel free to change this line to specify any file you want,
+though it must contain all of the atoms needed by the force field.
+(More information on how to add missing atoms and residues using OpenMM tools can be found in Chapter <a class="reference internal" href="03_model_building_editing.html#model-building-and-editing"><span class="std std-numref">4</span></a>.)
+Make sure you include the single quotes around the file name.  OpenMM also can load
+files in the newer PDBx/mmCIF format: just change <code class="xref py py-class docutils literal notranslate"><span class="pre">PDBFile</span></code> to <code class="xref py py-class docutils literal notranslate"><span class="pre">PDBxFile</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">forcefield</span> <span class="o">=</span> <span class="n">ForceField</span><span class="p">(</span><span class="s1">&#39;amber14-all.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;amber14/tip3pfb.xml&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This line specifies the force field to use for the simulation.  Force fields are
+defined by XML files.  OpenMM includes XML files defining lots of standard force fields (see Section <a class="reference internal" href="#force-fields"><span class="std std-numref">3.6.2</span></a>).
+If you find you need to extend the repertoire of force fields available,
+you can find more information on how to create these XML files in Chapter <a class="reference internal" href="05_creating_ffs.html#creating-force-fields"><span class="std std-numref">6</span></a>.
+In this case we load two of those files: <code class="file docutils literal notranslate"><span class="pre">amber14-all.xml</span></code>, which contains the
+Amber14 force field, and <code class="file docutils literal notranslate"><span class="pre">amber14/tip3pfb.xml</span></code>, which contains the TIP3P-FB water model.  The
+<code class="xref py py-class docutils literal notranslate"><span class="pre">ForceField</span></code> object is assigned to a variable called <code class="code docutils literal notranslate"><span class="pre">forcefield</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">system</span> <span class="o">=</span> <span class="n">forcefield</span><span class="o">.</span><span class="n">createSystem</span><span class="p">(</span><span class="n">pdb</span><span class="o">.</span><span class="n">topology</span><span class="p">,</span> <span class="n">nonbondedMethod</span><span class="o">=</span><span class="n">PME</span><span class="p">,</span>
+        <span class="n">nonbondedCutoff</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">nanometer</span><span class="p">,</span> <span class="n">constraints</span><span class="o">=</span><span class="n">HBonds</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This line combines the force field with the molecular topology loaded from the
+PDB file to create a complete mathematical description of the system we want to
+simulate.  (More precisely, we invoke the <code class="xref py py-class docutils literal notranslate"><span class="pre">ForceField</span></code> object’s <code class="xref py py-meth docutils literal notranslate"><span class="pre">createSystem()</span></code>
+function.  It creates a <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> object, which we assign to the variable
+<code class="code docutils literal notranslate"><span class="pre">system</span></code>.)  It specifies some additional options about how to do that:
+use particle mesh Ewald for the long range electrostatic interactions
+(<code class="code docutils literal notranslate"><span class="pre">nonbondedMethod=PME</span></code>), use a 1 nm cutoff for the direct space
+interactions (<code class="code docutils literal notranslate"><span class="pre">nonbondedCutoff=1*nanometer</span></code>), and constrain the length
+of all bonds that involve a hydrogen atom (<code class="code docutils literal notranslate"><span class="pre">constraints=HBonds</span></code>).
+Note the way we specified the cutoff distance 1 nm using <code class="code docutils literal notranslate"><span class="pre">1*nanometer</span></code>:
+This is an example of the powerful units tracking and automatic conversion facility
+built into the OpenMM Python API that makes specifying unit-bearing quantities
+convenient and less error-prone.  We could have equivalently specified
+<code class="code docutils literal notranslate"><span class="pre">10*angstrom</span></code> instead of <code class="code docutils literal notranslate"><span class="pre">1*nanometer</span></code> and achieved the same result.
+The units system will be described in more detail later, in Section <a class="reference internal" href="../library/05_languages_not_cpp.html#units-and-dimensional-analysis"><span class="std std-numref">11.3.3</span></a>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">integrator</span> <span class="o">=</span> <span class="n">LangevinMiddleIntegrator</span><span class="p">(</span><span class="mi">300</span><span class="o">*</span><span class="n">kelvin</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">picosecond</span><span class="p">,</span> <span class="mf">0.004</span><span class="o">*</span><span class="n">picoseconds</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This line creates the integrator to use for advancing the equations of motion.
+It specifies a <code class="xref py py-class docutils literal notranslate"><span class="pre">LangevinMiddleIntegrator</span></code>, which performs Langevin dynamics,
+and assigns it to a variable called <code class="code docutils literal notranslate"><span class="pre">integrator</span></code>.  It also specifies
+the values of three parameters that are specific to Langevin dynamics: the
+simulation temperature (300 K), the friction coefficient (1 ps<sup>-1</sup>), and
+the step size (0.004 ps).  Lots of other integration methods are also available.
+For example, if you wanted to simulate the system at constant energy rather than
+constant temperature you would use a <code class="code docutils literal notranslate"><span class="pre">VerletIntegrator</span></code>.  The available
+integration methods are listed in Section <a class="reference internal" href="#integrators"><span class="std std-numref">3.6.8</span></a>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">simulation</span> <span class="o">=</span> <span class="n">Simulation</span><span class="p">(</span><span class="n">pdb</span><span class="o">.</span><span class="n">topology</span><span class="p">,</span> <span class="n">system</span><span class="p">,</span> <span class="n">integrator</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This line combines the molecular topology, system, and integrator to begin a new
+simulation.  It creates a <code class="xref py py-class docutils literal notranslate"><span class="pre">Simulation</span></code> object and assigns it to a variable called
+<code class="code docutils literal notranslate"><span class="pre">simulation</span></code>.  A <code class="xref py py-class docutils literal notranslate"><span class="pre">Simulation</span></code> object manages all the processes
+involved in running a simulation, such as advancing time and writing output.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">simulation</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">setPositions</span><span class="p">(</span><span class="n">pdb</span><span class="o">.</span><span class="n">positions</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This line specifies the initial atom positions for the simulation: in this case,
+the positions that were loaded from the PDB file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">simulation</span><span class="o">.</span><span class="n">minimizeEnergy</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This line tells OpenMM to perform a local energy minimization.  It is usually a
+good idea to do this at the start of a simulation, since the coordinates in the
+PDB file might produce very large forces.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">simulation</span><span class="o">.</span><span class="n">reporters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PDBReporter</span><span class="p">(</span><span class="s1">&#39;output.pdb&#39;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>This line creates a “reporter” to generate output during the simulation, and
+adds it to the <code class="xref py py-class docutils literal notranslate"><span class="pre">Simulation</span></code> object’s list of reporters.  A <code class="xref py py-class docutils literal notranslate"><span class="pre">PDBReporter</span></code> writes
+structures to a PDB file.  We specify that the output file should be called
+<code class="file docutils literal notranslate"><span class="pre">output.pdb</span></code>, and that a structure should be written every 1000 time steps.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">simulation</span><span class="o">.</span><span class="n">reporters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">StateDataReporter</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">potentialEnergy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>It can be useful to get regular status reports as a simulation runs so you can
+monitor its progress.  This line adds another reporter to print out some basic
+information every 1000 time steps: the current step index, the potential energy
+of the system, and the temperature.  We specify <code class="code docutils literal notranslate"><span class="pre">stdout</span></code> (not in
+quotes) as the output file, which means to write the results to the console.  We
+also could have given a file name (in quotes), just as we did for the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">PDBReporter</span></code>, to write the information to a file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">simulation</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Finally, we run the simulation, integrating the equations of motion for 10,000
+time steps.  Once it is finished, you can load the PDB file into any program you
+want for analysis and visualization (<a class="reference external" href="http://www.ks.uiuc.edu/Research/vmd/">VMD</a>, <a class="reference external" href="http://www.pymol.org">PyMol</a>, <a class="reference external" href="http://ambermd.org">AmberTools</a>, etc.).</p>
+</section>
+<section id="using-amber-files">
+<span id="id3"></span><h2><span class="section-number">3.2. </span>Using AMBER Files<a class="headerlink" href="#using-amber-files" title="Permalink to this heading">¶</a></h2>
+<p>OpenMM can build a system in several different ways.  One option, as shown
+above, is to start with a PDB file and then select a force field with which to
+model it.  Alternatively, you can use <a class="reference external" href="http://ambermd.org">AmberTools</a> to model your system.  In that
+case, you provide a <code class="xref py py-class docutils literal notranslate"><span class="pre">prmtop</span></code> file and an <code class="xref py py-class docutils literal notranslate"><span class="pre">inpcrd</span></code> file.  OpenMM loads the files and
+creates a <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> from them.  This is illustrated in the following script.  It can be
+found in OpenMM’s <code class="file docutils literal notranslate"><span class="pre">examples</span></code> folder with the name <code class="file docutils literal notranslate"><span class="pre">simulateAmber.py</span></code>.</p>
+<div class="compound">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">openmm.app</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">openmm</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">openmm.unit</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">stdout</span>
+
+<span class="n">prmtop</span> <span class="o">=</span> <span class="n">AmberPrmtopFile</span><span class="p">(</span><span class="s1">&#39;input.prmtop&#39;</span><span class="p">)</span>
+<span class="n">inpcrd</span> <span class="o">=</span> <span class="n">AmberInpcrdFile</span><span class="p">(</span><span class="s1">&#39;input.inpcrd&#39;</span><span class="p">)</span>
+<span class="n">system</span> <span class="o">=</span> <span class="n">prmtop</span><span class="o">.</span><span class="n">createSystem</span><span class="p">(</span><span class="n">nonbondedMethod</span><span class="o">=</span><span class="n">PME</span><span class="p">,</span> <span class="n">nonbondedCutoff</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">nanometer</span><span class="p">,</span>
+        <span class="n">constraints</span><span class="o">=</span><span class="n">HBonds</span><span class="p">)</span>
+<span class="n">integrator</span> <span class="o">=</span> <span class="n">LangevinMiddleIntegrator</span><span class="p">(</span><span class="mi">300</span><span class="o">*</span><span class="n">kelvin</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">picosecond</span><span class="p">,</span> <span class="mf">0.004</span><span class="o">*</span><span class="n">picoseconds</span><span class="p">)</span>
+<span class="n">simulation</span> <span class="o">=</span> <span class="n">Simulation</span><span class="p">(</span><span class="n">prmtop</span><span class="o">.</span><span class="n">topology</span><span class="p">,</span> <span class="n">system</span><span class="p">,</span> <span class="n">integrator</span><span class="p">)</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">setPositions</span><span class="p">(</span><span class="n">inpcrd</span><span class="o">.</span><span class="n">positions</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">inpcrd</span><span class="o">.</span><span class="n">boxVectors</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">simulation</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">setPeriodicBoxVectors</span><span class="p">(</span><span class="o">*</span><span class="n">inpcrd</span><span class="o">.</span><span class="n">boxVectors</span><span class="p">)</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">minimizeEnergy</span><span class="p">()</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">reporters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PDBReporter</span><span class="p">(</span><span class="s1">&#39;output.pdb&#39;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">))</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">reporters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">StateDataReporter</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">potentialEnergy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="caption compound">
+<p>Example 3-2</p>
+</div>
+</div>
+<p>This script is very similar to the previous one.  There are just a few
+significant differences:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">prmtop</span> <span class="o">=</span> <span class="n">AmberPrmtopFile</span><span class="p">(</span><span class="s1">&#39;input.prmtop&#39;</span><span class="p">)</span>
+<span class="n">inpcrd</span> <span class="o">=</span> <span class="n">AmberInpcrdFile</span><span class="p">(</span><span class="s1">&#39;input.inpcrd&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In these lines, we load the prmtop file and inpcrd file.  More precisely, we
+create <code class="xref py py-class docutils literal notranslate"><span class="pre">AmberPrmtopFile</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">AmberInpcrdFile</span></code> objects and assign them to the
+variables <code class="code docutils literal notranslate"><span class="pre">prmtop</span></code> and <code class="code docutils literal notranslate"><span class="pre">inpcrd</span></code>, respectively.  As before,
+you can change these lines to specify any files you want.  Be sure to include
+the single quotes around the file names.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">AmberPrmtopFile</span></code> reader provided by OpenMM only supports “new-style”
+<code class="file docutils literal notranslate"><span class="pre">prmtop</span></code> files introduced in AMBER 7. The AMBER distribution still contains a number of
+example files that are in the “old-style” <code class="file docutils literal notranslate"><span class="pre">prmtop</span></code> format. These “old-style” files will
+not run in OpenMM.</p>
+</div>
+<p>Next, the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> object is created in a different way:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">system</span> <span class="o">=</span> <span class="n">prmtop</span><span class="o">.</span><span class="n">createSystem</span><span class="p">(</span><span class="n">nonbondedMethod</span><span class="o">=</span><span class="n">PME</span><span class="p">,</span> <span class="n">nonbondedCutoff</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">nanometer</span><span class="p">,</span>
+        <span class="n">constraints</span><span class="o">=</span><span class="n">HBonds</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the previous section, we loaded the topology
+from a PDB file and then had the force field create a system based on it.  In
+this case, we don’t need a force field; the <code class="file docutils literal notranslate"><span class="pre">prmtop</span></code> file already contains the
+force field parameters, so it can create the system
+directly.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">simulation</span> <span class="o">=</span> <span class="n">Simulation</span><span class="p">(</span><span class="n">prmtop</span><span class="o">.</span><span class="n">topology</span><span class="p">,</span> <span class="n">system</span><span class="p">,</span> <span class="n">integrator</span><span class="p">)</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">setPositions</span><span class="p">(</span><span class="n">inpcrd</span><span class="o">.</span><span class="n">positions</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Notice that we now get the topology from the <code class="file docutils literal notranslate"><span class="pre">prmtop</span></code> file and the atom positions
+from the <code class="file docutils literal notranslate"><span class="pre">inpcrd</span></code> file.  In the previous section, both of these came from a PDB
+file, but AMBER puts the topology and positions in separate files.  We also add the
+following lines:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">inpcrd</span><span class="o">.</span><span class="n">boxVectors</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">simulation</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">setPeriodicBoxVectors</span><span class="p">(</span><span class="o">*</span><span class="n">inpcrd</span><span class="o">.</span><span class="n">boxVectors</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For periodic systems, the <code class="file docutils literal notranslate"><span class="pre">prmtop</span></code> file specifies the periodic box vectors, just
+as a PDB file does.  When we call <code class="xref py py-meth docutils literal notranslate"><span class="pre">createSystem()</span></code>, it sets those as the default
+periodic box vectors, to be used automatically for all simulations.  However, the
+<code class="file docutils literal notranslate"><span class="pre">inpcrd</span></code> may <em>also</em> specify periodic box vectors,
+and if so we want to use those ones instead.  For example, if the system has been
+equilibrated with a barostat, the box vectors may have changed during equilibration.
+We therefore check to see if the <code class="file docutils literal notranslate"><span class="pre">inpcrd</span></code> file contained box vectors.  If so,
+we call <code class="xref py py-meth docutils literal notranslate"><span class="pre">setPeriodicBoxVectors()</span></code> to tell it to use those ones, overriding the
+default ones provided by the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>.</p>
+</section>
+<section id="using-gromacs-files">
+<span id="id4"></span><h2><span class="section-number">3.3. </span>Using Gromacs Files<a class="headerlink" href="#using-gromacs-files" title="Permalink to this heading">¶</a></h2>
+<p>A third option for creating your system is to use the Gromacs setup tools.  They
+produce a <code class="file docutils literal notranslate"><span class="pre">gro</span></code> file containing the coordinates and a <code class="file docutils literal notranslate"><span class="pre">top</span></code> file containing the
+topology.  OpenMM can load these exactly as it did the AMBER files.  This is
+shown in the following script.  It can be found in OpenMM’s <code class="file docutils literal notranslate"><span class="pre">examples</span></code> folder
+with the name <code class="file docutils literal notranslate"><span class="pre">simulateGromacs.py</span></code>.</p>
+<div class="compound">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">openmm.app</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">openmm</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">openmm.unit</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">stdout</span>
+
+<span class="n">gro</span> <span class="o">=</span> <span class="n">GromacsGroFile</span><span class="p">(</span><span class="s1">&#39;input.gro&#39;</span><span class="p">)</span>
+<span class="n">top</span> <span class="o">=</span> <span class="n">GromacsTopFile</span><span class="p">(</span><span class="s1">&#39;input.top&#39;</span><span class="p">,</span> <span class="n">periodicBoxVectors</span><span class="o">=</span><span class="n">gro</span><span class="o">.</span><span class="n">getPeriodicBoxVectors</span><span class="p">(),</span>
+        <span class="n">includeDir</span><span class="o">=</span><span class="s1">&#39;/usr/local/gromacs/share/gromacs/top&#39;</span><span class="p">)</span>
+<span class="n">system</span> <span class="o">=</span> <span class="n">top</span><span class="o">.</span><span class="n">createSystem</span><span class="p">(</span><span class="n">nonbondedMethod</span><span class="o">=</span><span class="n">PME</span><span class="p">,</span> <span class="n">nonbondedCutoff</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">nanometer</span><span class="p">,</span>
+        <span class="n">constraints</span><span class="o">=</span><span class="n">HBonds</span><span class="p">)</span>
+<span class="n">integrator</span> <span class="o">=</span> <span class="n">LangevinMiddleIntegrator</span><span class="p">(</span><span class="mi">300</span><span class="o">*</span><span class="n">kelvin</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">picosecond</span><span class="p">,</span> <span class="mf">0.004</span><span class="o">*</span><span class="n">picoseconds</span><span class="p">)</span>
+<span class="n">simulation</span> <span class="o">=</span> <span class="n">Simulation</span><span class="p">(</span><span class="n">top</span><span class="o">.</span><span class="n">topology</span><span class="p">,</span> <span class="n">system</span><span class="p">,</span> <span class="n">integrator</span><span class="p">)</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">setPositions</span><span class="p">(</span><span class="n">gro</span><span class="o">.</span><span class="n">positions</span><span class="p">)</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">minimizeEnergy</span><span class="p">()</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">reporters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PDBReporter</span><span class="p">(</span><span class="s1">&#39;output.pdb&#39;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">))</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">reporters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">StateDataReporter</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">potentialEnergy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="caption compound">
+<p>Example 3-3</p>
+</div>
+</div>
+<p>This script is nearly identical to the previous one, just replacing
+<code class="xref py py-class docutils literal notranslate"><span class="pre">AmberInpcrdFile</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">AmberPrmtopFile</span></code> with <code class="xref py py-class docutils literal notranslate"><span class="pre">GromacsGroFile</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">GromacsTopFile</span></code>.
+Note that when we create the <code class="xref py py-class docutils literal notranslate"><span class="pre">GromacsTopFile</span></code>, we specify values for two extra
+options.  First, we specify
+<code class="code docutils literal notranslate"><span class="pre">periodicBoxVectors=gro.getPeriodicBoxVectors()</span></code>.  Unlike OpenMM and
+AMBER, which can store periodic unit cell information with the topology, Gromacs
+only stores it with the coordinates.  To let <code class="xref py py-class docutils literal notranslate"><span class="pre">GromacsTopFile</span></code> create a <code class="xref py py-class docutils literal notranslate"><span class="pre">Topology</span></code>
+object, we therefore need to tell it the periodic box vectors that were loaded
+from the <code class="file docutils literal notranslate"><span class="pre">gro</span></code> file.  You only need to do this if you are simulating a periodic
+system.  For implicit solvent simulations, it usually can be omitted.</p>
+<p>Second, we specify <code class="code docutils literal notranslate"><span class="pre">includeDir='/usr/local/gromacs/share/gromacs/top'</span></code>.  Unlike AMBER,
+which stores all the force field parameters directly in a <code class="file docutils literal notranslate"><span class="pre">prmtop</span></code> file, Gromacs just stores
+references to force field definition files that are installed with the Gromacs
+application.  OpenMM needs to know where to find these files, so the
+<code class="code docutils literal notranslate"><span class="pre">includeDir</span></code> parameter specifies the directory containing them.  If you
+omit this parameter, OpenMM will assume the default location <code class="file docutils literal notranslate"><span class="pre">/usr/local/gromacs/share/gromacs/top</span></code>,
+which is often where they are installed on
+Unix-like operating systems.  So in Example 3-3 we actually could have omitted
+this parameter, but if the Gromacs files were installed in any other location,
+we would need to include it.</p>
+</section>
+<section id="using-charmm-files">
+<span id="id5"></span><h2><span class="section-number">3.4. </span>Using CHARMM Files<a class="headerlink" href="#using-charmm-files" title="Permalink to this heading">¶</a></h2>
+<p>Yet another option is to load files created by the CHARMM setup tools, or other compatible
+tools such as VMD.  Those include a <code class="file docutils literal notranslate"><span class="pre">psf</span></code> file containing topology information, and an
+ordinary PDB file for the atomic coordinates.  (Coordinates can also be loaded from CHARMM
+coordinate or restart files using the <code class="xref py py-class docutils literal notranslate"><span class="pre">CharmmCrdFile</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">CharmmRstFile</span></code> classes).  In addition,
+you must provide a set of files containing the force
+field definition to use.  This can involve several different files with varying formats and
+filename extensions such as <code class="file docutils literal notranslate"><span class="pre">par</span></code>, <code class="file docutils literal notranslate"><span class="pre">prm</span></code>, <code class="file docutils literal notranslate"><span class="pre">top</span></code>, <code class="file docutils literal notranslate"><span class="pre">rtf</span></code>, <code class="file docutils literal notranslate"><span class="pre">inp</span></code>,
+and <code class="file docutils literal notranslate"><span class="pre">str</span></code>.  To do this, load all the definition files into a <code class="xref py py-class docutils literal notranslate"><span class="pre">CharmmParameterSet</span></code>
+object, then include that object as the first parameter when you call <code class="xref py py-meth docutils literal notranslate"><span class="pre">createSystem()</span></code>
+on the <code class="xref py py-class docutils literal notranslate"><span class="pre">CharmmPsfFile</span></code>.</p>
+<div class="compound">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">openmm.app</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">openmm</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">openmm.unit</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">exit</span><span class="p">,</span> <span class="n">stderr</span>
+
+<span class="n">psf</span> <span class="o">=</span> <span class="n">CharmmPsfFile</span><span class="p">(</span><span class="s1">&#39;input.psf&#39;</span><span class="p">)</span>
+<span class="n">pdb</span> <span class="o">=</span> <span class="n">PDBFile</span><span class="p">(</span><span class="s1">&#39;input.pdb&#39;</span><span class="p">)</span>
+<span class="n">params</span> <span class="o">=</span> <span class="n">CharmmParameterSet</span><span class="p">(</span><span class="s1">&#39;charmm22.rtf&#39;</span><span class="p">,</span> <span class="s1">&#39;charmm22.prm&#39;</span><span class="p">)</span>
+<span class="n">system</span> <span class="o">=</span> <span class="n">psf</span><span class="o">.</span><span class="n">createSystem</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">nonbondedMethod</span><span class="o">=</span><span class="n">NoCutoff</span><span class="p">,</span>
+        <span class="n">nonbondedCutoff</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">nanometer</span><span class="p">,</span> <span class="n">constraints</span><span class="o">=</span><span class="n">HBonds</span><span class="p">)</span>
+<span class="n">integrator</span> <span class="o">=</span> <span class="n">LangevinMiddleIntegrator</span><span class="p">(</span><span class="mi">300</span><span class="o">*</span><span class="n">kelvin</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">picosecond</span><span class="p">,</span> <span class="mf">0.004</span><span class="o">*</span><span class="n">picoseconds</span><span class="p">)</span>
+<span class="n">simulation</span> <span class="o">=</span> <span class="n">Simulation</span><span class="p">(</span><span class="n">psf</span><span class="o">.</span><span class="n">topology</span><span class="p">,</span> <span class="n">system</span><span class="p">,</span> <span class="n">integrator</span><span class="p">)</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">setPositions</span><span class="p">(</span><span class="n">pdb</span><span class="o">.</span><span class="n">positions</span><span class="p">)</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">minimizeEnergy</span><span class="p">()</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">reporters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PDBReporter</span><span class="p">(</span><span class="s1">&#39;output.pdb&#39;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">))</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">reporters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">StateDataReporter</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">potentialEnergy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="caption compound">
+<p>Example 3-4</p>
+</div>
+</div>
+<p>Note that both the CHARMM and XPLOR versions of the <code class="file docutils literal notranslate"><span class="pre">psf</span></code> file format are supported.</p>
+</section>
+<section id="the-openmm-setup-application">
+<span id="the-script-builder-application"></span><h2><span class="section-number">3.5. </span>The OpenMM-Setup Application<a class="headerlink" href="#the-openmm-setup-application" title="Permalink to this heading">¶</a></h2>
+<p>One way to create your own scripts is to start with one of the examples given
+above and customize it to suit your needs, but there’s an even easier option.
+OpenMM-Setup is a graphical application that walks you through the whole process
+of loading your input files and setting options.  It then generates a complete
+script, and can even run it for you.</p>
+<figure class="align-center" id="id77">
+<a class="reference internal image-reference" href="../_images/OpenMMSetup.png"><img alt="../_images/OpenMMSetup.png" src="../_images/OpenMMSetup.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-text">Figure 3-1:  The OpenMM-Setup application</span><a class="headerlink" href="#id77" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>To install OpenMM-Setup, open a command line terminal and type the following command</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span> <span class="n">openmm</span><span class="o">-</span><span class="n">setup</span>
+</pre></div>
+</div>
+<p>You can then launch it by typing the command</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">openmm</span><span class="o">-</span><span class="n">setup</span>
+</pre></div>
+</div>
+<p>It will automatically open a window in your web browser displaying the user interface.</p>
+<p>OpenMM-Setup is far more than just a script generator.  It can fix problems in
+your input files, add missing atoms, build membranes and water boxes, and much
+more.  It is a very easy way to quickly do all necessary preparation and setup.
+We highly recommend it to all users of OpenMM, from novices to experts.</p>
+</section>
+<section id="simulation-parameters">
+<span id="id6"></span><h2><span class="section-number">3.6. </span>Simulation Parameters<a class="headerlink" href="#simulation-parameters" title="Permalink to this heading">¶</a></h2>
+<p>Now let’s consider lots of ways you might want to customize your script.</p>
+<section id="platforms">
+<h3><span class="section-number">3.6.1. </span>Platforms<a class="headerlink" href="#platforms" title="Permalink to this heading">¶</a></h3>
+<p>When creating a <code class="xref py py-class docutils literal notranslate"><span class="pre">Simulation</span></code>, you can optionally tell it what <code class="xref py py-class docutils literal notranslate"><span class="pre">Platform</span></code> to use.
+OpenMM includes four platforms: <code class="xref py py-class docutils literal notranslate"><span class="pre">Reference</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">CPU</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">CUDA</span></code>, and <code class="xref py py-class docutils literal notranslate"><span class="pre">OpenCL</span></code>.  For a
+description of the differences between them, see Section <a class="reference internal" href="../library/01_introduction.html#platforms"><span class="std std-numref">7.7</span></a>.  There are three ways in which
+the <code class="xref py py-class docutils literal notranslate"><span class="pre">Platform</span></code> can be chosen:</p>
+<p>1. By default, OpenMM will try to select the fastest available <code class="xref py py-class docutils literal notranslate"><span class="pre">Platform</span></code>.  Usually its choice will
+be reasonable, but sometimes you may want to change it.</p>
+<p>2. Alternatively, you can set the <span class="target" id="index-0"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">OPENMM_DEFAULT_PLATFORM</span></code> environment variable to the name
+of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Platform</span></code> to use.  This overrides the default logic.</p>
+<p>3. Finally, you can explicitly specify a <code class="xref py py-class docutils literal notranslate"><span class="pre">Platform</span></code> object in your script when you create the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Simulation</span></code>.  The following lines specify to use the <code class="xref py py-class docutils literal notranslate"><span class="pre">CUDA</span></code> platform:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">platform</span> <span class="o">=</span> <span class="n">Platform</span><span class="o">.</span><span class="n">getPlatformByName</span><span class="p">(</span><span class="s1">&#39;CUDA&#39;</span><span class="p">)</span>
+<span class="n">simulation</span> <span class="o">=</span> <span class="n">Simulation</span><span class="p">(</span><span class="n">prmtop</span><span class="o">.</span><span class="n">topology</span><span class="p">,</span> <span class="n">system</span><span class="p">,</span> <span class="n">integrator</span><span class="p">,</span> <span class="n">platform</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The platform name should be one of <code class="code docutils literal notranslate"><span class="pre">OpenCL</span></code>, <code class="code docutils literal notranslate"><span class="pre">CUDA</span></code>, <code class="code docutils literal notranslate"><span class="pre">CPU</span></code>, or
+<code class="code docutils literal notranslate"><span class="pre">Reference</span></code>.</p>
+<p>You also can specify platform-specific properties that customize how
+calculations should be done.  See Chapter <a class="reference internal" href="../library/04_platform_specifics.html#platform-specific-properties"><span class="std std-numref">10</span></a> for details of the
+properties that each Platform supports.  For example, the following lines specify to parallelize
+work across two different GPUs (CUDA devices 0 and 1), doing all computations in
+double precision:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">platform</span> <span class="o">=</span> <span class="n">Platform</span><span class="o">.</span><span class="n">getPlatformByName</span><span class="p">(</span><span class="s1">&#39;CUDA&#39;</span><span class="p">)</span>
+<span class="n">properties</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;DeviceIndex&#39;</span><span class="p">:</span> <span class="s1">&#39;0,1&#39;</span><span class="p">,</span> <span class="s1">&#39;Precision&#39;</span><span class="p">:</span> <span class="s1">&#39;double&#39;</span><span class="p">}</span>
+<span class="n">simulation</span> <span class="o">=</span> <span class="n">Simulation</span><span class="p">(</span><span class="n">prmtop</span><span class="o">.</span><span class="n">topology</span><span class="p">,</span> <span class="n">system</span><span class="p">,</span> <span class="n">integrator</span><span class="p">,</span> <span class="n">platform</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="force-fields">
+<span id="id7"></span><h3><span class="section-number">3.6.2. </span>Force Fields<a class="headerlink" href="#force-fields" title="Permalink to this heading">¶</a></h3>
+<p>When you create a force field, you specify one or more XML files from which to
+load the force field definition.  Most often, there will be one file to define
+the main force field, and possibly a second file to define the water model
+(either implicit or explicit).  For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">forcefield</span> <span class="o">=</span> <span class="n">ForceField</span><span class="p">(</span><span class="s1">&#39;amber14-all.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;amber14/tip3pfb.xml&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In some cases, one XML file may load several others.  For example, <code class="file docutils literal notranslate"><span class="pre">amber14-all.xml</span></code>
+is really just a shortcut for loading several different files that together make up
+the AMBER14 force field.  If you need finer grained control over which parameters
+are loaded, you can instead specify the component files individually.</p>
+<p>Be aware that some force fields and water models include “extra particles”, such
+as lone pairs or Drude particles.  Examples include the CHARMM polarizable force
+field and all of the 4 and 5 site water models.  To use these force fields, you
+must first add the extra particles to the <code class="xref py py-class docutils literal notranslate"><span class="pre">Topology</span></code>.  See section
+<a class="reference internal" href="03_model_building_editing.html#adding-or-removing-extra-particles"><span class="std std-numref">4.4</span></a> for details.</p>
+<p>The force fields described below are the ones that are bundled with OpenMM.
+Additional force fields are available online at <a class="reference external" href="https://github.com/choderalab/openmm-forcefields">https://github.com/choderalab/openmm-forcefields</a>.</p>
+<section id="amber14">
+<h4>Amber14<a class="headerlink" href="#amber14" title="Permalink to this heading">¶</a></h4>
+<p>The Amber14<span id="id8">[<a class="reference internal" href="../zbibliography.html#id32" title="James A. Maier, Carmenza Martinez, Koushik Kasavajhala, Lauren Wickstrom, Kevin E. Hauser, and Carlos Simmerling. Ff14sb: improving the accuracy of protein side chain and backbone parameters from ff99sb. Journal of Chemical Theory and Computation, 11(8):3696-3713, 2015.">1</a>]</span> force field is made up of various files that define
+parameters for proteins, DNA, RNA, lipids, water, and ions.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>File</p></th>
+<th class="head"><p>Parameters</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="file docutils literal notranslate"><span class="pre">amber14/protein.ff14SB.xml</span></code></p></td>
+<td><p>Protein (recommended)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="file docutils literal notranslate"><span class="pre">amber14/protein.ff15ipq.xml</span></code></p></td>
+<td><p>Protein (alternative)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="file docutils literal notranslate"><span class="pre">amber14/DNA.OL15.xml</span></code></p></td>
+<td><p>DNA (recommended)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="file docutils literal notranslate"><span class="pre">amber14/DNA.bsc1.xml</span></code></p></td>
+<td><p>DNA (alternative)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="file docutils literal notranslate"><span class="pre">amber14/RNA.OL3.xml</span></code></p></td>
+<td><p>RNA</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="file docutils literal notranslate"><span class="pre">amber14/lipid17.xml</span></code></p></td>
+<td><p>Lipid</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="file docutils literal notranslate"><span class="pre">amber14/GLYCAM_06j-1.xml</span></code></p></td>
+<td><p>Carbohydrates and glycosylated proteins<span id="id9">[<a class="reference internal" href="../zbibliography.html#id22" title="Karl N. Kirschner, Austin B. Yongye, Sarah M. Tschampel, Jorge González-Outeiriño, Charlisa R Daniels, B. Lachele Foley, and Robert J. Woods. Glycam06: a generalizable biomolecular force field. carbohydrates. Journal of Computational Chemistry, 29:622-655, 2007.">2</a>]</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="file docutils literal notranslate"><span class="pre">amber14/tip3p.xml</span></code></p></td>
+<td><p>TIP3P water model<span id="id10">[<a class="reference internal" href="../zbibliography.html#id21" title="William L. Jorgensen, Jayaraman Chandrasekhar, Jeffry D. Madura, Roger W. Impey, and Michael L. Klein. Comparison of simple potential functions for simulating liquid water. Journal of Chemical Physics, 79:926-935, 1983.">3</a>]</span> and ions</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="file docutils literal notranslate"><span class="pre">amber14/tip3pfb.xml</span></code></p></td>
+<td><p>TIP3P-FB water model<span id="id11">[<a class="reference internal" href="../zbibliography.html#id62" title="Lee-Ping Wang, Todd J. Martinez, and Vijay S. Pande. Building force fields: an automatic, systematic, and reproducible approach. Journal of Physical Chemistry Letters, 5:1885-1891, 2014.">4</a>]</span> and ions</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="file docutils literal notranslate"><span class="pre">amber14/tip4pew.xml</span></code></p></td>
+<td><p>TIP4P-Ew water model<span id="id12">[<a class="reference internal" href="../zbibliography.html#id18" title="Hans W. Horn, William C. Swope, Jed W. Pitera, Jeffry D. Madura, Thomas J. Dick, Greg L. Hura, and Teresa Head-Gordon. Development of an improved four-site water model for biomolecular simulations: TIP4P-Ew. Journal of Chemical Physics, 120:9665-9678, 2004.">5</a>]</span> and ions</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="file docutils literal notranslate"><span class="pre">amber14/tip4pfb.xml</span></code></p></td>
+<td><p>TIP4P-FB water model<span id="id13">[<a class="reference internal" href="../zbibliography.html#id62" title="Lee-Ping Wang, Todd J. Martinez, and Vijay S. Pande. Building force fields: an automatic, systematic, and reproducible approach. Journal of Physical Chemistry Letters, 5:1885-1891, 2014.">4</a>]</span> and ions</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="file docutils literal notranslate"><span class="pre">amber14/spce.xml</span></code></p></td>
+<td><p>SPC/E water model<span id="id14">[<a class="reference internal" href="../zbibliography.html#id7" title="H. J. C. Berendsen, J. R. Grigera, and T. P. Straatsma. The missing term in effective pair potentials. Journal of Physical Chemistry, 91:6269-6271, 1987.">6</a>]</span> and ions</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">amber14/opc.xml</span></code></p></td>
+<td><p>OPC water model<span id="id15">[<a class="reference internal" href="../zbibliography.html#id66" title="Saeed Izadi, Ramu Anandakrishnan, and Alexey V Onufriev. Building water models: a different approach. The journal of Physical Chemistry Letters, 5(21):3863-3871, 2014. doi:10.1021/jz501780a.">7</a>]</span> and ions</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">amber14/opc3.xml</span></code></p></td>
+<td><p>OPC3 water model<span id="id16">[<a class="reference internal" href="../zbibliography.html#id67" title="Saeed Izadi and Alexey V Onufriev. Accuracy limit of rigid 3-point water models. The Journal of Chemical Physics, 145(7):074501, 2016. doi:10.1063/1.4960175.">8</a>]</span> and ions</p></td>
+</tr>
+</tbody>
+</table>
+<p>As a convenience, the file <code class="file docutils literal notranslate"><span class="pre">amber14-all.xml</span></code> can be used as a shortcut to include
+<code class="file docutils literal notranslate"><span class="pre">amber14/protein.ff14SB.xml</span></code>, <code class="file docutils literal notranslate"><span class="pre">amber14/DNA.OL15.xml</span></code>, <code class="file docutils literal notranslate"><span class="pre">amber14/RNA.OL3.xml</span></code>,
+and <code class="file docutils literal notranslate"><span class="pre">amber14/lipid17.xml</span></code>.  In most cases, you can simply include that file,
+plus one of the water models, such as <code class="file docutils literal notranslate"><span class="pre">amber14/tip3pfb.xml</span></code> for the TIP3P-FB
+water model and ions<span id="id17">[<a class="reference internal" href="../zbibliography.html#id62" title="Lee-Ping Wang, Todd J. Martinez, and Vijay S. Pande. Building force fields: an automatic, systematic, and reproducible approach. Journal of Physical Chemistry Letters, 5:1885-1891, 2014.">4</a>]</span>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">forcefield</span> <span class="o">=</span> <span class="n">ForceField</span><span class="p">(</span><span class="s1">&#39;amber14-all.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;amber14/tip3pfb.xml&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>GLYCAM is not included by default, since it is quite large.  If your system contains
+carbohydrates, include that file as well:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">forcefield</span> <span class="o">=</span> <span class="n">ForceField</span><span class="p">(</span><span class="s1">&#39;amber14-all.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;amber14/tip3pfb.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;amber14/GLYCAM_06j-1.xml&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Be aware that GLYCAM works somewhat differently from most force fields.  It uses
+its own nonstandard <a class="reference external" href="http://glycam.org/docs/forcefield/glycam-naming-2">naming convention</a>
+for carbohydrates, and requires your input file to follow it.  If any residues have
+names different from what it expects, GLYCAM will be unable to assign parameters
+to them.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The solvent model XML files included under the <code class="file docutils literal notranslate"><span class="pre">amber14/</span></code> directory
+include both water <em>and</em> ions compatible with that water model, so if you
+mistakenly specify <code class="file docutils literal notranslate"><span class="pre">tip3p.xml</span></code> instead of <code class="file docutils literal notranslate"><span class="pre">amber14/tip3p.xml</span></code>,
+you run the risk of having <code class="xref py py-class docutils literal notranslate"><span class="pre">ForceField</span></code> throw an exception since
+<code class="file docutils literal notranslate"><span class="pre">tip3p.xml</span></code> will be missing parameters for ions in your system.</p>
+</div>
+<p>The converted parameter sets come from the <a class="reference external" href="http://ambermd.org/AmberTools.php">AmberTools 17 release</a>
+and were converted using the <a class="reference external" href="https://github.com/choderalab/openmm-forcefields">openmm-forcefields</a> package and <a class="reference external" href="https://github.com/parmed/parmed">ParmEd</a>.</p>
+</section>
+<section id="charmm36">
+<h4>CHARMM36<a class="headerlink" href="#charmm36" title="Permalink to this heading">¶</a></h4>
+<p>The CHARMM36<span id="id18">[<a class="reference internal" href="../zbibliography.html#id8" title="Robert B. Best, Xiao Zhu, Jihyun Shim, Pedro E. M. Lopes, Jeetain Mittal, Michael Feig, and Alexander D. MacKerell. Optimization of the additive charmm all-atom protein force field targeting improved sampling of the backbone φ, ψ, and side-chain χ1 and χ2 dihedral angles. Journal of Chemical Theory and Computation, 8(9):3257-3273, 2012.">9</a>]</span> force field provides parameters for proteins, DNA,
+RNA, lipids, carbohydrates, water, ions, and various small molecules (see <a class="reference external" href="http://mackerell.umaryland.edu/charmm_ff.shtml#refs">here</a>
+for full references).</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>File</p></th>
+<th class="head"><p>Parameters</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="file docutils literal notranslate"><span class="pre">charmm36.xml</span></code></p></td>
+<td><p>Protein, DNA, RNA, lipids, carbohydrates, and small molecules</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="file docutils literal notranslate"><span class="pre">charmm36/water.xml</span></code></p></td>
+<td><p>Default CHARMM water model (a modified version of TIP3P<span id="id19">[<a class="reference internal" href="../zbibliography.html#id21" title="William L. Jorgensen, Jayaraman Chandrasekhar, Jeffry D. Madura, Roger W. Impey, and Michael L. Klein. Comparison of simple potential functions for simulating liquid water. Journal of Chemical Physics, 79:926-935, 1983.">3</a>]</span>) and ions</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="file docutils literal notranslate"><span class="pre">charmm36/spce.xml</span></code></p></td>
+<td><p>SPC/E water model<span id="id20">[<a class="reference internal" href="../zbibliography.html#id7" title="H. J. C. Berendsen, J. R. Grigera, and T. P. Straatsma. The missing term in effective pair potentials. Journal of Physical Chemistry, 91:6269-6271, 1987.">6</a>]</span> and ions</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="file docutils literal notranslate"><span class="pre">charmm36/tip3p-pme-b.xml</span></code></p></td>
+<td><p>TIP3P-PME-B water model<span id="id21">[<a class="reference internal" href="../zbibliography.html#id41" title="D.J. Price and C.L. III Brooks. A modified tip3p water potential for simulation with ewald summation. Journal of Chemical Physics, 121:10096-10103, 2004.">10</a>]</span> and ions</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="file docutils literal notranslate"><span class="pre">charmm36/tip3p-pme-f.xml</span></code></p></td>
+<td><p>TIP3P-PME-F water model<span id="id22">[<a class="reference internal" href="../zbibliography.html#id41" title="D.J. Price and C.L. III Brooks. A modified tip3p water potential for simulation with ewald summation. Journal of Chemical Physics, 121:10096-10103, 2004.">10</a>]</span> and ions</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="file docutils literal notranslate"><span class="pre">charmm36/tip4pew.xml</span></code></p></td>
+<td><p>TIP4P-Ew water model<span id="id23">[<a class="reference internal" href="../zbibliography.html#id18" title="Hans W. Horn, William C. Swope, Jed W. Pitera, Jeffry D. Madura, Thomas J. Dick, Greg L. Hura, and Teresa Head-Gordon. Development of an improved four-site water model for biomolecular simulations: TIP4P-Ew. Journal of Chemical Physics, 120:9665-9678, 2004.">5</a>]</span> and ions</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="file docutils literal notranslate"><span class="pre">charmm36/tip4p2005.xml</span></code></p></td>
+<td><p>TIP4P-2005 water model<span id="id24">[<a class="reference internal" href="../zbibliography.html#id2" title="J.L.F. Abascal and C. Vega. A general purpose model for the condensed phases of water: tip4p/2005. Journal of Chemical Physics, 123:234505, 2005.">11</a>]</span> and ions</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="file docutils literal notranslate"><span class="pre">charmm36/tip5p.xml</span></code></p></td>
+<td><p>TIP5P water model<span id="id25">[<a class="reference internal" href="../zbibliography.html#id31" title="Michael W. Mahoney and William L. Jorgensen. A five-site model for liquid water and the reproduction of the density anomaly by rigid, nonpolarizable potential functions. Journal of Chemical Physics, 112:8910-8922, 2000.">12</a>]</span> and ions</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="file docutils literal notranslate"><span class="pre">charmm36/tip5pew.xml</span></code></p></td>
+<td><p>TIP5P-Ew water model<span id="id26">[<a class="reference internal" href="../zbibliography.html#id44" title="S.W. Rick. A reoptimization of the five-site water potential (tip5p) for use with ewald sums. Journal of Chemical Physics, 120:6085-6093, 2004.">13</a>]</span> and ions</p></td>
+</tr>
+</tbody>
+</table>
+<p>The file <code class="file docutils literal notranslate"><span class="pre">charmm36.xml</span></code> bundles everything but the water and ions into a single
+file.  In most cases, you can simply include that file, plus one of the water models,
+such as <code class="file docutils literal notranslate"><span class="pre">charmm36/water.xml</span></code>, which specifies the default CHARMM water model
+(a modified version of TIP3P<span id="id27">[<a class="reference internal" href="../zbibliography.html#id21" title="William L. Jorgensen, Jayaraman Chandrasekhar, Jeffry D. Madura, Roger W. Impey, and Michael L. Klein. Comparison of simple potential functions for simulating liquid water. Journal of Chemical Physics, 79:926-935, 1983.">3</a>]</span>) and ions:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">forcefield</span> <span class="o">=</span> <span class="n">ForceField</span><span class="p">(</span><span class="s1">&#39;charmm36.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;charmm36/water.xml&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Drude polarizable sites and lone pairs are not yet supported
+by <a class="reference external" href="https://github.com/parmed/parmed">ParmEd</a> and the CHARMM36 forcefields
+that depend on these features are not included in this port.
+To use the CHARMM 2019 polarizable force field<span id="id29">[<a class="reference internal" href="../zbibliography.html#id30" title="Pedro E. M. Lopes, Jing Huang, Jihyun Shim, Yun Luo, Hui Li, Benoît Roux, and Alexander D. MacKerell. Polarizable force field for peptides and proteins based on the classical Drude oscillator. Journal of Chemical Theory and Computation, 9(12):5430-5449, 2013.">14</a>]</span>,
+include the single file <code class="file docutils literal notranslate"><span class="pre">charmm_polar_2019.xml</span></code>.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The solvent model XML files included under the <code class="file docutils literal notranslate"><span class="pre">charmm36/</span></code> directory
+include both water <em>and</em> ions compatible with that water model, so if you
+mistakenly specify <code class="file docutils literal notranslate"><span class="pre">tip3p.xml</span></code> instead of <code class="file docutils literal notranslate"><span class="pre">charmm36/water.xml</span></code>,
+you run the risk of having <code class="xref py py-class docutils literal notranslate"><span class="pre">ForceField</span></code> raise an exception due to
+missing parameters for ions in your system.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>CHARMM makes extensive use of patches, which are automatically combined with
+residue templates to create an expanded library of patched residue templates
+by <code class="xref py py-class docutils literal notranslate"><span class="pre">ForceField</span></code>. That means that patched residues, such as <code class="docutils literal notranslate"><span class="pre">ACE</span></code> and
+<code class="docutils literal notranslate"><span class="pre">NME</span></code> patched termini, must occur as a single residue in order for <code class="xref py py-class docutils literal notranslate"><span class="pre">ForceField</span></code>
+to correctly match the residue template and apply parameters. Since these
+patched residues are not standard PDB residues, <code class="xref py py-class docutils literal notranslate"><span class="pre">Modeller</span></code> does not know
+how to add hydrogens to these nonstandard residues, and your input topologies
+must already contain appropriate hydrogens. This can often cause problems when
+trying to read in PDB files from sources such as <a class="reference external" href="http://charmm-gui.org/">CHARMM-GUI</a>
+that do not generate PDB files that comply with the <a class="reference external" href="http://www.wwpdb.org/documentation/file-format">PDB standard</a>.
+If you’re using files from <a class="reference external" href="http://charmm-gui.org/">CHARMM-GUI</a>, it’s easiest to load
+the PSF file directly, as discussed in Section <a class="reference internal" href="#using-charmm-files"><span class="std std-numref">3.4</span></a>.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Trying to read in PDB files from sources such as <a class="reference external" href="http://charmm-gui.org/">CHARMM-GUI</a>
+that do not generate PDB files that comply with the <a class="reference external" href="http://www.wwpdb.org/documentation/file-format">PDB standard</a>
+and omit <code class="docutils literal notranslate"><span class="pre">CONECT</span></code> records specifying bonds between residues (such as cysteines)
+or include <code class="docutils literal notranslate"><span class="pre">CONECT</span></code> records specifying non-chemical <code class="docutils literal notranslate"><span class="pre">H-H</span></code> bonds in waters
+can cause issues with the detection and parameter assignment for disulfide bonds.
+Make sure the files you read in comply with the appropriate standards regarding
+additional bonds and nonstandard residue definitions. If you’re using files from
+<a class="reference external" href="http://charmm-gui.org/">CHARMM-GUI</a>, it’s easiest to load
+the PSF file directly, as discussed in Section <a class="reference internal" href="#using-charmm-files"><span class="std std-numref">3.4</span></a>.</p>
+</div>
+<p>The converted parameter sets come from the <a class="reference external" href="http://mackerell.umaryland.edu/charmm_ff.shtml">CHARMM36 July 2017 update</a>
+and were converted using the <a class="reference external" href="https://github.com/choderalab/openmm-forcefields">openmm-forcefields</a> package and <a class="reference external" href="https://github.com/parmed/parmed">parmed</a>.</p>
+</section>
+<section id="implicit-solvent">
+<h4>Implicit Solvent<a class="headerlink" href="#implicit-solvent" title="Permalink to this heading">¶</a></h4>
+<p>The Amber and CHARMM force fields described above can be used with any of the Generalized
+Born implicit solvent models from AMBER.  To use them, include an extra file when
+creating the ForceField.  For example,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">forcefield</span> <span class="o">=</span> <span class="n">ForceField</span><span class="p">(</span><span class="s1">&#39;amber14-all.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;implicit/gbn2.xml&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>File</p></th>
+<th class="head"><p>Implicit Solvent Model</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="file docutils literal notranslate"><span class="pre">implicit/hct.xml</span></code></p></td>
+<td><p>Hawkins-Cramer-Truhlar GBSA model<span id="id36">[<a class="reference internal" href="../zbibliography.html#id17" title="Gregory D. Hawkins, Christopher J. Cramer, and Donald G. Truhlar. Pairwise solute descreening of solute charges from a dielectric medium. Chemical Physics Letters, 246(1-2):122-129, 1995.">15</a>]</span> (corresponds to igb=1 in AMBER)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="file docutils literal notranslate"><span class="pre">implicit/obc1.xml</span></code></p></td>
+<td><p>Onufriev-Bashford-Case GBSA model<span id="id37">[<a class="reference internal" href="../zbibliography.html#id38" title="Alexey Onufriev, Donald Bashford, and David A. Case. Exploring protein native states and large-scale conformational changes with a modified generalized Born model. Proteins, 55(22):383-394, 2004.">16</a>]</span> using the GB<sup>OBC</sup>I parameters (corresponds to igb=2 in AMBER).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="file docutils literal notranslate"><span class="pre">implicit/obc2.xml</span></code></p></td>
+<td><p>Onufriev-Bashford-Case GBSA model<span id="id38">[<a class="reference internal" href="../zbibliography.html#id38" title="Alexey Onufriev, Donald Bashford, and David A. Case. Exploring protein native states and large-scale conformational changes with a modified generalized Born model. Proteins, 55(22):383-394, 2004.">16</a>]</span> using the GB<sup>OBC</sup>II parameters (corresponds to igb=5 in AMBER).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="file docutils literal notranslate"><span class="pre">implicit/gbn.xml</span></code></p></td>
+<td><p>GBn solvation model<span id="id39">[<a class="reference internal" href="../zbibliography.html#id36" title="John Mongan, Carlos Simmerling, J. Andrew McCammon, David A. Case, and Alexey Onufriev. Generalized Born model with a simple, robust molecular volume correction. Journal of Chemical Theory and Computation, 3(1):156-169, 2007.">17</a>]</span> (corresponds to igb=7 in AMBER).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="file docutils literal notranslate"><span class="pre">implicit/gbn2.xml</span></code></p></td>
+<td><p>GBn2 solvation model<span id="id40">[<a class="reference internal" href="../zbibliography.html#id37" title="Hai Nguyen, Daniel R. Roe, and Carlos Simmerling. Improved generalized Born solvent model parameters for protein simulations. Journal of Chemical Theory and Computation, 9(4):2020-2034, 2013.">18</a>]</span> (corresponds to igb=8 in AMBER).</p></td>
+</tr>
+</tbody>
+</table>
+<p>The only nonbonded methods that are supported with implicit solvent are <code class="code docutils literal notranslate"><span class="pre">NoCutoff</span></code> (the default),
+<code class="code docutils literal notranslate"><span class="pre">CutoffNonPeriodic</span></code>, and <code class="code docutils literal notranslate"><span class="pre">CutoffPeriodic.</span></code>  If you choose to use a nonbonded cutoff with
+implicit solvent, it is usually best to set the cutoff distance larger than is typical with explicit solvent.
+A cutoff of 2 nm gives good results in most cases.  Periodic boundary conditions are not usually used
+with implicit solvent.  In fact, the lack of need for periodicity and the artifacts it creates is one
+of the advantages of implicit solvent.  The option is still offered, since it could be useful in some
+unusual situations.</p>
+<p>You can further control the solvation model in a few ways.  First, you can
+specify the dielectric constants to use for the solute and solvent:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">system</span> <span class="o">=</span> <span class="n">forcefield</span><span class="o">.</span><span class="n">createSystem</span><span class="p">(</span><span class="n">topology</span><span class="p">,</span> <span class="n">soluteDielectric</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">solventDielectric</span><span class="o">=</span><span class="mf">80.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If they are not specified, the solute and solvent dielectric constants default to 1.0 and
+78.5, respectively.</p>
+<p>You also can model the effect of a non-zero salt concentration by specifying the
+Debye-Huckel screening parameter<span id="id41">[<a class="reference internal" href="../zbibliography.html#id53" title="J Srinivasan, M. W. Trevathan, P. Beroza, and D. A. Case. Application of a pairwise generalized Born model to proteins and nucleic acids: inclusion of salt effects. Theor. Chem. Acc., 101:426-434, 1999.">19</a>]</span>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">system</span> <span class="o">=</span> <span class="n">forcefield</span><span class="o">.</span><span class="n">createSystem</span><span class="p">(</span><span class="n">topology</span><span class="p">,</span> <span class="n">implicitSolventKappa</span><span class="o">=</span><span class="mf">1.0</span><span class="o">/</span><span class="n">nanometer</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The screening parameter can be calculated as</p>
+<div class="math notranslate nohighlight">
+\[\kappa = 367.434915 \sqrt{\frac{I}{\epsilon T}}\]</div>
+<p>where <span class="math notranslate nohighlight">\(I\)</span> is the ionic strength in moles/liter, <span class="math notranslate nohighlight">\(\epsilon\)</span> is the solvent
+dielectric constant, and <span class="math notranslate nohighlight">\(T\)</span> is the temperature in Kelvin.</p>
+</section>
+<section id="amoeba">
+<h4>AMOEBA<a class="headerlink" href="#amoeba" title="Permalink to this heading">¶</a></h4>
+<p>The AMOEBA polarizable force field provides parameters for proteins, nucleic acids, water, and ions.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>File</p></th>
+<th class="head"><p>Parameters</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="file docutils literal notranslate"><span class="pre">amoeba2018.xml</span></code></p></td>
+<td><p>AMOEBA 2018<span id="id42">[<a class="reference internal" href="../zbibliography.html#id48" title="Yue Shi, Zhen Xia, Jiajing Zhang, Robert Best, Chuanjie Wu, Jay W. Ponder, and Pengyu Ren. Polarizable atomic multipole-based AMOEBA force field for proteins. Journal of Chemical Theory and Computation, 9(9):4046-4063, 2013.">20</a>]</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="file docutils literal notranslate"><span class="pre">amoeba2018_gk.xml</span></code></p></td>
+<td><p>Generalized Kirkwood solvation model<span id="id43">[<a class="reference internal" href="../zbibliography.html#id46" title="Michael J. Schnieders and Jay W. Ponder. Polarizable atomic multipole solutes in a generalized Kirkwood continuum. Journal of Chemical Theory and Computation, 3:2083-2097, 2007.">21</a>]</span> for use with AMOEBA 2018 force field</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="file docutils literal notranslate"><span class="pre">amoeba2013.xml</span></code></p></td>
+<td><p>AMOEBA 2013.  This force field is deprecated.  It is
+recommended to use AMOEBA 2018 instead.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="file docutils literal notranslate"><span class="pre">amoeba2013_gk.xml</span></code></p></td>
+<td><p>Generalized Kirkwood solvation model for use with AMOEBA 2013 force field</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="file docutils literal notranslate"><span class="pre">amoeba2009.xml</span></code></p></td>
+<td><p>AMOEBA 2009<span id="id44">[<a class="reference internal" href="../zbibliography.html#id42" title="P. Ren and Jay W. Ponder. A consistent treatment of inter- and intramolecular polarization in molecular mechanics calculations. Journal of Computational Chemistry, 23:1497-1506, 2002.">22</a>]</span>.  This force field is deprecated.  It is
+recommended to use AMOEBA 2018 instead.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="file docutils literal notranslate"><span class="pre">amoeba2009_gk.xml</span></code></p></td>
+<td><p>Generalized Kirkwood solvation model for use with AMOEBA 2009 force field</p></td>
+</tr>
+</tbody>
+</table>
+<p>For explicit solvent simulations, just include the single file <code class="file docutils literal notranslate"><span class="pre">amoeba2018.xml</span></code>.
+AMOEBA also supports implicit solvent using a Generalized Kirkwood model.  To enable
+it, also include <code class="file docutils literal notranslate"><span class="pre">amoeba2018_gk.xml</span></code>.</p>
+<p>The older AMOEBA 2009 and 2013 force fields are provided only for backward compatibility, and are not
+recommended for most simulations.</p>
+</section>
+<section id="charmm-polarizable-force-field">
+<h4>CHARMM Polarizable Force Field<a class="headerlink" href="#charmm-polarizable-force-field" title="Permalink to this heading">¶</a></h4>
+<p>To use the CHARMM 2019 polarizable force field<span id="id45">[<a class="reference internal" href="../zbibliography.html#id30" title="Pedro E. M. Lopes, Jing Huang, Jihyun Shim, Yun Luo, Hui Li, Benoît Roux, and Alexander D. MacKerell. Polarizable force field for peptides and proteins based on the classical Drude oscillator. Journal of Chemical Theory and Computation, 9(12):5430-5449, 2013.">14</a>]</span>, include the
+single file <code class="file docutils literal notranslate"><span class="pre">charmm_polar_2019.xml</span></code>.  It includes parameters for proteins, lipids,
+water, and ions.  When using this force field, remember to add extra particles to
+the <code class="xref py py-class docutils literal notranslate"><span class="pre">Topology</span></code> as described in section <a class="reference internal" href="03_model_building_editing.html#adding-or-removing-extra-particles"><span class="std std-numref">4.4</span></a>.
+This force field also requires that you use one of the special integrators that
+supports Drude particles.  The options are DrudeLangevinIntegrator, DrudeNoseHooverIntegrator,
+and DrudeSCFIntegrator.</p>
+</section>
+<section id="older-force-fields">
+<h4>Older Force Fields<a class="headerlink" href="#older-force-fields" title="Permalink to this heading">¶</a></h4>
+<p>OpenMM includes several older force fields as well.  For most simulations, the
+newer force fields described above are preferred over any of these, but they are
+still useful for reproducing older results.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>File</p></th>
+<th class="head"><p>Force Field</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">amber96.xml</span></code></p></td>
+<td><p>Amber96<span id="id46">[<a class="reference internal" href="../zbibliography.html#id23" title="P.A. Kollman, R. Dixon, W. Cornell, T. Fox, C. Chipot, and A. Pohorille. Computer Simulation of Biomolecular Systems, pages 83-96. Volume 3. Elsevier, 1997.">23</a>]</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">amber99sb.xml</span></code></p></td>
+<td><p>Amber99<span id="id47">[<a class="reference internal" href="../zbibliography.html#id61" title="J. Wang, P. Cieplak, and P.A. Kollman. How well does a restrained electrostatic potential (RESP) model perform in calculating conformational energies of organic and biological molecules? Journal of Computational Chemistry, 21:1049-1074, 2000.">24</a>]</span> with modified backbone torsions<span id="id48">[<a class="reference internal" href="../zbibliography.html#id19" title="V. Hornak, R. Abel, A. Okur, B. Strockbine, A. Roitberg, and C. Simmerling. Comparison of multiple Amber force fields and development of improved protein backbone parameters. Proteins, 65:712-725, 2006.">25</a>]</span></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">amber99sbildn.xml</span></code></p></td>
+<td><p>Amber99SB plus improved side chain torsions<span id="id49">[<a class="reference internal" href="../zbibliography.html#id28" title="K. Lindorff-Larsen, S. Piana, K. Palmo, P. Maragakis, J. Klepeis, R.O. Dror, and D.E. Shaw. Improved side-chain torsion potentials for the Amber ff99SB protein force field. Proteins, 78:1950-1958, 2010.">26</a>]</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">amber99sbnmr.xml</span></code></p></td>
+<td><p>Amber99SB with modifications to fit NMR data<span id="id50">[<a class="reference internal" href="../zbibliography.html#id27" title="D.W. Li and R. Brüschweiler. NMR-based protein potentials. Angewandte Chemie International Edition, 49:6778-6780, 2010.">27</a>]</span></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">amber03.xml</span></code></p></td>
+<td><p>Amber03<span id="id51">[<a class="reference internal" href="../zbibliography.html#id12" title="C. Duan, Y.; Wu, S. Chowdhury, M.C. Lee, G. Xiong, W. Zhang, R. Yang, P. Cieplak, R. Luo, and T. Lee. A point-charge force field for molecular mechanics simulations of proteins based on condensed-phase quantum mechanical calculations. Journal of Computational Chemistry, 24:1999-2012, 2003.">28</a>]</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">amber10.xml</span></code></p></td>
+<td><p>Amber10 (documented in the <a class="reference external" href="http://ambermd.org">AmberTools</a> manual as <cite>ff10</cite>)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">charmm_polar_2013.xml</span></code></p></td>
+<td><p>2013 version of the CHARMM polarizable force field<span id="id52">[<a class="reference internal" href="../zbibliography.html#id30" title="Pedro E. M. Lopes, Jing Huang, Jihyun Shim, Yun Luo, Hui Li, Benoît Roux, and Alexander D. MacKerell. Polarizable force field for peptides and proteins based on the classical Drude oscillator. Journal of Chemical Theory and Computation, 9(12):5430-5449, 2013.">14</a>]</span></p></td>
+</tr>
+</tbody>
+</table>
+<p>Several of these force fields support implicit solvent.  To enable it, also
+include the corresponding OBC file.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>File</p></th>
+<th class="head"><p>Implicit Solvation Model</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">amber96_obc.xml</span></code></p></td>
+<td><p>GBSA-OBC solvation model<span id="id53">[<a class="reference internal" href="../zbibliography.html#id38" title="Alexey Onufriev, Donald Bashford, and David A. Case. Exploring protein native states and large-scale conformational changes with a modified generalized Born model. Proteins, 55(22):383-394, 2004.">16</a>]</span> for use with Amber96 force field</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">amber99_obc.xml</span></code></p></td>
+<td><p>GBSA-OBC solvation model for use with Amber99 force field and its variants</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">amber03_obc.xml</span></code></p></td>
+<td><p>GBSA-OBC solvation model for use with Amber03 force field</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">amber10_obc.xml</span></code></p></td>
+<td><p>GBSA-OBC solvation model for use with Amber10 force field</p></td>
+</tr>
+</tbody>
+</table>
+<p>Note that the GBSA-OBC parameters in these files are those used in TINKER.<span id="id54">[<a class="reference internal" href="../zbibliography.html#id55" title="Jay W. Ponder. TINKER - Software Tools for Molecular Design, 4.2. 2004.">29</a>]</span>
+They are designed for use with Amber force fields, but they are different from
+the parameters found in the AMBER application.</p>
+</section>
+<section id="water-models">
+<h4>Water Models<a class="headerlink" href="#water-models" title="Permalink to this heading">¶</a></h4>
+<p>The following files define popular water models.  They can be used with force fields
+that do not provide their own water models.  When using Amber14 or CHARMM36, use
+the water files included with those force fields instead, since they also include
+ion parameters.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>File</p></th>
+<th class="head"><p>Water Model</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">tip3p.xml</span></code></p></td>
+<td><p>TIP3P water model<span id="id55">[<a class="reference internal" href="../zbibliography.html#id21" title="William L. Jorgensen, Jayaraman Chandrasekhar, Jeffry D. Madura, Roger W. Impey, and Michael L. Klein. Comparison of simple potential functions for simulating liquid water. Journal of Chemical Physics, 79:926-935, 1983.">3</a>]</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">tip3pfb.xml</span></code></p></td>
+<td><p>TIP3P-FB water model<span id="id56">[<a class="reference internal" href="../zbibliography.html#id62" title="Lee-Ping Wang, Todd J. Martinez, and Vijay S. Pande. Building force fields: an automatic, systematic, and reproducible approach. Journal of Physical Chemistry Letters, 5:1885-1891, 2014.">4</a>]</span></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">tip4pew.xml</span></code></p></td>
+<td><p>TIP4P-Ew water model<span id="id57">[<a class="reference internal" href="../zbibliography.html#id18" title="Hans W. Horn, William C. Swope, Jed W. Pitera, Jeffry D. Madura, Thomas J. Dick, Greg L. Hura, and Teresa Head-Gordon. Development of an improved four-site water model for biomolecular simulations: TIP4P-Ew. Journal of Chemical Physics, 120:9665-9678, 2004.">5</a>]</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">tip4pfb.xml</span></code></p></td>
+<td><p>TIP4P-FB water model<span id="id58">[<a class="reference internal" href="../zbibliography.html#id62" title="Lee-Ping Wang, Todd J. Martinez, and Vijay S. Pande. Building force fields: an automatic, systematic, and reproducible approach. Journal of Physical Chemistry Letters, 5:1885-1891, 2014.">4</a>]</span></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">tip5p.xml</span></code></p></td>
+<td><p>TIP5P water model<span id="id59">[<a class="reference internal" href="../zbibliography.html#id31" title="Michael W. Mahoney and William L. Jorgensen. A five-site model for liquid water and the reproduction of the density anomaly by rigid, nonpolarizable potential functions. Journal of Chemical Physics, 112:8910-8922, 2000.">12</a>]</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">spce.xml</span></code></p></td>
+<td><p>SPC/E water model<span id="id60">[<a class="reference internal" href="../zbibliography.html#id7" title="H. J. C. Berendsen, J. R. Grigera, and T. P. Straatsma. The missing term in effective pair potentials. Journal of Physical Chemistry, 91:6269-6271, 1987.">6</a>]</span></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">swm4ndp.xml</span></code></p></td>
+<td><p>SWM4-NDP water model<span id="id61">[<a class="reference internal" href="../zbibliography.html#id25" title="Guillaume Lamoureux, Edward Harder, Igor V. Vorobyov, Benoit Roux, and Alexander D. MacKerell Jr. A polarizable model of water for molecular dynamics simulations of biomolecules. Chemical Physics Letters, 418(1-3):245-249, 2006.">30</a>]</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">opc.xml</span></code></p></td>
+<td><p>OPC water model<span id="id62">[<a class="reference internal" href="../zbibliography.html#id66" title="Saeed Izadi, Ramu Anandakrishnan, and Alexey V Onufriev. Building water models: a different approach. The journal of Physical Chemistry Letters, 5(21):3863-3871, 2014. doi:10.1021/jz501780a.">7</a>]</span></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">opc3.xml</span></code></p></td>
+<td><p>OPC3 water model<span id="id63">[<a class="reference internal" href="../zbibliography.html#id67" title="Saeed Izadi and Alexey V Onufriev. Accuracy limit of rigid 3-point water models. The Journal of Chemical Physics, 145(7):074501, 2016. doi:10.1063/1.4960175.">8</a>]</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="small-molecule-parameters">
+<h3><span class="section-number">3.6.3. </span>Small molecule parameters<a class="headerlink" href="#small-molecule-parameters" title="Permalink to this heading">¶</a></h3>
+<p>The OpenMM force fields above include pregenerated templates for biopolymers
+and solvents. If your system instead contain small molecules, it is often
+necessary to generate these parameters on the fly.</p>
+<p>There are two options for doing this within the OpenMM <code class="docutils literal notranslate"><span class="pre">app</span></code> ecosystem:</p>
+<section id="small-molecule-residue-template-generators">
+<h4>Small molecule residue template generators<a class="headerlink" href="#small-molecule-residue-template-generators" title="Permalink to this heading">¶</a></h4>
+<p>One approach is to use residue template generators for small molecules from the
+<a class="reference external" href="http://github.com/openmm/openmmforcefields">openmmforcefields</a>  conda package.
+You can install this via conda with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>openmmforcefields
+</pre></div>
+</div>
+<p>You can then add a small molecule residue template generator using the Open Force
+Field Initiative small molecule force fields using the following example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create an OpenFF Molecule object for benzene from SMILES</span>
+<span class="kn">from</span> <span class="nn">openff.toolkit.topology</span> <span class="kn">import</span> <span class="n">Molecule</span>
+<span class="n">molecule</span> <span class="o">=</span> <span class="n">Molecule</span><span class="o">.</span><span class="n">from_smiles</span><span class="p">(</span><span class="s1">&#39;c1ccccc1&#39;</span><span class="p">)</span>
+<span class="c1"># Create the SMIRNOFF template generator with the default installed force field (openff-1.0.0)</span>
+<span class="kn">from</span> <span class="nn">openmmforcefields.generators</span> <span class="kn">import</span> <span class="n">SMIRNOFFTemplateGenerator</span>
+<span class="n">smirnoff</span> <span class="o">=</span> <span class="n">SMIRNOFFTemplateGenerator</span><span class="p">(</span><span class="n">molecules</span><span class="o">=</span><span class="n">molecule</span><span class="p">)</span>
+<span class="c1"># Create an OpenMM ForceField object with AMBER ff14SB and TIP3P with compatible ions</span>
+<span class="kn">from</span> <span class="nn">openmm.app</span> <span class="kn">import</span> <span class="n">ForceField</span>
+<span class="n">forcefield</span> <span class="o">=</span> <span class="n">ForceField</span><span class="p">(</span><span class="s1">&#39;amber/protein.ff14SB.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;amber/tip3p_standard.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;amber/tip3p_HFE_multivalent.xml&#39;</span><span class="p">)</span>
+<span class="c1"># Register the SMIRNOFF template generator</span>
+<span class="n">forcefield</span><span class="o">.</span><span class="n">registerTemplateGenerator</span><span class="p">(</span><span class="n">smirnoff</span><span class="o">.</span><span class="n">generator</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Alternatively, you can use the older <a class="reference external" href="http://ambermd.org/antechamber/gaff.html">AMBER GAFF small molecule force field</a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create an OpenFF Molecule object for benzene from SMILES</span>
+<span class="kn">from</span> <span class="nn">openff.toolkit.topology</span> <span class="kn">import</span> <span class="n">Molecule</span>
+<span class="n">molecule</span> <span class="o">=</span> <span class="n">Molecule</span><span class="o">.</span><span class="n">from_smiles</span><span class="p">(</span><span class="s1">&#39;c1ccccc1&#39;</span><span class="p">)</span>
+<span class="c1"># Create the GAFF template generator</span>
+<span class="kn">from</span> <span class="nn">openmmforcefields.generators</span> <span class="kn">import</span> <span class="n">GAFFTemplateGenerator</span>
+<span class="n">gaff</span> <span class="o">=</span> <span class="n">GAFFTemplateGenerator</span><span class="p">(</span><span class="n">molecules</span><span class="o">=</span><span class="n">molecule</span><span class="p">)</span>
+<span class="c1"># Create an OpenMM ForceField object with AMBER ff14SB and TIP3P with compatible ions</span>
+<span class="kn">from</span> <span class="nn">openmm.app</span> <span class="kn">import</span> <span class="n">ForceField</span>
+<span class="n">forcefield</span> <span class="o">=</span> <span class="n">ForceField</span><span class="p">(</span><span class="s1">&#39;amber/protein.ff14SB.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;amber/tip3p_standard.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;amber/tip3p_HFE_multivalent.xml&#39;</span><span class="p">)</span>
+<span class="c1"># Register the GAFF template generator</span>
+<span class="n">forcefield</span><span class="o">.</span><span class="n">registerTemplateGenerator</span><span class="p">(</span><span class="n">gaff</span><span class="o">.</span><span class="n">generator</span><span class="p">)</span>
+<span class="c1"># You can now parameterize an OpenMM Topology object that contains the specified molecule.</span>
+<span class="c1"># forcefield will load the appropriate GAFF parameters when needed, and antechamber</span>
+<span class="c1"># will be used to generate small molecule parameters on the fly.</span>
+<span class="kn">from</span> <span class="nn">openmm.app</span> <span class="kn">import</span> <span class="n">PDBFile</span>
+<span class="n">pdbfile</span> <span class="o">=</span> <span class="n">PDBFile</span><span class="p">(</span><span class="s1">&#39;t4-lysozyme-L99A-with-benzene.pdb&#39;</span><span class="p">)</span>
+<span class="n">system</span> <span class="o">=</span> <span class="n">forcefield</span><span class="o">.</span><span class="n">createSystem</span><span class="p">(</span><span class="n">pdbfile</span><span class="o">.</span><span class="n">topology</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>More documentation can be found on the <a class="reference external" href="http://github.com/openmm/openmmforcefields">openmmforcefields</a> page.</p>
+</section>
+<section id="managing-force-fields-with-systemgenerator">
+<h4>Managing force fields with <code class="docutils literal notranslate"><span class="pre">SystemGenerator</span></code><a class="headerlink" href="#managing-force-fields-with-systemgenerator" title="Permalink to this heading">¶</a></h4>
+<p>As an alternative to explicitly registering template generators, the <a class="reference external" href="http://github.com/openmm/openmmforcefields">openmmforcefields</a>
+package provides a <code class="docutils literal notranslate"><span class="pre">SystemGenerator</span></code> facility to simplify biopolymer and
+small molecule force field management. To use this, you can simply specify the
+small molecule force field you want to use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the keyword arguments to feed to ForceField</span>
+<span class="kn">from</span> <span class="nn">openmm</span> <span class="kn">import</span> <span class="n">unit</span><span class="p">,</span> <span class="n">app</span>
+<span class="n">forcefield_kwargs</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;constraints&#39;</span> <span class="p">:</span> <span class="n">app</span><span class="o">.</span><span class="n">HBonds</span><span class="p">,</span> <span class="s1">&#39;rigidWater&#39;</span> <span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;removeCMMotion&#39;</span> <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;hydrogenMass&#39;</span> <span class="p">:</span> <span class="mi">4</span><span class="o">*</span><span class="n">unit</span><span class="o">.</span><span class="n">amu</span> <span class="p">}</span>
+<span class="c1"># Initialize a SystemGenerator using GAFF</span>
+<span class="kn">from</span> <span class="nn">openmmforcefields.generators</span> <span class="kn">import</span> <span class="n">SystemGenerator</span>
+<span class="n">system_generator</span> <span class="o">=</span> <span class="n">SystemGenerator</span><span class="p">(</span><span class="n">forcefields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;amber/ff14SB.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;amber/tip3p_standard.xml&#39;</span><span class="p">],</span> <span class="n">small_molecule_forcefield</span><span class="o">=</span><span class="s1">&#39;gaff-2.11&#39;</span><span class="p">,</span> <span class="n">forcefield_kwargs</span><span class="o">=</span><span class="n">forcefield_kwargs</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="s1">&#39;db.json&#39;</span><span class="p">)</span>
+<span class="c1"># Create an OpenMM System from an OpenMM Topology object</span>
+<span class="n">system</span> <span class="o">=</span> <span class="n">system_generator</span><span class="o">.</span><span class="n">create_system</span><span class="p">(</span><span class="n">openmm_topology</span><span class="p">)</span>
+<span class="c1"># Alternatively, create an OpenMM System from an OpenMM Topology object and a list of OpenFF Molecule objects</span>
+<span class="n">molecules</span> <span class="o">=</span> <span class="n">Molecule</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="s1">&#39;molecules.sdf&#39;</span><span class="p">,</span> <span class="n">file_format</span><span class="o">=</span><span class="s1">&#39;sdf&#39;</span><span class="p">)</span>
+<span class="n">system</span> <span class="o">=</span> <span class="n">system_generator</span><span class="o">.</span><span class="n">create_system</span><span class="p">(</span><span class="n">openmm_topology</span><span class="p">,</span> <span class="n">molecules</span><span class="o">=</span><span class="n">molecules</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">SystemGenerator</span></code> will match any instances of the molecules found in <code class="docutils literal notranslate"><span class="pre">molecules.sdf</span></code> to those that appear in <code class="docutils literal notranslate"><span class="pre">topology</span></code>.
+Note that the protonation and tautomeric states must match exactly between the <code class="docutils literal notranslate"><span class="pre">molecules</span></code> read and those appearing in the Topology.
+See the <a class="reference external" href="http://github.com/openmm/openmmforcefields">openmmforcefields</a> documentation for more details.</p>
+</section>
+</section>
+<section id="amber-implicit-solvent">
+<h3><span class="section-number">3.6.4. </span>AMBER Implicit Solvent<a class="headerlink" href="#amber-implicit-solvent" title="Permalink to this heading">¶</a></h3>
+<p>When creating a system from a prmtop file you do not specify force field files,
+so you need a different way to tell it to use implicit solvent.  This is done
+with the <code class="code docutils literal notranslate"><span class="pre">implicitSolvent</span></code> parameter:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">system</span> <span class="o">=</span> <span class="n">prmtop</span><span class="o">.</span><span class="n">createSystem</span><span class="p">(</span><span class="n">implicitSolvent</span><span class="o">=</span><span class="n">OBC2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>OpenMM supports all of the Generalized Born models used by AMBER.  Here are the
+allowed values for <code class="code docutils literal notranslate"><span class="pre">implicitSolvent</span></code>:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Value</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">None</span></code></p></td>
+<td><p>No implicit solvent is used.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">HCT</span></code></p></td>
+<td><p>Hawkins-Cramer-Truhlar GBSA model<span id="id64">[<a class="reference internal" href="../zbibliography.html#id17" title="Gregory D. Hawkins, Christopher J. Cramer, and Donald G. Truhlar. Pairwise solute descreening of solute charges from a dielectric medium. Chemical Physics Letters, 246(1-2):122-129, 1995.">15</a>]</span> (corresponds to igb=1 in AMBER)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">OBC1</span></code></p></td>
+<td><p>Onufriev-Bashford-Case GBSA model<span id="id65">[<a class="reference internal" href="../zbibliography.html#id38" title="Alexey Onufriev, Donald Bashford, and David A. Case. Exploring protein native states and large-scale conformational changes with a modified generalized Born model. Proteins, 55(22):383-394, 2004.">16</a>]</span> using the GB<sup>OBC</sup>I parameters (corresponds to igb=2 in AMBER).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">OBC2</span></code></p></td>
+<td><p>Onufriev-Bashford-Case GBSA model<span id="id66">[<a class="reference internal" href="../zbibliography.html#id38" title="Alexey Onufriev, Donald Bashford, and David A. Case. Exploring protein native states and large-scale conformational changes with a modified generalized Born model. Proteins, 55(22):383-394, 2004.">16</a>]</span> using the GB<sup>OBC</sup>II parameters (corresponds to igb=5 in AMBER).
+This is the same model used by the GBSA-OBC files described in Section <a class="reference internal" href="#force-fields"><span class="std std-numref">3.6.2</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">GBn</span></code></p></td>
+<td><p>GBn solvation model<span id="id67">[<a class="reference internal" href="../zbibliography.html#id36" title="John Mongan, Carlos Simmerling, J. Andrew McCammon, David A. Case, and Alexey Onufriev. Generalized Born model with a simple, robust molecular volume correction. Journal of Chemical Theory and Computation, 3(1):156-169, 2007.">17</a>]</span> (corresponds to igb=7 in AMBER).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">GBn2</span></code></p></td>
+<td><p>GBn2 solvation model<span id="id68">[<a class="reference internal" href="../zbibliography.html#id37" title="Hai Nguyen, Daniel R. Roe, and Carlos Simmerling. Improved generalized Born solvent model parameters for protein simulations. Journal of Chemical Theory and Computation, 9(4):2020-2034, 2013.">18</a>]</span> (corresponds to igb=8 in AMBER).</p></td>
+</tr>
+</tbody>
+</table>
+<p>You can further control the solvation model in a few ways.  First, you can
+specify the dielectric constants to use for the solute and solvent:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">system</span> <span class="o">=</span> <span class="n">prmtop</span><span class="o">.</span><span class="n">createSystem</span><span class="p">(</span><span class="n">implicitSolvent</span><span class="o">=</span><span class="n">OBC2</span><span class="p">,</span> <span class="n">soluteDielectric</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">solventDielectric</span><span class="o">=</span><span class="mf">80.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If they are not specified, the solute and solvent dielectrics default to 1.0 and
+78.5, respectively.  These values were chosen for consistency with AMBER, and
+are slightly different from those used elsewhere in OpenMM: when building a
+system from a force field, the solvent dielectric defaults to 78.3.</p>
+<p>You also can model the effect of a non-zero salt concentration by specifying the
+Debye-Huckel screening parameter<span id="id69">[<a class="reference internal" href="../zbibliography.html#id53" title="J Srinivasan, M. W. Trevathan, P. Beroza, and D. A. Case. Application of a pairwise generalized Born model to proteins and nucleic acids: inclusion of salt effects. Theor. Chem. Acc., 101:426-434, 1999.">19</a>]</span>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">system</span> <span class="o">=</span> <span class="n">prmtop</span><span class="o">.</span><span class="n">createSystem</span><span class="p">(</span><span class="n">implicitSolvent</span><span class="o">=</span><span class="n">OBC2</span><span class="p">,</span> <span class="n">implicitSolventKappa</span><span class="o">=</span><span class="mf">1.0</span><span class="o">/</span><span class="n">nanometer</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="nonbonded-interactions">
+<h3><span class="section-number">3.6.5. </span>Nonbonded Interactions<a class="headerlink" href="#nonbonded-interactions" title="Permalink to this heading">¶</a></h3>
+<p>When creating the system (either from a force field or a prmtop file), you can
+specify options about how nonbonded interactions should be treated:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">system</span> <span class="o">=</span> <span class="n">prmtop</span><span class="o">.</span><span class="n">createSystem</span><span class="p">(</span><span class="n">nonbondedMethod</span><span class="o">=</span><span class="n">PME</span><span class="p">,</span> <span class="n">nonbondedCutoff</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">nanometer</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="code docutils literal notranslate"><span class="pre">nonbondedMethod</span></code> parameter can have any of the following values:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Value</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">NoCutoff</span></code></p></td>
+<td><p>No cutoff is applied.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">CutoffNonPeriodic</span></code></p></td>
+<td><p>The reaction field method is used to eliminate all interactions beyond a cutoff distance.  Not valid for AMOEBA.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">CutoffPeriodic</span></code></p></td>
+<td><p>The reaction field method is used to eliminate all interactions beyond a cutoff distance.  Periodic boundary conditions are applied, so each atom interacts only with the nearest periodic copy of every other atom.  Not valid for AMOEBA.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">Ewald</span></code></p></td>
+<td><p>Periodic boundary conditions are applied.  Ewald summation is used to compute long range Coulomb interactions.  (This option is rarely used, since PME is much faster for all but the smallest systems.)  Not valid for AMOEBA.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">PME</span></code></p></td>
+<td><p>Periodic boundary conditions are applied.  The Particle Mesh Ewald method is used to compute long range Coulomb interactions.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">LJPME</span></code></p></td>
+<td><p>Periodic boundary conditions are applied.  The Particle Mesh Ewald method is used to compute long range interactions for both Coulomb and Lennard-Jones.</p></td>
+</tr>
+</tbody>
+</table>
+<p>When using any method other than <code class="code docutils literal notranslate"><span class="pre">NoCutoff</span></code>, you should also specify a
+cutoff distance.  Be sure to specify units, as shown in the examples above. For
+example, <code class="code docutils literal notranslate"><span class="pre">nonbondedCutoff=1.5*nanometers</span></code> or
+<code class="code docutils literal notranslate"><span class="pre">nonbondedCutoff=12*angstroms</span></code> are legal values.</p>
+<p>When using <code class="code docutils literal notranslate"><span class="pre">Ewald</span></code>, <code class="code docutils literal notranslate"><span class="pre">PME</span></code>, or <code class="code docutils literal notranslate"><span class="pre">LJPME</span></code>, you can optionally specify an
+error tolerance for the force computation.  For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">system</span> <span class="o">=</span> <span class="n">prmtop</span><span class="o">.</span><span class="n">createSystem</span><span class="p">(</span><span class="n">nonbondedMethod</span><span class="o">=</span><span class="n">PME</span><span class="p">,</span> <span class="n">nonbondedCutoff</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">nanometer</span><span class="p">,</span>
+        <span class="n">ewaldErrorTolerance</span><span class="o">=</span><span class="mf">0.00001</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The error tolerance is roughly equal to the fractional error in the forces due
+to truncating the Ewald summation.  If you do not specify it, a default value of
+0.0005 is used.</p>
+<p>Another optional parameter when using a cutoff is <code class="code docutils literal notranslate"><span class="pre">switchDistance</span></code>.  This
+causes Lennard-Jones interactions to smoothly go to zero over some finite range,
+rather than being sharply truncated at the cutoff distance.  This can improve
+energy conservation.  To use it, specify a distance at which the interactions
+should start being reduced.  For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">system</span> <span class="o">=</span> <span class="n">prmtop</span><span class="o">.</span><span class="n">createSystem</span><span class="p">(</span><span class="n">nonbondedMethod</span><span class="o">=</span><span class="n">PME</span><span class="p">,</span> <span class="n">nonbondedCutoff</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">nanometer</span><span class="p">,</span>
+        <span class="n">switchDistance</span><span class="o">=</span><span class="mf">0.9</span><span class="o">*</span><span class="n">nanometer</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="nonbonded-forces-for-amoeba">
+<h4>Nonbonded Forces for AMOEBA<a class="headerlink" href="#nonbonded-forces-for-amoeba" title="Permalink to this heading">¶</a></h4>
+<p>For the AMOEBA force field, the valid values for the <code class="code docutils literal notranslate"><span class="pre">nonbondedMethod</span></code>
+are <code class="code docutils literal notranslate"><span class="pre">NoCutoff</span></code> and <code class="code docutils literal notranslate"><span class="pre">PME</span></code>.  The other nonbonded methods,
+<code class="code docutils literal notranslate"><span class="pre">CutoffNonPeriodic</span></code>, <code class="code docutils literal notranslate"><span class="pre">CutoffPeriodic</span></code>, and <code class="code docutils literal notranslate"><span class="pre">Ewald</span></code>
+are unavailable for this force field.</p>
+<p>For implicit solvent runs using AMOEBA, only the <code class="code docutils literal notranslate"><span class="pre">nonbondedMethod</span></code>
+option <code class="code docutils literal notranslate"><span class="pre">NoCutoff</span></code> is available.</p>
+<section id="lennard-jones-interaction-cutoff-value">
+<h5>Lennard-Jones Interaction Cutoff Value<a class="headerlink" href="#lennard-jones-interaction-cutoff-value" title="Permalink to this heading">¶</a></h5>
+<p>In addition, for the AMOEBA force field a cutoff for the Lennard-Jones
+interaction independent of the value used for the electrostatic interactions may
+be specified using the keyword <code class="code docutils literal notranslate"><span class="pre">vdwCutoff</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">system</span> <span class="o">=</span> <span class="n">forcefield</span><span class="o">.</span><span class="n">createSystem</span><span class="p">(</span><span class="n">nonbondedMethod</span><span class="o">=</span><span class="n">PME</span><span class="p">,</span> <span class="n">nonbondedCutoff</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">nanometer</span><span class="p">,</span>
+        <span class="n">ewaldErrorTolerance</span><span class="o">=</span><span class="mf">0.00001</span><span class="p">,</span> <span class="n">vdwCutoff</span><span class="o">=</span><span class="mf">1.2</span><span class="o">*</span><span class="n">nanometer</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If <code class="code docutils literal notranslate"><span class="pre">vdwCutoff</span></code> is not specified, then the value of
+<code class="code docutils literal notranslate"><span class="pre">nonbondedCutoff</span></code> is used for the Lennard-Jones interactions.</p>
+</section>
+<section id="specifying-the-polarization-method">
+<h5>Specifying the Polarization Method<a class="headerlink" href="#specifying-the-polarization-method" title="Permalink to this heading">¶</a></h5>
+<p>When using the AMOEBA force field, OpenMM allows the induced dipoles to be
+calculated in any of three different ways.  The slowest but potentially most
+accurate method is to iterate the calculation until the dipoles converge to a
+specified tolerance.  To select this, specify <code class="code docutils literal notranslate"><span class="pre">polarization='mutual'</span></code>.
+Use the <code class="code docutils literal notranslate"><span class="pre">mutualInducedTargetEpsilon</span></code> option to select the tolerance; for
+most situations, a value of 0.00001 works well.  Alternatively you can specify
+<code class="code docutils literal notranslate"><span class="pre">polarization='extrapolated'</span></code>.  This uses an analytic approximation
+<span id="id70">[<a class="reference internal" href="../zbibliography.html#id51" title="Andrew C. Simmonett, Frank C. Pickard, Yihan Shao, Thomas E. Cheatham, and Bernard R. Brooks. Efficient treatment of induced dipoles. Journal of Chemical Physics, 143(7):074115, 2015.">31</a>]</span> to estimate what the fully converged dipoles will be without
+actually continuing the calculation to convergence.  In many cases this can be
+significantly faster with only a small loss in accuracy.  Finally, you can
+specify <code class="code docutils literal notranslate"><span class="pre">polarization='direct'</span></code> to use the direct polarization
+approximation, in which induced dipoles depend only on the fixed multipoles, not
+on other induced dipoles.  This is even faster, but it produces very different
+forces from mutual polarization, so it should only be used with force fields
+that have been specifically parameterized for use with this approximation.</p>
+<p>Here are examples of using each method:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">system</span> <span class="o">=</span> <span class="n">forcefield</span><span class="o">.</span><span class="n">createSystem</span><span class="p">(</span><span class="n">nonbondedMethod</span><span class="o">=</span><span class="n">PME</span><span class="p">,</span> <span class="n">nonbondedCutoff</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">nanometer</span><span class="p">,</span>
+    <span class="n">vdwCutoff</span><span class="o">=</span><span class="mf">1.2</span><span class="o">*</span><span class="n">nanometer</span><span class="p">,</span> <span class="n">polarization</span><span class="o">=</span><span class="s1">&#39;mutual&#39;</span><span class="p">,</span> <span class="n">mutualInducedTargetEpsilon</span><span class="o">=</span><span class="mf">0.00001</span><span class="p">)</span>
+
+<span class="n">system</span> <span class="o">=</span> <span class="n">forcefield</span><span class="o">.</span><span class="n">createSystem</span><span class="p">(</span><span class="n">nonbondedMethod</span><span class="o">=</span><span class="n">PME</span><span class="p">,</span> <span class="n">nonbondedCutoff</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">nanometer</span><span class="p">,</span>
+    <span class="n">vdwCutoff</span><span class="o">=</span><span class="mf">1.2</span><span class="o">*</span><span class="n">nanometer</span><span class="p">,</span> <span class="n">polarization</span><span class="o">=</span><span class="s1">&#39;extrapolated&#39;</span><span class="p">)</span>
+
+<span class="n">system</span> <span class="o">=</span> <span class="n">forcefield</span><span class="o">.</span><span class="n">createSystem</span><span class="p">(</span><span class="n">nonbondedMethod</span><span class="o">=</span><span class="n">PME</span><span class="p">,</span> <span class="n">nonbondedCutoff</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">nanometer</span><span class="p">,</span>
+    <span class="n">vdwCutoff</span><span class="o">=</span><span class="mf">1.2</span><span class="o">*</span><span class="n">nanometer</span><span class="p">,</span> <span class="n">polarization</span><span class="o">=</span><span class="s1">&#39;direct&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="implicit-solvent-and-solute-dielectrics">
+<h5>Implicit Solvent and Solute Dielectrics<a class="headerlink" href="#implicit-solvent-and-solute-dielectrics" title="Permalink to this heading">¶</a></h5>
+<p>For implicit solvent simulations using the AMOEBA force field, the
+<code class="file docutils literal notranslate"><span class="pre">amoeba2013_gk.xml</span></code> file should be included in the initialization of the force
+field:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">forcefield</span> <span class="o">=</span> <span class="n">ForceField</span><span class="p">(</span><span class="s1">&#39;amoeba2009.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;amoeba2009_gk.xml&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Only the <code class="code docutils literal notranslate"><span class="pre">nonbondedMethod</span></code> option <code class="code docutils literal notranslate"><span class="pre">NoCutoff</span></code> is available
+for implicit solvent runs using AMOEBA.  In addition, the solvent and solute
+dielectric values can be specified for implicit solvent simulations:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">system</span><span class="o">=</span><span class="n">forcefield</span><span class="o">.</span><span class="n">createSystem</span><span class="p">(</span><span class="n">nonbondedMethod</span><span class="o">=</span><span class="n">NoCutoff</span><span class="p">,</span> <span class="n">soluteDielectric</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+        <span class="n">solventDielectric</span><span class="o">=</span><span class="mf">80.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The default values are 1.0 for the solute dielectric and 78.3 for the solvent
+dielectric.</p>
+</section>
+</section>
+</section>
+<section id="constraints">
+<h3><span class="section-number">3.6.6. </span>Constraints<a class="headerlink" href="#constraints" title="Permalink to this heading">¶</a></h3>
+<p>When creating the system (either from a force field or an AMBER <code class="file docutils literal notranslate"><span class="pre">prmtop</span></code> file), you can
+optionally tell OpenMM to constrain certain bond lengths and angles.  For
+example,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">system</span> <span class="o">=</span> <span class="n">prmtop</span><span class="o">.</span><span class="n">createSystem</span><span class="p">(</span><span class="n">nonbondedMethod</span><span class="o">=</span><span class="n">NoCutoff</span><span class="p">,</span> <span class="n">constraints</span><span class="o">=</span><span class="n">HBonds</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="code docutils literal notranslate"><span class="pre">constraints</span></code> parameter can have any of the following values:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Value</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">None</span></code></p></td>
+<td><p>No constraints are applied.  This is the default value.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">HBonds</span></code></p></td>
+<td><p>The lengths of all bonds that involve a hydrogen atom are constrained.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">AllBonds</span></code></p></td>
+<td><p>The lengths of all bonds are constrained.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">HAngles</span></code></p></td>
+<td><p>The lengths of all bonds are constrained.  In addition, all angles of the form H-X-H or H-O-X (where X is an arbitrary atom) are constrained.</p></td>
+</tr>
+</tbody>
+</table>
+<p>The main reason to use constraints is that it allows one to use a larger
+integration time step.  With no constraints, one is typically limited to a time
+step of about 1 fs for typical biomolecular force fields like AMBER or CHARMM.
+With <code class="code docutils literal notranslate"><span class="pre">HBonds</span></code> constraints, this can be increased to about 2 fs for Verlet
+dynamics, or about 4 fs for Langevin dynamics.  With <code class="code docutils literal notranslate"><span class="pre">HAngles</span></code>, it can
+sometimes be increased even further.</p>
+<p>Regardless of the value of this parameter, OpenMM makes water molecules
+completely rigid, constraining both their bond lengths and angles.  You can
+disable this behavior with the <code class="code docutils literal notranslate"><span class="pre">rigidWater</span></code> parameter:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">system</span> <span class="o">=</span> <span class="n">prmtop</span><span class="o">.</span><span class="n">createSystem</span><span class="p">(</span><span class="n">nonbondedMethod</span><span class="o">=</span><span class="n">NoCutoff</span><span class="p">,</span> <span class="n">constraints</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rigidWater</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Be aware that flexible water may require you to further reduce the integration
+step size, typically to about 0.5 fs.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The AMOEBA forcefield is designed to be used without constraints, so by
+default OpenMM makes AMOEBA water flexible.  You can still force it to be
+rigid by specifying <code class="code docutils literal notranslate"><span class="pre">rigidWater=True</span></code>.</p>
+</div>
+</section>
+<section id="heavy-hydrogens">
+<h3><span class="section-number">3.6.7. </span>Heavy Hydrogens<a class="headerlink" href="#heavy-hydrogens" title="Permalink to this heading">¶</a></h3>
+<p>When creating the system (either from a force field or an AMBER <code class="file docutils literal notranslate"><span class="pre">prmtop</span></code> file), you can
+optionally tell OpenMM to increase the mass of hydrogen atoms.  For example,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">system</span> <span class="o">=</span> <span class="n">prmtop</span><span class="o">.</span><span class="n">createSystem</span><span class="p">(</span><span class="n">hydrogenMass</span><span class="o">=</span><span class="mi">4</span><span class="o">*</span><span class="n">amu</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This applies only to hydrogens that are bonded to heavy atoms, and any mass
+added to the hydrogen is subtracted from the heavy atom.  This keeps their total
+mass constant while slowing down the fast motions of hydrogens.  When combined
+with constraints (typically <code class="code docutils literal notranslate"><span class="pre">constraints=AllBonds</span></code>), this often allows a
+further increase in integration step size.</p>
+</section>
+<section id="integrators">
+<span id="id71"></span><h3><span class="section-number">3.6.8. </span>Integrators<a class="headerlink" href="#integrators" title="Permalink to this heading">¶</a></h3>
+<p>OpenMM offers a choice of several different integration methods.  You select
+which one to use by creating an integrator object of the appropriate type.
+Detailed descriptions of all these integrators can be found in Chapter
+<a class="reference internal" href="../theory/04_integrators.html#integrators-theory"><span class="std std-numref">20</span></a>.  In addition to these built in integrators, lots of
+others are available as part of the <a class="reference external" href="https://openmmtools.readthedocs.io">OpenMMTools</a> package.</p>
+<section id="langevin-middle-integrator">
+<h4>Langevin Middle Integrator<a class="headerlink" href="#langevin-middle-integrator" title="Permalink to this heading">¶</a></h4>
+<p>In the examples of the previous sections, we used Langevin integration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">integrator</span> <span class="o">=</span> <span class="n">LangevinMiddleIntegrator</span><span class="p">(</span><span class="mi">300</span><span class="o">*</span><span class="n">kelvin</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">picosecond</span><span class="p">,</span> <span class="mf">0.004</span><span class="o">*</span><span class="n">picoseconds</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The three parameter values in this line are the simulation temperature (300 K),
+the friction coefficient (1 ps<sup>-1</sup>), and the step size (0.004 ps).  You
+are free to change these to whatever values you want.  Be sure to specify units
+on all values.  For example, the step size could be written either as
+<code class="code docutils literal notranslate"><span class="pre">0.004*picoseconds</span></code> or <code class="code docutils literal notranslate"><span class="pre">4*femtoseconds</span></code>.  They are exactly
+equivalent.  Note that <code class="code docutils literal notranslate"><span class="pre">LangevinMiddleIntegrator</span></code> is a leapfrog
+integrator, so the velocities are offset by half a time step from the positions.</p>
+</section>
+<section id="langevin-integrator">
+<h4>Langevin Integrator<a class="headerlink" href="#langevin-integrator" title="Permalink to this heading">¶</a></h4>
+<p><code class="code docutils literal notranslate"><span class="pre">LangevinIntegrator</span></code> is very similar to <code class="code docutils literal notranslate"><span class="pre">LangevinMiddleIntegrator</span></code>,
+but it uses a different discretization of the Langevin equation.
+<code class="code docutils literal notranslate"><span class="pre">LangevinMiddleIntegrator</span></code> tends to produce more accurate configurational
+sampling, and therefore is preferred for most applications.  Also note that
+<code class="code docutils literal notranslate"><span class="pre">LangevinIntegrator</span></code>, like <code class="code docutils literal notranslate"><span class="pre">LangevinMiddleIntegrator</span></code>, is a leapfrog
+integrator, so the velocities are offset by half a time step from the positions.</p>
+</section>
+<section id="nose-hoover-integrator">
+<h4>Nosé-Hoover Integrator<a class="headerlink" href="#nose-hoover-integrator" title="Permalink to this heading">¶</a></h4>
+<p>The <code class="code docutils literal notranslate"><span class="pre">NoseHooverIntegrator</span></code> uses the same “middle” leapfrog propagation
+algorithm as <code class="code docutils literal notranslate"><span class="pre">LangevinMiddleIntegrator</span></code>, but replaces the stochastic
+temperature control with a velocity scaling algorithm that produces more
+accurate transport properties <span id="id72">[<a class="reference internal" href="../zbibliography.html#id6" title="Joseph E. Bascon and Michael R. Shirts. Effects of temperature control algorithms on transport properties and kinetics in molecular dynamics simulations. Journal of Chemical Theory and Computation, 9:2887-2899, 2013. doi:10.1021/ct400109a.">32</a>]</span>.  This velocity scaling
+results from propagating a chain of extra variables, which slightly reduces the
+computational efficiency with respect to <code class="code docutils literal notranslate"><span class="pre">LangevinMiddleIntegrator</span></code>.  The
+thermostated integrator is minimally created with syntax analogous to the
+<code class="code docutils literal notranslate"><span class="pre">LangevinMiddleIntegrator</span></code> example above:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NoseHooverIntegrator</span> <span class="n">integrator</span><span class="p">(</span><span class="mi">300</span><span class="o">*</span><span class="n">kelvin</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">picosecond</span><span class="p">,</span>
+                                <span class="mf">0.004</span><span class="o">*</span><span class="n">picoseconds</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The first argument specifies the target temperature.  The second specifies the
+frequency of interaction with the heat bath: a lower value interacts minimally,
+yielding the microcanonical ensemble in the limit of a zero frequency, while a
+larger frequency will perturb the system greater, keeping it closer to the
+target temperature.  The third argument is the integration timestep that, like
+the other arguments, must be specified with units.  For initial equilibration
+to the target temperature, a larger interaction frequency is recommended,
+<em>e.g.</em> 25 ps<sup>-1</sup>.</p>
+<p>This integrator supports lots of other options, including the ability to couple
+different parts of the system to thermostats at different temperatures. See the
+API documentation for details.</p>
+</section>
+<section id="leapfrog-verlet-integrator">
+<h4>Leapfrog Verlet Integrator<a class="headerlink" href="#leapfrog-verlet-integrator" title="Permalink to this heading">¶</a></h4>
+<p>A leapfrog Verlet integrator can be used for running constant energy dynamics.
+The command for this is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">integrator</span> <span class="o">=</span> <span class="n">VerletIntegrator</span><span class="p">(</span><span class="mf">0.002</span><span class="o">*</span><span class="n">picoseconds</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The only option is the step size.</p>
+</section>
+<section id="brownian-integrator">
+<h4>Brownian Integrator<a class="headerlink" href="#brownian-integrator" title="Permalink to this heading">¶</a></h4>
+<p>Brownian (diffusive) dynamics can be used by specifying the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">integrator</span> <span class="o">=</span> <span class="n">BrownianIntegrator</span><span class="p">(</span><span class="mi">300</span><span class="o">*</span><span class="n">kelvin</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">picosecond</span><span class="p">,</span> <span class="mf">0.002</span><span class="o">*</span><span class="n">picoseconds</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The parameters are the same as for Langevin dynamics: temperature (300 K),
+friction coefficient (1 ps<sup>-1</sup>), and step size (0.002 ps).</p>
+</section>
+<section id="variable-time-step-langevin-integrator">
+<h4>Variable Time Step Langevin Integrator<a class="headerlink" href="#variable-time-step-langevin-integrator" title="Permalink to this heading">¶</a></h4>
+<p>A variable time step Langevin integrator continuously adjusts its step size to
+keep the integration error below a specified tolerance.  In some cases, this can
+allow you to use a larger average step size than would be possible with a fixed
+step size integrator.  It also is very useful in cases where you do not know in
+advance what step size will be stable, such as when first equilibrating a
+system.  You create this integrator with the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">integrator</span> <span class="o">=</span> <span class="n">VariableLangevinIntegrator</span><span class="p">(</span><span class="mi">300</span><span class="o">*</span><span class="n">kelvin</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">picosecond</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In place of a step size, you specify an integration error tolerance (0.001 in
+this example).  It is best not to think of this value as having any absolute
+meaning.  Just think of it as an adjustable parameter that affects the step size
+and integration accuracy.  Smaller values will produce a smaller average step
+size.  You should try different values to find the largest one that produces a
+trajectory sufficiently accurate for your purposes.</p>
+</section>
+<section id="variable-time-step-leapfrog-verlet-integrator">
+<h4>Variable Time Step Leapfrog Verlet Integrator<a class="headerlink" href="#variable-time-step-leapfrog-verlet-integrator" title="Permalink to this heading">¶</a></h4>
+<p>A variable time step leapfrog Verlet integrator works similarly to the variable
+time step Langevin integrator in that it continuously adjusts its step size to
+keep the integration error below a specified tolerance.  The command for this
+integrator is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">integrator</span> <span class="o">=</span> <span class="n">VariableVerletIntegrator</span><span class="p">(</span><span class="mf">0.001</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The parameter is the integration error tolerance (0.001), whose meaning is the
+same as for the Langevin integrator.</p>
+</section>
+<section id="multiple-time-step-integrator">
+<h4>Multiple Time Step Integrator<a class="headerlink" href="#multiple-time-step-integrator" title="Permalink to this heading">¶</a></h4>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">MTSIntegrator</span></code> class implements the rRESPA multiple time step
+algorithm<span id="id73">[<a class="reference internal" href="../zbibliography.html#id58" title="M. Tuckerman, Bruce J. Berne, and Glenn J. Martyna. Reversible multiple time scale molecular dynamics. Journal of Chemical Physics, 97(3):1990-2001, 1992.">33</a>]</span>.  This allows some forces in the system to be evaluated more
+frequently than others.  For details on how to use it, consult the API
+documentation.</p>
+</section>
+<section id="multiple-time-step-langevin-integrator">
+<h4>Multiple Time Step Langevin Integrator<a class="headerlink" href="#multiple-time-step-langevin-integrator" title="Permalink to this heading">¶</a></h4>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">MTSLangevinIntegrator</span></code> is similar to <code class="xref py py-class docutils literal notranslate"><span class="pre">MTSIntegrator</span></code>, but it uses
+the Langevin method to perform constant temperature dynamics.  For details on
+how to use it, consult the API documentation.</p>
+</section>
+<section id="compound-integrator">
+<h4>Compound Integrator<a class="headerlink" href="#compound-integrator" title="Permalink to this heading">¶</a></h4>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">CompoundIntegrator</span></code> class is useful for cases where you want to use
+multiple integration algorithms within a single simulation.  It allows you to
+create multiple integrators, then switch back and forth between them.  For
+details on how to use it, consult the API documentation.</p>
+</section>
+</section>
+<section id="temperature-coupling">
+<h3><span class="section-number">3.6.9. </span>Temperature Coupling<a class="headerlink" href="#temperature-coupling" title="Permalink to this heading">¶</a></h3>
+<p>If you want to run a simulation at constant temperature, using a Langevin
+integrator (as shown in the examples above) is usually the best way to do it.
+OpenMM does provide an alternative, however: you can use a Verlet integrator,
+then add an Andersen thermostat to your system to provide temperature coupling.</p>
+<p>To do this, we can add an <code class="xref py py-class docutils literal notranslate"><span class="pre">AndersenThermostat</span></code> object to the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> as shown below.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
+<span class="n">system</span> <span class="o">=</span> <span class="n">prmtop</span><span class="o">.</span><span class="n">createSystem</span><span class="p">(</span><span class="n">nonbondedMethod</span><span class="o">=</span><span class="n">PME</span><span class="p">,</span> <span class="n">nonbondedCutoff</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">nanometer</span><span class="p">,</span>
+        <span class="n">constraints</span><span class="o">=</span><span class="n">HBonds</span><span class="p">)</span>
+<span class="n">system</span><span class="o">.</span><span class="n">addForce</span><span class="p">(</span><span class="n">AndersenThermostat</span><span class="p">(</span><span class="mi">300</span><span class="o">*</span><span class="n">kelvin</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">picosecond</span><span class="p">))</span>
+<span class="n">integrator</span> <span class="o">=</span> <span class="n">VerletIntegrator</span><span class="p">(</span><span class="mf">0.002</span><span class="o">*</span><span class="n">picoseconds</span><span class="p">)</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>The two parameters of the Andersen thermostat are the temperature (300 K) and
+collision frequency (1 ps<sup>-1</sup>).</p>
+</section>
+<section id="pressure-coupling">
+<h3><span class="section-number">3.6.10. </span>Pressure Coupling<a class="headerlink" href="#pressure-coupling" title="Permalink to this heading">¶</a></h3>
+<p>All the examples so far have been constant volume simulations.  If you want to
+run at constant pressure instead, add a Monte Carlo barostat to your system.
+You do this exactly the same way you added the Andersen thermostat in the
+previous section:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
+<span class="n">system</span> <span class="o">=</span> <span class="n">prmtop</span><span class="o">.</span><span class="n">createSystem</span><span class="p">(</span><span class="n">nonbondedMethod</span><span class="o">=</span><span class="n">PME</span><span class="p">,</span> <span class="n">nonbondedCutoff</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">nanometer</span><span class="p">,</span>
+        <span class="n">constraints</span><span class="o">=</span><span class="n">HBonds</span><span class="p">)</span>
+<span class="n">system</span><span class="o">.</span><span class="n">addForce</span><span class="p">(</span><span class="n">MonteCarloBarostat</span><span class="p">(</span><span class="mi">1</span><span class="o">*</span><span class="n">bar</span><span class="p">,</span> <span class="mi">300</span><span class="o">*</span><span class="n">kelvin</span><span class="p">))</span>
+<span class="n">integrator</span> <span class="o">=</span> <span class="n">LangevinMiddleIntegrator</span><span class="p">(</span><span class="mi">300</span><span class="o">*</span><span class="n">kelvin</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">picosecond</span><span class="p">,</span> <span class="mf">0.004</span><span class="o">*</span><span class="n">picoseconds</span><span class="p">)</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>The parameters of the Monte Carlo barostat are the pressure (1 bar) and
+temperature (300 K).  The barostat assumes the simulation is being run at
+constant temperature, but it does not itself do anything to regulate the
+temperature.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>It is therefore critical that you always use it along with a Langevin integrator or
+Andersen thermostat, and that you specify the same temperature for both the barostat
+and the integrator or thermostat.  Otherwise, you will get incorrect results.</p>
+</div>
+<p>There also is an anisotropic barostat that scales each axis of the periodic box
+independently, allowing it to change shape.  When using the anisotropic
+barostat, you can specify a different pressure for each axis.  The following
+line applies a pressure of 1 bar along the X and Y axes, but a pressure of 2 bar
+along the Z axis:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">system</span><span class="o">.</span><span class="n">addForce</span><span class="p">(</span><span class="n">MonteCarloAnisotropicBarostat</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">bar</span><span class="p">,</span> <span class="mi">300</span><span class="o">*</span><span class="n">kelvin</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Another feature of the anisotropic barostat is that it can be applied to only
+certain axes of the periodic box, keeping the size of the other axes fixed.
+This is done by passing three additional parameters that specify whether the
+barostat should be applied to each axis.  The following line specifies that the
+X and Z axes of the periodic box should not be scaled, so only the Y axis can
+change size.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">system</span><span class="o">.</span><span class="n">addForce</span><span class="p">(</span><span class="n">MonteCarloAnisotropicBarostat</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">bar</span><span class="p">,</span> <span class="mi">300</span><span class="o">*</span><span class="n">kelvin</span><span class="p">,</span>
+        <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>There is a third barostat designed specifically for simulations of membranes.
+It assumes the membrane lies in the XY plane, and treats the X and Y axes of the
+box differently from the Z axis.  It also applies a uniform surface tension in
+the plane of the membrane.  The following line adds a membrane barostat that
+applies a pressure of 1 bar and a surface tension of 200 bar*nm.  It specifies
+that the X and Y axes are treated isotropically while the Z axis is free to
+change independently.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">system</span><span class="o">.</span><span class="n">addForce</span><span class="p">(</span><span class="n">MonteCarloMembraneBarostat</span><span class="p">(</span><span class="mi">1</span><span class="o">*</span><span class="n">bar</span><span class="p">,</span> <span class="mi">200</span><span class="o">*</span><span class="n">bar</span><span class="o">*</span><span class="n">nanometer</span><span class="p">,</span>
+    <span class="n">MonteCarloMembraneBarostat</span><span class="o">.</span><span class="n">XYIsotropic</span><span class="p">,</span> <span class="n">MonteCarloMembraneBarostat</span><span class="o">.</span><span class="n">ZFree</span><span class="p">,</span> <span class="mi">300</span><span class="o">*</span><span class="n">kelvin</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>See the API documentation for details about the allowed parameter values and
+their meanings.</p>
+</section>
+<section id="energy-minimization">
+<h3><span class="section-number">3.6.11. </span>Energy Minimization<a class="headerlink" href="#energy-minimization" title="Permalink to this heading">¶</a></h3>
+<p>As seen in the examples, performing a local energy minimization takes a single
+line in the script:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">simulation</span><span class="o">.</span><span class="n">minimizeEnergy</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>In most cases, that is all you need.  There are two optional parameters you can
+specify if you want further control over the minimization.  First, you can
+specify a tolerance for when the energy should be considered to have converged:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">simulation</span><span class="o">.</span><span class="n">minimizeEnergy</span><span class="p">(</span><span class="n">tolerance</span><span class="o">=</span><span class="mi">5</span><span class="o">*</span><span class="n">kilojoule</span><span class="o">/</span><span class="n">mole</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you do not specify this parameter, a default tolerance of 10 kJ/mole is used.</p>
+<p>Second, you can specify a maximum number of iterations:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">simulation</span><span class="o">.</span><span class="n">minimizeEnergy</span><span class="p">(</span><span class="n">maxIterations</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The minimizer will exit once the specified number of iterations is reached, even
+if the energy has not yet converged.  If you do not specify this parameter, the
+minimizer will continue until convergence is reached, no matter how many
+iterations it takes.</p>
+<p>These options are independent.  You can specify both if you want:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">simulation</span><span class="o">.</span><span class="n">minimizeEnergy</span><span class="p">(</span><span class="n">tolerance</span><span class="o">=</span><span class="mf">0.1</span><span class="o">*</span><span class="n">kilojoule</span><span class="o">/</span><span class="n">mole</span><span class="p">,</span> <span class="n">maxIterations</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="removing-center-of-mass-motion">
+<h3><span class="section-number">3.6.12. </span>Removing Center of Mass Motion<a class="headerlink" href="#removing-center-of-mass-motion" title="Permalink to this heading">¶</a></h3>
+<p>By default, <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> objects created with the OpenMM application tools add
+a <code class="xref py py-class docutils literal notranslate"><span class="pre">CMMotionRemover</span></code> that removes all center of mass motion at every time step so the
+system as a whole does not drift with time.  This is almost always what you
+want.  In rare situations, you may want to allow the system to drift with time.
+You can do this by specifying the <code class="code docutils literal notranslate"><span class="pre">removeCMMotion</span></code> parameter when you
+create the System:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">system</span> <span class="o">=</span> <span class="n">forcefield</span><span class="o">.</span><span class="n">createSystem</span><span class="p">(</span><span class="n">pdb</span><span class="o">.</span><span class="n">topology</span><span class="p">,</span> <span class="n">nonbondedMethod</span><span class="o">=</span><span class="n">NoCutoff</span><span class="p">,</span>
+        <span class="n">removeCMMotion</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="writing-trajectories">
+<h3><span class="section-number">3.6.13. </span>Writing Trajectories<a class="headerlink" href="#writing-trajectories" title="Permalink to this heading">¶</a></h3>
+<p>OpenMM can save simulation trajectories to disk in three formats: <a class="reference external" href="http://www.wwpdb.org/documentation/format33/v3.3.html">PDB</a>,
+<a class="reference external" href="http://mmcif.wwpdb.org">PDBx/mmCIF</a>, and <a class="reference external" href="http://www.ks.uiuc.edu/Research/vmd/plugins/molfile/dcdplugin.html">DCD</a>.  All of these are widely supported formats, so you
+should be able to read them into most analysis and visualization programs.</p>
+<p>To save a trajectory, just add a “reporter” to the simulation, as shown in the
+example scripts above:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">simulation</span><span class="o">.</span><span class="n">reporters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PDBReporter</span><span class="p">(</span><span class="s1">&#39;output.pdb&#39;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The two parameters of the <code class="xref py py-class docutils literal notranslate"><span class="pre">PDBReporter</span></code> are the output filename and how often (in
+number of time steps) output structures should be written.  To use PDBx/mmCIF or
+DCD format, just replace <code class="xref py py-class docutils literal notranslate"><span class="pre">PDBReporter</span></code> with <code class="xref py py-class docutils literal notranslate"><span class="pre">PDBxReporter</span></code> or
+<code class="xref py py-class docutils literal notranslate"><span class="pre">DCDReporter</span></code>.  The parameters represent the same values:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">simulation</span><span class="o">.</span><span class="n">reporters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">DCDReporter</span><span class="p">(</span><span class="s1">&#39;output.dcd&#39;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="recording-other-data">
+<h3><span class="section-number">3.6.14. </span>Recording Other Data<a class="headerlink" href="#recording-other-data" title="Permalink to this heading">¶</a></h3>
+<p>In addition to saving a trajectory, you may want to record other information
+over the course of a simulation, such as the potential energy or temperature.
+OpenMM provides a reporter for this purpose also.  Create a <code class="xref py py-class docutils literal notranslate"><span class="pre">StateDataReporter</span></code>
+and add it to the simulation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">simulation</span><span class="o">.</span><span class="n">reporters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">StateDataReporter</span><span class="p">(</span><span class="s1">&#39;data.csv&#39;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">kineticEnergy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">potentialEnergy</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The first two parameters are the output filename and how often (in number of
+time steps) values should be written.  The remaining arguments specify what
+values should be written at each report.  The available options are
+<code class="code docutils literal notranslate"><span class="pre">step</span></code> (the index of the current time step), <code class="code docutils literal notranslate"><span class="pre">time</span></code>,
+<code class="code docutils literal notranslate"><span class="pre">progress</span></code> (what percentage of the simulation has completed),
+<code class="code docutils literal notranslate"><span class="pre">remainingTime</span></code> (an estimate of how long it will take the simulation to
+complete), <code class="code docutils literal notranslate"><span class="pre">potentialEnergy</span></code>, <code class="code docutils literal notranslate"><span class="pre">kineticEnergy</span></code>,
+<code class="code docutils literal notranslate"><span class="pre">totalEnergy</span></code>, <code class="code docutils literal notranslate"><span class="pre">temperature</span></code>, <code class="code docutils literal notranslate"><span class="pre">volume</span></code> (the volume
+of the periodic box), <code class="code docutils literal notranslate"><span class="pre">density</span></code> (the total system mass divided by the
+volume of the periodic box), and <code class="code docutils literal notranslate"><span class="pre">speed</span></code> (an estimate of how quickly
+the simulation is running).  If you include either the <code class="code docutils literal notranslate"><span class="pre">progress</span></code> or
+<code class="code docutils literal notranslate"><span class="pre">remainingTime</span></code> option, you must also include the <code class="code docutils literal notranslate"><span class="pre">totalSteps</span></code>
+parameter to specify the total number of time steps that will be included in the
+simulation.  One line is written to the file for each report containing the
+requested values.  By default the values are written in comma-separated-value
+(CSV) format.  You can use the <code class="code docutils literal notranslate"><span class="pre">separator</span></code> parameter to choose a
+different separator.  For example, the following line will cause values to be
+separated by spaces instead of commas:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">simulation</span><span class="o">.</span><span class="n">reporters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">StateDataReporter</span><span class="p">(</span><span class="s1">&#39;data.txt&#39;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">progress</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">temperature</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">totalSteps</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="saving-simulation-progress-and-results">
+<h3><span class="section-number">3.6.15. </span>Saving Simulation Progress and Results<a class="headerlink" href="#saving-simulation-progress-and-results" title="Permalink to this heading">¶</a></h3>
+<p>There are three built-in ways to save the results of your simulation in OpenMM
+(additional methods can be written yourself or imported through other packages
+like mdtraj or parmed). If you are simply interested in saving the structure,
+you can write it out as a PDB file using <code class="code docutils literal notranslate"><span class="pre">PDBFile.writeFile()</span></code>.  You can
+see an example of this in the modeller section <a class="reference internal" href="03_model_building_editing.html#saving-the-results"><span class="std std-numref">4.6</span></a>.</p>
+<p>If you are hoping to save more information than just positions, you can use
+<code class="code docutils literal notranslate"><span class="pre">simulation.saveState()</span></code>. This will save the entire state of the
+simulation, including positions, velocities, box dimensions and much more in an
+XML file. This same file can be loaded back into OpenMM and used to continue
+the simulation. Importantly, because this file is a text file, it can be
+transfered between different platforms and different versions of OpenMM. A
+potential downside to this approach is that state files are often quite large,
+and may not fit all use cases. Here’s an example of how to use it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">simulation</span><span class="o">.</span><span class="n">saveState</span><span class="p">(</span><span class="s1">&#39;output.xml&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To load the simulation back in:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">simulation</span><span class="o">.</span><span class="n">loadState</span><span class="p">(</span><span class="s1">&#39;output.xml&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>There is a third way to save your simulation, known as a checkpoint file, which
+will save the entire simulation as a binary file. It will allow you to exactly
+continue a simulation if the need arises (though whether the simulation is
+deterministic depends on platform and methods, see
+<a class="reference internal" href="../library/04_platform_specifics.html#platform-specific-properties-determinism"><span class="std std-numref">10.4</span></a>). There are important caveats
+to this approach, however. This binary can only be used to restart simulations
+on machines with the same hardware and the same OpenMM version as the one that
+saved it. Therefore, it should only be used when it’s clear that won’t be an
+issue.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">simulation</span><span class="o">.</span><span class="n">saveCheckpoint</span><span class="p">(</span><span class="s1">&#39;state.chk&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And can be loaded back in like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">simulation</span><span class="o">.</span><span class="n">loadCheckpoint</span><span class="p">(</span><span class="s1">&#39;state.chk&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Finally, OpenMM comes with a built-in reporter for saving checkpoints, the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">CheckpointReporter</span></code>, which can be helpful in restarting simulations
+that failed unexpectedly or due to outside reasons (e.g. server crash). To save
+a checkpoint file every 5,000 steps, for example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">simulation</span><span class="o">.</span><span class="n">reporters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">CheckpointReporter</span><span class="p">(</span><span class="s1">&#39;checkpnt.chk&#39;</span><span class="p">,</span> <span class="mi">5000</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Note that the checkpoint reporter will overwrite the last checkpoint file.</p>
+</section>
+<section id="enhanced-sampling-methods">
+<h3><span class="section-number">3.6.16. </span>Enhanced Sampling Methods<a class="headerlink" href="#enhanced-sampling-methods" title="Permalink to this heading">¶</a></h3>
+<p>In many situations, the goal of a simulation is to sample the range of configurations
+accessible to a system.  It does not matter whether the simulation represents a
+single, physically realistic trajectory, only whether it produces a correct distribution
+of states.  In this case, a variety of methods can be used to sample configuration
+space much more quickly and efficiently than a single physical trajectory would.
+These are known as enhanced sampling methods.  OpenMM offers several that you
+can choose from.  They are briefly described here.  Consult the API documentation
+for more detailed descriptions and example code.</p>
+<section id="simulated-tempering">
+<h4>Simulated Tempering<a class="headerlink" href="#simulated-tempering" title="Permalink to this heading">¶</a></h4>
+<p>Simulated tempering<span id="id74">[<a class="reference internal" href="../zbibliography.html#id33" title="E Marinari and G Parisi. Simulated tempering: a new monte carlo scheme. Europhysics Letters (EPL), 19(6):451–458, 1992. doi:10.1209/0295-5075/19/6/002.">34</a>]</span> involves making frequent changes to the
+temperature of a simulation.  At high temperatures, it can quickly cross energy barriers
+and explore a wide range of configurations.  At lower temperatures, it more thoroughly
+explores each local region of configuration space.  This is a powerful method to
+speed up sampling when you do not know in advance what motions you want to sample.
+Simply specify the range of temperatures to simulate and the algorithm handles
+everything for you mostly automatically.</p>
+</section>
+<section id="metadynamics">
+<h4>Metadynamics<a class="headerlink" href="#metadynamics" title="Permalink to this heading">¶</a></h4>
+<p>Metadynamics<span id="id75">[<a class="reference internal" href="../zbibliography.html#id5" title="Alessandro Barducci, Giovanni Bussi, and Michele Parrinello. Well-tempered metadynamics: a smoothly converging and tunable free-energy method. Physical Review Letters, 100:020603, 2008. doi:10.1103/PhysRevLett.100.020603.">35</a>]</span> is used when you do know in advance what
+motions you want to sample.  You specify one or more collective variables, and the
+algorithm adds a biasing potential to make the simulation explore a wide range of
+values for those variables.  It does this by periodically adding “bumps” to the biasing
+potential at the current values of the collective variables.  This encourages the simulation
+to move away from regions it has already explored and sample a wide range of values.
+At the end of the simulation, the biasing potential can be used to calculate the
+free energy of the system as a function of the collective variables.</p>
+</section>
+<section id="accelerated-molecular-dynamics-amd">
+<h4>Accelerated Molecular Dynamics (aMD)<a class="headerlink" href="#accelerated-molecular-dynamics-amd" title="Permalink to this heading">¶</a></h4>
+<p>aMD<span id="id76">[<a class="reference internal" href="../zbibliography.html#id16" title="Donald Hamelberg, Cesar Augusto F. de Oliveira, and J. Andrew McCammon. Sampling of slow diffusive conformational transitions with accelerated molecular dynamics. Journal of Chemical Physics, 127(15):155102, 2007.">36</a>]</span> is another method that can be used when you do not know in
+advance what motions you want to accelerate.  It alters the potential energy surface
+by adding a “boost” potential whenever the potential energy is below a threshold.
+This makes local minima shallower and allows more frequent transitions between them.
+The boost can be applied to the total potential energy, to just a subset of interactions
+(typically the dihedral torsions), or both.  There are separate integrator classes
+for each of these options: <code class="xref py py-class docutils literal notranslate"><span class="pre">AMDIntegrator</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">AMDForceGroupIntegrator</span></code>,
+and <code class="xref py py-class docutils literal notranslate"><span class="pre">DualAMDIntegrator</span></code>.</p>
+</section>
+</section>
+</section>
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="01_getting_started.html" title="Previous document"><span class="section-number">2. </span>Getting Started</a>
+        </li>
+        <li>
+          <a href="03_model_building_editing.html" title="Next document"><span class="section-number">4. </span>Model Building and Editing</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM User Guide</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+<script>
+function report(value) {
+    newlink = "http://docs.openmm.org/"+value+"/api-python/";
+    location.href = newlink;
+}
+</script>
+<div class="extra-nav-links">
+These docs are for <a href="https://github.com/openmm/openmm/tree/c2d2539933259d85365b465b39e6c3113559e016">OpenMM version = 8.0.0.dev-c2d2539</a>
+</div>
+<div class="extra-nav-links">
+You can change to a different version:
+<select name="version" id="version_selector" onchange="report(this.value)">
+    <options selected disabled>version</option>
+    <option>development</option>
+    <option>latest</option>
+    <option>7.7.0</option>
+    <option>7.6.0</option>
+    <option>7.5.0</option>
+    <option>7.4.0</option>
+    <option>7.3.0</option>
+    <option>7.2.0</option>
+    <option>7.1.0</option>
+</select>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">1. Introduction</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../application.html">Part I: The OpenMM Application Layer</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_getting_started.html">2. Getting Started</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3. Running Simulations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#a-first-example">3.1. A First Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-amber-files">3.2. Using AMBER Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-gromacs-files">3.3. Using Gromacs Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-charmm-files">3.4. Using CHARMM Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-openmm-setup-application">3.5. The OpenMM-Setup Application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#simulation-parameters">3.6. Simulation Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="03_model_building_editing.html">4. Model Building and Editing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_advanced_sim_examples.html">5. Advanced Simulation Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_creating_ffs.html">6. Creating Force Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../library.html">Part II: The OpenMM Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theory.html">Part III: The Theory Behind OpenMM</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../zbibliography.html">22. Bibliography</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../developerguide/">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../api-python/">
+                Python API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../api-c++/">
+                C++ API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2008-2017, Stanford University.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.1.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../_sources/application/02_running_sims.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

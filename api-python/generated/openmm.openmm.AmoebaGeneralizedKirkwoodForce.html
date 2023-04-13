@@ -1,0 +1,452 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>AmoebaGeneralizedKirkwoodForce &#8212; OpenMM Python API c2d2539933259d85365b465b39e6c3113559e016 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="AmoebaMultipoleForce" href="openmm.openmm.AmoebaMultipoleForce.html" />
+    <link rel="prev" title="State" href="openmm.openmm.State.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="amoebageneralizedkirkwoodforce">
+<h1>AmoebaGeneralizedKirkwoodForce<a class="headerlink" href="#amoebageneralizedkirkwoodforce" title="Permalink to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="openmm.openmm.AmoebaGeneralizedKirkwoodForce">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openmm.openmm.</span></span><span class="sig-name descname"><span class="pre">AmoebaGeneralizedKirkwoodForce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class implements an implicit solvation force using the generalized Kirkwood/Grycuk model.</p>
+<p>To use this class, create an AmoebaGeneralizedKirkwoodForce object, then call addParticle() once for each particle in the System to define its parameters. The number of particles for which you define parameters must be equal to the number of particles in the System, or else an exception will be thrown when you try to create a Context. After a particle has been added, you can modify its force field parameters by calling setParticleParameters(). This will have no effect on Contexts that already exist unless you call updateParametersInContext().</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.AmoebaGeneralizedKirkwoodForce.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce" title="openmm.openmm.AmoebaGeneralizedKirkwoodForce"><span class="pre">AmoebaGeneralizedKirkwoodForce</span></a></span></span><a class="headerlink" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.__init__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce" title="openmm.openmm.AmoebaGeneralizedKirkwoodForce"><span class="pre">AmoebaGeneralizedKirkwoodForce</span></a></span></span></dt>
+<dd><p>This class implements an implicit solvation force using the generalized Kirkwood/Grycuk model.</p>
+<p>To use this class, create an AmoebaGeneralizedKirkwoodForce object, then call addParticle() once for each particle in the System to define its parameters. The number of particles for which you define parameters must be equal to the number of particles in the System, or else an exception will be thrown when you try to create a Context. After a particle has been added, you can modify its force field parameters by calling setParticleParameters(). This will have no effect on Contexts that already exist unless you call updateParametersInContext().</p>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.__init__" title="openmm.openmm.AmoebaGeneralizedKirkwoodForce.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(-&gt; AmoebaGeneralizedKirkwoodForce)</p></td>
+<td><p>This class implements an implicit solvation force using the generalized Kirkwood/Grycuk model.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.addParticle" title="openmm.openmm.AmoebaGeneralizedKirkwoodForce.addParticle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">addParticle</span></code></a>(self, charge, radius, scalingFactor)</p></td>
+<td><p>Add the parameters for a particle.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.getForceGroup" title="openmm.openmm.AmoebaGeneralizedKirkwoodForce.getForceGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getForceGroup</span></code></a>(self)</p></td>
+<td><p>Get the force group this Force belongs to.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.getIncludeCavityTerm" title="openmm.openmm.AmoebaGeneralizedKirkwoodForce.getIncludeCavityTerm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getIncludeCavityTerm</span></code></a>(self)</p></td>
+<td><p>Get the flag signaling whether the cavity term should be included</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.getName" title="openmm.openmm.AmoebaGeneralizedKirkwoodForce.getName"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getName</span></code></a>(self)</p></td>
+<td><p>Get the name of this Force.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.getNumParticles" title="openmm.openmm.AmoebaGeneralizedKirkwoodForce.getNumParticles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getNumParticles</span></code></a>(self)</p></td>
+<td><p>Get the number of particles in the system.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.getParticleParameters" title="openmm.openmm.AmoebaGeneralizedKirkwoodForce.getParticleParameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParticleParameters</span></code></a>(self, index)</p></td>
+<td><p>Get the force field parameters for a particle.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.getProbeRadius" title="openmm.openmm.AmoebaGeneralizedKirkwoodForce.getProbeRadius"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getProbeRadius</span></code></a>(self)</p></td>
+<td><p>Get the probe radius (nm) used in SASA contribution</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.getSoluteDielectric" title="openmm.openmm.AmoebaGeneralizedKirkwoodForce.getSoluteDielectric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getSoluteDielectric</span></code></a>(self)</p></td>
+<td><p>Get the dielectric constant for the solute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.getSolventDielectric" title="openmm.openmm.AmoebaGeneralizedKirkwoodForce.getSolventDielectric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getSolventDielectric</span></code></a>(self)</p></td>
+<td><p>Get the dielectric constant for the solvent.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.getSurfaceAreaFactor" title="openmm.openmm.AmoebaGeneralizedKirkwoodForce.getSurfaceAreaFactor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getSurfaceAreaFactor</span></code></a>(self)</p></td>
+<td><p>Get the surface area factor kJ/(nm*nm) used in SASA contribution</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.setForceGroup" title="openmm.openmm.AmoebaGeneralizedKirkwoodForce.setForceGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setForceGroup</span></code></a>(self, group)</p></td>
+<td><p>Set the force group this Force belongs to.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.setIncludeCavityTerm" title="openmm.openmm.AmoebaGeneralizedKirkwoodForce.setIncludeCavityTerm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setIncludeCavityTerm</span></code></a>(self, includeCavityTerm)</p></td>
+<td><p>Set the flag signaling whether the cavity term should be included</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.setName" title="openmm.openmm.AmoebaGeneralizedKirkwoodForce.setName"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setName</span></code></a>(self, name)</p></td>
+<td><p>Set the name of this Force.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.setParticleParameters" title="openmm.openmm.AmoebaGeneralizedKirkwoodForce.setParticleParameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParticleParameters</span></code></a>(self, index, charge, ...)</p></td>
+<td><p>Set the force field parameters for a particle.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.setProbeRadius" title="openmm.openmm.AmoebaGeneralizedKirkwoodForce.setProbeRadius"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setProbeRadius</span></code></a>(self, probeRadius)</p></td>
+<td><p>Set the probe radius (nm) used in SASA contribution</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.setSoluteDielectric" title="openmm.openmm.AmoebaGeneralizedKirkwoodForce.setSoluteDielectric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSoluteDielectric</span></code></a>(self, dielectric)</p></td>
+<td><p>Set the dielectric constant for the solute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.setSolventDielectric" title="openmm.openmm.AmoebaGeneralizedKirkwoodForce.setSolventDielectric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSolventDielectric</span></code></a>(self, dielectric)</p></td>
+<td><p>Set the dielectric constant for the solvent.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.setSurfaceAreaFactor" title="openmm.openmm.AmoebaGeneralizedKirkwoodForce.setSurfaceAreaFactor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSurfaceAreaFactor</span></code></a>(self, surfaceAreaFactor)</p></td>
+<td><p>Set the surface area factor kJ/(nm*nm) used in SASA contribution</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.updateParametersInContext" title="openmm.openmm.AmoebaGeneralizedKirkwoodForce.updateParametersInContext"><code class="xref py py-obj docutils literal notranslate"><span class="pre">updateParametersInContext</span></code></a>(self, context)</p></td>
+<td><p>Update the per-particle parameters in a Context to match those stored in this Force object.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.usesPeriodicBoundaryConditions" title="openmm.openmm.AmoebaGeneralizedKirkwoodForce.usesPeriodicBoundaryConditions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">usesPeriodicBoundaryConditions</span></code></a>(self)</p></td>
+<td><p>Returns whether or not this force makes use of periodic boundary conditions.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.thisown" title="openmm.openmm.AmoebaGeneralizedKirkwoodForce.thisown"><code class="xref py py-obj docutils literal notranslate"><span class="pre">thisown</span></code></a></p></td>
+<td><p>The membership flag</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py property">
+<dt class="sig sig-object py" id="openmm.openmm.AmoebaGeneralizedKirkwoodForce.thisown">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">thisown</span></span><a class="headerlink" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.thisown" title="Permalink to this definition">¶</a></dt>
+<dd><p>The membership flag</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.AmoebaGeneralizedKirkwoodForce.getNumParticles">
+<span class="sig-name descname"><span class="pre">getNumParticles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.getNumParticles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the number of particles in the system.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.AmoebaGeneralizedKirkwoodForce.addParticle">
+<span class="sig-name descname"><span class="pre">addParticle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scalingFactor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.addParticle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the parameters for a particle. This should be called once for each particle in the System. When it is called for the i’th time, it specifies the parameters for the i’th particle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>charge</strong> (<em>double</em>) – the charge of the particle, measured in units of the proton charge</p></li>
+<li><p><strong>radius</strong> (<em>double</em>) – the atomic radius of the particle, measured in nm</p></li>
+<li><p><strong>scalingFactor</strong> (<em>double</em>) – the scaling factor for the particle</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the index of the particle that was added</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.AmoebaGeneralizedKirkwoodForce.getParticleParameters">
+<span class="sig-name descname"><span class="pre">getParticleParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.getParticleParameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the force field parameters for a particle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – the index of the particle for which to get parameters</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>charge</strong> (<em>double</em>) – the charge of the particle, measured in units of the proton charge</p></li>
+<li><p><strong>radius</strong> (<em>double</em>) – the atomic radius of the particle, measured in nm</p></li>
+<li><p><strong>scalingFactor</strong> (<em>double</em>) – the scaling factor for the particle</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.AmoebaGeneralizedKirkwoodForce.setParticleParameters">
+<span class="sig-name descname"><span class="pre">setParticleParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scalingFactor</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.setParticleParameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the force field parameters for a particle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – the index of the particle for which to set parameters</p></li>
+<li><p><strong>charge</strong> (<em>double</em>) – the charge of the particle, measured in units of the proton charge</p></li>
+<li><p><strong>radius</strong> (<em>double</em>) – the atomic radius of the particle, measured in nm</p></li>
+<li><p><strong>scalingFactor</strong> (<em>double</em>) – the scaling factor for the particle</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.AmoebaGeneralizedKirkwoodForce.getSolventDielectric">
+<span class="sig-name descname"><span class="pre">getSolventDielectric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">double</span></span></span><a class="headerlink" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.getSolventDielectric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the dielectric constant for the solvent.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.AmoebaGeneralizedKirkwoodForce.setSolventDielectric">
+<span class="sig-name descname"><span class="pre">setSolventDielectric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dielectric</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.setSolventDielectric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the dielectric constant for the solvent.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.AmoebaGeneralizedKirkwoodForce.getSoluteDielectric">
+<span class="sig-name descname"><span class="pre">getSoluteDielectric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">double</span></span></span><a class="headerlink" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.getSoluteDielectric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the dielectric constant for the solute.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.AmoebaGeneralizedKirkwoodForce.setSoluteDielectric">
+<span class="sig-name descname"><span class="pre">setSoluteDielectric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dielectric</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.setSoluteDielectric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the dielectric constant for the solute.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.AmoebaGeneralizedKirkwoodForce.getIncludeCavityTerm">
+<span class="sig-name descname"><span class="pre">getIncludeCavityTerm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.getIncludeCavityTerm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the flag signaling whether the cavity term should be included</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.AmoebaGeneralizedKirkwoodForce.setIncludeCavityTerm">
+<span class="sig-name descname"><span class="pre">setIncludeCavityTerm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">includeCavityTerm</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.setIncludeCavityTerm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the flag signaling whether the cavity term should be included</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.AmoebaGeneralizedKirkwoodForce.getProbeRadius">
+<span class="sig-name descname"><span class="pre">getProbeRadius</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">double</span></span></span><a class="headerlink" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.getProbeRadius" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the probe radius (nm) used in SASA contribution</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.AmoebaGeneralizedKirkwoodForce.setProbeRadius">
+<span class="sig-name descname"><span class="pre">setProbeRadius</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probeRadius</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.setProbeRadius" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the probe radius (nm) used in SASA contribution</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.AmoebaGeneralizedKirkwoodForce.getSurfaceAreaFactor">
+<span class="sig-name descname"><span class="pre">getSurfaceAreaFactor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">double</span></span></span><a class="headerlink" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.getSurfaceAreaFactor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the surface area factor kJ/(nm*nm) used in SASA contribution</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.AmoebaGeneralizedKirkwoodForce.setSurfaceAreaFactor">
+<span class="sig-name descname"><span class="pre">setSurfaceAreaFactor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surfaceAreaFactor</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.setSurfaceAreaFactor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the surface area factor kJ/(nm*nm) used in SASA contribution</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.AmoebaGeneralizedKirkwoodForce.updateParametersInContext">
+<span class="sig-name descname"><span class="pre">updateParametersInContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.updateParametersInContext" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the per-particle parameters in a Context to match those stored in this Force object. This method provides an efficient method to update certain parameters in an existing Context without needing to reinitialize it. Simply call setParticleParameters() to modify this object’s parameters, then call updateParametersInContext() to copy them over to the Context.</p>
+<p>The only information this method updates is the values of per-particle parameters. All other aspects of the Force (the probe radius, the surface area factor, etc.) are unaffected and can only be changed by reinitializing the Context.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.AmoebaGeneralizedKirkwoodForce.usesPeriodicBoundaryConditions">
+<span class="sig-name descname"><span class="pre">usesPeriodicBoundaryConditions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.usesPeriodicBoundaryConditions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether or not this force makes use of periodic boundary conditions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>true if nonbondedMethod uses PBC and false otherwise</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.AmoebaGeneralizedKirkwoodForce.getForceGroup">
+<span class="sig-name descname"><span class="pre">getForceGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.getForceGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the force group this Force belongs to.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.AmoebaGeneralizedKirkwoodForce.getName">
+<span class="sig-name descname"><span class="pre">getName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">std::string</span> <span class="pre">const</span> <span class="pre">&amp;</span></span></span><a class="headerlink" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.getName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the name of this Force. This is an arbitrary, user modifiable identifier. By default it equals the class name, but you can change it to anything useful.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.AmoebaGeneralizedKirkwoodForce.setForceGroup">
+<span class="sig-name descname"><span class="pre">setForceGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.setForceGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the force group this Force belongs to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>group</strong> (<em>int</em>) – the group index. Legal values are between 0 and 31 (inclusive).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.AmoebaGeneralizedKirkwoodForce.setName">
+<span class="sig-name descname"><span class="pre">setName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openmm.openmm.AmoebaGeneralizedKirkwoodForce.setName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the name of this Force. This is an arbitrary, user modifiable identifier. By default it equals the class name, but you can change it to anything useful.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="openmm.openmm.State.html" title="Previous document">State</a>
+        </li>
+        <li>
+          <a href="openmm.openmm.AmoebaMultipoleForce.html" title="Next document">AmoebaMultipoleForce</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM Python API</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+<script>
+function report(value) {
+    newlink = "http://docs.openmm.org/"+value+"/api-python/";
+    location.href = newlink;
+}
+</script>
+<div class="extra-nav-links">
+These docs are for <a href="https://github.com/openmm/openmm/tree/c2d2539933259d85365b465b39e6c3113559e016">OpenMM version = 8.0.0.dev-c2d2539</a>
+</div>
+<div class="extra-nav-links">
+You can change to a different version:
+<select name="version" id="version_selector" onchange="report(this.value)">
+    <options selected disabled>version</option>
+    <option>development</option>
+    <option>latest</option>
+    <option>7.7.0</option>
+    <option>7.6.0</option>
+    <option>7.5.0</option>
+    <option>7.4.0</option>
+    <option>7.3.0</option>
+    <option>7.2.0</option>
+    <option>7.1.0</option>
+</select>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../app.html">Application Layer</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../library.html">Library Layer</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../library.html#core-objects">Core Objects</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../library.html#forces">Forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../library.html#integrators">Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../library.html#extras">Extras</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../userguide/">
+                User's Manual
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../developerguide/">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../api-c++/">
+                C++ API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Stanford University and the Authors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.1.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../_sources/generated/openmm.openmm.AmoebaGeneralizedKirkwoodForce.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
