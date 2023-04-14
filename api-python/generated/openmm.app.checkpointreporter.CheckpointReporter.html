@@ -184,29 +184,40 @@ energies respectively.</p>
 
 
 <script>
-function report(value) {
-    newlink = "http://docs.openmm.org/"+value+"/api-python/";
-    location.href = newlink;
-}
+    function switchVersion(value) {
+        newlink = value + "api-python"
+        location.href = newlink;
+    }
 </script>
+
 <div class="extra-nav-links">
-These docs are for <a href="https://github.com/openmm/openmm/tree/c2d2539933259d85365b465b39e6c3113559e016">OpenMM version = 8.0.0.dev-c2d2539</a>
+These docs are for <a href="https://github.com/openmm/openmm/tree/c2d2539933259d85365b465b39e6c3113559e016">OpenMM version 8.0.0.dev-c2d2539</a>
 </div>
 <div class="extra-nav-links">
 You can change to a different version:
-<select name="version" id="version_selector" onchange="report(this.value)">
-    <option selected disabled>version</option>
-    <option>development</option>
-    <option>latest</option>
-    <option>7.7.0</option>
-    <option>7.6.0</option>
-    <option>7.5.0</option>
-    <option>7.4.0</option>
-    <option>7.3.0</option>
-    <option>7.2.0</option>
-    <option>7.1.0</option>
+<select name="version" id="version_selector" onchange="switchVersion(this.value)">
+    <option selected disabled>8.0.0.dev-c2d2539</option>
 </select>
 </div>
+
+<script>
+var selector = document.getElementById("version_selector");
+// TODO: move hardcoded url to conf.py
+fetch("https://sef43.github.io/openmm_docs/versions.json")
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      data.forEach((entry) => {
+        version=entry.version
+        url=entry.url
+        var option = document.createElement("option");
+        option.value = url
+        option.text = version
+        selector.appendChild(option);
+      })
+    })
+</script>
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
