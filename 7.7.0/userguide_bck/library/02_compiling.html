@@ -1,0 +1,558 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>8. Compiling OpenMM from Source Code &#8212; OpenMM User Guide 7.7 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="9. OpenMM Tutorials" href="03_tutorials.html" />
+    <link rel="prev" title="7. Introduction" href="01_introduction.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="compiling-openmm-from-source-code">
+<span id="id1"></span><h1><span class="section-number">8. </span>Compiling OpenMM from Source Code<a class="headerlink" href="02_compiling.html#compiling-openmm-from-source-code" title="Permalink to this headline">¶</a></h1>
+<p>This chapter describes the procedure for building and installing OpenMM from
+source code.  In most cases, it is best to use the pre-built versions installed
+with conda.  Sometimes you might need to build from source, though, such as if
+you want to modify OpenMM, or if conda does not provide packages compatible with
+your environment.</p>
+<p>We first describe how to build on Linux or Mac.  We then describe how to build
+on Windows, where the process is slightly different.</p>
+<section id="compiling-on-linux-and-mac">
+<span id="compiling-openmm-from-source-linux"></span><h2><span class="section-number">8.1. </span>Compiling on Linux and Mac<a class="headerlink" href="02_compiling.html#compiling-on-linux-and-mac" title="Permalink to this headline">¶</a></h2>
+<section id="prerequisites">
+<h3><span class="section-number">8.1.1. </span>Prerequisites<a class="headerlink" href="02_compiling.html#prerequisites" title="Permalink to this headline">¶</a></h3>
+<p>Before building OpenMM from source, you will need certain tools.</p>
+<section id="c-compiler">
+<h4>C++ compiler<a class="headerlink" href="02_compiling.html#c-compiler" title="Permalink to this headline">¶</a></h4>
+<p>You must have a C++ compiler installed before attempting to build OpenMM from
+source.  All recent versions of clang or gcc should work correctly.  On Linux,
+you can install the compiler with your system’s standard package manager (such
+as apt or yum).  On MacOS, you can get a C++ compiler by installing the Xcode
+developer tools from the App Store.  Alternatively you can use a package manager
+such as Homebrew to install clang or gcc.</p>
+</section>
+<section id="python">
+<h4>Python<a class="headerlink" href="02_compiling.html#python" title="Permalink to this headline">¶</a></h4>
+<p>You will need a 64-bit Python 3.x environment.  We recommend using Miniconda
+(<a class="reference external" href="https://docs.conda.io/en/latest/miniconda.html">https://docs.conda.io/en/latest/miniconda.html</a>), which includes the conda
+package manager.</p>
+</section>
+<section id="openmm-source-code">
+<h4>OpenMM Source Code<a class="headerlink" href="02_compiling.html#openmm-source-code" title="Permalink to this headline">¶</a></h4>
+<p>You will also need the OpenMM source code.  To download it:</p>
+<ol class="arabic simple">
+<li><p>Browse to <a class="reference external" href="https://github.com/openmm/openmm/releases">https://github.com/openmm/openmm/releases</a>.</p></li>
+<li><p>Find the latest release and click the link to download the source as either
+a .zip or .tar.gz file.</p></li>
+<li><p>Unpack the file.  Note the location where you unpacked the OpenMM source code.</p></li>
+</ol>
+<p>Alternatively, if you want the most recent development version of the code rather
+than the version corresponding to a particular release, you can get it from
+<a class="reference external" href="https://github.com/openmm/openmm">https://github.com/openmm/openmm</a>.  Be aware that the development code is constantly
+changing, may contain bugs, and should never be used for production work.  If
+you want a stable, well tested version of OpenMM, you should download the source
+code for the latest release as described above.</p>
+</section>
+<section id="cuda-or-opencl-support">
+<h4>CUDA or OpenCL Support<a class="headerlink" href="02_compiling.html#cuda-or-opencl-support" title="Permalink to this headline">¶</a></h4>
+<p>If you want to compile OpenMM with support for running on GPUs, you will need
+CUDA and/or OpenCL.  MacOS comes with OpenCL built in, so nothing else needs to
+be installed.  For Linux, you need an appropriate SDK.</p>
+<p>The easiest way is to install the most recent CUDA Toolkit from <a class="reference external" href="https://developer.nvidia.com/cuda-downloads">https://developer.nvidia.com/cuda-downloads</a>.
+It includes the headers and libraries needed to compile both CUDA and OpenCL
+applications.  In addition, it has runtime libraries that are needed for running
+CUDA applications.  The runtime components for OpenCL applications are included
+with the GPU drivers from NVIDIA, AMD, and Intel, so make sure you have an
+up-to-date driver.</p>
+</section>
+<section id="other-required-software">
+<h4>Other Required Software<a class="headerlink" href="02_compiling.html#other-required-software" title="Permalink to this headline">¶</a></h4>
+<p>Several other tools are required to build OpenMM.  The easiest way to install
+them is with conda.  The following command will install everything needed to
+build OpenMM.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span> <span class="n">cmake</span> <span class="n">make</span> <span class="n">cython</span> <span class="n">swig</span> <span class="n">fftw</span> <span class="n">doxygen</span> <span class="n">numpy</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="step-1-configure-with-cmake">
+<h3><span class="section-number">8.1.2. </span>Step 1: Configure with CMake<a class="headerlink" href="02_compiling.html#step-1-configure-with-cmake" title="Permalink to this headline">¶</a></h3>
+<p>First, create a directory in which to build OpenMM.  Starting from the root
+level of the OpenMM source tree (the directory containing the top CMakeLists.txt
+file), execute the following commands:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>mkdir build
+cd build
+ccmake ..
+</pre></div>
+</div>
+<p>That is not a typo.  <code class="code docutils literal notranslate"><span class="pre">ccmake</span></code> has two c’s.  CCMake is the visual CMake
+configuration tool.  Press <code class="code docutils literal notranslate"><span class="pre">c</span></code> within the CCMake interface to load the
+OpenMM build scripts and begin configuring CMake.</p>
+<p>There are several variables that can be adjusted in the CMake interface:</p>
+<ul class="simple">
+<li><p>Set the variable CMAKE_INSTALL_PREFIX to the location where you want to
+install OpenMM. If you are using conda environments this variable should point to
+the full path of the root directory of your environment.</p></li>
+<li><p>Set the variable PYTHON_EXECUTABLE to the Python interpreter you plan to use
+OpenMM with.  Usually this will be detected automatically.</p></li>
+<li><p>There are lots of options starting with OPENMM_BUILD that control
+whether to build particular features of OpenMM, such as plugins, API wrappers,
+and documentation.</p></li>
+<li><p>Usually the OpenCL library and headers will be detected automatically.  If for
+any reason CMake is unable to find them, set OPENCL_INCLUDE_DIR to point to
+the directory containing the headers (usually /usr/local/cuda/include on Linux)
+and OPENCL_LIBRARY to point to the library (usually /usr/local/cuda/lib64/libOpenCL.so
+on Linux).</p></li>
+</ul>
+<p>Configure (press “c”) again.  Adjust any variables that cause an error.</p>
+<p>Continue to configure (press “c”) until no starred CMake variables are
+displayed, then press “g” to generate the makefiles for building the project.</p>
+</section>
+<section id="step-2-build">
+<h3><span class="section-number">8.1.3. </span>Step 2: Build<a class="headerlink" href="02_compiling.html#step-2-build" title="Permalink to this headline">¶</a></h3>
+<p>Build OpenMM with the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span>
+</pre></div>
+</div>
+</section>
+<section id="step-3-test-your-build">
+<span id="test-your-build"></span><h3><span class="section-number">8.1.4. </span>Step 3: Test your build<a class="headerlink" href="02_compiling.html#step-3-test-your-build" title="Permalink to this headline">¶</a></h3>
+<p>This step is optional but recommended. Tests can take up to several minutes depending on your
+hardware configuration.</p>
+<p>It is recommended that you make sure your local build of OpenMM works before trying
+to install.</p>
+<p>After OpenMM has been built, you should run the unit tests to make sure it
+works.  Enter the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">test</span>
+</pre></div>
+</div>
+<p>You should see a series of test results like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>      Start   1: TestReferenceAndersenThermostat
+1/317 Test   #1: TestReferenceAndersenThermostat .............. Passed  0.26 sec
+      Start   2: TestReferenceBrownianIntegrator
+2/317 Test   #2: TestReferenceBrownianIntegrator .............. Passed  0.13 sec
+      Start   3: TestReferenceCheckpoints
+3/317 Test   #3: TestReferenceCheckpoints ..................... Passed  0.02 sec
+... &lt;many other tests&gt; ...
+</pre></div>
+</div>
+<p><code class="code docutils literal notranslate"><span class="pre">Passed</span></code> is good.  <code class="code docutils literal notranslate"><span class="pre">FAILED</span></code> is bad.  If any tests fail, you
+can run them individually to get more detailed error information.  For example,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">TestReferenceLangevinIntegrator</span>
+</pre></div>
+</div>
+<p>Note that some tests are stochastic, and therefore are expected to fail a small
+fraction of the time.  These tests will say so in the error message:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>exception: Assertion failure at TestReferenceLangevinIntegrator.cpp:129.  Expected 9.97741,
+    found 10.7884 (This test is stochastic and may occasionally fail)
+</pre></div>
+</div>
+<p>If you get an error message such as <code class="code docutils literal notranslate"><span class="pre">exception:</span> <span class="pre">Error</span> <span class="pre">launching</span> <span class="pre">CUDA</span> <span class="pre">compiler:</span> <span class="pre">32512</span></code> you need
+to specify the path to the CUDA compiler (nvcc) using the <code class="code docutils literal notranslate"><span class="pre">OPENMM_CUDA_COMPILER</span></code> environment
+variable, for example using something like the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">OPENMM_CUDA_COMPILER</span><span class="o">=/&lt;</span><span class="n">path_to_custom_cuda_dir</span><span class="o">&gt;/</span><span class="n">nvcc</span>
+</pre></div>
+</div>
+</section>
+<section id="step-3-install">
+<h3><span class="section-number">8.1.5. </span>Step 3: Install<a class="headerlink" href="02_compiling.html#step-3-install" title="Permalink to this headline">¶</a></h3>
+<p>Install your local build of OpenMM using the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">install</span>
+</pre></div>
+</div>
+<p>If you are installing to a system directory, such as /usr/local/openmm/, you will
+need admin capabilities to install, in this case use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">make</span> <span class="n">install</span>
+</pre></div>
+</div>
+</section>
+<section id="step-3-install-the-python-api">
+<h3><span class="section-number">8.1.6. </span>Step 3: Install the Python API<a class="headerlink" href="02_compiling.html#step-3-install-the-python-api" title="Permalink to this headline">¶</a></h3>
+<p>Build and install the Python API with the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">PythonInstall</span>
+</pre></div>
+</div>
+<p>If you are installing into the system Python, such as /usr/bin/python, you will
+need to type:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">make</span> <span class="n">PythonInstall</span>
+</pre></div>
+</div>
+<p>You can test the Python API installation using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">openmm</span><span class="o">.</span><span class="n">testInstallation</span>
+</pre></div>
+</div>
+<p>Congratulations! You have successfully built and installed OpenMM from source.</p>
+</section>
+</section>
+<section id="compiling-on-windows">
+<h2><span class="section-number">8.2. </span>Compiling on Windows<a class="headerlink" href="02_compiling.html#compiling-on-windows" title="Permalink to this headline">¶</a></h2>
+<section id="id2">
+<h3><span class="section-number">8.2.1. </span>Prerequisites<a class="headerlink" href="02_compiling.html#id2" title="Permalink to this headline">¶</a></h3>
+<p>Before building OpenMM from source, you will need certain tools.</p>
+<section id="id3">
+<h4>C++ compiler<a class="headerlink" href="02_compiling.html#id3" title="Permalink to this headline">¶</a></h4>
+<p>On Windows systems, use the C++ compiler in Visual Studio 2015 or later.  You
+can download a free version of Visual Studio from <a class="reference external" href="https://visualstudio.microsoft.com">https://visualstudio.microsoft.com</a>.</p>
+</section>
+<section id="id4">
+<h4>Python<a class="headerlink" href="02_compiling.html#id4" title="Permalink to this headline">¶</a></h4>
+<p>You will need a 64-bit Python 3.x environment.  We recommend using Miniconda
+(<a class="reference external" href="https://docs.conda.io/en/latest/miniconda.html">https://docs.conda.io/en/latest/miniconda.html</a>), which includes the conda
+package manager.</p>
+</section>
+<section id="cmake">
+<h4>CMake<a class="headerlink" href="02_compiling.html#cmake" title="Permalink to this headline">¶</a></h4>
+<p>CMake is the build system used for OpenMM.  You must install CMake version 3.17
+or higher before attempting to build OpenMM from source.  You can get CMake from
+<a class="reference external" href="http://www.cmake.org/">http://www.cmake.org/</a>.</p>
+</section>
+<section id="id5">
+<h4>OpenMM Source Code<a class="headerlink" href="02_compiling.html#id5" title="Permalink to this headline">¶</a></h4>
+<p>You will also need the OpenMM source code.  To download it:</p>
+<ol class="arabic simple">
+<li><p>Browse to <a class="reference external" href="https://github.com/openmm/openmm/releases">https://github.com/openmm/openmm/releases</a>.</p></li>
+<li><p>Find the latest release and click the link to download the source as either
+a .zip or .tar.gz file.</p></li>
+<li><p>Unpack the file.  Note the location where you unpacked the OpenMM source code.</p></li>
+</ol>
+<p>Alternatively, if you want the most recent development version of the code rather
+than the version corresponding to a particular release, you can get it from
+<a class="reference external" href="https://github.com/openmm/openmm">https://github.com/openmm/openmm</a>.  Be aware that the development code is constantly
+changing, may contain bugs, and should never be used for production work.  If
+you want a stable, well tested version of OpenMM, you should download the source
+code for the latest release as described above.</p>
+</section>
+<section id="id6">
+<h4>CUDA or OpenCL Support<a class="headerlink" href="02_compiling.html#id6" title="Permalink to this headline">¶</a></h4>
+<p>If you want to compile OpenMM with support for running on GPUs, you will need
+CUDA and/or OpenCL.  Install the most recent CUDA Toolkit from <a class="reference external" href="https://developer.nvidia.com/cuda-downloads">https://developer.nvidia.com/cuda-downloads</a>.
+It includes the headers and libraries needed to compile both CUDA and OpenCL
+applications.  In addition, it has runtime libraries that are needed for running
+CUDA applications.  The runtime components for OpenCL applications are included
+with the GPU drivers from NVIDIA, AMD, and Intel, so make sure you have an
+up-to-date driver.</p>
+</section>
+<section id="id7">
+<h4>Other Required Software<a class="headerlink" href="02_compiling.html#id7" title="Permalink to this headline">¶</a></h4>
+<p>Several other tools are required to build OpenMM.  The easiest way to install
+them is with conda.  From the Windows Start menu, select “Anaconda Prompt (Miniconda3)”.
+It will open a command window that is preconfigured for conda.  Enter the
+following command to install everything needed to build OpenMM.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span> <span class="n">cython</span> <span class="n">swig</span> <span class="n">fftw</span> <span class="n">doxygen</span> <span class="n">numpy</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id8">
+<h3><span class="section-number">8.2.2. </span>Step 1: Configure with CMake<a class="headerlink" href="02_compiling.html#id8" title="Permalink to this headline">¶</a></h3>
+<p>First, create a directory in which to build OpenMM.  In the “Anaconda Prompt”
+window opened above, cd to the root level of the OpenMM source tree (the
+directory containing the top CMakeLists.txt file).  Execute the following commands:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>mkdir build
+cd build
+&quot;C:\Program Files\CMake\bin\cmake-gui.exe&quot;
+</pre></div>
+</div>
+<p>This will launch the CMake GUI configuration tool.  It is critical that you
+launch it from the “Anaconda Prompt” window as shown above.  Do <em>not</em> launch
+it from the Start menu.  If you do, it will not be able to find the tools you
+installed with conda.</p>
+<ol class="arabic simple">
+<li><p>In the box labeled “Where is the source code” browse to the OpenMM source directory
+(containing the top CMakeLists.txt file).</p></li>
+<li><p>In the box labeled “Where to build the binaries” browse to the build
+directory you just created.</p></li>
+<li><p>Click the “Configure” button at the bottom of the CMake window.</p></li>
+<li><p>Select “Visual Studio 16 2019” from the  list of Generators (or whichever
+version you have installed) and click “Finish”.</p></li>
+</ol>
+<p>There are several variables that can be adjusted in the CMake interface:</p>
+<ul class="simple">
+<li><p>Set the variable CMAKE_INSTALL_PREFIX to the location where you want to
+install OpenMM.</p></li>
+<li><p>Set the variable PYTHON_EXECUTABLE to the Python interpreter you plan to use
+OpenMM with.  Usually this will be detected automatically.</p></li>
+<li><p>There are lots of options starting with OPENMM_BUILD that control
+whether to build particular features of OpenMM, such as plugins, API wrappers,
+and documentation.</p></li>
+<li><p>Usually the OpenCL library and headers will be detected automatically.  If for
+any reason CMake is unable to find them, set OPENCL_INCLUDE_DIR to point to
+the directory containing the headers (usually
+“C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.4/include”, except
+with the correct version number for the toolkit you installed) and
+OPENCL_LIBRARY to point to the library (usually “C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.4/lib/x64/OpenCL.lib”).</p></li>
+</ul>
+<p>Press “Configure” again.  Adjust any variables that cause an error.</p>
+<p>Continue to press “Configure” until no red CMake variables are displayed, then
+press “Generate” to create the Visual Studio project files for building OpenMM.</p>
+</section>
+<section id="step-2-build-and-install">
+<h3><span class="section-number">8.2.3. </span>Step 2: Build and Install<a class="headerlink" href="02_compiling.html#step-2-build-and-install" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Open the file <code class="file docutils literal notranslate"><span class="pre">OpenMM.sln</span></code> in your build directory in Visual Studio.
+Note that this file will appear as just <code class="file docutils literal notranslate"><span class="pre">OpenMM</span></code> if you have configured
+Explorer to hide file name extensions.</p></li>
+<li><p>Set the configuration type to “Release” (not “Debug”) in the toolbar.</p></li>
+<li><p>From the Build menu, select “Build Solution”.  This takes some time.</p></li>
+<li><p>In the Solution Explorer, right-click on “INSTALL” and select “Build”.</p></li>
+</ol>
+</section>
+<section id="id9">
+<h3><span class="section-number">8.2.4. </span>Step 3: Install the Python API<a class="headerlink" href="02_compiling.html#id9" title="Permalink to this headline">¶</a></h3>
+<p>In the Solution Explorer, right-click on “PythonInstall” and select “Build”.</p>
+</section>
+<section id="step-4-test-your-build">
+<h3><span class="section-number">8.2.5. </span>Step 4: Test your build<a class="headerlink" href="02_compiling.html#step-4-test-your-build" title="Permalink to this headline">¶</a></h3>
+<p>After OpenMM has been built, you should run the unit tests to make sure it
+works.  In the Solution Explorer, right-click on “RUN_TESTS” and select “Build”.
+You should see a series of test results like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>      Start   1: TestReferenceAndersenThermostat
+1/317 Test   #1: TestReferenceAndersenThermostat .............. Passed  0.26 sec
+      Start   2: TestReferenceBrownianIntegrator
+2/317 Test   #2: TestReferenceBrownianIntegrator .............. Passed  0.13 sec
+      Start   3: TestReferenceCheckpoints
+3/317 Test   #3: TestReferenceCheckpoints ..................... Passed  0.02 sec
+... &lt;many other tests&gt; ...
+</pre></div>
+</div>
+<p><code class="code docutils literal notranslate"><span class="pre">Passed</span></code> is good.  <code class="code docutils literal notranslate"><span class="pre">FAILED</span></code> is bad.  If any tests fail, you
+can run them individually to get more detailed error information.  Right-click
+on a test in the Solution Explorer and select “Debug &gt; Start New Instance”.</p>
+<p>Note that some tests are stochastic, and therefore are expected to fail a small
+fraction of the time.  These tests will say so in the error message:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>exception: Assertion failure at TestReferenceLangevinIntegrator.cpp:129.  Expected 9.97741,
+    found 10.7884 (This test is stochastic and may occasionally fail)
+</pre></div>
+</div>
+<p>Congratulations! You have successfully built and installed OpenMM from source.</p>
+</section>
+</section>
+<section id="building-the-documentation-optional">
+<h2><span class="section-number">8.3. </span>Building the Documentation (Optional)<a class="headerlink" href="02_compiling.html#building-the-documentation-optional" title="Permalink to this headline">¶</a></h2>
+<p>The documentation that you’re currently reading, as well as the Developer Guide and API
+documentation, can be built through CMake.  To do that, you need to install a few
+additional tools.  The easiest way is to use <code class="code docutils literal notranslate"><span class="pre">conda</span></code> to install them into
+your Python environment.  The following command installs everything needed to
+build documentation in HTML format.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span> <span class="n">sphinx</span> <span class="n">sphinxcontrib</span><span class="o">-</span><span class="n">bibtex</span> <span class="n">breathe</span> <span class="n">jinja2</span>
+</pre></div>
+</div>
+<p>To build documentation in PDF format, you also must have a functional LaTeX
+installation.  It can be obtained from <a class="reference external" href="https://www.latex-project.org/get">https://www.latex-project.org/get</a>.</p>
+<p>If you want to build documentation, make sure that OPENMM_GENERATE_API_DOCS is
+set to ON when configuring the build in CMake.</p>
+<p>To build the documentation, use the following build targets.</p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">sphinxhtml</span></code>: Build the User Guide and Developer Guide in HTML format.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">sphinxpdf</span></code>: Build the User Guide and Developer Guide in PDF format.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">C++ApiDocs</span></code>: Build the C++ API documentation.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">PythonApiDocs</span></code>: Build the Python API documentation.  This target
+requires that you have already built the <code class="code docutils literal notranslate"><span class="pre">install</span></code> target, such as with
+<code class="code docutils literal notranslate"><span class="pre">make</span> <span class="pre">install</span></code>.</p></li>
+</ul>
+<p>On Linux or Mac, build a target using the <code class="code docutils literal notranslate"><span class="pre">make</span></code> command.  For example,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">sphinxhtml</span>
+</pre></div>
+</div>
+<p>On Windows, right-click on the target in the Solution Explorer and select “Build”.</p>
+<p>After building the documentation, build the <code class="code docutils literal notranslate"><span class="pre">install</span></code> target to install
+the documentation into the installation directory (the one you specified with
+CMAKE_INSTALL_PREFIX).</p>
+</section>
+<section id="using-local-build-of-openmm-alongside-conda-tools-that-depend-on-it">
+<h2><span class="section-number">8.4. </span>Using local build of OpenMM alongside conda tools that depend on it<a class="headerlink" href="02_compiling.html#using-local-build-of-openmm-alongside-conda-tools-that-depend-on-it" title="Permalink to this headline">¶</a></h2>
+<p>A common case is to have a local build of OpenMM in the same environment as other tools
+that depend on it. This can be achieved by forcing a remove of OpenMM when you install
+your tools using conda.</p>
+<p>We will use <code class="code docutils literal notranslate"><span class="pre">openmmtools</span></code> as an example here, but it can be replaced with any
+other software package that requires OpenMM.</p>
+<section id="step-1-install-your-tools-as-usual">
+<h3><span class="section-number">8.4.1. </span>Step 1: Install your tools as usual<a class="headerlink" href="02_compiling.html#step-1-install-your-tools-as-usual" title="Permalink to this headline">¶</a></h3>
+<p>Install your tools using conda as you commonly do, for example using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>  <span class="n">openmmtools</span>
+</pre></div>
+</div>
+<p>This will pull the conda-forge package of <code class="code docutils literal notranslate"><span class="pre">openmm</span></code> which we don’t want since we want
+to use our local build.</p>
+</section>
+<section id="step-2-remove-conda-openmm-package">
+<h3><span class="section-number">8.4.2. </span>Step 2: Remove conda openmm package<a class="headerlink" href="02_compiling.html#step-2-remove-conda-openmm-package" title="Permalink to this headline">¶</a></h3>
+<p>To remove the openmm package that was installed in the previous step, we can use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">remove</span> <span class="o">--</span><span class="n">force</span> <span class="n">openmm</span>
+</pre></div>
+</div>
+<p>This will remove the <code class="code docutils literal notranslate"><span class="pre">openmm</span></code> package without changing or removing dependencies.</p>
+</section>
+<section id="step-3-install-local-build-of-openmm">
+<h3><span class="section-number">8.4.3. </span>Step 3: Install local build of openmm<a class="headerlink" href="02_compiling.html#step-3-install-local-build-of-openmm" title="Permalink to this headline">¶</a></h3>
+<p>Now we just install our local build of <code class="code docutils literal notranslate"><span class="pre">openmm</span></code> as instructed in
+<span class="xref std std-ref">_compiling-openmm-from-source-linux</span></p>
+</section>
+</section>
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="01_introduction.html" title="Previous document"><span class="section-number">7. </span>Introduction</a>
+        </li>
+        <li>
+          <a href="03_tutorials.html" title="Next document"><span class="section-number">9. </span>OpenMM Tutorials</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM User Guide</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">1. Introduction</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../application.html">Part I: The OpenMM Application Layer</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../library.html">Part II: The OpenMM Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_introduction.html">7. Introduction</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="02_compiling.html#">8. Compiling OpenMM from Source Code</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="02_compiling.html#compiling-on-linux-and-mac">8.1. Compiling on Linux and Mac</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02_compiling.html#compiling-on-windows">8.2. Compiling on Windows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02_compiling.html#building-the-documentation-optional">8.3. Building the Documentation (Optional)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02_compiling.html#using-local-build-of-openmm-alongside-conda-tools-that-depend-on-it">8.4. Using local build of OpenMM alongside conda tools that depend on it</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="03_tutorials.html">9. OpenMM Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_platform_specifics.html">10. Platform-Specific Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_languages_not_cpp.html">11. Using OpenMM with Software Written in Languages Other than C++</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_integration_examples.html">12. Examples of OpenMM Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07_testing_validation.html">13. Testing and Validation of OpenMM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08_amoeba_plugin.html">14. AMOEBA Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09_rpmd_plugin.html">15. Ring Polymer Molecular Dynamics (RPMD) Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_drude_plugin.html">16. Drude Plugin</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../theory.html">Part III: The Theory Behind OpenMM</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../zbibliography.html">22. Bibliography</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="http://docs.openmm.org/7.7.0/developerguide/">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="http://docs.openmm.org/7.7.0/api-python/">
+                Python API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="http://docs.openmm.org/7.7.0/api-c++/">
+                C++ API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2008-2017, Stanford University.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/library/02_compiling.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

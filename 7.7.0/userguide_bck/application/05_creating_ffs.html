@@ -1,0 +1,1290 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>6. Creating Force Fields &#8212; OpenMM User Guide 7.7 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Part II: The OpenMM Library" href="../library.html" />
+    <link rel="prev" title="5. Advanced Simulation Examples" href="04_advanced_sim_examples.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="creating-force-fields">
+<span id="id1"></span><h1><span class="section-number">6. </span>Creating Force Fields<a class="headerlink" href="05_creating_ffs.html#creating-force-fields" title="Permalink to this headline">¶</a></h1>
+<p>OpenMM uses a simple XML file format to describe force fields.  It includes many
+common force fields, but you can also create your own.  A force field can use
+all the standard OpenMM force classes, as well as the very flexible custom force
+classes.  You can even extend the ForceField class to add support for completely
+new forces, such as ones defined in plugins.  This makes it a powerful tool for
+force field development.</p>
+<section id="basic-concepts">
+<h2><span class="section-number">6.1. </span>Basic Concepts<a class="headerlink" href="05_creating_ffs.html#basic-concepts" title="Permalink to this headline">¶</a></h2>
+<p>Let’s start by considering how OpenMM defines a force field.  There are a small
+number of basic concepts to understand.</p>
+<section id="atom-types-and-atom-classes">
+<h3><span class="section-number">6.1.1. </span>Atom Types and Atom Classes<a class="headerlink" href="05_creating_ffs.html#atom-types-and-atom-classes" title="Permalink to this headline">¶</a></h3>
+<p>Force field parameters are assigned to atoms based on their “atom types”.  Atom
+types should be the most specific identification of an atom that will ever be
+needed.  Two atoms should have the same type only if the force field will always
+treat them identically in every way.</p>
+<p>Multiple atom types can be grouped together into “atom classes”.  In general,
+two types should be in the same class if the force field usually (but not
+necessarily always) treats them identically.  For example, the <span class="math notranslate nohighlight">\(\alpha\)</span>-carbon of an
+alanine residue will probably have a different atom type than the <span class="math notranslate nohighlight">\(\alpha\)</span>-carbon of a
+leucine residue, but both of them will probably have the same atom class.</p>
+<p>All force field parameters can be specified either by atom type or atom class.
+Classes exist as a convenience to make force field definitions more compact.  If
+necessary, you could define everything in terms of atom types, but when many
+types all share the same parameters, it is convenient to only have to specify
+them once.</p>
+</section>
+<section id="residue-templates">
+<h3><span class="section-number">6.1.2. </span>Residue Templates<a class="headerlink" href="05_creating_ffs.html#residue-templates" title="Permalink to this headline">¶</a></h3>
+<p>Types are assigned to atoms by matching residues to templates.  A template
+specifies a list of atoms, the type of each one, and the bonds between them.
+For each residue in the PDB file, the force field searches its list of templates
+for one that has an identical set of atoms with identical bonds between them.
+When matching templates, neither the order of the atoms nor their names matter;
+it only cares about their elements and the set of bonds between them.  (The PDB
+file reader does care about names, of course, since it needs to figure out which
+atom each line of the file corresponds to.)</p>
+</section>
+<section id="forces">
+<h3><span class="section-number">6.1.3. </span>Forces<a class="headerlink" href="05_creating_ffs.html#forces" title="Permalink to this headline">¶</a></h3>
+<p>Once a force field has defined its atom types and residue templates, it must
+define its force field parameters.  This generally involves one block of XML for
+each Force object that will be added to the System.  The details are different
+for each Force, but it generally consists of a set of rules for adding
+interactions based on bonds and atom types or classes.  For example, when adding
+a HarmonicBondForce, the force field will loop over every pair of bonded atoms,
+check their types and classes, and see if they match any of its rules.  If so,
+it will call <code class="code docutils literal notranslate"><span class="pre">addBond()</span></code> on the HarmonicBondForce.  If none of them
+match, it simply ignores that pair and continues.</p>
+</section>
+</section>
+<section id="writing-the-xml-file">
+<h2><span class="section-number">6.2. </span>Writing the XML File<a class="headerlink" href="05_creating_ffs.html#writing-the-xml-file" title="Permalink to this headline">¶</a></h2>
+<p>The root element of the XML file must be a <code class="code docutils literal notranslate"><span class="pre">&lt;ForceField&gt;</span></code> tag:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;ForceField&gt;</span>
+...
+<span class="nt">&lt;/ForceField&gt;</span>
+</pre></div>
+</div>
+<p>The <code class="code docutils literal notranslate"><span class="pre">&lt;ForceField&gt;</span></code> tag contains the following children:</p>
+<ul class="simple">
+<li><p>An <code class="code docutils literal notranslate"><span class="pre">&lt;AtomTypes&gt;</span></code> tag containing the atom type definitions</p></li>
+<li><p>A <code class="code docutils literal notranslate"><span class="pre">&lt;Residues&gt;</span></code> tag containing the residue template definitions</p></li>
+<li><p>Optionally a <code class="code docutils literal notranslate"><span class="pre">&lt;Patches&gt;</span></code> tag containing patch definitions</p></li>
+<li><p>Zero or more tags defining specific forces</p></li>
+</ul>
+<p>The order of these tags does not matter.  They are described in detail below.</p>
+<section id="atomtypes">
+<h3><span class="section-number">6.2.1. </span>&lt;AtomTypes&gt;<a class="headerlink" href="05_creating_ffs.html#atomtypes" title="Permalink to this headline">¶</a></h3>
+<p>The atom type definitions look like this:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;AtomTypes&gt;</span>
+ <span class="nt">&lt;Type</span> <span class="na">name=</span><span class="s">&quot;0&quot;</span> <span class="na">class=</span><span class="s">&quot;N&quot;</span> <span class="na">element=</span><span class="s">&quot;N&quot;</span> <span class="na">mass=</span><span class="s">&quot;14.00672&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Type</span> <span class="na">name=</span><span class="s">&quot;1&quot;</span> <span class="na">class=</span><span class="s">&quot;H&quot;</span> <span class="na">element=</span><span class="s">&quot;H&quot;</span> <span class="na">mass=</span><span class="s">&quot;1.007947&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Type</span> <span class="na">name=</span><span class="s">&quot;2&quot;</span> <span class="na">class=</span><span class="s">&quot;CT&quot;</span> <span class="na">element=</span><span class="s">&quot;C&quot;</span> <span class="na">mass=</span><span class="s">&quot;12.01078&quot;</span><span class="nt">/&gt;</span>
+ ...
+<span class="nt">&lt;/AtomTypes&gt;</span>
+</pre></div>
+</div>
+<p>There is one <code class="code docutils literal notranslate"><span class="pre">&lt;Type&gt;</span></code> tag for each atom type.  It specifies the name
+of the type, the name of the class it belongs to, the symbol for its element,
+and its mass in amu.  The names are arbitrary strings: they need not be numbers,
+as in this example.  The only requirement is that all types have unique names.
+The classes are also arbitrary strings, and in general will not be unique.  Two
+types belong to the same class if they list the same value for the
+<code class="code docutils literal notranslate"><span class="pre">class</span></code> attribute.</p>
+</section>
+<section id="residues">
+<h3><span class="section-number">6.2.2. </span>&lt;Residues&gt;<a class="headerlink" href="05_creating_ffs.html#residues" title="Permalink to this headline">¶</a></h3>
+<p>The residue template definitions look like this:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;Residues&gt;</span>
+ <span class="nt">&lt;Residue</span> <span class="na">name=</span><span class="s">&quot;ACE&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;Atom</span> <span class="na">name=</span><span class="s">&quot;HH31&quot;</span> <span class="na">type=</span><span class="s">&quot;710&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;Atom</span> <span class="na">name=</span><span class="s">&quot;CH3&quot;</span> <span class="na">type=</span><span class="s">&quot;711&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;Atom</span> <span class="na">name=</span><span class="s">&quot;HH32&quot;</span> <span class="na">type=</span><span class="s">&quot;710&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;Atom</span> <span class="na">name=</span><span class="s">&quot;HH33&quot;</span> <span class="na">type=</span><span class="s">&quot;710&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;Atom</span> <span class="na">name=</span><span class="s">&quot;C&quot;</span> <span class="na">type=</span><span class="s">&quot;712&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;Atom</span> <span class="na">name=</span><span class="s">&quot;O&quot;</span> <span class="na">type=</span><span class="s">&quot;713&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;Bond</span> <span class="na">atomName1=</span><span class="s">&quot;HH31&quot;</span> <span class="na">atomName2=</span><span class="s">&quot;CH3&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;Bond</span> <span class="na">atomName1=</span><span class="s">&quot;CH3&quot;</span> <span class="na">atomName2=</span><span class="s">&quot;HH32&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;Bond</span> <span class="na">atomName1=</span><span class="s">&quot;CH3&quot;</span> <span class="na">atomName2=</span><span class="s">&quot;HH33&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;Bond</span> <span class="na">atomName1=</span><span class="s">&quot;CH3&quot;</span> <span class="na">atomName2=</span><span class="s">&quot;C&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;Bond</span> <span class="na">atomName1=</span><span class="s">&quot;C&quot;</span> <span class="na">atomName2=</span><span class="s">&quot;O&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;ExternalBond</span> <span class="na">atomName=</span><span class="s">&quot;C&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;/Residue&gt;</span>
+ <span class="nt">&lt;Residue</span> <span class="na">name=</span><span class="s">&quot;ALA&quot;</span><span class="nt">&gt;</span>
+  ...
+ <span class="nt">&lt;/Residue&gt;</span>
+ ...
+<span class="nt">&lt;/Residues&gt;</span>
+</pre></div>
+</div>
+<p>There is one <code class="code docutils literal notranslate"><span class="pre">&lt;Residue&gt;</span></code> tag for each residue template.  That in turn
+contains the following tags:</p>
+<ul class="simple">
+<li><p>An <code class="code docutils literal notranslate"><span class="pre">&lt;Atom&gt;</span></code> tag for each atom in the residue.  This specifies the
+name of the atom and its atom type.</p></li>
+<li><p>A <code class="code docutils literal notranslate"><span class="pre">&lt;Bond&gt;</span></code> tag for each pair of atoms that are bonded to each
+other.  The <code class="code docutils literal notranslate"><span class="pre">atomName1</span></code> and <code class="code docutils literal notranslate"><span class="pre">atomName2</span></code> attributes are the names
+of the two bonded atoms.  (Some older force fields use the alternate tags
+<code class="code docutils literal notranslate"><span class="pre">to</span></code> and <code class="code docutils literal notranslate"><span class="pre">from</span></code> to specify the atoms by index instead of name.
+This is still supported for backward compatibility, but specifying atoms by
+name is recommended, since it makes the residue definition much easier to
+understand.)</p></li>
+<li><p>An <code class="code docutils literal notranslate"><span class="pre">&lt;ExternalBond&gt;</span></code> tag for each atom that will be bonded to an
+atom of a different residue.  <code class="code docutils literal notranslate"><span class="pre">atomName</span></code> is the name of the atom.
+(Alternatively, the deprecated <code class="code docutils literal notranslate"><span class="pre">from</span></code> tag may indicate the atom by
+index instead of name.)</p></li>
+</ul>
+<p>The <code class="code docutils literal notranslate"><span class="pre">&lt;Residue&gt;</span></code> tag may also contain <code class="code docutils literal notranslate"><span class="pre">&lt;VirtualSite&gt;</span></code> tags,
+as in the following example:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;Residue</span> <span class="na">name=</span><span class="s">&quot;HOH&quot;</span><span class="nt">&gt;</span>
+ <span class="nt">&lt;Atom</span> <span class="na">name=</span><span class="s">&quot;O&quot;</span> <span class="na">type=</span><span class="s">&quot;tip4pew-O&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Atom</span> <span class="na">name=</span><span class="s">&quot;H1&quot;</span> <span class="na">type=</span><span class="s">&quot;tip4pew-H&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Atom</span> <span class="na">name=</span><span class="s">&quot;H2&quot;</span> <span class="na">type=</span><span class="s">&quot;tip4pew-H&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Atom</span> <span class="na">name=</span><span class="s">&quot;M&quot;</span> <span class="na">type=</span><span class="s">&quot;tip4pew-M&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;VirtualSite</span> <span class="na">type=</span><span class="s">&quot;average3&quot;</span> <span class="na">siteName=</span><span class="s">&quot;M&quot;</span> <span class="na">atomName1=</span><span class="s">&quot;O&quot;</span> <span class="na">atomName2=</span><span class="s">&quot;H1&quot;</span> <span class="na">atomName3=</span><span class="s">&quot;H2&quot;</span>
+     <span class="na">weight1=</span><span class="s">&quot;0.786646558&quot;</span> <span class="na">weight2=</span><span class="s">&quot;0.106676721&quot;</span> <span class="na">weight3=</span><span class="s">&quot;0.106676721&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Bond</span> <span class="na">atomName1=</span><span class="s">&quot;O&quot;</span> <span class="na">atomName2=</span><span class="s">&quot;H1&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Bond</span> <span class="na">atomName1=</span><span class="s">&quot;O&quot;</span> <span class="na">atomName2=</span><span class="s">&quot;H2&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/Residue&gt;</span>
+</pre></div>
+</div>
+<p>Each <code class="code docutils literal notranslate"><span class="pre">&lt;VirtualSite&gt;</span></code> tag indicates an atom in the residue that should
+be represented with a virtual site.  The <code class="code docutils literal notranslate"><span class="pre">type</span></code> attribute may equal
+<code class="code docutils literal notranslate"><span class="pre">&quot;average2&quot;</span></code>, <code class="code docutils literal notranslate"><span class="pre">&quot;average3&quot;</span></code>, <code class="code docutils literal notranslate"><span class="pre">&quot;outOfPlane&quot;</span></code>, or
+<code class="code docutils literal notranslate"><span class="pre">&quot;localCoords&quot;</span></code>, which correspond to the TwoParticleAverageSite, ThreeParticleAverageSite,
+OutOfPlaneSite, and LocalCoordinatesSite classes respectively.  The <code class="code docutils literal notranslate"><span class="pre">siteName</span></code>
+attribute gives the name of the atom to represent with a virtual site.  The atoms
+it is calculated based on are specified by <code class="code docutils literal notranslate"><span class="pre">atomName1</span></code>, <code class="code docutils literal notranslate"><span class="pre">atomName2</span></code>, etc.
+(Some old force fields use the deprecated tags <code class="code docutils literal notranslate"><span class="pre">index</span></code>, <code class="code docutils literal notranslate"><span class="pre">atom1</span></code>,
+<code class="code docutils literal notranslate"><span class="pre">atom2</span></code>, etc. to refer to them by index instead of name.)</p>
+<p>The remaining attributes are specific to the virtual site class, and specify the
+parameters for calculating the site position.  For a TwoParticleAverageSite,
+they are <code class="code docutils literal notranslate"><span class="pre">weight1</span></code> and <code class="code docutils literal notranslate"><span class="pre">weight2</span></code>.  For a
+ThreeParticleAverageSite, they are <code class="code docutils literal notranslate"><span class="pre">weight1</span></code>, <code class="code docutils literal notranslate"><span class="pre">weight2</span></code>, and
+<code class="code docutils literal notranslate"><span class="pre">weight3</span></code>. For an OutOfPlaneSite, they are <code class="code docutils literal notranslate"><span class="pre">weight12</span></code>,
+<code class="code docutils literal notranslate"><span class="pre">weight13</span></code>, and <code class="code docutils literal notranslate"><span class="pre">weightCross</span></code>. For a LocalCoordinatesSite, they
+are <code class="code docutils literal notranslate"><span class="pre">p1</span></code>, <code class="code docutils literal notranslate"><span class="pre">p2</span></code>, and <code class="code docutils literal notranslate"><span class="pre">p3</span></code> (giving the x, y, and z coordinates
+of the site position in the local coordinate system), and <code class="code docutils literal notranslate"><span class="pre">wo1</span></code>,
+<code class="code docutils literal notranslate"><span class="pre">wx1</span></code>, <code class="code docutils literal notranslate"><span class="pre">wy1</span></code>, <code class="code docutils literal notranslate"><span class="pre">wo2</span></code>, <code class="code docutils literal notranslate"><span class="pre">wx2</span></code>, <code class="code docutils literal notranslate"><span class="pre">wy2</span></code>, …
+(giving the weights for computing the origin, x axis, and y axis).</p>
+</section>
+<section id="patches">
+<h3><span class="section-number">6.2.3. </span>&lt;Patches&gt;<a class="headerlink" href="05_creating_ffs.html#patches" title="Permalink to this headline">¶</a></h3>
+<p>A “patch” is a set of rules for modifying a residue template (or possibly multiple
+templates at once).  For example a terminal amino acid is slightly different from
+one in the middle of a chain.  A force field could of course define multiple
+templates for each amino acid (standard, N-terminal, C-terminal, and monomer),
+but since the modifications are the same for nearly all amino acids, it is simpler
+to include only the “standard” templates, along with a set of patches for
+modifying terminal residues.</p>
+<p>Here is an example of a patch definition:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;Patches&gt;</span>
+ <span class="nt">&lt;Patch</span> <span class="na">name=</span><span class="s">&quot;NTER&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;RemoveAtom</span> <span class="na">name=</span><span class="s">&quot;H&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;RemoveBond</span> <span class="na">atomName1=</span><span class="s">&quot;N&quot;</span> <span class="na">atomName2=</span><span class="s">&quot;H&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;AddAtom</span> <span class="na">name=</span><span class="s">&quot;H1&quot;</span> <span class="na">type=</span><span class="s">&quot;H&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;AddAtom</span> <span class="na">name=</span><span class="s">&quot;H2&quot;</span> <span class="na">type=</span><span class="s">&quot;H&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;AddAtom</span> <span class="na">name=</span><span class="s">&quot;H3&quot;</span> <span class="na">type=</span><span class="s">&quot;H&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;AddBond</span> <span class="na">atomName1=</span><span class="s">&quot;N&quot;</span> <span class="na">atomName2=</span><span class="s">&quot;H1&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;AddBond</span> <span class="na">atomName1=</span><span class="s">&quot;N&quot;</span> <span class="na">atomName2=</span><span class="s">&quot;H2&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;AddBond</span> <span class="na">atomName1=</span><span class="s">&quot;N&quot;</span> <span class="na">atomName2=</span><span class="s">&quot;H3&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;RemoveExternalBond</span> <span class="na">atomName=</span><span class="s">&quot;N&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;ChangeAtom</span> <span class="na">name=</span><span class="s">&quot;N&quot;</span> <span class="na">type=</span><span class="s">&quot;N3&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;/Patch&gt;</span>
+<span class="nt">&lt;/Patches&gt;</span>
+</pre></div>
+</div>
+<p>There is one <code class="code docutils literal notranslate"><span class="pre">&lt;Patch&gt;</span></code> tag for each patch definition.  That in turn may
+contain any of the following tags:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>An <code class="code docutils literal notranslate"><span class="pre">&lt;AddAtom&gt;</span></code> tag indicates that an atom should be added to the
+template.  It specifies the name of the atom and its atom type.</p></li>
+<li><p>A <code class="code docutils literal notranslate"><span class="pre">&lt;ChangeAtom&gt;</span></code> tag indicates that the type of an atom already present
+in the template should be altered.  It specifies the name of the atom and its
+new atom type.</p></li>
+<li><p>A <code class="code docutils literal notranslate"><span class="pre">&lt;RemoveAtom&gt;</span></code> tag indicates that an atom should be removed from the
+template.  It specifies the name of the atom to remove.</p></li>
+<li><p>An <code class="code docutils literal notranslate"><span class="pre">&lt;AddBond&gt;</span></code> tag indicates that a bond should be added to the
+template.  It specifies the names of the two bonded atoms.</p></li>
+<li><p>A <code class="code docutils literal notranslate"><span class="pre">&lt;RemoveBond&gt;</span></code> tag indicates that a bond already present in the
+template should be removed.  It specifies the names of the two bonded atoms.</p></li>
+<li><p>An <code class="code docutils literal notranslate"><span class="pre">&lt;AddExternalBond&gt;</span></code> tag indicates that a new external bond should be
+added to the template.  It specifies the name of the bonded atom.</p></li>
+<li><p>A <code class="code docutils literal notranslate"><span class="pre">&lt;RemoveExternalBond&gt;</span></code> tag indicates that an external bond aleady
+present in the template should be removed.  It specifies the name of the
+bonded atom.</p></li>
+</ul>
+</div></blockquote>
+<p>In addition to defining the patches, you also must identify which residue
+templates each patch can be applied to.  This can be done in two ways.  The more
+common one is to have each template identify the patches that can be applied to
+it.  This is done with an <code class="code docutils literal notranslate"><span class="pre">&lt;AllowPatch&gt;</span></code> tag:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;Residue</span> <span class="na">name=</span><span class="s">&quot;ALA&quot;</span><span class="nt">&gt;</span>
+ <span class="nt">&lt;AllowPatch</span> <span class="na">name=</span><span class="s">&quot;CTER&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;AllowPatch</span> <span class="na">name=</span><span class="s">&quot;NTER&quot;</span><span class="nt">/&gt;</span>
+ ...
+<span class="nt">&lt;/Residue&gt;</span>
+</pre></div>
+</div>
+<p>Alternatively, the patch can indicate which residues it may be applied to.  This
+is done with an <code class="code docutils literal notranslate"><span class="pre">&lt;ApplyToResidue&gt;</span></code> tag:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;Patch</span> <span class="na">name=</span><span class="s">&quot;NTER&quot;</span><span class="nt">&gt;</span>
+ <span class="nt">&lt;ApplyToResidue</span> <span class="na">name=</span><span class="s">&quot;ALA&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;ApplyToResidue</span> <span class="na">name=</span><span class="s">&quot;ARG&quot;</span><span class="nt">/&gt;</span>
+ ...
+<span class="nt">&lt;/Patch&gt;</span>
+</pre></div>
+</div>
+<p>A patch can alter multiple templates at once.  This is useful for creating bonds
+between molecules, and allows the atom types in one residue to depend on the
+identity of the other residue it is bonded to.  To create a multi-residue patch,
+added a <code class="code docutils literal notranslate"><span class="pre">residues</span></code> attribute to the <code class="code docutils literal notranslate"><span class="pre">&lt;Patch&gt;</span></code> tag specifying how many
+residues that patch covers.  Then whenever you refer to an atom, prefix its name
+with the index of the residue it belongs to:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;Patch</span> <span class="na">name=</span><span class="s">&quot;Disulfide&quot;</span> <span class="na">residues=</span><span class="s">&quot;2&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;RemoveAtom</span> <span class="na">name=</span><span class="s">&quot;1:HG&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;RemoveAtom</span> <span class="na">name=</span><span class="s">&quot;2:HG&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;AddBond</span> <span class="na">atomName1=</span><span class="s">&quot;1:SG&quot;</span> <span class="na">atomName2=</span><span class="s">&quot;2:SG&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;ApplyToResidue</span> <span class="na">name=</span><span class="s">&quot;1:CYS&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;ApplyToResidue</span> <span class="na">name=</span><span class="s">&quot;2:CYS&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/Patch&gt;</span>
+</pre></div>
+</div>
+<p>In this example, the patch modifies two residues of the same type, but that need
+not always be true.  Each <code class="code docutils literal notranslate"><span class="pre">&lt;ApplyToResidue&gt;</span></code> tag therefore indicates which
+one of the residue templates it modifies may be of the specified type.  Similarly,
+if a residue template includes an <code class="code docutils literal notranslate"><span class="pre">&lt;AcceptPatch&gt;</span></code> tag for a multi-residue
+patch, it must specify the name of the patch, followed by the index of the residue
+within that patch:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;AllowPatch</span> <span class="na">name=</span><span class="s">&quot;Disulfide:1&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="missing-residue-templates">
+<h3><span class="section-number">6.2.4. </span>Missing residue templates<a class="headerlink" href="05_creating_ffs.html#missing-residue-templates" title="Permalink to this headline">¶</a></h3>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>These features are experimental, and their API is subject to change.</p>
+</div>
+<p>You can use the <code class="xref py py-meth docutils literal notranslate"><span class="pre">getUnmatchedResidues()</span></code> method to get a list of residues
+in the provided <code class="code docutils literal notranslate"><span class="pre">topology</span></code> object that do not currently have a matching
+residue template defined in the <code class="xref py py-class docutils literal notranslate"><span class="pre">ForceField</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pdb</span> <span class="o">=</span> <span class="n">PDBFile</span><span class="p">(</span><span class="s1">&#39;input.pdb&#39;</span><span class="p">)</span>
+<span class="n">forcefield</span> <span class="o">=</span> <span class="n">ForceField</span><span class="p">(</span><span class="s1">&#39;amber99sb.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;tip3p.xml&#39;</span><span class="p">)</span>
+<span class="n">unmatched_residues</span> <span class="o">=</span> <span class="n">forcefield</span><span class="o">.</span><span class="n">getUnmatchedResidues</span><span class="p">(</span><span class="n">topology</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This is useful for identifying issues with prepared systems, debugging issues
+with residue template definitions, or identifying which additional residues need
+to be parameterized.</p>
+<p>As a convenience for parameterizing new residues, you can also get a list of
+residues and empty residue templates using <code class="xref py py-meth docutils literal notranslate"><span class="pre">generateTemplatesForUnmatchedResidues()</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pdb</span> <span class="o">=</span> <span class="n">PDBFile</span><span class="p">(</span><span class="s1">&#39;input.pdb&#39;</span><span class="p">)</span>
+<span class="n">forcefield</span> <span class="o">=</span> <span class="n">ForceField</span><span class="p">(</span><span class="s1">&#39;amber99sb.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;tip3p.xml&#39;</span><span class="p">)</span>
+<span class="p">[</span><span class="n">templates</span><span class="p">,</span> <span class="n">residues</span><span class="p">]</span> <span class="o">=</span> <span class="n">forcefield</span><span class="o">.</span><span class="n">generateTemplatesForUnmatchedResidues</span><span class="p">(</span><span class="n">topology</span><span class="p">)</span>
+<span class="c1"># Se the atom types</span>
+<span class="k">for</span> <span class="n">template</span> <span class="ow">in</span> <span class="n">templates</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">template</span><span class="o">.</span><span class="n">atoms</span><span class="p">:</span>
+        <span class="n">atom</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># set the atom types here</span>
+    <span class="c1"># Register the template with the forcefield.</span>
+    <span class="n">forcefield</span><span class="o">.</span><span class="n">registerResidueTemplate</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you find that templates seem to be incorrectly matched, another useful
+function <code class="xref py py-meth docutils literal notranslate"><span class="pre">getMatchingTemplates()</span></code> can help you identify which templates
+are being matched:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pdb</span> <span class="o">=</span> <span class="n">PDBFile</span><span class="p">(</span><span class="s1">&#39;input.pdb&#39;</span><span class="p">)</span>
+<span class="n">forcefield</span> <span class="o">=</span> <span class="n">ForceField</span><span class="p">(</span><span class="s1">&#39;amber99sb.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;tip3p.xml&#39;</span><span class="p">)</span>
+<span class="n">templates</span> <span class="o">=</span> <span class="n">forcefield</span><span class="o">.</span><span class="n">getMatchingTemplates</span><span class="p">(</span><span class="n">topology</span><span class="p">)</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">residue</span><span class="p">,</span> <span class="n">template</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">pdb</span><span class="o">.</span><span class="n">topology</span><span class="o">.</span><span class="n">residues</span><span class="p">(),</span> <span class="n">templates</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Residue </span><span class="si">%d</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> matched template </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">residue</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">residue</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">template</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="harmonicbondforce">
+<h3><span class="section-number">6.2.5. </span>&lt;HarmonicBondForce&gt;<a class="headerlink" href="05_creating_ffs.html#harmonicbondforce" title="Permalink to this headline">¶</a></h3>
+<p>To add a HarmonicBondForce to the System, include a tag that looks like this:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;HarmonicBondForce&gt;</span>
+ <span class="nt">&lt;Bond</span> <span class="na">class1=</span><span class="s">&quot;C&quot;</span> <span class="na">class2=</span><span class="s">&quot;C&quot;</span> <span class="na">length=</span><span class="s">&quot;0.1525&quot;</span> <span class="na">k=</span><span class="s">&quot;259408.0&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Bond</span> <span class="na">class1=</span><span class="s">&quot;C&quot;</span> <span class="na">class2=</span><span class="s">&quot;CA&quot;</span> <span class="na">length=</span><span class="s">&quot;0.1409&quot;</span> <span class="na">k=</span><span class="s">&quot;392459.2&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Bond</span> <span class="na">class1=</span><span class="s">&quot;C&quot;</span> <span class="na">class2=</span><span class="s">&quot;CB&quot;</span> <span class="na">length=</span><span class="s">&quot;0.1419&quot;</span> <span class="na">k=</span><span class="s">&quot;374049.6&quot;</span><span class="nt">/&gt;</span>
+ ...
+<span class="nt">&lt;/HarmonicBondForce&gt;</span>
+</pre></div>
+</div>
+<p>Every <code class="code docutils literal notranslate"><span class="pre">&lt;Bond&gt;</span></code> tag defines a rule for creating harmonic bond
+interactions between atoms.  Each tag may identify the atoms either by type
+(using the attributes <code class="code docutils literal notranslate"><span class="pre">type1</span></code> and <code class="code docutils literal notranslate"><span class="pre">type2</span></code>) or by class
+(using the attributes <code class="code docutils literal notranslate"><span class="pre">class1</span></code> and <code class="code docutils literal notranslate"><span class="pre">class2</span></code>).  For every
+pair of bonded atoms, the force field searches for a rule whose atom types or
+atom classes match the two atoms.  If it finds one, it calls
+<code class="code docutils literal notranslate"><span class="pre">addBond()</span></code> on the HarmonicBondForce with the specified parameters.
+Otherwise, it ignores that pair and continues.  <code class="code docutils literal notranslate"><span class="pre">length</span></code> is the
+equilibrium bond length in nm, and <code class="code docutils literal notranslate"><span class="pre">k</span></code> is the spring constant in
+kJ/mol/nm<sup>2</sup>.</p>
+</section>
+<section id="harmonicangleforce">
+<h3><span class="section-number">6.2.6. </span>&lt;HarmonicAngleForce&gt;<a class="headerlink" href="05_creating_ffs.html#harmonicangleforce" title="Permalink to this headline">¶</a></h3>
+<p>To add a HarmonicAngleForce to the System, include a tag that looks like this:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;HarmonicAngleForce&gt;</span>
+ <span class="nt">&lt;Angle</span> <span class="na">class1=</span><span class="s">&quot;C&quot;</span> <span class="na">class2=</span><span class="s">&quot;C&quot;</span> <span class="na">class3=</span><span class="s">&quot;O&quot;</span> <span class="na">angle=</span><span class="s">&quot;2.094&quot;</span> <span class="na">k=</span><span class="s">&quot;669.44&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Angle</span> <span class="na">class1=</span><span class="s">&quot;C&quot;</span> <span class="na">class2=</span><span class="s">&quot;C&quot;</span> <span class="na">class3=</span><span class="s">&quot;OH&quot;</span> <span class="na">angle=</span><span class="s">&quot;2.094&quot;</span> <span class="na">k=</span><span class="s">&quot;669.44&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Angle</span> <span class="na">class1=</span><span class="s">&quot;CA&quot;</span> <span class="na">class2=</span><span class="s">&quot;C&quot;</span> <span class="na">class3=</span><span class="s">&quot;CA&quot;</span> <span class="na">angle=</span><span class="s">&quot;2.094&quot;</span> <span class="na">k=</span><span class="s">&quot;527.184&quot;</span><span class="nt">/&gt;</span>
+ ...
+<span class="nt">&lt;/HarmonicAngleForce&gt;</span>
+</pre></div>
+</div>
+<p>Every <code class="code docutils literal notranslate"><span class="pre">&lt;Angle&gt;</span></code> tag defines a rule for creating harmonic angle
+interactions between triplets of atoms.  Each tag may identify the atoms either
+by type (using the attributes <code class="code docutils literal notranslate"><span class="pre">type1</span></code>, <code class="code docutils literal notranslate"><span class="pre">type2</span></code>, …) or by
+class (using the attributes <code class="code docutils literal notranslate"><span class="pre">class1</span></code>, <code class="code docutils literal notranslate"><span class="pre">class2</span></code>, …).  The
+force field identifies every set of three atoms in the system where the first is
+bonded to the second, and the second to the third.  For each one, it searches
+for a rule whose atom types or atom classes match the three atoms.  If it finds
+one, it calls <code class="code docutils literal notranslate"><span class="pre">addAngle()</span></code> on the HarmonicAngleForce with the
+specified parameters.  Otherwise, it ignores that set and continues.
+<code class="code docutils literal notranslate"><span class="pre">angle</span></code> is the equilibrium angle in radians, and <code class="code docutils literal notranslate"><span class="pre">k</span></code> is the
+spring constant in kJ/mol/radian<sup>2</sup>.</p>
+</section>
+<section id="periodictorsionforce">
+<h3><span class="section-number">6.2.7. </span>&lt;PeriodicTorsionForce&gt;<a class="headerlink" href="05_creating_ffs.html#periodictorsionforce" title="Permalink to this headline">¶</a></h3>
+<p>To add a PeriodicTorsionForce to the System, include a tag that looks like this:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;PeriodicTorsionForce&gt;</span>
+ <span class="nt">&lt;Proper</span> <span class="na">class1=</span><span class="s">&quot;HC&quot;</span> <span class="na">class2=</span><span class="s">&quot;CT&quot;</span> <span class="na">class3=</span><span class="s">&quot;CT&quot;</span> <span class="na">class4=</span><span class="s">&quot;CT&quot;</span> <span class="na">periodicity1=</span><span class="s">&quot;3&quot;</span> <span class="na">phase1=</span><span class="s">&quot;0.0&quot;</span>
+     <span class="na">k1=</span><span class="s">&quot;0.66944&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Proper</span> <span class="na">class1=</span><span class="s">&quot;HC&quot;</span> <span class="na">class2=</span><span class="s">&quot;CT&quot;</span> <span class="na">class3=</span><span class="s">&quot;CT&quot;</span> <span class="na">class4=</span><span class="s">&quot;HC&quot;</span> <span class="na">periodicity1=</span><span class="s">&quot;3&quot;</span> <span class="na">phase1=</span><span class="s">&quot;0.0&quot;</span>
+     <span class="na">k1=</span><span class="s">&quot;0.6276&quot;</span><span class="nt">/&gt;</span>
+ ...
+ <span class="nt">&lt;Improper</span> <span class="na">class1=</span><span class="s">&quot;N&quot;</span> <span class="na">class2=</span><span class="s">&quot;C&quot;</span> <span class="na">class3=</span><span class="s">&quot;CT&quot;</span> <span class="na">class4=</span><span class="s">&quot;O&quot;</span> <span class="na">periodicity1=</span><span class="s">&quot;2&quot;</span>
+     <span class="na">phase1=</span><span class="s">&quot;3.14159265359&quot;</span> <span class="na">k1=</span><span class="s">&quot;4.6024&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Improper</span> <span class="na">class1=</span><span class="s">&quot;N&quot;</span> <span class="na">class2=</span><span class="s">&quot;C&quot;</span> <span class="na">class3=</span><span class="s">&quot;CT&quot;</span> <span class="na">class4=</span><span class="s">&quot;H&quot;</span> <span class="na">periodicity1=</span><span class="s">&quot;2&quot;</span>
+     <span class="na">phase1=</span><span class="s">&quot;3.14159265359&quot;</span> <span class="na">k1=</span><span class="s">&quot;4.6024&quot;</span><span class="nt">/&gt;</span>
+ ...
+<span class="nt">&lt;/PeriodicTorsionForce&gt;</span>
+</pre></div>
+</div>
+<p>Every child tag defines a rule for creating periodic torsion interactions
+between sets of four atoms.  Each tag may identify the atoms either by type
+(using the attributes <code class="code docutils literal notranslate"><span class="pre">type1</span></code>, <code class="code docutils literal notranslate"><span class="pre">type2</span></code>, …) or by class
+(using the attributes <code class="code docutils literal notranslate"><span class="pre">class1</span></code>, <code class="code docutils literal notranslate"><span class="pre">class2</span></code>, …).</p>
+<p>The force field recognizes two different types of torsions: proper and improper.
+A proper torsion involves four atoms that are bonded in sequence: 1 to 2, 2 to
+3, and 3 to 4.  An improper torsion involves a central atom and three others
+that are bonded to it: atoms 2, 3, and 4 are all bonded to atom 1.  The force
+field begins by identifying every set of atoms in the system of each of these
+types. For each one, it searches for a rule whose atom types or atom classes
+match the four atoms.  If it finds one, it calls <code class="code docutils literal notranslate"><span class="pre">addTorsion()</span></code> on the
+PeriodicTorsionForce with the specified parameters.  Otherwise, it ignores that
+set and continues.  <code class="code docutils literal notranslate"><span class="pre">periodicity1</span></code> is the periodicity of the torsion,
+<code class="code docutils literal notranslate"><span class="pre">phase1</span></code> is the phase offset in radians, and <code class="code docutils literal notranslate"><span class="pre">k1</span></code> is the
+force constant in kJ/mol.</p>
+<p>Each torsion definition can specify multiple periodic torsion terms to add to
+its atoms.  To add a second one, just add three more attributes:
+<code class="code docutils literal notranslate"><span class="pre">periodicity2</span></code>, <code class="code docutils literal notranslate"><span class="pre">phase2</span></code>, and <code class="code docutils literal notranslate"><span class="pre">k2</span></code>.  You can have as
+many terms as you want.  Here is an example of a rule that adds three torsion
+terms to its atoms:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;Proper</span> <span class="na">class1=</span><span class="s">&quot;CT&quot;</span> <span class="na">class2=</span><span class="s">&quot;CT&quot;</span> <span class="na">class3=</span><span class="s">&quot;CT&quot;</span> <span class="na">class4=</span><span class="s">&quot;CT&quot;</span>
+    <span class="na">periodicity1=</span><span class="s">&quot;3&quot;</span> <span class="na">phase1=</span><span class="s">&quot;0.0&quot;</span> <span class="na">k1=</span><span class="s">&quot;0.75312&quot;</span>
+    <span class="na">periodicity2=</span><span class="s">&quot;2&quot;</span> <span class="na">phase2=</span><span class="s">&quot;3.14159265359&quot;</span> <span class="na">k2=</span><span class="s">&quot;1.046&quot;</span>
+    <span class="na">periodicity3=</span><span class="s">&quot;1&quot;</span> <span class="na">phase3=</span><span class="s">&quot;3.14159265359&quot;</span> <span class="na">k3=</span><span class="s">&quot;0.8368&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<p>You can also use wildcards when defining torsions.  To do this, simply leave the
+type or class name for an atom empty.  That will cause it to match any atom.
+For example, the following definition will match any sequence of atoms where the
+second atom has class OS and the third has class P:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;Proper</span> <span class="na">class1=</span><span class="s">&quot;&quot;</span> <span class="na">class2=</span><span class="s">&quot;OS&quot;</span> <span class="na">class3=</span><span class="s">&quot;P&quot;</span> <span class="na">class4=</span><span class="s">&quot;&quot;</span> <span class="na">periodicity1=</span><span class="s">&quot;3&quot;</span> <span class="na">phase1=</span><span class="s">&quot;0.0&quot;</span> <span class="na">k1=</span><span class="s">&quot;1.046&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<p>The <code class="code docutils literal notranslate"><span class="pre">&lt;PeriodicTorsionForce&gt;</span></code> tag also supports an optional
+<code class="code docutils literal notranslate"><span class="pre">ordering</span></code> attribute to provide better compatibility with the way
+impropers are assigned in different simulation packages:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">ordering=&quot;default&quot;</span></code> specifies the default behavior if the attribute
+is omitted.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">ordering=&quot;amber&quot;</span></code> produces behavior that replicates the behavior of
+AmberTools LEaP</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">ordering=&quot;charmm&quot;</span></code> produces behavior more consistent with CHARMM</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">ordering=&quot;smirnoff&quot;</span></code> allows multiple impropers to be added using
+exact matching to replicate the beheavior of <a class="reference external" href="https://open-forcefield-toolkit.readthedocs.io/en/latest/users/smirnoff.html">SMIRNOFF</a>
+impropers</p></li>
+</ul>
+</div></blockquote>
+<p>Different <code class="code docutils literal notranslate"><span class="pre">&lt;PeriodicTorsionForce&gt;</span></code> tags can specify different <code class="code docutils literal notranslate"><span class="pre">ordering</span></code>
+values to be used for the sub-elements appearing within their tags.</p>
+</section>
+<section id="rbtorsionforce">
+<h3><span class="section-number">6.2.8. </span>&lt;RBTorsionForce&gt;<a class="headerlink" href="05_creating_ffs.html#rbtorsionforce" title="Permalink to this headline">¶</a></h3>
+<p>To add an RBTorsionForce to the System, include a tag that looks like this:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;RBTorsionForce&gt;</span>
+ <span class="nt">&lt;Proper</span> <span class="na">class1=</span><span class="s">&quot;CT&quot;</span> <span class="na">class2=</span><span class="s">&quot;CT&quot;</span> <span class="na">class3=</span><span class="s">&quot;OS&quot;</span> <span class="na">class4=</span><span class="s">&quot;CT&quot;</span> <span class="na">c0=</span><span class="s">&quot;2.439272&quot;</span> <span class="na">c1=</span><span class="s">&quot;4.807416&quot;</span>
+     <span class="na">c2=</span><span class="s">&quot;-0.8368&quot;</span> <span class="na">c3=</span><span class="s">&quot;-6.409888&quot;</span> <span class="na">c4=</span><span class="s">&quot;0&quot;</span> <span class="na">c5=</span><span class="s">&quot;0&quot;</span> <span class="nt">/&gt;</span>
+ <span class="nt">&lt;Proper</span> <span class="na">class1=</span><span class="s">&quot;C&quot;</span> <span class="na">class2=</span><span class="s">&quot;N&quot;</span> <span class="na">class3=</span><span class="s">&quot;CT&quot;</span> <span class="na">class4=</span><span class="s">&quot;C&quot;</span> <span class="na">c0=</span><span class="s">&quot;10.46&quot;</span> <span class="na">c1=</span><span class="s">&quot;-3.34720&quot;</span>
+     <span class="na">c2=</span><span class="s">&quot;-7.1128&quot;</span> <span class="na">c3=</span><span class="s">&quot;0&quot;</span> <span class="na">c4=</span><span class="s">&quot;0&quot;</span> <span class="na">c5=</span><span class="s">&quot;0&quot;</span> <span class="nt">/&gt;</span>
+ ...
+ <span class="nt">&lt;Improper</span> <span class="na">class1=</span><span class="s">&quot;N&quot;</span> <span class="na">class2=</span><span class="s">&quot;C&quot;</span> <span class="na">class3=</span><span class="s">&quot;CT&quot;</span> <span class="na">class4=</span><span class="s">&quot;O&quot;</span> <span class="na">c0=</span><span class="s">&quot;0.8368&quot;</span> <span class="na">c1=</span><span class="s">&quot;0&quot;</span>
+     <span class="na">c2=</span><span class="s">&quot;-2.76144&quot;</span> <span class="na">c3=</span><span class="s">&quot;0&quot;</span> <span class="na">c4=</span><span class="s">&quot;3.3472&quot;</span> <span class="na">c5=</span><span class="s">&quot;0&quot;</span> <span class="nt">/&gt;</span>
+ <span class="nt">&lt;Improper</span> <span class="na">class1=</span><span class="s">&quot;N&quot;</span> <span class="na">class2=</span><span class="s">&quot;C&quot;</span> <span class="na">class3=</span><span class="s">&quot;CT&quot;</span> <span class="na">class4=</span><span class="s">&quot;H&quot;</span> <span class="na">c0=</span><span class="s">&quot;29.288&quot;</span> <span class="na">c1=</span><span class="s">&quot;-8.368&quot;</span>
+     <span class="na">c2=</span><span class="s">&quot;-20.92&quot;</span> <span class="na">c3=</span><span class="s">&quot;0&quot;</span> <span class="na">c4=</span><span class="s">&quot;0&quot;</span> <span class="na">c5=</span><span class="s">&quot;0&quot;</span> <span class="nt">/&gt;</span>
+ ...
+<span class="nt">&lt;/RBTorsionForce&gt;</span>
+</pre></div>
+</div>
+<p>Every child tag defines a rule for creating Ryckaert-Bellemans torsion
+interactions between sets of four atoms.  Each tag may identify the atoms either
+by type (using the attributes <code class="code docutils literal notranslate"><span class="pre">type1</span></code>, <code class="code docutils literal notranslate"><span class="pre">type2</span></code>, …) or by
+class (using the attributes <code class="code docutils literal notranslate"><span class="pre">class1</span></code>, <code class="code docutils literal notranslate"><span class="pre">class2</span></code>, …).</p>
+<p>The force field recognizes two different types of torsions: proper and improper.
+A proper torsion involves four atoms that are bonded in sequence: 1 to 2, 2 to
+3, and 3 to 4.  An improper torsion involves a central atom and three others
+that are bonded to it: atoms 2, 3, and 4 are all bonded to atom 1.  The force
+field begins by identifying every set of atoms in the system of each of these
+types. For each one, it searches for a rule whose atom types or atom classes
+match the four atoms.  If it finds one, it calls <code class="code docutils literal notranslate"><span class="pre">addTorsion()</span></code> on the
+RBTorsionForce with the specified parameters.  Otherwise, it ignores that set
+and continues.  The attributes <code class="code docutils literal notranslate"><span class="pre">c0</span></code> through <code class="code docutils literal notranslate"><span class="pre">c5</span></code> are the
+coefficients of the terms in the Ryckaert-Bellemans force expression.</p>
+<p>You can also use wildcards when defining torsions.  To do this, simply leave the
+type or class name for an atom empty.  That will cause it to match any atom.
+For example, the following definition will match any sequence of atoms where the
+second atom has class OS and the third has class P:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;Proper</span> <span class="na">class1=</span><span class="s">&quot;&quot;</span> <span class="na">class2=</span><span class="s">&quot;OS&quot;</span> <span class="na">class3=</span><span class="s">&quot;P&quot;</span> <span class="na">class4=</span><span class="s">&quot;&quot;</span> <span class="na">c0=</span><span class="s">&quot;2.439272&quot;</span> <span class="na">c1=</span><span class="s">&quot;4.807416&quot;</span>
+    <span class="na">c2=</span><span class="s">&quot;-0.8368&quot;</span> <span class="na">c3=</span><span class="s">&quot;-6.409888&quot;</span> <span class="na">c4=</span><span class="s">&quot;0&quot;</span> <span class="na">c5=</span><span class="s">&quot;0&quot;</span> <span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="cmaptorsionforce">
+<h3><span class="section-number">6.2.9. </span>&lt;CMAPTorsionForce&gt;<a class="headerlink" href="05_creating_ffs.html#cmaptorsionforce" title="Permalink to this headline">¶</a></h3>
+<p>To add a CMAPTorsionForce to the System, include a tag that looks like this:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;CMAPTorsionForce&gt;</span>
+ <span class="nt">&lt;Map&gt;</span>
+  0.0 0.809 0.951 0.309
+  -0.587 -1.0 -0.587 0.309
+  0.951 0.809 0.0 -0.809
+  -0.951 -0.309 0.587 1.0
+ <span class="nt">&lt;/Map&gt;</span>
+ <span class="nt">&lt;Torsion</span> <span class="na">map=</span><span class="s">&quot;0&quot;</span> <span class="na">class1=</span><span class="s">&quot;CT&quot;</span> <span class="na">class2=</span><span class="s">&quot;CT&quot;</span> <span class="na">class3=</span><span class="s">&quot;C&quot;</span> <span class="na">class4=</span><span class="s">&quot;N&quot;</span> <span class="na">class5=</span><span class="s">&quot;CT&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Torsion</span> <span class="na">map=</span><span class="s">&quot;0&quot;</span> <span class="na">class1=</span><span class="s">&quot;N&quot;</span> <span class="na">class2=</span><span class="s">&quot;CT&quot;</span> <span class="na">class3=</span><span class="s">&quot;C&quot;</span> <span class="na">class4=</span><span class="s">&quot;N&quot;</span> <span class="na">class5=</span><span class="s">&quot;CT&quot;</span><span class="nt">/&gt;</span>
+ ...
+<span class="nt">&lt;/CMAPTorsionForce&gt;</span>
+</pre></div>
+</div>
+<p>Each <code class="code docutils literal notranslate"><span class="pre">&lt;Map&gt;</span></code> tag defines an energy correction map.  Its content is the
+list of energy values in kJ/mole, listed in the correct order for
+CMAPTorsionForce’s <code class="code docutils literal notranslate"><span class="pre">addMap()</span></code> method and separated by white space.
+See the API documentation for details.  The size of the map is determined from
+the number of energy values.</p>
+<p>Each <code class="code docutils literal notranslate"><span class="pre">&lt;Torsion&gt;</span></code> tag defines a rule for creating CMAP torsion
+interactions between sets of five atoms.  The tag may identify the atoms either
+by type (using the attributes <code class="code docutils literal notranslate"><span class="pre">type1</span></code>, <code class="code docutils literal notranslate"><span class="pre">type2</span></code>, …) or by
+class (using the attributes <code class="code docutils literal notranslate"><span class="pre">class1</span></code>, <code class="code docutils literal notranslate"><span class="pre">class2</span></code>, …).  The
+force field identifies every set of five atoms that are bonded in sequence: 1 to
+2, 2 to 3, 3 to 4, and 4 to 5.  For each one, it searches for a rule whose atom
+types or atom classes match the five atoms.  If it finds one, it calls
+<code class="code docutils literal notranslate"><span class="pre">addTorsion()</span></code> on the CMAPTorsionForce with the specified parameters.
+Otherwise, it ignores that set and continues.  The first torsion is defined by
+the sequence of atoms 1-2-3-4, and the second one by atoms 2-3-4-5.
+<code class="code docutils literal notranslate"><span class="pre">map</span></code> is the index of the map to use, starting from 0, in the order they
+are listed in the file.</p>
+<p>You can also use wildcards when defining torsions.  To do this, simply leave the
+type or class name for an atom empty.  That will cause it to match any atom.
+For example, the following definition will match any sequence of five atoms
+where the middle three have classes CT, C, and N respectively:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;Torsion</span> <span class="na">map=</span><span class="s">&quot;0&quot;</span> <span class="na">class1=</span><span class="s">&quot;&quot;</span> <span class="na">class2=</span><span class="s">&quot;CT&quot;</span> <span class="na">class3=</span><span class="s">&quot;C&quot;</span> <span class="na">class4=</span><span class="s">&quot;N&quot;</span> <span class="na">class5=</span><span class="s">&quot;&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="nonbondedforce">
+<h3><span class="section-number">6.2.10. </span>&lt;NonbondedForce&gt;<a class="headerlink" href="05_creating_ffs.html#nonbondedforce" title="Permalink to this headline">¶</a></h3>
+<p>To add a NonbondedForce to the System, include a tag that looks like this:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;NonbondedForce</span> <span class="na">coulomb14scale=</span><span class="s">&quot;0.833333&quot;</span> <span class="na">lj14scale=</span><span class="s">&quot;0.5&quot;</span><span class="nt">&gt;</span>
+ <span class="nt">&lt;Atom</span> <span class="na">type=</span><span class="s">&quot;0&quot;</span> <span class="na">charge=</span><span class="s">&quot;-0.4157&quot;</span> <span class="na">sigma=</span><span class="s">&quot;0.32499&quot;</span> <span class="na">epsilon=</span><span class="s">&quot;0.71128&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Atom</span> <span class="na">type=</span><span class="s">&quot;1&quot;</span> <span class="na">charge=</span><span class="s">&quot;0.2719&quot;</span> <span class="na">sigma=</span><span class="s">&quot;0.10690&quot;</span> <span class="na">epsilon=</span><span class="s">&quot;0.06568&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Atom</span> <span class="na">type=</span><span class="s">&quot;2&quot;</span> <span class="na">charge=</span><span class="s">&quot;0.0337&quot;</span> <span class="na">sigma=</span><span class="s">&quot;0.33996&quot;</span> <span class="na">epsilon=</span><span class="s">&quot;0.45772&quot;</span><span class="nt">/&gt;</span>
+ ...
+<span class="nt">&lt;/NonbondedForce&gt;</span>
+</pre></div>
+</div>
+<p>The <code class="code docutils literal notranslate"><span class="pre">&lt;NonbondedForce&gt;</span></code> tag has two attributes
+<code class="code docutils literal notranslate"><span class="pre">coulomb14scale</span></code> and <code class="code docutils literal notranslate"><span class="pre">lj14scale</span></code> that specify the scale
+factors between pairs of atoms separated by three bonds.  After setting the
+nonbonded parameters for all atoms, the force field calls
+<code class="code docutils literal notranslate"><span class="pre">createExceptionsFromBonds()</span></code> on the NonbondedForce, passing in these
+scale factors as arguments.</p>
+<p>Each <code class="code docutils literal notranslate"><span class="pre">&lt;Atom&gt;</span></code> tag specifies the nonbonded parameters for one atom type
+(specified with the <code class="code docutils literal notranslate"><span class="pre">type</span></code> attribute) or atom class (specified with
+the <code class="code docutils literal notranslate"><span class="pre">class</span></code> attribute).  It is fine to mix these two methods, having
+some tags specify a type and others specify a class.  However you do it, you
+must make sure that a unique set of parameters is defined for every atom type.
+<code class="code docutils literal notranslate"><span class="pre">charge</span></code> is measured in units of the proton charge, <code class="code docutils literal notranslate"><span class="pre">sigma</span></code>
+is in nm, and <code class="code docutils literal notranslate"><span class="pre">epsilon</span></code> is in kJ/mole.</p>
+</section>
+<section id="gbsaobcforce">
+<h3><span class="section-number">6.2.11. </span>&lt;GBSAOBCForce&gt;<a class="headerlink" href="05_creating_ffs.html#gbsaobcforce" title="Permalink to this headline">¶</a></h3>
+<p>To add a GBSAOBCForce to the System, include a tag that looks like this:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;GBSAOBCForce&gt;</span>
+ <span class="nt">&lt;Atom</span> <span class="na">type=</span><span class="s">&quot;0&quot;</span> <span class="na">charge=</span><span class="s">&quot;-0.4157&quot;</span> <span class="na">radius=</span><span class="s">&quot;0.1706&quot;</span> <span class="na">scale=</span><span class="s">&quot;0.79&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Atom</span> <span class="na">type=</span><span class="s">&quot;1&quot;</span> <span class="na">charge=</span><span class="s">&quot;0.2719&quot;</span> <span class="na">radius=</span><span class="s">&quot;0.115&quot;</span> <span class="na">scale=</span><span class="s">&quot;0.85&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Atom</span> <span class="na">type=</span><span class="s">&quot;2&quot;</span> <span class="na">charge=</span><span class="s">&quot;0.0337&quot;</span> <span class="na">radius=</span><span class="s">&quot;0.19&quot;</span> <span class="na">scale=</span><span class="s">&quot;0.72&quot;</span><span class="nt">/&gt;</span>
+ ...
+<span class="nt">&lt;/GBSAOBCForce&gt;</span>
+</pre></div>
+</div>
+<p>Each <code class="code docutils literal notranslate"><span class="pre">&lt;Atom&gt;</span></code> tag specifies the OBC parameters for one atom type
+(specified with the <code class="code docutils literal notranslate"><span class="pre">type</span></code> attribute) or atom class (specified with
+the <code class="code docutils literal notranslate"><span class="pre">class</span></code> attribute).  It is fine to mix these two methods, having
+some tags specify a type and others specify a class.  However you do it, you
+must make sure that a unique set of parameters is defined for every atom type.
+<code class="code docutils literal notranslate"><span class="pre">charge</span></code> is measured in units of the proton charge, <code class="code docutils literal notranslate"><span class="pre">radius</span></code>
+is the GBSA radius in nm, and <code class="code docutils literal notranslate"><span class="pre">scale</span></code> is the OBC scaling factor.</p>
+</section>
+<section id="custombondforce">
+<h3><span class="section-number">6.2.12. </span>&lt;CustomBondForce&gt;<a class="headerlink" href="05_creating_ffs.html#custombondforce" title="Permalink to this headline">¶</a></h3>
+<p>To add a CustomBondForce to the System, include a tag that looks like this:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;CustomBondForce</span> <span class="na">energy=</span><span class="s">&quot;scale*k*(r-r0)^2&quot;</span><span class="nt">&gt;</span>
+ <span class="nt">&lt;GlobalParameter</span> <span class="na">name=</span><span class="s">&quot;scale&quot;</span> <span class="na">defaultValue=</span><span class="s">&quot;0.5&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;PerBondParameter</span> <span class="na">name=</span><span class="s">&quot;k&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;PerBondParameter</span> <span class="na">name=</span><span class="s">&quot;r0&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Bond</span> <span class="na">class1=</span><span class="s">&quot;OW&quot;</span> <span class="na">class2=</span><span class="s">&quot;HW&quot;</span> <span class="na">r0=</span><span class="s">&quot;0.09572&quot;</span> <span class="na">k=</span><span class="s">&quot;462750.4&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Bond</span> <span class="na">class1=</span><span class="s">&quot;HW&quot;</span> <span class="na">class2=</span><span class="s">&quot;HW&quot;</span> <span class="na">r0=</span><span class="s">&quot;0.15136&quot;</span> <span class="na">k=</span><span class="s">&quot;462750.4&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Bond</span> <span class="na">class1=</span><span class="s">&quot;C&quot;</span> <span class="na">class2=</span><span class="s">&quot;C&quot;</span> <span class="na">r0=</span><span class="s">&quot;0.1525&quot;</span> <span class="na">k=</span><span class="s">&quot;259408.0&quot;</span><span class="nt">/&gt;</span>
+ ...
+<span class="nt">&lt;/CustomBondForce&gt;</span>
+</pre></div>
+</div>
+<p>The energy expression for the CustomBondForce is specified by the
+<code class="code docutils literal notranslate"><span class="pre">energy</span></code> attribute.  This is a mathematical expression that gives the
+energy of each bond as a function of its length <em>r</em>.  It also may depend on
+an arbitrary list of global or per-bond parameters.  Use a
+<code class="code docutils literal notranslate"><span class="pre">&lt;GlobalParameter&gt;</span></code> tag to define a global parameter, and a
+<code class="code docutils literal notranslate"><span class="pre">&lt;PerBondParameter&gt;</span></code> tag to define a per-bond parameter.</p>
+<p>Every <code class="code docutils literal notranslate"><span class="pre">&lt;Bond&gt;</span></code> tag defines a rule for creating custom bond
+interactions between atoms.  Each tag may identify the atoms either by type
+(using the attributes <code class="code docutils literal notranslate"><span class="pre">type1</span></code> and <code class="code docutils literal notranslate"><span class="pre">type2</span></code>) or by class
+(using the attributes <code class="code docutils literal notranslate"><span class="pre">class1</span></code> and <code class="code docutils literal notranslate"><span class="pre">class2</span></code>).  For every
+pair of bonded atoms, the force field searches for a rule whose atom types or
+atom classes match the two atoms.  If it finds one, it calls
+<code class="code docutils literal notranslate"><span class="pre">addBond()</span></code> on the CustomBondForce.  Otherwise, it ignores that pair and
+continues.  The remaining attributes are the values to use for the per-bond
+parameters.  All per-bond parameters must be specified for every
+<code class="code docutils literal notranslate"><span class="pre">&lt;Bond&gt;</span></code> tag, and the attribute name must match the name of the
+parameter.  For instance, if there is a per-bond parameter with the name “k”,
+then every <code class="code docutils literal notranslate"><span class="pre">&lt;Bond&gt;</span></code> tag must include an attribute called <code class="code docutils literal notranslate"><span class="pre">k</span></code>.</p>
+</section>
+<section id="customangleforce">
+<h3><span class="section-number">6.2.13. </span>&lt;CustomAngleForce&gt;<a class="headerlink" href="05_creating_ffs.html#customangleforce" title="Permalink to this headline">¶</a></h3>
+<p>To add a CustomAngleForce to the System, include a tag that looks like this:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;CustomAngleForce</span> <span class="na">energy=</span><span class="s">&quot;scale*k*(theta-theta0)^2&quot;</span><span class="nt">&gt;</span>
+ <span class="nt">&lt;GlobalParameter</span> <span class="na">name=</span><span class="s">&quot;scale&quot;</span> <span class="na">defaultValue=</span><span class="s">&quot;0.5&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;PerAngleParameter</span> <span class="na">name=</span><span class="s">&quot;k&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;PerAngleParameter</span> <span class="na">name=</span><span class="s">&quot; theta0&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Angle</span> <span class="na">class1=</span><span class="s">&quot;HW&quot;</span> <span class="na">class2=</span><span class="s">&quot;OW&quot;</span> <span class="na">class3=</span><span class="s">&quot;HW&quot;</span> <span class="na">theta0=</span><span class="s">&quot;1.824218&quot;</span> <span class="na">k=</span><span class="s">&quot;836.8&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Angle</span> <span class="na">class1=</span><span class="s">&quot;HW&quot;</span> <span class="na">class2=</span><span class="s">&quot;HW&quot;</span> <span class="na">class3=</span><span class="s">&quot;OW&quot;</span> <span class="na">theta0=</span><span class="s">&quot;2.229483&quot;</span> <span class="na">k=</span><span class="s">&quot;0.0&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Angle</span> <span class="na">class1=</span><span class="s">&quot;C&quot;</span> <span class="na">class2=</span><span class="s">&quot;C&quot;</span> <span class="na">class3=</span><span class="s">&quot;O&quot;</span> <span class="na">theta0=</span><span class="s">&quot;2.094395&quot;</span> <span class="na">k=</span><span class="s">&quot;669.44&quot;</span><span class="nt">/&gt;</span>
+ ...
+<span class="nt">&lt;/CustomAngleForce&gt;</span>
+</pre></div>
+</div>
+<p>The energy expression for the CustomAngleForce is specified by the
+<code class="code docutils literal notranslate"><span class="pre">energy</span></code> attribute.  This is a mathematical expression that gives the
+energy of each angle as a function of the angle <em>theta</em>.  It also may depend
+on an arbitrary list of global or per-angle parameters.  Use a
+<code class="code docutils literal notranslate"><span class="pre">&lt;GlobalParameter&gt;</span></code> tag to define a global parameter, and a
+<code class="code docutils literal notranslate"><span class="pre">&lt;PerAngleParameter&gt;</span></code> tag to define a per-angle parameter.</p>
+<p>Every <code class="code docutils literal notranslate"><span class="pre">&lt;Angle&gt;</span></code> tag defines a rule for creating custom angle
+interactions between triplets of atoms.  Each tag may identify the atoms either
+by type (using the attributes <code class="code docutils literal notranslate"><span class="pre">type1</span></code>, <code class="code docutils literal notranslate"><span class="pre">type2</span></code>, …) or by
+class (using the attributes <code class="code docutils literal notranslate"><span class="pre">class1</span></code>, <code class="code docutils literal notranslate"><span class="pre">class2</span></code>, …).  The
+force field identifies every set of three atoms in the system where the first is
+bonded to the second, and the second to the third.  For each one, it searches
+for a rule whose atom types or atom classes match the three atoms.  If it finds
+one, it calls <code class="code docutils literal notranslate"><span class="pre">addAngle()</span></code> on the CustomAngleForce.  Otherwise, it
+ignores that set and continues. The remaining attributes are the values to use
+for the per-angle parameters. All per-angle parameters must be specified for
+every <code class="code docutils literal notranslate"><span class="pre">&lt;Angle&gt;</span></code> tag, and the attribute name must match the name of the
+parameter.  For instance, if there is a per-angle parameter with the name “k”,
+then every <code class="code docutils literal notranslate"><span class="pre">&lt;Angle&gt;</span></code> tag must include an attribute called <code class="code docutils literal notranslate"><span class="pre">k</span></code>.</p>
+</section>
+<section id="customtorsionforce">
+<h3><span class="section-number">6.2.14. </span>&lt;CustomTorsionForce&gt;<a class="headerlink" href="05_creating_ffs.html#customtorsionforce" title="Permalink to this headline">¶</a></h3>
+<p>To add a CustomTorsionForce to the System, include a tag that looks like this:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;CustomTorsionForce</span> <span class="na">energy=</span><span class="s">&quot;scale*k*(1+cos(per*theta-phase))&quot;</span><span class="nt">&gt;</span>
+ <span class="nt">&lt;GlobalParameter</span> <span class="na">name=</span><span class="s">&quot;scale&quot;</span> <span class="na">defaultValue=</span><span class="s">&quot;1&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;PerTorsionParameter</span> <span class="na">name=</span><span class="s">&quot;k&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;PerTorsionParameter</span> <span class="na">name=</span><span class="s">&quot;per&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;PerTorsionParameter</span> <span class="na">name=</span><span class="s">&quot;phase&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Proper</span> <span class="na">class1=</span><span class="s">&quot;HC&quot;</span> <span class="na">class2=</span><span class="s">&quot;CT&quot;</span> <span class="na">class3=</span><span class="s">&quot;CT&quot;</span> <span class="na">class4=</span><span class="s">&quot;CT&quot;</span> <span class="na">per=</span><span class="s">&quot;3&quot;</span> <span class="na">phase=</span><span class="s">&quot;0.0&quot;</span> <span class="na">k=</span><span class="s">&quot;0.66944&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Proper</span> <span class="na">class1=</span><span class="s">&quot;HC&quot;</span> <span class="na">class2=</span><span class="s">&quot;CT&quot;</span> <span class="na">class3=</span><span class="s">&quot;CT&quot;</span> <span class="na">class4=</span><span class="s">&quot;HC&quot;</span> <span class="na">per=</span><span class="s">&quot;3&quot;</span> <span class="na">phase=</span><span class="s">&quot;0.0&quot;</span> <span class="na">k=</span><span class="s">&quot;0.6276&quot;</span><span class="nt">/&gt;</span>
+ ...
+ <span class="nt">&lt;Improper</span> <span class="na">class1=</span><span class="s">&quot;N&quot;</span> <span class="na">class2=</span><span class="s">&quot;C&quot;</span> <span class="na">class3=</span><span class="s">&quot;CT&quot;</span> <span class="na">class4=</span><span class="s">&quot;O&quot;</span> <span class="na">per=</span><span class="s">&quot;2&quot;</span> <span class="na">phase=</span><span class="s">&quot;3.14159265359&quot;</span>
+     <span class="na">k=</span><span class="s">&quot;4.6024&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Improper</span> <span class="na">class1=</span><span class="s">&quot;N&quot;</span> <span class="na">class2=</span><span class="s">&quot;C&quot;</span> <span class="na">class3=</span><span class="s">&quot;CT&quot;</span> <span class="na">class4=</span><span class="s">&quot;H&quot;</span> <span class="na">per=</span><span class="s">&quot;2&quot;</span> <span class="na">phase=</span><span class="s">&quot;3.14159265359&quot;</span>
+     <span class="na">k=</span><span class="s">&quot;4.6024&quot;</span><span class="nt">/&gt;</span>
+ ...
+<span class="nt">&lt;/CustomTorsionForce&gt;</span>
+</pre></div>
+</div>
+<p>The energy expression for the CustomTorsionForce is specified by the
+<code class="code docutils literal notranslate"><span class="pre">energy</span></code> attribute.  This is a mathematical expression that gives the
+energy of each torsion as a function of the angle <em>theta</em>.  It also may
+depend on an arbitrary list of global or per-torsion parameters.  Use a
+<code class="code docutils literal notranslate"><span class="pre">&lt;GlobalParameter&gt;</span></code> tag to define a global parameter, and a
+<code class="code docutils literal notranslate"><span class="pre">&lt;PerTorsionParameter&gt;</span></code> tag to define a per-torsion parameter.</p>
+<p>Every child tag defines a rule for creating custom torsion interactions between
+sets of four atoms.  Each tag may identify the atoms either by type (using the
+attributes <code class="code docutils literal notranslate"><span class="pre">type1</span></code>, <code class="code docutils literal notranslate"><span class="pre">type2</span></code>, …) or by class (using the
+attributes <code class="code docutils literal notranslate"><span class="pre">class1</span></code>, <code class="code docutils literal notranslate"><span class="pre">class2</span></code>, …).</p>
+<p>The force field recognizes two different types of torsions: proper and improper.
+A proper torsion involves four atoms that are bonded in sequence: 1 to 2, 2 to
+3, and 3 to 4.  An improper torsion involves a central atom and three others
+that are bonded to it: atoms 2, 3, and 4 are all bonded to atom 1.  The force
+field begins by identifying every set of atoms in the system of each of these
+types. For each one, it searches for a rule whose atom types or atom classes
+match the four atoms.  If it finds one, it calls <code class="code docutils literal notranslate"><span class="pre">addTorsion()</span></code> on the
+CustomTorsionForce with the specified parameters.  Otherwise, it ignores that
+set and continues. The remaining attributes are the values to use for the per-
+torsion parameters.  Every <code class="code docutils literal notranslate"><span class="pre">&lt;Torsion&gt;</span></code> tag must include one attribute
+for every per-torsion parameter, and the attribute name must match the name of
+the parameter.</p>
+<p>You can also use wildcards when defining torsions.  To do this, simply leave the
+type or class name for an atom empty.  That will cause it to match any atom.
+For example, the following definition will match any sequence of atoms where the
+second atom has class OS and the third has class P:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;Proper</span> <span class="na">class1=</span><span class="s">&quot;&quot;</span> <span class="na">class2=</span><span class="s">&quot;OS&quot;</span> <span class="na">class3=</span><span class="s">&quot;P&quot;</span> <span class="na">class4=</span><span class="s">&quot;&quot;</span> <span class="na">per=</span><span class="s">&quot;3&quot;</span> <span class="na">phase=</span><span class="s">&quot;0.0&quot;</span> <span class="na">k=</span><span class="s">&quot;0.66944&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="customnonbondedforce">
+<h3><span class="section-number">6.2.15. </span>&lt;CustomNonbondedForce&gt;<a class="headerlink" href="05_creating_ffs.html#customnonbondedforce" title="Permalink to this headline">¶</a></h3>
+<p>To add a CustomNonbondedForce to the System, include a tag that looks like this:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;CustomNonbondedForce</span> <span class="na">energy=</span><span class="s">&quot;scale*epsilon1*epsilon2*((sigma1+sigma2)/r)^12&quot;</span> <span class="na">bondCutoff=</span><span class="s">&quot;3&quot;</span><span class="nt">&gt;</span>
+ <span class="nt">&lt;GlobalParameter</span> <span class="na">name=</span><span class="s">&quot;scale&quot;</span> <span class="na">defaultValue=</span><span class="s">&quot;1&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;PerParticleParameter</span> <span class="na">name=</span><span class="s">&quot;sigma&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;PerParticleParameter</span> <span class="na">name=</span><span class="s">&quot;epsilon&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Atom</span> <span class="na">type=</span><span class="s">&quot;0&quot;</span> <span class="na">sigma=</span><span class="s">&quot;0.3249&quot;</span> <span class="na">epsilon=</span><span class="s">&quot;0.7112&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Atom</span> <span class="na">type=</span><span class="s">&quot;1&quot;</span> <span class="na">sigma=</span><span class="s">&quot;0.1069&quot;</span> <span class="na">epsilon=</span><span class="s">&quot;0.0656&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Atom</span> <span class="na">type=</span><span class="s">&quot;2&quot;</span> <span class="na">sigma=</span><span class="s">&quot;0.3399&quot;</span> <span class="na">epsilon=</span><span class="s">&quot;0.4577&quot;</span><span class="nt">/&gt;</span>
+ ...
+<span class="nt">&lt;/CustomNonbondedForce&gt;</span>
+</pre></div>
+</div>
+<p>The energy expression for the CustomNonbondedForce is specified by the
+<code class="code docutils literal notranslate"><span class="pre">energy</span></code> attribute.  This is a mathematical expression that gives the
+energy of each pairwise interaction as a function of the distance <em>r</em>.  It
+also may depend on an arbitrary list of global or per-particle parameters.  Use
+a <code class="code docutils literal notranslate"><span class="pre">&lt;GlobalParameter&gt;</span></code> tag to define a global parameter, and a
+<code class="code docutils literal notranslate"><span class="pre">&lt;PerParticleParameter&gt;</span></code> tag to define a per-particle parameter.</p>
+<p>Exclusions are created automatically based on the <code class="code docutils literal notranslate"><span class="pre">bondCutoff</span></code> attribute.
+After setting the nonbonded parameters for all atoms, the force field calls
+<code class="code docutils literal notranslate"><span class="pre">createExclusionsFromBonds()</span></code> on the CustomNonbondedForce, passing in this
+value as its argument.  To avoid creating exclusions, set <code class="code docutils literal notranslate"><span class="pre">bondCutoff</span></code> to 0.</p>
+<p>Each <code class="code docutils literal notranslate"><span class="pre">&lt;Atom&gt;</span></code> tag specifies the parameters for one atom type
+(specified with the <code class="code docutils literal notranslate"><span class="pre">type</span></code> attribute) or atom class (specified with
+the <code class="code docutils literal notranslate"><span class="pre">class</span></code> attribute).  It is fine to mix these two methods, having
+some tags specify a type and others specify a class.  However you do it, you
+must make sure that a unique set of parameters is defined for every atom type.
+The remaining attributes are the values to use for the per-atom parameters. All
+per-atom parameters must be specified for every <code class="code docutils literal notranslate"><span class="pre">&lt;Atom&gt;</span></code> tag, and the
+attribute name must match the name of the parameter.  For instance, if there is
+a per-atom parameter with the name “radius”, then every <code class="code docutils literal notranslate"><span class="pre">&lt;Atom&gt;</span></code> tag
+must include an attribute called <code class="code docutils literal notranslate"><span class="pre">radius</span></code>.</p>
+<p>CustomNonbondedForce also allows you to define tabulated functions.  See Section
+<a class="reference internal" href="05_creating_ffs.html#tabulated-functions"><span class="std std-numref">6.2.20</span></a> for details.</p>
+</section>
+<section id="customgbforce">
+<h3><span class="section-number">6.2.16. </span>&lt;CustomGBForce&gt;<a class="headerlink" href="05_creating_ffs.html#customgbforce" title="Permalink to this headline">¶</a></h3>
+<p>To add a CustomGBForce to the System, include a tag that looks like this:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;CustomGBForce&gt;</span>
+ <span class="nt">&lt;GlobalParameter</span> <span class="na">name=</span><span class="s">&quot;solventDielectric&quot;</span> <span class="na">defaultValue=</span><span class="s">&quot;78.3&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;GlobalParameter</span> <span class="na">name=</span><span class="s">&quot;soluteDielectric&quot;</span> <span class="na">defaultValue=</span><span class="s">&quot;1&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;PerParticleParameter</span> <span class="na">name=</span><span class="s">&quot;charge&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;PerParticleParameter</span> <span class="na">name=</span><span class="s">&quot;radius&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;PerParticleParameter</span> <span class="na">name=</span><span class="s">&quot;scale&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;ComputedValue</span> <span class="na">name=</span><span class="s">&quot;I&quot;</span> <span class="na">type=</span><span class="s">&quot;ParticlePairNoExclusions&quot;</span><span class="nt">&gt;</span>
+    step(r+sr2-or1)*0.5*(1/L-1/U+0.25*(1/U^2-1/L^2)*(r-sr2*sr2/r)+0.5*log(L/U)/r+C);
+    U=r+sr2; C=2*(1/or1-1/L)*step(sr2-r-or1); L=max(or1, D); D=abs(r-sr2); sr2 =
+    scale2*or2; or1 = radius1-0.009; or2 = radius2-0.009
+ <span class="nt">&lt;/ComputedValue&gt;</span>
+ <span class="nt">&lt;ComputedValue</span> <span class="na">name=</span><span class="s">&quot;B&quot;</span> <span class="na">type=</span><span class="s">&quot;SingleParticle&quot;</span><span class="nt">&gt;</span>
+  1/(1/or-tanh(1*psi-0.8*psi^2+4.85*psi^3)/radius); psi=I*or; or=radius-0.009
+ <span class="nt">&lt;/ComputedValue&gt;</span>
+ <span class="nt">&lt;EnergyTerm</span> <span class="na">type=</span><span class="s">&quot;SingleParticle&quot;</span><span class="nt">&gt;</span>
+  28.3919551*(radius+0.14)^2*(radius/B)^6-0.5*138.935456*
+          (1/soluteDielectric-1/solventDielectric)*charge^2/B
+ <span class="nt">&lt;/EnergyTerm&gt;</span>
+ <span class="nt">&lt;EnergyTerm</span> <span class="na">type=</span><span class="s">&quot;ParticlePair&quot;</span><span class="nt">&gt;</span>
+  -138.935456*(1/soluteDielectric-1/solventDielectric)*charge1*charge2/f;
+          f=sqrt(r^2+B1*B2*exp(-r^2/(4*B1*B2)))
+ <span class="nt">&lt;/EnergyTerm&gt;</span>
+ <span class="nt">&lt;Atom</span> <span class="na">type=</span><span class="s">&quot;0&quot;</span> <span class="na">charge=</span><span class="s">&quot;-0.4157&quot;</span> <span class="na">radius=</span><span class="s">&quot;0.1706&quot;</span> <span class="na">scale=</span><span class="s">&quot;0.79&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Atom</span> <span class="na">type=</span><span class="s">&quot;1&quot;</span> <span class="na">charge=</span><span class="s">&quot;0.2719&quot;</span> <span class="na">radius=</span><span class="s">&quot;0.115&quot;</span> <span class="na">scale=</span><span class="s">&quot;0.85&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Atom</span> <span class="na">type=</span><span class="s">&quot;2&quot;</span> <span class="na">charge=</span><span class="s">&quot;0.0337&quot;</span> <span class="na">radius=</span><span class="s">&quot;0.19&quot;</span> <span class="na">scale=</span><span class="s">&quot;0.72&quot;</span><span class="nt">/&gt;</span>
+ ...
+<span class="nt">&lt;/CustomGBForce&gt;</span>
+</pre></div>
+</div>
+<p>The above (rather complicated) example defines a generalized Born model that is
+equivalent to GBSAOBCForce.  The definition consists of a set of computed values
+(defined by <code class="code docutils literal notranslate"><span class="pre">&lt;ComputedValue&gt;</span></code> tags) and energy terms (defined by
+<code class="code docutils literal notranslate"><span class="pre">&lt;EnergyTerm&gt;</span></code> tags), each of which is evaluated according to a
+mathematical expression.  See the API documentation for details.</p>
+<p>The expressions may depend on an arbitrary list of global or per-atom
+parameters.  Use a <code class="code docutils literal notranslate"><span class="pre">&lt;GlobalParameter&gt;</span></code> tag to define a global
+parameter, and a <code class="code docutils literal notranslate"><span class="pre">&lt;PerAtomParameter&gt;</span></code> tag to define a per-atom
+parameter.</p>
+<p>Each <code class="code docutils literal notranslate"><span class="pre">&lt;Atom&gt;</span></code> tag specifies the parameters for one atom type
+(specified with the <code class="code docutils literal notranslate"><span class="pre">type</span></code> attribute) or atom class (specified with
+the <code class="code docutils literal notranslate"><span class="pre">class</span></code> attribute).  It is fine to mix these two methods, having
+some tags specify a type and others specify a class.  However you do it, you
+must make sure that a unique set of parameters is defined for every atom type.
+The remaining attributes are the values to use for the per-atom parameters. All
+per-atom parameters must be specified for every <code class="code docutils literal notranslate"><span class="pre">&lt;Atom&gt;</span></code> tag, and the
+attribute name must match the name of the parameter.  For instance, if there is
+a per-atom parameter with the name “radius”, then every <code class="code docutils literal notranslate"><span class="pre">&lt;Atom&gt;</span></code> tag
+must include an attribute called <code class="code docutils literal notranslate"><span class="pre">radius</span></code>.</p>
+<p>CustomGBForce also allows you to define tabulated functions.  See Section
+<a class="reference internal" href="05_creating_ffs.html#tabulated-functions"><span class="std std-numref">6.2.20</span></a> for details.</p>
+</section>
+<section id="customhbondforce">
+<h3><span class="section-number">6.2.17. </span>&lt;CustomHbondForce&gt;<a class="headerlink" href="05_creating_ffs.html#customhbondforce" title="Permalink to this headline">¶</a></h3>
+<p>To add a CustomHbondForce to the System, include a tag that looks like this:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;CustomHbondForce</span> <span class="na">particlesPerDonor=</span><span class="s">&quot;3&quot;</span> <span class="na">particlesPerAcceptor=</span><span class="s">&quot;2&quot;</span> <span class="na">bondCutoff=</span><span class="s">&quot;2&quot;</span>
+    <span class="na">energy=</span><span class="s">&quot;scale*k*(distance(a1,d1)-r0)^2*(angle(a1,d1,d2)-theta0)^2&quot;</span><span class="nt">&gt;</span>
+ <span class="nt">&lt;GlobalParameter</span> <span class="na">name=</span><span class="s">&quot;scale&quot;</span> <span class="na">defaultValue=</span><span class="s">&quot;1&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;PerDonorParameter</span> <span class="na">name=</span><span class="s">&quot;theta0&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;PerAcceptorParameter</span> <span class="na">name=</span><span class="s">&quot;k&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;PerAcceptorParameter</span> <span class="na">name=</span><span class="s">&quot;r0&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Donor</span> <span class="na">class1=</span><span class="s">&quot;H&quot;</span> <span class="na">class2=</span><span class="s">&quot;N&quot;</span> <span class="na">class3=</span><span class="s">&quot;C&quot;</span> <span class="na">theta0=</span><span class="s">&quot;2.1&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Acceptor</span> <span class="na">class1=</span><span class="s">&quot;O&quot;</span> <span class="na">class2=</span><span class="s">&quot;C&quot;</span> <span class="na">k=</span><span class="s">&quot;115.0&quot;</span> <span class="na">r0=</span><span class="s">&quot;0.2&quot;</span><span class="nt">/&gt;</span>
+ ...
+<span class="nt">&lt;/CustomHbondForce&gt;</span>
+</pre></div>
+</div>
+<p>The energy expression for the CustomHbondForce is specified by the
+<code class="code docutils literal notranslate"><span class="pre">energy</span></code> attribute.  This is a mathematical expression that gives the
+energy of each donor-acceptor interaction as a function of various particle coordinates,
+distances, and angles.  See the API documentation for details.  <code class="code docutils literal notranslate"><span class="pre">particlesPerDonor</span></code>
+specifies the number of particles that make up a donor group, and <code class="code docutils literal notranslate"><span class="pre">particlesPerAcceptor</span></code>
+specifies the number of particles that make up an acceptor group.</p>
+<p>The expression may depend on an arbitrary list of global, per-donor, or
+per-acceptor parameters.  Use a <code class="code docutils literal notranslate"><span class="pre">&lt;GlobalParameter&gt;</span></code> tag to define a global
+parameter, a <code class="code docutils literal notranslate"><span class="pre">&lt;PerDonorParameter&gt;</span></code> tag to define a per-donor parameter,
+and a <code class="code docutils literal notranslate"><span class="pre">&lt;PerAcceptorParameter&gt;</span></code> tag to define a per-acceptor parameter.</p>
+<p>Exclusions are created automatically based on the <code class="code docutils literal notranslate"><span class="pre">bondCutoff</span></code> attribute.
+If any atom of a donor is within the specified distance (measured in bonds) of
+any atom of an acceptor, an exclusion is added to prevent them from interacting
+with each other.  If a donor and an acceptor share any atom in common, that is a
+bond distance of 0, so they are always excluded.</p>
+<p>Every <code class="code docutils literal notranslate"><span class="pre">&lt;Donor&gt;</span></code> or <code class="code docutils literal notranslate"><span class="pre">&lt;Acceptor&gt;</span></code> tag defines a rule for creating donor
+or acceptor groups.  The number of atoms specified in each one must match the
+value of <code class="code docutils literal notranslate"><span class="pre">particlesPerDonor</span></code> or <code class="code docutils literal notranslate"><span class="pre">particlesPerAcceptor</span></code> specified in the
+parent tag. Each tag may identify the atoms either by type (using the attributes
+<code class="code docutils literal notranslate"><span class="pre">type1</span></code>, <code class="code docutils literal notranslate"><span class="pre">type2</span></code>, …) or by class (using the attributes
+<code class="code docutils literal notranslate"><span class="pre">class1</span></code>, <code class="code docutils literal notranslate"><span class="pre">class2</span></code>, …).  The force field considers every atom
+in the system (if the number of atoms is 1), every pair of bonded atoms (if the number
+of atoms is 2), or every set of three atoms where the first is bonded to the second
+and the second to the third (if the number of atoms is 3).  For each one, it searches
+for a rule whose atom types or atom classes match the atoms.  If it finds one,
+it calls <code class="code docutils literal notranslate"><span class="pre">addDonor()</span></code> or <code class="code docutils literal notranslate"><span class="pre">addAcceptor()</span></code> on the CustomHbondForce.
+Otherwise, it ignores that set and continues. The remaining attributes are the
+values to use for the per-donor and per-acceptor parameters. All parameters must
+be specified for every tag, and the attribute name must match the name of the
+parameter.  For instance, if there is a per-donor parameter with the name “k”,
+then every <code class="code docutils literal notranslate"><span class="pre">&lt;Donor&gt;</span></code> tag must include an attribute called <code class="code docutils literal notranslate"><span class="pre">k</span></code>.</p>
+<p>CustomHbondForce also allows you to define tabulated functions.  See Section
+<a class="reference internal" href="05_creating_ffs.html#tabulated-functions"><span class="std std-numref">6.2.20</span></a> for details.</p>
+</section>
+<section id="custommanyparticleforce">
+<h3><span class="section-number">6.2.18. </span>&lt;CustomManyParticleForce&gt;<a class="headerlink" href="05_creating_ffs.html#custommanyparticleforce" title="Permalink to this headline">¶</a></h3>
+<p>To add a CustomManyParticleForce to the System, include a tag that looks like this:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;CustomManyParticleForce</span> <span class="na">particlesPerSet=</span><span class="s">&quot;3&quot;</span> <span class="na">permutationMode=</span><span class="s">&quot;UniqueCentralParticle&quot;</span>
+    <span class="na">bondCutoff=</span><span class="s">&quot;3&quot;</span> <span class="na">energy=</span><span class="s">&quot;scale*(distance(p1,p2)-r1)*(distance(p1,p3)-r1)&quot;</span><span class="nt">&gt;</span>
+ <span class="nt">&lt;GlobalParameter</span> <span class="na">name=</span><span class="s">&quot;scale&quot;</span> <span class="na">defaultValue=</span><span class="s">&quot;1&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;PerParticleParameter</span> <span class="na">name=</span><span class="s">&quot;r&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;TypeFilter</span> <span class="na">index=</span><span class="s">&quot;0&quot;</span> <span class="na">types=</span><span class="s">&quot;1,2&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Atom</span> <span class="na">type=</span><span class="s">&quot;0&quot;</span> <span class="na">r=</span><span class="s">&quot;0.31&quot;</span> <span class="na">filterType=</span><span class="s">&quot;0&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Atom</span> <span class="na">type=</span><span class="s">&quot;1&quot;</span> <span class="na">r=</span><span class="s">&quot;0.25&quot;</span> <span class="na">filterType=</span><span class="s">&quot;0&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Atom</span> <span class="na">type=</span><span class="s">&quot;2&quot;</span> <span class="na">r=</span><span class="s">&quot;0.33&quot;</span> <span class="na">filterType=</span><span class="s">&quot;1&quot;</span><span class="nt">/&gt;</span>
+ ...
+<span class="nt">&lt;/CustomManyParticleForce&gt;</span>
+</pre></div>
+</div>
+<p>The energy expression for the CustomManyParticleForce is specified by the
+<code class="code docutils literal notranslate"><span class="pre">energy</span></code> attribute.  This is a mathematical expression that gives the
+energy of each interaction as a function of various particle coordinates,
+distances, and angles.  See the API documentation for details.  <code class="code docutils literal notranslate"><span class="pre">particlesPerSet</span></code>
+specifies the number of particles involved in the interaction and
+<code class="code docutils literal notranslate"><span class="pre">permutationMode</span></code> specifies the permutation mode.</p>
+<p>The expression may depend on an arbitrary list of global or per-atom
+parameters.  Use a <code class="code docutils literal notranslate"><span class="pre">&lt;GlobalParameter&gt;</span></code> tag to define a global
+parameter, and a <code class="code docutils literal notranslate"><span class="pre">&lt;PerAtomParameter&gt;</span></code> tag to define a per-atom
+parameter.</p>
+<p>Exclusions are created automatically based on the <code class="code docutils literal notranslate"><span class="pre">bondCutoff</span></code> attribute.
+After setting the nonbonded parameters for all atoms, the force field calls
+<code class="code docutils literal notranslate"><span class="pre">createExclusionsFromBonds()</span></code> on the CustomManyParticleForce, passing in this
+value as its argument.  To avoid creating exclusions, set <code class="code docutils literal notranslate"><span class="pre">bondCutoff</span></code> to 0.</p>
+<p>Type filters may be specified with a <code class="code docutils literal notranslate"><span class="pre">&lt;TypeFilter&gt;</span></code> tag.  The <code class="code docutils literal notranslate"><span class="pre">index</span></code>
+attribute specifies the index of the particle to apply the filter to, and
+<code class="code docutils literal notranslate"><span class="pre">types</span></code> is a comma separated list of allowed types.</p>
+<p>Each <code class="code docutils literal notranslate"><span class="pre">&lt;Atom&gt;</span></code> tag specifies the parameters for one atom type
+(specified with the <code class="code docutils literal notranslate"><span class="pre">type</span></code> attribute) or atom class (specified with
+the <code class="code docutils literal notranslate"><span class="pre">class</span></code> attribute).  It is fine to mix these two methods, having
+some tags specify a type and others specify a class.  However you do it, you
+must make sure that a unique set of parameters is defined for every atom type.
+In addition, each <code class="code docutils literal notranslate"><span class="pre">&lt;Atom&gt;</span></code> tag must include the <code class="code docutils literal notranslate"><span class="pre">filterType</span></code>
+attribute, which specifies the atom type for use in type filters.
+The remaining attributes are the values to use for the per-atom parameters. All
+per-atom parameters must be specified for every <code class="code docutils literal notranslate"><span class="pre">&lt;Atom&gt;</span></code> tag, and the
+attribute name must match the name of the parameter.  For instance, if there is
+a per-atom parameter with the name “radius”, then every <code class="code docutils literal notranslate"><span class="pre">&lt;Atom&gt;</span></code> tag
+must include an attribute called <code class="code docutils literal notranslate"><span class="pre">radius</span></code>.</p>
+<p>CustomManyParticleForce also allows you to define tabulated functions.  See Section
+<a class="reference internal" href="05_creating_ffs.html#tabulated-functions"><span class="std std-numref">6.2.20</span></a> for details.</p>
+</section>
+<section id="writing-custom-expressions">
+<h3><span class="section-number">6.2.19. </span>Writing Custom Expressions<a class="headerlink" href="05_creating_ffs.html#writing-custom-expressions" title="Permalink to this headline">¶</a></h3>
+<p>The custom forces described in this chapter involve user defined algebraic
+expressions.  These expressions are specified as character strings, and may
+involve a variety of standard operators and mathematical functions.</p>
+<p>The following operators are supported: + (add), - (subtract), * (multiply), /
+(divide), and ^ (power).  Parentheses “(“and “)” may be used for grouping.</p>
+<p>The following standard functions are supported: sqrt, exp, log, sin, cos, sec,
+csc, tan, cot, asin, acos, atan, sinh, cosh, tanh, erf, erfc, min, max, abs,
+floor, ceil, step, delta, select. step(x) = 0 if x &lt; 0, 1 otherwise.
+delta(x) = 1 if x is 0, 0 otherwise.  select(x,y,z) = z if x = 0, y otherwise.
+Some custom forces allow additional functions to be defined from tabulated values.</p>
+<p>Numbers may be given in either decimal or exponential form.  All of the
+following are valid numbers: 5, -3.1, 1e6, and 3.12e-2.</p>
+<p>The variables that may appear in expressions are specified in the API
+documentation for each force class.  In addition, an expression may be followed
+by definitions for intermediate values that appear in the expression.  A
+semicolon “;” is used as a delimiter between value definitions.  For example,
+the expression</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="o">^</span><span class="mi">2</span><span class="o">+</span><span class="n">a</span><span class="o">*</span><span class="n">b</span><span class="o">+</span><span class="n">b</span><span class="o">^</span><span class="mi">2</span><span class="p">;</span> <span class="n">a</span><span class="o">=</span><span class="n">a1</span><span class="o">+</span><span class="n">a2</span><span class="p">;</span> <span class="n">b</span><span class="o">=</span><span class="n">b1</span><span class="o">+</span><span class="n">b2</span>
+</pre></div>
+</div>
+<p>is exactly equivalent to</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">a1</span><span class="o">+</span><span class="n">a2</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="o">+</span><span class="p">(</span><span class="n">a1</span><span class="o">+</span><span class="n">a2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">b1</span><span class="o">+</span><span class="n">b2</span><span class="p">)</span><span class="o">+</span><span class="p">(</span><span class="n">b1</span><span class="o">+</span><span class="n">b2</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span>
+</pre></div>
+</div>
+<p>The definition of an intermediate value may itself involve other intermediate
+values.  All uses of a value must appear <em>before</em> that value’s definition.</p>
+</section>
+<section id="tabulated-functions">
+<span id="id2"></span><h3><span class="section-number">6.2.20. </span>Tabulated Functions<a class="headerlink" href="05_creating_ffs.html#tabulated-functions" title="Permalink to this headline">¶</a></h3>
+<p>Some forces, such as CustomNonbondedForce and CustomGBForce, allow you to define
+tabulated functions.  To define a function, include a <code class="code docutils literal notranslate"><span class="pre">&lt;Function&gt;</span></code> tag inside the
+<code class="code docutils literal notranslate"><span class="pre">&lt;CustomNonbondedForce&gt;</span></code> or <code class="code docutils literal notranslate"><span class="pre">&lt;CustomGBForce&gt;</span></code> tag:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;Function</span> <span class="na">name=</span><span class="s">&quot;myfn&quot;</span> <span class="na">type=</span><span class="s">&quot;Continuous1D&quot;</span> <span class="na">min=</span><span class="s">&quot;-5&quot;</span> <span class="na">max=</span><span class="s">&quot;5&quot;</span><span class="nt">&gt;</span>
+0.983674857694 -0.980096396266 -0.975743130031 -0.970451936613 -0.964027580076
+-0.956237458128 -0.946806012846 -0.935409070603 -0.921668554406 -0.905148253645
+-0.885351648202 -0.861723159313 -0.833654607012 -0.800499021761 -0.761594155956
+-0.716297870199 -0.664036770268 -0.604367777117 -0.537049566998 -0.46211715726
+-0.379948962255 -0.291312612452 -0.197375320225 -0.099667994625 0.0
+0.099667994625 0.197375320225 0.291312612452 0.379948962255 0.46211715726
+0.537049566998 0.604367777117 0.664036770268 0.716297870199 0.761594155956
+0.800499021761 0.833654607012 0.861723159313 0.885351648202 0.905148253645
+0.921668554406 0.935409070603 0.946806012846 0.956237458128 0.964027580076
+0.970451936613 0.975743130031 0.980096396266 0.983674857694 0.986614298151
+0.989027402201
+<span class="nt">&lt;/Function&gt;</span>
+</pre></div>
+</div>
+<p>The tag’s attributes define the name of the function, the type of function, and
+the range of values for which it is defined.  The required set of attributed
+depends on the function type:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 18%" />
+<col style="width: 82%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Type</p></th>
+<th class="head"><p>Required Attributes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Continuous1D</p></td>
+<td><p>min, max</p></td>
+</tr>
+<tr class="row-odd"><td><p>Continuous2D</p></td>
+<td><p>xmin, ymin, xmax, ymax, xsize, ysize</p></td>
+</tr>
+<tr class="row-even"><td><p>Continuous3D</p></td>
+<td><p>xmin, ymin, zmin, xmax, ymax, zmax, xsize, ysize, zsize</p></td>
+</tr>
+<tr class="row-odd"><td><p>Discrete1D</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Discrete2D</p></td>
+<td><p>xsize, ysize</p></td>
+</tr>
+<tr class="row-odd"><td><p>Discrete3D</p></td>
+<td><p>xsize, ysize, zsize</p></td>
+</tr>
+</tbody>
+</table>
+<p>The “min” and “max” attributes define the range of the independent variables for
+a continuous function.  The “size” attributes define the size of the table along
+each axis.  The tabulated values are listed inside the body of the tag, with
+successive values separated by white space.  See the API documentation for more
+details.</p>
+</section>
+<section id="residue-template-parameters">
+<h3><span class="section-number">6.2.21. </span>Residue Template Parameters<a class="headerlink" href="05_creating_ffs.html#residue-template-parameters" title="Permalink to this headline">¶</a></h3>
+<p>In forces that use an <code class="code docutils literal notranslate"><span class="pre">&lt;Atom&gt;</span></code> tag to define parameters for atom types or
+classes, there is an alternate mechanism you can also use: defining those
+parameter values in the residue template.  This is useful for situations that
+come up in certain force fields.  For example, <code class="code docutils literal notranslate"><span class="pre">NonbondedForce</span></code> and
+<code class="code docutils literal notranslate"><span class="pre">GBSAOBCForce</span></code> each have a <code class="code docutils literal notranslate"><span class="pre">charge</span></code> attribute.  If you only have to
+define the charge of each atom type once, that is more convenient and avoids
+potential bugs.  Also, many force fields have a different charge for each atom
+type, but Lennard-Jones parameters that are the same for all types in a class.
+It would be preferable not to have to repeat those parameter values many times
+over.</p>
+<p>When writing a residue template, you can add arbitrary additional attributes
+to each <code class="code docutils literal notranslate"><span class="pre">&lt;Atom&gt;</span></code> tag.  For example, you might include a <code class="code docutils literal notranslate"><span class="pre">charge</span></code>
+attribute as follows:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;Atom</span> <span class="na">name=</span><span class="s">&quot;CA&quot;</span> <span class="na">type=</span><span class="s">&quot;53&quot;</span> <span class="na">charge=</span><span class="s">&quot;0.0381&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<p>When writing the tag for a force, you can then include a
+<code class="code docutils literal notranslate"><span class="pre">&lt;UseAttributeFromResidue&gt;</span></code> tag inside it.  This indicates that a
+specified attribute should be taken from the residue template.  Finally, you
+simply omit that attribute in the force’s own <code class="code docutils literal notranslate"><span class="pre">&lt;Atom&gt;</span></code> tags.  For example:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;NonbondedForce</span> <span class="na">coulomb14scale=</span><span class="s">&quot;0.833333&quot;</span> <span class="na">lj14scale=</span><span class="s">&quot;0.5&quot;</span><span class="nt">&gt;</span>
+ <span class="nt">&lt;UseAttributeFromResidue</span> <span class="na">name=</span><span class="s">&quot;charge&quot;</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;Atom</span> <span class="na">class=</span><span class="s">&quot;CX&quot;</span> <span class="na">sigma=</span><span class="s">&quot;0.339966950842&quot;</span> <span class="na">epsilon=</span><span class="s">&quot;0.4577296&quot;</span><span class="nt">/&gt;</span>
+ ...
+<span class="nt">&lt;/NonbondedForce&gt;</span>
+</pre></div>
+</div>
+<p>Notice that the <code class="code docutils literal notranslate"><span class="pre">charge</span></code> attribute is missing, and that the parameters
+are specified by class, not by type.  This means that sigma and epsilon only
+need to be specified once for each class.  The atom charges, which are different
+for each type, are taken from the residue template instead.</p>
+</section>
+<section id="including-other-files">
+<h3><span class="section-number">6.2.22. </span>Including Other Files<a class="headerlink" href="05_creating_ffs.html#including-other-files" title="Permalink to this headline">¶</a></h3>
+<p>Sometimes it is useful to split a force field definition into multiple files,
+but still be able to use the force field by specifying only a single file.  You
+can accomplish this with the <code class="code docutils literal notranslate"><span class="pre">&lt;Include&gt;</span></code> tag.  For example:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;ForceField&gt;</span>
+ <span class="nt">&lt;Include</span> <span class="na">file=</span><span class="s">&quot;definitions.xml&quot;</span><span class="nt">/&gt;</span>
+ ...
+<span class="nt">&lt;/ForceField&gt;</span>
+</pre></div>
+</div>
+<p>The <code class="code docutils literal notranslate"><span class="pre">file</span></code> attribute gives the path of the file to include.  It may be
+relative either to the directory containing the parent XML file (the one with
+the <code class="code docutils literal notranslate"><span class="pre">&lt;Include&gt;</span></code> tag) or the OpenMM data directory (the one containing
+built in force fields).</p>
+</section>
+</section>
+<section id="using-multiple-files">
+<h2><span class="section-number">6.3. </span>Using Multiple Files<a class="headerlink" href="05_creating_ffs.html#using-multiple-files" title="Permalink to this headline">¶</a></h2>
+<p>If multiple XML files are specified when a ForceField is created, their
+definitions are combined as follows.</p>
+<ul class="simple">
+<li><p>A file may refer to atom types and classes that it defines, as well as those
+defined in previous files.  It may not refer to ones defined in later files.
+This means that the order in which files are listed when calling the ForceField
+constructor is potentially significant.</p></li>
+<li><p>Forces that involve per-atom parameters (such as NonbondedForce or
+GBSAOBCForce) require parameter values to be defined for every atom type.  It
+does not matter which file those types are defined in.  For example, files that
+define explicit water models generally define a small number of atom types, as
+well as nonbonded parameters for those types.  In contrast, files that define
+implicit solvent models do not define any new atom types, but provide parameters
+for all the atom types that were defined in the main force field file.</p></li>
+<li><p>For other forces, the files are effectively independent.  For example, if two
+files each include a <code class="code docutils literal notranslate"><span class="pre">&lt;HarmonicBondForce&gt;</span></code> tag, bonds will be created
+based on the rules in the first file, and then more bonds will be created based
+on the rules in the second file.  This means you could potentially end up with
+multiple bonds between a single pair of atoms.</p></li>
+</ul>
+</section>
+<section id="extending-forcefield">
+<h2><span class="section-number">6.4. </span>Extending ForceField<a class="headerlink" href="05_creating_ffs.html#extending-forcefield" title="Permalink to this headline">¶</a></h2>
+<p>The ForceField class is designed to be modular and extensible.  This means you
+can add support for entirely new force types, such as ones implemented with
+plugins.</p>
+<section id="adding-new-force-types">
+<h3><span class="section-number">6.4.1. </span>Adding new force types<a class="headerlink" href="05_creating_ffs.html#adding-new-force-types" title="Permalink to this headline">¶</a></h3>
+<p>For every force class, there is a “generator” class that parses the
+corresponding XML tag, then creates Force objects and adds them to the System.
+ForceField maintains a map of tag names to generator classes.  When a ForceField
+is created, it scans through the XML files, looks up the generator class for
+each tag, and asks that class to create a generator object based on it.  Then,
+when you call <code class="code docutils literal notranslate"><span class="pre">createSystem()</span></code>,  it loops over each of its generators
+and asks each one to create its Force object.  Adding a new Force type therefore
+is simply a matter of creating a new generator class and adding it to
+ForceField’s map.</p>
+<p>The generator class must define two methods.  First, it needs a static method
+with the following signature to parse the XML tag and create the generator:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@staticmethod</span>
+<span class="k">def</span> <span class="nf">parseElement</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">forcefield</span><span class="p">):</span>
+</pre></div>
+</div>
+<p><code class="code docutils literal notranslate"><span class="pre">element</span></code> is the XML tag (an xml.etree.ElementTree.Element object) and
+<code class="code docutils literal notranslate"><span class="pre">forcefield</span></code> is the ForceField being created.  This method should
+create a generator and add it to the ForceField:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">generator</span> <span class="o">=</span> <span class="n">MyForceGenerator</span><span class="p">()</span>
+<span class="n">forcefield</span><span class="o">.</span><span class="n">_forces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">generator</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It then should parse the information contained in the XML tag and configure the
+generator based on it.</p>
+<p>Second, it must define a method with the following signature:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">createForce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">system</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">nonbondedMethod</span><span class="p">,</span> <span class="n">nonbondedCutoff</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+</pre></div>
+</div>
+<p>When <code class="code docutils literal notranslate"><span class="pre">createSystem()</span></code> is called on the ForceField, it first creates
+the System object, then loops over each of its generators and calls
+<code class="code docutils literal notranslate"><span class="pre">createForce()</span></code> on each one.  This method should create the Force object
+and add it to the System.  <code class="code docutils literal notranslate"><span class="pre">data</span></code> is a ForceField._SystemData object
+containing information about the System being created (atom types, bonds,
+angles, etc.), <code class="code docutils literal notranslate"><span class="pre">system</span></code> is the System object, and the remaining
+arguments are values that were passed to <code class="code docutils literal notranslate"><span class="pre">createSystem()</span></code>.  To get a
+better idea of how this works, look at the existing generator classes in
+forcefield.py.</p>
+<p>The generator class may optionally also define a method with the following
+signature:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">postprocessSystem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">system</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+</pre></div>
+</div>
+<p>If this method exists, it will be called after all Forces have been created.
+This gives generators a chance to make additional changes to the System.</p>
+<p>Finally, you need to register your class by adding it to ForceField’s map:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">forcefield</span><span class="o">.</span><span class="n">parsers</span><span class="p">[</span><span class="s1">&#39;MyForce&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">MyForceGenerator</span><span class="o">.</span><span class="n">parseElement</span>
+</pre></div>
+</div>
+<p>The key is the XML tag name, and the value is the static method to use for
+parsing it.</p>
+<p>Now you can simply create a ForceField object as usual.  If an XML file contains
+a <code class="code docutils literal notranslate"><span class="pre">&lt;MyForce&gt;</span></code> tag, it will be recognized and processed correctly.</p>
+</section>
+<section id="adding-residue-template-generators">
+<h3><span class="section-number">6.4.2. </span>Adding residue template generators<a class="headerlink" href="05_creating_ffs.html#adding-residue-template-generators" title="Permalink to this headline">¶</a></h3>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>This feature is experimental, and its API is subject to change.</p>
+</div>
+<p>Typically, when <code class="xref py py-class docutils literal notranslate"><span class="pre">ForceField</span></code> encounters a residue it does not have a template for,
+it simply raises an <code class="code docutils literal notranslate"><span class="pre">Exception</span></code>, since it does not know how to assign atom types for
+the unknown residue.</p>
+<p>However, <code class="xref py py-class docutils literal notranslate"><span class="pre">ForceField</span></code> has an API for registering <em>residue template generators</em> that are
+called when a residue without an existing template is encountered.  These generators
+may create new residue templates that match existing atom types and parameters, or can
+even create new atom types and new parameters that are added to <code class="xref py py-class docutils literal notranslate"><span class="pre">ForceField</span></code>. This
+functionality can be useful for adding residue template generators that are able to
+parameterize small molecules that are not represented in a protein or nucleic acid
+forcefield, for example, or for creating new residue templates for post-translationally
+modified residues, covalently-bound ligands, or unnatural amino acids or bases.</p>
+<p>To register a new residue template generator named <code class="code docutils literal notranslate"><span class="pre">generator</span></code>, simply call the
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">registerTemplateGenerator()</span></code> method on an existing <code class="xref py py-class docutils literal notranslate"><span class="pre">ForceField</span></code> object:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">forcefield</span><span class="o">.</span><span class="n">registerTemplateGenerator</span><span class="p">(</span><span class="n">generator</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This <code class="code docutils literal notranslate"><span class="pre">generator</span></code> function must conform to the following API:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">generator</span><span class="p">(</span><span class="n">forcefield</span><span class="p">,</span> <span class="n">residue</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    forcefield : openmm.app.ForceField</span>
+<span class="sd">        The ForceField object to which residue templates and/or parameters are to be added.</span>
+<span class="sd">    residue : openmm.app.Topology.Residue</span>
+<span class="sd">        The residue topology for which a template is to be generated.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    success : bool</span>
+<span class="sd">        If the generator is able to successfully parameterize the residue, `True` is returned.</span>
+<span class="sd">        If the generator cannot parameterize the residue, it should return `False` and not</span>
+<span class="sd">        modify `forcefield`.</span>
+
+<span class="sd">    The generator should either register a residue template directly with</span>
+<span class="sd">    `forcefield.registerResidueTemplate(template)` or it should call `forcefield.loadFile(file)`</span>
+<span class="sd">    to load residue definitions from an ffxml file.</span>
+
+<span class="sd">    It can also use the `ForceField` programmatic API to add additional atom types (via</span>
+<span class="sd">    `forcefield.registerAtomType(parameters)`) or additional parameters.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">ForceField</span></code> object will be modified by the residue template generator as residues without previously
+defined templates are encountered.  Because these templates are added to the <code class="xref py py-class docutils literal notranslate"><span class="pre">ForceField</span></code> as new residue
+types are encountered, subsequent residues will be parameterized using the same residue templates without
+calling the <code class="code docutils literal notranslate"><span class="pre">generator</span></code> again.</p>
+</section>
+</section>
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="04_advanced_sim_examples.html" title="Previous document"><span class="section-number">5. </span>Advanced Simulation Examples</a>
+        </li>
+        <li>
+          <a href="../library.html" title="Next document">Part II: The OpenMM Library</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM User Guide</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">1. Introduction</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../application.html">Part I: The OpenMM Application Layer</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_getting_started.html">2. Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_running_sims.html">3. Running Simulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_model_building_editing.html">4. Model Building and Editing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_advanced_sim_examples.html">5. Advanced Simulation Examples</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="05_creating_ffs.html#">6. Creating Force Fields</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="05_creating_ffs.html#basic-concepts">6.1. Basic Concepts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_creating_ffs.html#writing-the-xml-file">6.2. Writing the XML File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_creating_ffs.html#using-multiple-files">6.3. Using Multiple Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_creating_ffs.html#extending-forcefield">6.4. Extending ForceField</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../library.html">Part II: The OpenMM Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theory.html">Part III: The Theory Behind OpenMM</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../zbibliography.html">22. Bibliography</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="http://docs.openmm.org/7.7.0/developerguide/">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="http://docs.openmm.org/7.7.0/api-python/">
+                Python API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="http://docs.openmm.org/7.7.0/api-c++/">
+                C++ API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2008-2017, Stanford University.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/application/05_creating_ffs.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

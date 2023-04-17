@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Part I: The OpenMM Application Layer &#8212; OpenMM User Guide 7.7 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="2. Getting Started" href="application/01_getting_started.html" />
+    <link rel="prev" title="1. Introduction" href="introduction.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  <script>var script = document.createElement("script"); script.type = "text/javascript"; script.src = "/versionwarning.js"; document.head.appendChild(script);</script>
+</head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="part-i-the-openmm-application-layer">
+<span id="the-openmm-application-layer"></span><h1>Part I: The OpenMM Application Layer<a class="headerlink" href="application.html#part-i-the-openmm-application-layer" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="application/01_getting_started.html">2. Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="application/01_getting_started.html#introduction">2.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application/01_getting_started.html#installing-openmm">2.2. Installing OpenMM</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="application/02_running_sims.html">3. Running Simulations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="application/02_running_sims.html#a-first-example">3.1. A First Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application/02_running_sims.html#using-amber-files">3.2. Using AMBER Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application/02_running_sims.html#using-gromacs-files">3.3. Using Gromacs Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application/02_running_sims.html#using-charmm-files">3.4. Using CHARMM Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application/02_running_sims.html#the-openmm-setup-application">3.5. The OpenMM-Setup Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application/02_running_sims.html#simulation-parameters">3.6. Simulation Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="application/02_running_sims.html#platforms">3.6.1. Platforms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/02_running_sims.html#force-fields">3.6.2. Force Fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/02_running_sims.html#small-molecule-parameters">3.6.3. Small molecule parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/02_running_sims.html#amber-implicit-solvent">3.6.4. AMBER Implicit Solvent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/02_running_sims.html#nonbonded-interactions">3.6.5. Nonbonded Interactions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/02_running_sims.html#constraints">3.6.6. Constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/02_running_sims.html#heavy-hydrogens">3.6.7. Heavy Hydrogens</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/02_running_sims.html#integrators">3.6.8. Integrators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/02_running_sims.html#temperature-coupling">3.6.9. Temperature Coupling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/02_running_sims.html#pressure-coupling">3.6.10. Pressure Coupling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/02_running_sims.html#energy-minimization">3.6.11. Energy Minimization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/02_running_sims.html#removing-center-of-mass-motion">3.6.12. Removing Center of Mass Motion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/02_running_sims.html#writing-trajectories">3.6.13. Writing Trajectories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/02_running_sims.html#recording-other-data">3.6.14. Recording Other Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/02_running_sims.html#saving-simulation-progress-and-results">3.6.15. Saving Simulation Progress and Results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/02_running_sims.html#enhanced-sampling-methods">3.6.16. Enhanced Sampling Methods</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="application/03_model_building_editing.html">4. Model Building and Editing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="application/03_model_building_editing.html#adding-hydrogens">4.1. Adding Hydrogens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application/03_model_building_editing.html#adding-solvent">4.2. Adding Solvent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application/03_model_building_editing.html#adding-a-membrane">4.3. Adding a Membrane</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application/03_model_building_editing.html#adding-or-removing-extra-particles">4.4. Adding or Removing Extra Particles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application/03_model_building_editing.html#removing-water">4.5. Removing Water</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application/03_model_building_editing.html#saving-the-results">4.6. Saving The Results</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="application/04_advanced_sim_examples.html">5. Advanced Simulation Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="application/04_advanced_sim_examples.html#simulated-annealing">5.1. Simulated Annealing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application/04_advanced_sim_examples.html#applying-an-external-force-to-particles-a-spherical-container">5.2. Applying an External Force to Particles: a Spherical Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application/04_advanced_sim_examples.html#extracting-and-reporting-forces-and-other-data">5.3. Extracting and Reporting Forces (and other data)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application/04_advanced_sim_examples.html#computing-energies">5.4. Computing Energies</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="application/05_creating_ffs.html">6. Creating Force Fields</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="application/05_creating_ffs.html#basic-concepts">6.1. Basic Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#atom-types-and-atom-classes">6.1.1. Atom Types and Atom Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#residue-templates">6.1.2. Residue Templates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#forces">6.1.3. Forces</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="application/05_creating_ffs.html#writing-the-xml-file">6.2. Writing the XML File</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#atomtypes">6.2.1. &lt;AtomTypes&gt;</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#residues">6.2.2. &lt;Residues&gt;</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#patches">6.2.3. &lt;Patches&gt;</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#missing-residue-templates">6.2.4. Missing residue templates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#harmonicbondforce">6.2.5. &lt;HarmonicBondForce&gt;</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#harmonicangleforce">6.2.6. &lt;HarmonicAngleForce&gt;</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#periodictorsionforce">6.2.7. &lt;PeriodicTorsionForce&gt;</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#rbtorsionforce">6.2.8. &lt;RBTorsionForce&gt;</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#cmaptorsionforce">6.2.9. &lt;CMAPTorsionForce&gt;</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#nonbondedforce">6.2.10. &lt;NonbondedForce&gt;</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#gbsaobcforce">6.2.11. &lt;GBSAOBCForce&gt;</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#custombondforce">6.2.12. &lt;CustomBondForce&gt;</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#customangleforce">6.2.13. &lt;CustomAngleForce&gt;</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#customtorsionforce">6.2.14. &lt;CustomTorsionForce&gt;</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#customnonbondedforce">6.2.15. &lt;CustomNonbondedForce&gt;</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#customgbforce">6.2.16. &lt;CustomGBForce&gt;</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#customhbondforce">6.2.17. &lt;CustomHbondForce&gt;</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#custommanyparticleforce">6.2.18. &lt;CustomManyParticleForce&gt;</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#writing-custom-expressions">6.2.19. Writing Custom Expressions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#tabulated-functions">6.2.20. Tabulated Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#residue-template-parameters">6.2.21. Residue Template Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#including-other-files">6.2.22. Including Other Files</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="application/05_creating_ffs.html#using-multiple-files">6.3. Using Multiple Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application/05_creating_ffs.html#extending-forcefield">6.4. Extending ForceField</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#adding-new-force-types">6.4.1. Adding new force types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application/05_creating_ffs.html#adding-residue-template-generators">6.4.2. Adding residue template generators</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="introduction.html" title="Previous document"><span class="section-number">1. </span>Introduction</a>
+        </li>
+        <li>
+          <a href="application/01_getting_started.html" title="Next document"><span class="section-number">2. </span>Getting Started</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM User Guide</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="application.html#">Part I: The OpenMM Application Layer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="application/01_getting_started.html">2. Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application/02_running_sims.html">3. Running Simulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application/03_model_building_editing.html">4. Model Building and Editing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application/04_advanced_sim_examples.html">5. Advanced Simulation Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application/05_creating_ffs.html">6. Creating Force Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="library.html">Part II: The OpenMM Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Part III: The Theory Behind OpenMM</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="zbibliography.html">22. Bibliography</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="http://docs.openmm.org/7.7.0/developerguide/">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="http://docs.openmm.org/7.7.0/api-python/">
+                Python API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="http://docs.openmm.org/7.7.0/api-c++/">
+                C++ API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2008-2017, Stanford University.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/application.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

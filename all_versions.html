@@ -1,0 +1,38 @@
+<html>
+<head>
+<title> OpenMM Documentation Versions
+</title>
+</head>
+<body>
+This is a list of all versions of the OpenMM docs
+<ul id="docslist"></ul>
+</body>
+</html>
+<script>
+var doclist = document.getElementById("docslist");
+// TODO: move hardcoded url to conf.py
+fetch("http://127.0.0.1:8000/versions.json")
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      data.versions.forEach((item) => {
+        version=item.version
+        url=item.url
+
+        url1 = url+"userguide"
+        url2 = url+"developerguide"
+        url3 = url+"api-python"
+        url4 = url+"api-c++"
+
+        innerHTML= "<li>"+version+"</li><ul><li><a href="+url1+"> userguide</a></li>"+
+        "<li><a href="+url2+"> developerguide</a></li>"+
+        "<li><a href="+url3+"> api-python</a></li>"+
+        "<li><a href="+url4+"> api-c++</a></li></ul>"
+
+        var sublist = document.createElement("li");
+        sublist.innerHTML = innerHTML
+        doclist.appendChild(sublist);
+      })
+    })
+</script>

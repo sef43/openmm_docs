@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>15. Ring Polymer Molecular Dynamics (RPMD) Plugin &#8212; OpenMM User Guide 7.7 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="16. Drude Plugin" href="10_drude_plugin.html" />
+    <link rel="prev" title="14. AMOEBA Plugin" href="08_amoeba_plugin.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  <script>var script = document.createElement("script"); script.type = "text/javascript"; script.src = "/versionwarning.js"; document.head.appendChild(script);</script>
+</head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="ring-polymer-molecular-dynamics-rpmd-plugin">
+<span id="ring-polymer-molecular-dynamics-plugin"></span><h1><span class="section-number">15. </span>Ring Polymer Molecular Dynamics (RPMD) Plugin<a class="headerlink" href="09_rpmd_plugin.html#ring-polymer-molecular-dynamics-rpmd-plugin" title="Permalink to this headline">¶</a></h1>
+<p>Ring Polymer Molecular Dynamics (RPMD) provides an efficient approach to include
+nuclear quantum effects in molecular simulations.<span id="id1">[<a class="reference internal" href="../zbibliography.html#id11" title="I. R. Craig and David E. Manolopoulos. Quantum statistics and classical mechanics: real time correlation functions from ring polymer molecular dynamics. Journal of Chemical Physics, 121:3368-3373, 2004.">35</a>]</span>  When
+used to calculate static equilibrium properties, RPMD reduces to path integral
+molecular dynamics and gives an exact description of the effect of quantum
+fluctuations for a given potential energy model.<span id="id2">[<a class="reference internal" href="../zbibliography.html#id39" title="M. Parrinello and A. Rahman. Study of an F center in molten KCl. Journal of Chemical Physics, 80(2):860-867, 1984.">36</a>]</span>  For
+dynamical properties RPMD is no longer exact but has shown to be a good
+approximation in many cases.</p>
+<p>For a system with a classical potential energy <em>E</em>(<em>q</em>), the RPMD
+Hamiltonian is given by</p>
+<div class="math notranslate nohighlight">
+\[H=\sum _{k=1}^{n}\left(\frac{{p}_{{k}^{2}}}{2m}+E({q}_{k})+\frac{m({k}_{B}Tn)^{2}}{2\hbar^{2}}({q}_{k}-{q}_{k-1})^{2}\right)\]</div>
+<p>This Hamiltonian resembles that of a system of classical ring polymers where
+different copies of the system are connected by harmonic springs.  Hence each
+copy of the classical system is commonly referred to as a “bead”.  The spread of
+the ring polymer representing each particle is directly related to its De
+Broglie thermal wavelength (uncertainty in its position).</p>
+<p>RPMD calculations must be converged with respect to the number <em>n</em> of beads
+used.  Each bead is evolved at the effective temperature <em>nT</em>, where <em>T</em>
+is the temperature for which properties are required.  The number of beads
+needed to converge a calculation can be estimated using<span id="id3">[<a class="reference internal" href="../zbibliography.html#id35" title="Thomas E. Markland and David E. Manolopoulos. An efficient ring polymer contraction scheme for imaginary time path integral simulations. Journal of Chemical Physics, 2008.">37</a>]</span></p>
+<div class="math notranslate nohighlight">
+\[n&gt;\frac{\hbar\omega_{max}}{{k}_{B}T}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\omega_{max}\)</span> is the highest frequency in the problem.  For example, for
+flexible liquid water the highest frequency is the OH stretch at around 3000
+cm<sup>-1</sup>, so around 24 to 32 beads are needed depending on the accuracy
+required.  For rigid water where the highest frequency is only around 1000
+cm<sup>-1</sup>, only 6 beads are typically needed.  Due to the replication needed
+of the classical system, the extra cost of the calculation compared to a
+classical simulation increases linearly with the number of beads used.</p>
+<p>This cost can be reduced by “contracting” the ring polymer to a smaller number
+of beads.<span id="id4">[<a class="reference internal" href="../zbibliography.html#id35" title="Thomas E. Markland and David E. Manolopoulos. An efficient ring polymer contraction scheme for imaginary time path integral simulations. Journal of Chemical Physics, 2008.">37</a>]</span>  The rapidly changing forces are then computed
+for the full number of beads, while slower changing forces are computed on a
+smaller set.  In the case of flexible water, for example, a common arrangement
+would be to compute the high frequency bonded forces on all 32 beads, the direct
+space nonbonded forces on only 6 beads, and the reciprocal space nonbonded
+forces on only a single bead.</p>
+<p>Due to the stiff spring terms between the beads, NVE RPMD trajectories can
+suffer from ergodicity problems and hence thermostatting is highly recommended,
+especially when dynamical properties are not required.<span id="id5">[<a class="reference internal" href="../zbibliography.html#id15" title="Randall W. Hall and B. J. Berne. Nonergodicity in path integral molecular dynamics. Journal of Chemical Physics, 1984.">38</a>]</span>  The
+thermostat implemented here is the path integral Langevin equation (PILE)
+approach.<span id="id6">[<a class="reference internal" href="../zbibliography.html#id9" title="M. Ceriotti, M. Parrinello, Thomas E. Markland, and David E. Manolopoulos. Efficient stochastic thermostatting of path integral molecular dynamics. Journal of Chemical Physics, 2010.">39</a>]</span>  This method couples an optimal white noise
+Langevin thermostat to the normal modes of each polymer, leaving only one
+parameter to be chosen by the user which controls the friction applied to the
+center of mass of each ring polymer.  A good choice for this is to use a value
+similar to that used in a classical calculation of the same system.</p>
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="08_amoeba_plugin.html" title="Previous document"><span class="section-number">14. </span>AMOEBA Plugin</a>
+        </li>
+        <li>
+          <a href="10_drude_plugin.html" title="Next document"><span class="section-number">16. </span>Drude Plugin</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM User Guide</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">1. Introduction</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../application.html">Part I: The OpenMM Application Layer</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../library.html">Part II: The OpenMM Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_introduction.html">7. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_compiling.html">8. Compiling OpenMM from Source Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_tutorials.html">9. OpenMM Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_platform_specifics.html">10. Platform-Specific Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_languages_not_cpp.html">11. Using OpenMM with Software Written in Languages Other than C++</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_integration_examples.html">12. Examples of OpenMM Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07_testing_validation.html">13. Testing and Validation of OpenMM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08_amoeba_plugin.html">14. AMOEBA Plugin</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="09_rpmd_plugin.html#">15. Ring Polymer Molecular Dynamics (RPMD) Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_drude_plugin.html">16. Drude Plugin</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../theory.html">Part III: The Theory Behind OpenMM</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../zbibliography.html">22. Bibliography</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="http://docs.openmm.org/7.7.0/developerguide/">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="http://docs.openmm.org/7.7.0/api-python/">
+                Python API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="http://docs.openmm.org/7.7.0/api-c++/">
+                C++ API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2008-2017, Stanford University.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/library/09_rpmd_plugin.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

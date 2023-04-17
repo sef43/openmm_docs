@@ -1,4 +1,6 @@
-[
+{
+    "latest": "8.0.0",
+    "versions":[
     {
         "version": "development",
         "url": "http://docs.openmm.org/development/"
@@ -55,4 +57,5 @@
         "version": "6.1.0",
         "url": "http://docs.openmm.org/6.1.0/"
     }
-]
+    ]
+}

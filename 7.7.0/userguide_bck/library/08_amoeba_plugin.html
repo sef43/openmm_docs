@@ -1,0 +1,347 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>14. AMOEBA Plugin &#8212; OpenMM User Guide 7.7 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="15. Ring Polymer Molecular Dynamics (RPMD) Plugin" href="09_rpmd_plugin.html" />
+    <link rel="prev" title="13. Testing and Validation of OpenMM" href="07_testing_validation.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="amoeba-plugin">
+<span id="id1"></span><h1><span class="section-number">14. </span>AMOEBA Plugin<a class="headerlink" href="08_amoeba_plugin.html#amoeba-plugin" title="Permalink to this headline">¶</a></h1>
+<p>OpenMM 7.7 provides a plugin that implements the AMOEBA polarizable atomic
+multipole force field from Jay Ponder’s lab. The AMOEBA force field may be used
+through OpenMM’s Python application layer. We have also created a modified
+version of TINKER (referred to as TINKER-OpenMM here) that uses OpenMM to
+accelerate AMOEBA simulations. TINKER-OpenMM can be created from a TINKER
+package using three files made available through the OpenMM home page. OpenMM
+AMOEBA Force and System objects containing AMOEBA forces can be serialized.</p>
+<p>At present, AMOEBA is only supported on the CUDA and Reference platforms, not on
+the OpenCL platform.</p>
+<p>In the following sections, the individual forces and options available in the
+plugin are listed, and the steps required to build and use the plugin and
+TINKER-OpenMM are outlined. Validation results are also reported.  Benchmarks
+can be found on the OpenMM wiki at <a class="reference external" href="http://wiki.simtk.org/openmm/Benchmarks">http://wiki.simtk.org/openmm/Benchmarks</a>.</p>
+<section id="openmm-amoeba-supported-forces-and-options">
+<h2><span class="section-number">14.1. </span>OpenMM AMOEBA Supported Forces and Options<a class="headerlink" href="08_amoeba_plugin.html#openmm-amoeba-supported-forces-and-options" title="Permalink to this headline">¶</a></h2>
+<section id="supported-forces-and-options">
+<span id="id2"></span><h3><span class="section-number">14.1.1. </span>Supported Forces and Options<a class="headerlink" href="08_amoeba_plugin.html#supported-forces-and-options" title="Permalink to this headline">¶</a></h3>
+<p>The AMOEBA force terms implemented in OpenMM are listed in Table 14-1 along
+with the supported and unsupported options. TINKER options that are not
+supported for any OpenMM force include the grouping of atoms (e.g. protein
+chains), the infinite polymer check, and no exclusion of particles from
+energy/force calculations (‘active’/’inactive’ particles).  The virial is not
+calculated for any force.</p>
+<p>All rotation axis types are supported: ‘Z-then-X’, ‘Bisector’, ‘Z-Bisect’,
+‘3-Fold’, ‘Z-Only’.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 14%" />
+<col style="width: 73%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>TINKER Force</p></th>
+<th class="head"><p>OpenMM Force</p></th>
+<th class="head"><p>Option/Note</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ebond1 (bondterm)</p></td>
+<td><p>AmoebaBondForce</p></td>
+<td><p>bndtyp=’HARMONIC’ supported, ‘MORSE’ not implemented</p></td>
+</tr>
+<tr class="row-odd"><td><p>Eangle71 (angleterm)</p></td>
+<td><p>AmoebaAngleForce</p></td>
+<td><p>angtyp=’HARMONIC’ and ‘IN-PLANE’ supported; ‘LINEAR’ and ‘FOURIER’ not implemented</p></td>
+</tr>
+<tr class="row-even"><td><p>etors1a (torsionterm)</p></td>
+<td><p>PeriodicTorsionForce</p></td>
+<td><p>All options implemented; smoothing version(etors1b) not supported</p></td>
+</tr>
+<tr class="row-odd"><td><p>etortor1 (tortorterm)</p></td>
+<td><p>AmoebaTorsionTorsionForce</p></td>
+<td><p>All options implemented</p></td>
+</tr>
+<tr class="row-even"><td><p>eopbend1 (opbendterm)</p></td>
+<td><p>AmoebaOutOfPlaneBendForce</p></td>
+<td><p>opbtyp = ‘ALLINGER’ implemented; ‘W-D-C’ not implemented</p></td>
+</tr>
+<tr class="row-odd"><td><p>epitors1 (pitorsterm)</p></td>
+<td><p>AmoebaPiTorsionForce</p></td>
+<td><p>All options implemented</p></td>
+</tr>
+<tr class="row-even"><td><p>estrbnd1 (strbndterm)</p></td>
+<td><p>AmoebaStretchBendForce</p></td>
+<td><p>All options implemented</p></td>
+</tr>
+<tr class="row-odd"><td><p>ehal1a (vdwterm)</p></td>
+<td><p>AmoebaVdwForce</p></td>
+<td><p>ehal1b(LIGHTS) not supported</p></td>
+</tr>
+<tr class="row-even"><td><p>empole1a (mpoleterm)</p></td>
+<td><p>AmoebaMultipoleForce</p></td>
+<td><p>poltyp = ‘MUTUAL’, ‘DIRECT’  supported</p></td>
+</tr>
+<tr class="row-odd"><td><p>empole1c (mpoleterm) PME</p></td>
+<td><p>AmoebaMultipoleForce</p></td>
+<td><p>poltyp = ‘MUTUAL’, ‘DIRECT’ supported; boundary= ‘VACUUM’ unsupported</p></td>
+</tr>
+<tr class="row-even"><td><p>esolv1 (solvateterm)</p></td>
+<td><div class="line-block">
+<div class="line">AmoebaWcaDispersionForce,</div>
+<div class="line">AmoebaGeneralizedKirkwoodForce</div>
+</div>
+</td>
+<td><p>Only born-radius=’grycuk’ and solvate=’GK’ supported; unsupported solvate settings:
+‘ASP’, ‘SASA’, ‘ONION’, ‘pb’, ‘GB-HPMF’, ‘Gk-HPMF’; SASA computation is based on ACE approximation</p></td>
+</tr>
+<tr class="row-odd"><td><p>eurey1 (ureyterm)</p></td>
+<td><p>HarmonicBondForce</p></td>
+<td><p>All options implemented</p></td>
+</tr>
+</tbody>
+</table>
+<p>Table 14-1:  Mapping between TINKER and OpenMM AMOEBA forces</p>
+<p>Some specific details to be aware of are the following:</p>
+<ul class="simple">
+<li><p>Forces available in TINKER but not implemented in the OpenMM AMOEBA plugin
+include the following: angle-angle, out-of-plane distance, improper dihedral,
+improper torsion, stretch-torsion, charge-charge, atomwise charge-dipole,
+dipole-dipole, reaction field, ligand field, restraint, scf molecular orbital
+calculation; strictly speaking, these are not part of the AMOEBA force field.</p></li>
+<li><p>Implicit solvent in TINKER-OpenMM is implemented with key file entry ‘solvate
+GK’.  The entry ‘born-radius grycuk’ should also be included; only the ‘grycuk’
+option for calculating the Born radii is available in the plugin.</p></li>
+<li><p>In TINKER, the nonpolar cavity contribution to the solvation term is
+calculated using an algorithm that does not map well to GPUs.  Instead the
+OpenMM plugin uses the TINKER version of the ACE approximation to estimate the
+cavity contribution to the SASA.</p></li>
+<li><p>Calculations using the CUDA platform may be done in either single or double
+precision; for the Reference platform, double precision is used.  TINKER uses
+double precision.</p></li>
+<li><p>The TINKER parameter files for the AMOEBA force-field parameters are based on
+units of kilocalorie/Å, whereas OpenMM uses units of kilojoules/nanometer; both
+TINKER and OpenMM use picoseconds time units. Hence, in mapping the force-field
+parameters from TINKER files to OpenMM, many of the parameter values must be
+converted to the OpenMM units. The setup methods in the TINKER-OpenMM
+application perform the required conversions.</p></li>
+</ul>
+</section>
+<section id="supported-integrators">
+<h3><span class="section-number">14.1.2. </span>Supported Integrators<a class="headerlink" href="08_amoeba_plugin.html#supported-integrators" title="Permalink to this headline">¶</a></h3>
+<p>In addition to the limitations to the forces outlined above, TINKER-OpenMM can
+only use either the ‘Verlet’ or ‘Stochastic’ integrators when the OpenMM plugin
+is used; an equivalent to the TINKER ‘Beeman’ integrator is unavailable in
+OpenMM.</p>
+</section>
+</section>
+<section id="openmm-amoeba-validation">
+<h2><span class="section-number">14.2. </span>OpenMM AMOEBA Validation<a class="headerlink" href="08_amoeba_plugin.html#openmm-amoeba-validation" title="Permalink to this headline">¶</a></h2>
+<p>OpenMM and TINKER 6.1.01 were each used to compute the atomic forces for
+dihydrofolate reductase (DHFR) in implicit and explicit solvent.  Calculations
+used the CUDA platform, and were repeated for both single and double precision.
+For every atom, the relative difference between OpenMM and TINKER was computed
+as 2·|F<sub>MM</sub>–F<sub>T</sub>|/(|F<sub>MM</sub>|+|F<sub>T</sub>|), where
+F<sub>MM</sub> is the force computed by OpenMM and F<sub>T</sub> is the force
+computed by TINKER.  The median over all atoms is shown in Table 14-2.</p>
+<p>Because OpenMM and TINKER use different approximations to compute the cavity
+term, the differences in forces are much larger for implicit solvent than for
+explicit solvent.  We therefore repeated the calculations, removing the cavity
+term.  This yields much closer agreement between OpenMM and TINKER,
+demonstrating that the difference comes entirely from that one term.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 36%" />
+<col style="width: 37%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Solvent Model</p></th>
+<th class="head"><p>single</p></th>
+<th class="head"><p>double</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Implicit</p></td>
+<td><p>1.04·10<sup>-2</sup></p></td>
+<td><p>1.04·10<sup>-2</sup></p></td>
+</tr>
+<tr class="row-odd"><td><p>Implicit (no cavity term)</p></td>
+<td><p>9.23·10<sup>-6</sup></p></td>
+<td><p>1.17·10<sup>-6</sup></p></td>
+</tr>
+<tr class="row-even"><td><p>Explicit</p></td>
+<td><p>3.73·10<sup>-5</sup></p></td>
+<td><p>1.83·10<sup>-7</sup></p></td>
+</tr>
+</tbody>
+</table>
+<p>Table 14-2:  Median relative difference in forces between OpenMM and TINKER</p>
+</section>
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="07_testing_validation.html" title="Previous document"><span class="section-number">13. </span>Testing and Validation of OpenMM</a>
+        </li>
+        <li>
+          <a href="09_rpmd_plugin.html" title="Next document"><span class="section-number">15. </span>Ring Polymer Molecular Dynamics (RPMD) Plugin</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM User Guide</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">1. Introduction</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../application.html">Part I: The OpenMM Application Layer</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../library.html">Part II: The OpenMM Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_introduction.html">7. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_compiling.html">8. Compiling OpenMM from Source Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_tutorials.html">9. OpenMM Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_platform_specifics.html">10. Platform-Specific Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_languages_not_cpp.html">11. Using OpenMM with Software Written in Languages Other than C++</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_integration_examples.html">12. Examples of OpenMM Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07_testing_validation.html">13. Testing and Validation of OpenMM</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="08_amoeba_plugin.html#">14. AMOEBA Plugin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="08_amoeba_plugin.html#openmm-amoeba-supported-forces-and-options">14.1. OpenMM AMOEBA Supported Forces and Options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="08_amoeba_plugin.html#openmm-amoeba-validation">14.2. OpenMM AMOEBA Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="09_rpmd_plugin.html">15. Ring Polymer Molecular Dynamics (RPMD) Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_drude_plugin.html">16. Drude Plugin</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../theory.html">Part III: The Theory Behind OpenMM</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../zbibliography.html">22. Bibliography</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="http://docs.openmm.org/7.7.0/developerguide/">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="http://docs.openmm.org/7.7.0/api-python/">
+                Python API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="http://docs.openmm.org/7.7.0/api-c++/">
+                C++ API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2008-2017, Stanford University.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/library/08_amoeba_plugin.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

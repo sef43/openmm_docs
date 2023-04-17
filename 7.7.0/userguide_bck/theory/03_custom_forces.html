@@ -1,0 +1,578 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>19. Custom Forces &#8212; OpenMM User Guide 7.7 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="20. Integrators" href="04_integrators.html" />
+    <link rel="prev" title="18. Standard Forces" href="02_standard_forces.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="custom-forces">
+<span id="id1"></span><h1><span class="section-number">19. </span>Custom Forces<a class="headerlink" href="03_custom_forces.html#custom-forces" title="Permalink to this headline">¶</a></h1>
+<p>In addition to the standard forces described in the previous chapter, OpenMM
+provides a number of “custom” force classes.   These classes provide detailed
+control over the mathematical form of the force by allowing the user to specify
+one or more arbitrary algebraic expressions.  The details of how to write these
+custom expressions are described in section <a class="reference internal" href="03_custom_forces.html#writing-custom-expressions"><span class="std std-numref">19.12</span></a>.</p>
+<section id="custombondforce">
+<h2><span class="section-number">19.1. </span>CustomBondForce<a class="headerlink" href="03_custom_forces.html#custombondforce" title="Permalink to this headline">¶</a></h2>
+<p>CustomBondForce is similar to HarmonicBondForce in that it represents an
+interaction between certain pairs of particles as a function of the distance
+between them, but it allows the precise form of the interaction to be specified
+by the user.  That is, the interaction energy of each bond is given by</p>
+<div class="math notranslate nohighlight">
+\[E=f\left(r\right)\]</div>
+<p>where <em>f</em>(<em>r</em>) is a user defined mathematical expression.</p>
+<p>In addition to depending on the inter-particle distance <em>r</em>, the energy may
+also depend on an arbitrary set of user defined parameters.  Parameters may be
+specified in two ways:</p>
+<ul class="simple">
+<li><p>Global parameters have a single, fixed value.</p></li>
+<li><p>Per-bond parameters are defined by specifying a value for each bond.</p></li>
+</ul>
+</section>
+<section id="customangleforce">
+<h2><span class="section-number">19.2. </span>CustomAngleForce<a class="headerlink" href="03_custom_forces.html#customangleforce" title="Permalink to this headline">¶</a></h2>
+<p>CustomAngleForce is similar to HarmonicAngleForce in that it represents an
+interaction between sets of three particles as a function of the angle between
+them, but it allows the precise form of the interaction to be specified by the
+user.  That is, the interaction energy of each angle is given by</p>
+<div class="math notranslate nohighlight">
+\[E=f\left(\theta\right)\]</div>
+<p>where <span class="math notranslate nohighlight">\(f(\theta)\)</span> is a user defined mathematical expression.</p>
+<p>In addition to depending on the angle <span class="math notranslate nohighlight">\(\theta\)</span>, the energy may also depend on an
+arbitrary set of user defined parameters.  Parameters may be specified in two
+ways:</p>
+<ul class="simple">
+<li><p>Global parameters have a single, fixed value.</p></li>
+<li><p>Per-angle parameters are defined by specifying a value for each angle.</p></li>
+</ul>
+</section>
+<section id="customtorsionforce">
+<h2><span class="section-number">19.3. </span>CustomTorsionForce<a class="headerlink" href="03_custom_forces.html#customtorsionforce" title="Permalink to this headline">¶</a></h2>
+<p>CustomTorsionForce is similar to PeriodicTorsionForce in that it represents an
+interaction between sets of four particles as a function of the dihedral angle
+between them, but it allows the precise form of the interaction to be specified
+by the user.  That is, the interaction energy of each angle is given by</p>
+<div class="math notranslate nohighlight">
+\[E=f(\theta)\]</div>
+<p>where <span class="math notranslate nohighlight">\(f(\theta)\)</span> is a user defined mathematical expression.  The angle
+<span class="math notranslate nohighlight">\(\theta\)</span> is guaranteed to be in the range <span class="math notranslate nohighlight">\([-\pi, +\pi]\)</span>.  Like PeriodicTorsionForce, it
+is defined to be zero when the first and last particles are on the same side of
+the bond formed by the middle two particles (the <em>cis</em> configuration).</p>
+<p>In addition to depending on the angle <span class="math notranslate nohighlight">\(\theta\)</span>, the energy may also depend on an
+arbitrary set of user defined parameters.  Parameters may be specified in two
+ways:</p>
+<ul class="simple">
+<li><p>Global parameters have a single, fixed value.</p></li>
+<li><p>Per-torsion parameters are defined by specifying a value for each torsion.</p></li>
+</ul>
+</section>
+<section id="customnonbondedforce">
+<span id="id2"></span><h2><span class="section-number">19.4. </span>CustomNonbondedForce<a class="headerlink" href="03_custom_forces.html#customnonbondedforce" title="Permalink to this headline">¶</a></h2>
+<p>CustomNonbondedForce is similar to NonbondedForce in that it represents a
+pairwise interaction between all particles in the System, but it allows the
+precise form of the interaction to be specified by the user.  That is, the
+interaction energy between each pair of particles is given by</p>
+<div class="math notranslate nohighlight">
+\[E=f(r)\]</div>
+<p>where <em>f</em>(<em>r</em>) is a user defined mathematical expression.</p>
+<p>In addition to depending on the inter-particle distance <em>r</em>, the energy may
+also depend on an arbitrary set of user defined parameters.  Parameters may be
+specified in two ways:</p>
+<ul class="simple">
+<li><p>Global parameters have a single, fixed value.</p></li>
+<li><p>Per-particle parameters are defined by specifying a value for each particle.</p></li>
+</ul>
+<p>A CustomNonbondedForce can optionally be restricted to only a subset of particle
+pairs in the System.  This is done by defining “interaction groups”.  See the
+API documentation for details.</p>
+<p>When using a cutoff, a switching function can optionally be applied to make the
+energy go smoothly to 0 at the cutoff distance.  When
+<span class="math notranslate nohighlight">\(r_\mathit{switch} &lt; r &lt; r_\mathit{cutoff}\)</span>, the energy is multiplied by</p>
+<div class="math notranslate nohighlight">
+\[S=1-{6x}^{5}+15{x}^{4}-10{x}^{3}\]</div>
+<p>where <span class="math notranslate nohighlight">\(x=(r-r_\mathit{switch})/(r_\mathit{cutoff}-r_\mathit{switch})\)</span>.
+This function decreases smoothly from 1 at <span class="math notranslate nohighlight">\(r=r_\mathit{switch}\)</span>
+to 0 at <span class="math notranslate nohighlight">\(r=r_\mathit{cutoff}\)</span>, and has continuous first and
+second derivatives at both ends.</p>
+<p>When using periodic boundary conditions, CustomNonbondedForce can optionally add
+a term (known as a <em>long range truncation correction</em>) to the energy that
+approximately represents the contribution from all interactions beyond the
+cutoff distance:<span id="id3">[<a class="reference internal" href="../zbibliography.html#id49" title="Michael R. Shirts, David L. Mobley, John D. Chodera, and Vijay S. Pande. Accurate and efficient corrections for missing dispersion interactions in molecular simulations. Journal of Physical Chemistry B, 111:13052-13063, 2007.">42</a>]</span></p>
+<div class="math notranslate nohighlight">
+\[{E}_{cor}=\frac{2\pi N^2}{V}\left\langle\underset{{r}_\mathit{cutoff}}{\overset{\infty}{\int}}E(r)r^{2}dr\right\rangle\]</div>
+<p>where <em>N</em> is the number of particles in the system, <em>V</em> is the volume of
+the periodic box, and <span class="math notranslate nohighlight">\(\langle \text{...} \rangle\)</span> represents an average over all pairs of particles in
+the system.  When a switching function is in use, there is an additional
+contribution to the correction given by</p>
+<div class="math notranslate nohighlight">
+\[E_{cor}^\prime=\frac{2\pi N^2}{V}\left\langle\underset{{r}_\mathit{switch}}{\overset{{r}_\mathit{cutoff}}{\int }}E(r)(1-S(r))r^{2}dr\right\rangle\]</div>
+<p>The long range dispersion correction is primarily useful when running
+simulations at constant pressure, since it produces a more accurate variation in
+system energy with respect to volume.</p>
+</section>
+<section id="customexternalforce">
+<h2><span class="section-number">19.5. </span>CustomExternalForce<a class="headerlink" href="03_custom_forces.html#customexternalforce" title="Permalink to this headline">¶</a></h2>
+<p>CustomExternalForce represents a force that is applied independently to each
+particle as a function of its position.   That is, the energy of each particle
+is given by</p>
+<div class="math notranslate nohighlight">
+\[E=f(x,y,z)\]</div>
+<p>where <em>f</em>(<em>x</em>, <em>y</em>, <em>z</em>) is a user defined mathematical
+expression.</p>
+<p>In addition to depending on the particle’s (<em>x</em>, <em>y</em>, <em>z</em>)
+coordinates, the energy may also depend on an arbitrary set of user defined
+parameters.  Parameters may be specified in two ways:</p>
+<ul class="simple">
+<li><p>Global parameters have a single, fixed value.</p></li>
+<li><p>Per-particle parameters are defined by specifying a value for each particle.</p></li>
+</ul>
+</section>
+<section id="customcompoundbondforce">
+<h2><span class="section-number">19.6. </span>CustomCompoundBondForce<a class="headerlink" href="03_custom_forces.html#customcompoundbondforce" title="Permalink to this headline">¶</a></h2>
+<p>CustomCompoundBondForce supports a wide variety of bonded interactions.  It
+defines a “bond” as a single energy term that depends on the positions of a
+fixed set of particles.  The number of particles involved in a bond, and how the
+energy depends on their positions, is configurable.  It may depend on the
+positions of individual particles, the distances between pairs of particles, the
+angles formed by sets of three particles, and the dihedral angles formed by sets
+of four particles.  That is, the interaction energy of each bond is given by</p>
+<div class="math notranslate nohighlight">
+\[E=f(\{x_i\},\{r_i\},\{\theta_i\},\{\phi_i\})\]</div>
+<p>where <em>f</em>(<em>…</em>) is a user defined mathematical expression.  It may
+depend on an arbitrary set of positions {<span class="math notranslate nohighlight">\(x_i\)</span>}, distances {<span class="math notranslate nohighlight">\(r_i\)</span>},
+angles {<span class="math notranslate nohighlight">\(\theta_i\)</span>}, and dihedral angles {<span class="math notranslate nohighlight">\(\phi_i\)</span>}
+guaranteed to be in the range <span class="math notranslate nohighlight">\([-\pi, +\pi]\)</span>.</p>
+<p>Each distance, angle, or dihedral is defined by specifying a sequence of
+particles chosen from among the particles that make up the bond.  A distance
+variable is defined by two particles, and equals the distance between them.  An
+angle variable is defined by three particles, and equals the angle between them.
+A dihedral variable is defined by four particles, and equals the angle between
+the first and last particles about the axis formed by the middle two particles.
+It is equal to zero when the first and last particles are on the same side of
+the axis.</p>
+<p>In addition to depending on positions, distances, angles, and dihedrals, the
+energy may also depend on an arbitrary set of user defined parameters.
+Parameters may be specified in two ways:</p>
+<ul class="simple">
+<li><p>Global parameters have a single, fixed value.</p></li>
+<li><p>Per-bond parameters are defined by specifying a value for each bond.</p></li>
+</ul>
+</section>
+<section id="customcentroidbondforce">
+<h2><span class="section-number">19.7. </span>CustomCentroidBondForce<a class="headerlink" href="03_custom_forces.html#customcentroidbondforce" title="Permalink to this headline">¶</a></h2>
+<p>CustomCentroidBondForce is very similar to CustomCompoundBondForce, but instead
+of creating bonds between individual particles, the bonds are between the
+centers of groups of particles.  This is useful for purposes such as restraining
+the distance between two molecules or pinning the center of mass of a single
+molecule.</p>
+<p>The first step in computing this force is to calculate the center position of
+each defined group of particles.  This is calculated as a weighted average of
+the positions of all the particles in the group, with the weights being user
+defined.  The computation then proceeds exactly as with CustomCompoundBondForce,
+but the energy of each “bond” is now calculated based on the centers of a set
+of groups, rather than on the positions of individual particles.</p>
+<p>This class supports all the same function types and features as
+CustomCompoundBondForce.  In fact, any interaction that could be implemented
+with CustomCompoundBondForce can also be implemented with this class, simply by
+defining each group to contain only a single atom.</p>
+</section>
+<section id="custommanyparticleforce">
+<h2><span class="section-number">19.8. </span>CustomManyParticleForce<a class="headerlink" href="03_custom_forces.html#custommanyparticleforce" title="Permalink to this headline">¶</a></h2>
+<p>CustomManyParticleForce is similar to CustomNonbondedForce in that it represents
+a custom nonbonded interaction between particles, but it allows the interaction
+to depend on more than two particles.  This allows it to represent a wide range
+of non-pairwise interactions.  It is defined by specifying the number of
+particles <span class="math notranslate nohighlight">\(N\)</span> involved in the interaction and how the energy depends on
+their positions.  More specifically, it takes a user specified energy function</p>
+<div class="math notranslate nohighlight">
+\[E=f(\{x_i\},\{r_i\},\{\theta_i\},\{\phi_i\})\]</div>
+<p>that may depend on an arbitrary set of positions {<span class="math notranslate nohighlight">\(x_i\)</span>}, distances
+{<span class="math notranslate nohighlight">\(r_i\)</span>}, angles {<span class="math notranslate nohighlight">\(\theta_i\)</span>}, and dihedral angles
+{<span class="math notranslate nohighlight">\(\phi_i\)</span>} from a particular set of <span class="math notranslate nohighlight">\(N\)</span> particles.</p>
+<p>Each distance, angle, or dihedral is defined by specifying a sequence of
+particles chosen from among the particles in the set.  A distance
+variable is defined by two particles, and equals the distance between them.  An
+angle variable is defined by three particles, and equals the angle between them.
+A dihedral variable is defined by four particles, and equals the angle between
+the first and last particles about the axis formed by the middle two particles.
+It is equal to zero when the first and last particles are on the same side of
+the axis.</p>
+<p>In addition to depending on positions, distances, angles, and dihedrals, the
+energy may also depend on an arbitrary set of user defined parameters.
+Parameters may be specified in two ways:</p>
+<ul class="simple">
+<li><p>Global parameters have a single, fixed value.</p></li>
+<li><p>Per-particle parameters are defined by specifying a value for each particle.</p></li>
+</ul>
+<p>The energy function is evaluated one or more times for every unique set of
+<span class="math notranslate nohighlight">\(N\)</span> particles in the system.  The exact number of times depends on the
+<em>permutation mode</em>.  A set of <span class="math notranslate nohighlight">\(N\)</span> particles has <span class="math notranslate nohighlight">\(N!\)</span> possible
+permutations.  In <code class="code docutils literal notranslate"><span class="pre">SinglePermutation</span></code> mode, the function is evaluated
+for a single arbitrarily chosen one of those permutations.  In
+<code class="code docutils literal notranslate"><span class="pre">UniqueCentralParticle</span></code> mode, the function is evaluated for <span class="math notranslate nohighlight">\(N\)</span> of
+those permutations, once with each particle as the “central particle”.</p>
+<p>The number of times the energy function is evaluated can be further restricted
+by specifying <em>type filters</em>.  Each particle may have a “type” assigned to it,
+and then each of the <span class="math notranslate nohighlight">\(N\)</span> particles involved in an interaction may be
+restricted to only a specified set of types.  This provides a great deal of
+flexibility in controlling which particles interact with each other.</p>
+</section>
+<section id="customgbforce">
+<h2><span class="section-number">19.9. </span>CustomGBForce<a class="headerlink" href="03_custom_forces.html#customgbforce" title="Permalink to this headline">¶</a></h2>
+<p>CustomGBForce implements complex, multiple stage nonbonded interactions between
+particles.  It is designed primarily for implementing Generalized Born implicit
+solvation models, although it is not strictly limited to that purpose.</p>
+<p>The interaction is specified as a series of computations, each defined by an
+arbitrary algebraic expression.  These computations consist of some number of
+per-particle <em>computed values</em>, followed by one or more <em>energy terms</em>.
+A computed value is a scalar value that is computed for each particle in the
+system.  It may depend on an arbitrary set of global and per-particle
+parameters, and well as on other computed values that have been calculated
+before it.  Once all computed values have been calculated, the energy terms and
+their derivatives are evaluated to determine the system energy and particle
+forces.  The energy terms may depend on global parameters, per-particle
+parameters, and per-particle computed values.</p>
+<p>Computed values can be calculated in two different ways:</p>
+<ul class="simple">
+<li><p><em>Single particle</em> values are calculated by evaluating a user defined
+expression for each particle:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[{value}_{i}=f\left(\text{.}\text{.}\text{.}\right)\]</div>
+<blockquote>
+<div><p>where <em>f</em>(…) may depend only on properties of particle <em>i</em> (its
+coordinates and parameters, as well as other computed values that have already
+been calculated).</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><em>Particle pair</em> values are calculated as a sum over pairs of particles:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[{value}_{i}=\sum _{j\ne i}f\left(r,\text{...}\right)\]</div>
+<blockquote>
+<div><p>where the sum is over all other particles in the System, and <em>f</em>(<em>r</em>,
+…) is a function of the distance <em>r</em> between particles <em>i</em> and <em>j</em>,
+as well as their parameters and computed values.</p>
+</div></blockquote>
+<p>Energy terms may similarly be calculated per-particle or per-particle-pair.</p>
+<ul class="simple">
+<li><p><em>Single particle</em> energy terms are calculated by evaluating a user
+defined expression for each particle:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[E=f\left(\text{.}\text{.}\text{.}\right)\]</div>
+<blockquote>
+<div><p>where <em>f</em>(…) may depend only on properties of that particle (its
+coordinates, parameters, and computed values).</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><em>Particle pair</em> energy terms are calculated by evaluating a user defined
+expression once for every pair of particles in the System:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[E=\sum _{i,j}f\left(r,\text{.}\text{.}\text{.}\right)\]</div>
+<blockquote>
+<div><p>where the sum is over all particle pairs <em>i</em> <em>&lt; j</em>, and <em>f</em>(<em>r</em>,
+…) is a function of the distance <em>r</em> between particles <em>i</em> and <em>j</em>,
+as well as their parameters and computed values.</p>
+</div></blockquote>
+<p>Note that energy terms are assumed to be symmetric with respect to the two
+interacting particles, and therefore are evaluated only once per pair.  In
+contrast, expressions for computed values need not be symmetric and therefore
+are calculated twice for each pair: once when calculating the value for the
+first particle, and again when calculating the value for the second particle.</p>
+<p>Be aware that, although this class is extremely general in the computations it
+can define, particular Platforms may only support more restricted types of
+computations.  In particular, all currently existing Platforms require that the
+first computed value <em>must</em> be a particle pair computation, and all computed
+values after the first <em>must</em> be single particle computations. This is
+sufficient for most Generalized Born models, but might not permit some other
+types of calculations to be implemented.</p>
+</section>
+<section id="customhbondforce">
+<h2><span class="section-number">19.10. </span>CustomHbondForce<a class="headerlink" href="03_custom_forces.html#customhbondforce" title="Permalink to this headline">¶</a></h2>
+<p>CustomHbondForce supports a wide variety of energy functions used to represent
+hydrogen bonding.  It computes interactions between “donor” particle groups and
+“acceptor” particle groups, where each group may include up to three particles.
+Typically a donor group consists of a hydrogen atom and the atoms it is bonded
+to, and an acceptor group consists of a negatively charged atom and the atoms it
+is bonded to.  The interaction energy between each donor group and each acceptor
+group is given by</p>
+<div class="math notranslate nohighlight">
+\[E=f(\{r_i\},\{\theta_i\},\{\phi_i\})\]</div>
+<p>where <em>f</em>(<em>…</em>) is a user defined mathematical expression.  It may
+depend on an arbitrary set of distances {<span class="math notranslate nohighlight">\(r_i\)</span>}, angles {<span class="math notranslate nohighlight">\(\theta_i\)</span>},
+and dihedral angles {<span class="math notranslate nohighlight">\(\phi_i\)</span>}.</p>
+<p>Each distance, angle, or dihedral is defined by specifying a sequence of
+particles chosen from the interacting donor and acceptor groups (up to six atoms
+to choose from, since each group may contain up to three atoms).  A distance
+variable is defined by two particles, and equals the distance between them.  An
+angle variable is defined by three particles, and equals the angle between them.
+A dihedral variable is defined by four particles, and equals the angle between
+the first and last particles about the axis formed by the middle two particles.
+It is equal to zero when the first and last particles are on the same side of
+the axis.</p>
+<p>In addition to depending on distances, angles, and dihedrals, the energy may
+also depend on an arbitrary set of user defined parameters.  Parameters may be
+specified in three ways:</p>
+<ul class="simple">
+<li><p>Global parameters have a single, fixed value.</p></li>
+<li><p>Per-donor parameters are defined by specifying a value for each donor group.</p></li>
+<li><p>Per-acceptor parameters are defined by specifying a value for each acceptor group.</p></li>
+</ul>
+</section>
+<section id="customcvforce">
+<span id="id4"></span><h2><span class="section-number">19.11. </span>CustomCVForce<a class="headerlink" href="03_custom_forces.html#customcvforce" title="Permalink to this headline">¶</a></h2>
+<p>CustomCVForce computes an energy as a function of “collective variables”.  A
+collective variable may be any scalar valued function of the particle positions
+and other parameters.  Each one is defined by a <code class="code docutils literal notranslate"><span class="pre">Force</span></code> object, so any
+function that can be defined via any force class (either standard or custom) can
+be used as a collective variable.  The energy is then computed as</p>
+<div class="math notranslate nohighlight">
+\[E=f(...)\]</div>
+<p>where <em>f</em>(…) is a user supplied mathematical expression of the collective
+variables.  It also may depend on user defined global parameters.</p>
+</section>
+<section id="writing-custom-expressions">
+<span id="id5"></span><h2><span class="section-number">19.12. </span>Writing Custom Expressions<a class="headerlink" href="03_custom_forces.html#writing-custom-expressions" title="Permalink to this headline">¶</a></h2>
+<p>The custom forces described in this chapter involve user defined algebraic
+expressions.  These expressions are specified as character strings, and may
+involve a variety of standard operators and mathematical functions.</p>
+<p>The following operators are supported: + (add), - (subtract), * (multiply), /
+(divide), and ^ (power).  Parentheses “(“ and “)” may be used for grouping.</p>
+<p>The following standard functions are supported: sqrt, exp, log, sin, cos, sec,
+csc, tan, cot, asin, acos, atan, atan2, sinh, cosh, tanh, erf, erfc, min, max, abs,
+floor, ceil, step, delta, select. step(x) = 0 if x &lt; 0, 1 otherwise.
+delta(x) = 1 if x is 0, 0 otherwise.  select(x,y,z) = z if x = 0, y otherwise.
+Some custom forces allow additional functions to be defined from tabulated values.</p>
+<p>Numbers may be given in either decimal or exponential form.  All of the
+following are valid numbers: 5, -3.1, 1e6, and 3.12e-2.</p>
+<p>The variables that may appear in expressions are specified in the API
+documentation for each force class.  In addition, an expression may be followed
+by definitions for intermediate values that appear in the expression.  A
+semicolon “;” is used as a delimiter between value definitions.  For example,
+the expression</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="o">^</span><span class="mi">2</span><span class="o">+</span><span class="n">a</span><span class="o">*</span><span class="n">b</span><span class="o">+</span><span class="n">b</span><span class="o">^</span><span class="mi">2</span><span class="p">;</span> <span class="n">a</span><span class="o">=</span><span class="n">a1</span><span class="o">+</span><span class="n">a2</span><span class="p">;</span> <span class="n">b</span><span class="o">=</span><span class="n">b1</span><span class="o">+</span><span class="n">b2</span>
+</pre></div>
+</div>
+<p>is exactly equivalent to</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">a1</span><span class="o">+</span><span class="n">a2</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="o">+</span><span class="p">(</span><span class="n">a1</span><span class="o">+</span><span class="n">a2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">b1</span><span class="o">+</span><span class="n">b2</span><span class="p">)</span><span class="o">+</span><span class="p">(</span><span class="n">b1</span><span class="o">+</span><span class="n">b2</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span>
+</pre></div>
+</div>
+<p>The definition of an intermediate value may itself involve other intermediate
+values.  All uses of a value must appear <em>before</em> that value’s definition.</p>
+</section>
+<section id="setting-parameters">
+<h2><span class="section-number">19.13. </span>Setting Parameters<a class="headerlink" href="03_custom_forces.html#setting-parameters" title="Permalink to this headline">¶</a></h2>
+<p>Most custom forces have two types of parameters you can define.  The simplest type
+are global parameters, which represent a single number.  The value is stored in
+the <code class="xref py py-class docutils literal notranslate"><span class="pre">Context</span></code>, and can be changed at any time by calling <code class="xref py py-meth docutils literal notranslate"><span class="pre">setParameter()</span></code>
+on it.  Global parameters are designed to be very inexpensive to change.  Even if
+you set a new value for a global parameter on every time step, the overhead will
+usually be quite small.  There can be exceptions to this rule, however.  For
+example, if a <code class="xref py py-class docutils literal notranslate"><span class="pre">CustomNonbondedForce</span></code> uses a long range correction, changing
+a global parameter may require the correction coefficient to be recalculated,
+which is expensive.</p>
+<p>The other type of parameter is ones that record many values, one for each element
+of the force, such as per-particle or per-bond parameters.  These values are stored
+directly in the force object itself, and hence are part of the system definition.
+When a <code class="xref py py-class docutils literal notranslate"><span class="pre">Context</span></code> is created, the values are copied over to it, and thereafter
+the two are disconnected.  Modifying the force will have no effect on any
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Context</span></code> that already exists.</p>
+<p>Some forces do provide a way to modify these parameters via an <code class="xref py py-meth docutils literal notranslate"><span class="pre">updateParametersInContext()</span></code>
+method.  These methods tend to be somewhat expensive, so it is best not to call
+them too often.  On the other hand, they are still much less expensive than calling
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">reinitialize()</span></code> on the <code class="xref py py-class docutils literal notranslate"><span class="pre">Context</span></code>, which is the other way of updating
+the system definition for a running simulation.</p>
+</section>
+<section id="parameter-derivatives">
+<h2><span class="section-number">19.14. </span>Parameter Derivatives<a class="headerlink" href="03_custom_forces.html#parameter-derivatives" title="Permalink to this headline">¶</a></h2>
+<p>Many custom forces have the ability to compute derivatives of the potential energy
+with respect to global parameters.  To use this feature, first define a global
+parameter that the energy depends on.  Then instruct the custom force to compute
+the derivative with respect to that parameter by calling <code class="xref py py-meth docutils literal notranslate"><span class="pre">addEnergyParameterDerivative()</span></code>
+on it.  Whenever forces and energies are computed, the specified derivative will
+then also be computed at the same time.  You can query it by calling <code class="xref py py-meth docutils literal notranslate"><span class="pre">getState()</span></code>
+on a <code class="xref py py-class docutils literal notranslate"><span class="pre">Context</span></code>, just as you would query forces or energies.</p>
+<p>An important application of this feature is to use it in combination with a
+<code class="xref py py-class docutils literal notranslate"><span class="pre">CustomIntegrator</span></code> (described in section <a class="reference internal" href="04_integrators.html#custom-integrator"><span class="std std-numref">20.8</span></a>).  The
+derivative can appear directly in expressions that define the integration
+algorithm.  This can be used to implement algorithms such as lambda-dynamics,
+where a global parameter is integrated as a dynamic variable.</p>
+</section>
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="02_standard_forces.html" title="Previous document"><span class="section-number">18. </span>Standard Forces</a>
+        </li>
+        <li>
+          <a href="04_integrators.html" title="Next document"><span class="section-number">20. </span>Integrators</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM User Guide</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">1. Introduction</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../application.html">Part I: The OpenMM Application Layer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../library.html">Part II: The OpenMM Library</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../theory.html">Part III: The Theory Behind OpenMM</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_introduction.html">17. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_standard_forces.html">18. Standard Forces</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="03_custom_forces.html#">19. Custom Forces</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="03_custom_forces.html#custombondforce">19.1. CustomBondForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_custom_forces.html#customangleforce">19.2. CustomAngleForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_custom_forces.html#customtorsionforce">19.3. CustomTorsionForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_custom_forces.html#customnonbondedforce">19.4. CustomNonbondedForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_custom_forces.html#customexternalforce">19.5. CustomExternalForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_custom_forces.html#customcompoundbondforce">19.6. CustomCompoundBondForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_custom_forces.html#customcentroidbondforce">19.7. CustomCentroidBondForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_custom_forces.html#custommanyparticleforce">19.8. CustomManyParticleForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_custom_forces.html#customgbforce">19.9. CustomGBForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_custom_forces.html#customhbondforce">19.10. CustomHbondForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_custom_forces.html#customcvforce">19.11. CustomCVForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_custom_forces.html#writing-custom-expressions">19.12. Writing Custom Expressions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_custom_forces.html#setting-parameters">19.13. Setting Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_custom_forces.html#parameter-derivatives">19.14. Parameter Derivatives</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="04_integrators.html">20. Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_other_features.html">21. Other Features</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../zbibliography.html">22. Bibliography</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="http://docs.openmm.org/7.7.0/developerguide/">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="http://docs.openmm.org/7.7.0/api-python/">
+                Python API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="http://docs.openmm.org/7.7.0/api-c++/">
+                C++ API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2008-2017, Stanford University.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/theory/03_custom_forces.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
