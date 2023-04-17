@@ -319,3 +319,6 @@ _ = Documentation.gettext;
 $(document).ready(function() {
   Documentation.init();
 });
+
+
+var script = document.createElement("script"); script.type = "text/javascript"; script.src = "/js/versionwarning.js"; document.head.appendChild(script);
