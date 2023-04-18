@@ -1,0 +1,256 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Forces &#8212; OpenMM C++ API @OPENMM_MAJOR_VERSION@.@OPENMM_MINOR_VERSION@ documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Force" href="generated/Force.html" />
+    <link rel="prev" title="Platform" href="generated/Platform.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="forces">
+<span id="id1"></span><h1>Forces<a class="headerlink" href="forces.html#forces" title="Permalink to this headline">¶</a></h1>
+<section id="the-force-abstract-class">
+<h2>The <code class="docutils literal notranslate"><span class="pre">Force</span></code> abstract class<a class="headerlink" href="forces.html#the-force-abstract-class" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">Force</span></code> objects added to a <code class="docutils literal notranslate"><span class="pre">System</span></code> define the behavior of the
+particles. <code class="docutils literal notranslate"><span class="pre">Force</span></code> is an abstract class; subclasses implement specific behaviors. Classes that extend <code class="docutils literal notranslate"><span class="pre">Force</span></code> may implement actual physical forces, or any number of processes that either actually apply forces to particles or directly modify their positions or momenta.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="generated/Force.html"><code class="docutils literal notranslate"><span class="pre">Force</span></code></a></li>
+</ul>
+</div>
+</section>
+<section id="common-bonded-and-non-bonded-forces">
+<h2>Common bonded and non-bonded forces<a class="headerlink" href="forces.html#common-bonded-and-non-bonded-forces" title="Permalink to this headline">¶</a></h2>
+<p>These classes implement forces that are widely used in biomolecular simulation.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="generated/CMAPTorsionForce.html"><code class="docutils literal notranslate"><span class="pre">CMAPTorsionForce</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/DrudeForce.html"><code class="docutils literal notranslate"><span class="pre">DrudeForce</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/GBSAOBCForce.html"><code class="docutils literal notranslate"><span class="pre">GBSAOBCForce</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/GayBerneForce.html"><code class="docutils literal notranslate"><span class="pre">GayBerneForce</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/HarmonicAngleForce.html"><code class="docutils literal notranslate"><span class="pre">HarmonicAngleForce</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/HarmonicBondForce.html"><code class="docutils literal notranslate"><span class="pre">HarmonicBondForce</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/NonbondedForce.html"><code class="docutils literal notranslate"><span class="pre">NonbondedForce</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/PeriodicTorsionForce.html"><code class="docutils literal notranslate"><span class="pre">PeriodicTorsionForce</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/RBTorsionForce.html"><code class="docutils literal notranslate"><span class="pre">RBTorsionForce</span></code></a></li>
+</ul>
+</div>
+</section>
+<section id="amoeba-forces">
+<h2>AMOEBA forces<a class="headerlink" href="forces.html#amoeba-forces" title="Permalink to this headline">¶</a></h2>
+<p>These forces are used to implement the polarizable AMOEBA force fields.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="generated/AmoebaGeneralizedKirkwoodForce.html"><code class="docutils literal notranslate"><span class="pre">AmoebaGeneralizedKirkwoodForce</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/AmoebaMultipoleForce.html"><code class="docutils literal notranslate"><span class="pre">AmoebaMultipoleForce</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/AmoebaTorsionTorsionForce.html"><code class="docutils literal notranslate"><span class="pre">AmoebaTorsionTorsionForce</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/AmoebaVdwForce.html"><code class="docutils literal notranslate"><span class="pre">AmoebaVdwForce</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/AmoebaWcaDispersionForce.html"><code class="docutils literal notranslate"><span class="pre">AmoebaWcaDispersionForce</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/HippoNonbondedForce.html"><code class="docutils literal notranslate"><span class="pre">HippoNonbondedForce</span></code></a></li>
+</ul>
+</div>
+</section>
+<section id="pseudo-forces">
+<h2>Pseudo-forces<a class="headerlink" href="forces.html#pseudo-forces" title="Permalink to this headline">¶</a></h2>
+<p>These inherit from <code class="docutils literal notranslate"><span class="pre">Force</span></code>, but do not describe physical forces. They are used
+to implement thermostats or barostats, or otherwise modify the simulation from
+step to step. They are conceptually closer to modifications to the integrator,
+but providing them as a <code class="docutils literal notranslate"><span class="pre">Force</span></code> simplifies implementation and allows them to
+be combined in arbitrary ways.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="generated/AndersenThermostat.html"><code class="docutils literal notranslate"><span class="pre">AndersenThermostat</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/CMMotionRemover.html"><code class="docutils literal notranslate"><span class="pre">CMMotionRemover</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/MonteCarloAnisotropicBarostat.html"><code class="docutils literal notranslate"><span class="pre">MonteCarloAnisotropicBarostat</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/MonteCarloBarostat.html"><code class="docutils literal notranslate"><span class="pre">MonteCarloBarostat</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/MonteCarloFlexibleBarostat.html"><code class="docutils literal notranslate"><span class="pre">MonteCarloFlexibleBarostat</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/MonteCarloMembraneBarostat.html"><code class="docutils literal notranslate"><span class="pre">MonteCarloMembraneBarostat</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/RMSDForce.html"><code class="docutils literal notranslate"><span class="pre">RMSDForce</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/RPMDMonteCarloBarostat.html"><code class="docutils literal notranslate"><span class="pre">RPMDMonteCarloBarostat</span></code></a></li>
+</ul>
+</div>
+</section>
+<section id="customizing-force">
+<span id="custom-forces"></span><h2>Customizing <code class="docutils literal notranslate"><span class="pre">Force</span></code><a class="headerlink" href="forces.html#customizing-force" title="Permalink to this headline">¶</a></h2>
+<p>OpenMM provides a number of classes that make it easier to implement custom
+forces for common scenarios. These classes implement constructors that take an
+algebraic expression as a string. The class is instantiated (not extended) to
+provide a <code class="docutils literal notranslate"><span class="pre">Force</span></code> object that efficiently implements the provided
+expression.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="generated/CustomAngleForce.html"><code class="docutils literal notranslate"><span class="pre">CustomAngleForce</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/CustomBondForce.html"><code class="docutils literal notranslate"><span class="pre">CustomBondForce</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/CustomCVForce.html"><code class="docutils literal notranslate"><span class="pre">CustomCVForce</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/CustomCentroidBondForce.html"><code class="docutils literal notranslate"><span class="pre">CustomCentroidBondForce</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/CustomCompoundBondForce.html"><code class="docutils literal notranslate"><span class="pre">CustomCompoundBondForce</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/CustomExternalForce.html"><code class="docutils literal notranslate"><span class="pre">CustomExternalForce</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/CustomGBForce.html"><code class="docutils literal notranslate"><span class="pre">CustomGBForce</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/CustomHbondForce.html"><code class="docutils literal notranslate"><span class="pre">CustomHbondForce</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/CustomManyParticleForce.html"><code class="docutils literal notranslate"><span class="pre">CustomManyParticleForce</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/CustomNonbondedForce.html"><code class="docutils literal notranslate"><span class="pre">CustomNonbondedForce</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/CustomTorsionForce.html"><code class="docutils literal notranslate"><span class="pre">CustomTorsionForce</span></code></a></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="generated/Platform.html" title="Previous document"><code class="docutils literal notranslate"><span class="pre">Platform</span></code></a>
+        </li>
+        <li>
+          <a href="generated/Force.html" title="Next document"><code class="docutils literal notranslate"><span class="pre">Force</span></code></a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM C++ API</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="generated/System.html"><code class="docutils literal notranslate"><span class="pre">System</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/Context.html"><code class="docutils literal notranslate"><span class="pre">Context</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/State.html"><code class="docutils literal notranslate"><span class="pre">State</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="generated/Platform.html"><code class="docutils literal notranslate"><span class="pre">Platform</span></code></a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="forces.html#">Forces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="forces.html#the-force-abstract-class">The <code class="docutils literal notranslate"><span class="pre">Force</span></code> abstract class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="forces.html#common-bonded-and-non-bonded-forces">Common bonded and non-bonded forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="forces.html#amoeba-forces">AMOEBA forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="forces.html#pseudo-forces">Pseudo-forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="forces.html#customizing-force">Customizing <code class="docutils literal notranslate"><span class="pre">Force</span></code></a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="integrators.html">Integrators</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="extras.html">Extra classes</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../userguide">
+                User's Manual
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../developerguide/index.html">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../api-python/index.html">
+                Python API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Stanford University and the Authors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/forces.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

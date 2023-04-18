@@ -1,0 +1,7 @@
+.. _OpenMM::ThreeParticleAverageSite:
+
+``ThreeParticleAverageSite``
+============================
+
+.. doxygenclass:: OpenMM::ThreeParticleAverageSite
+   :members:

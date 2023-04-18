@@ -1,0 +1,7 @@
+.. _OpenMM::HippoNonbondedForce:
+
+``HippoNonbondedForce``
+=======================
+
+.. doxygenclass:: OpenMM::HippoNonbondedForce
+   :members:

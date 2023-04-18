@@ -1,0 +1,7 @@
+.. _OpenMM::NonbondedForce:
+
+``NonbondedForce``
+==================
+
+.. doxygenclass:: OpenMM::NonbondedForce
+   :members:

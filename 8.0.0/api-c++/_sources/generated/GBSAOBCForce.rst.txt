@@ -1,0 +1,7 @@
+.. _OpenMM::GBSAOBCForce:
+
+``GBSAOBCForce``
+================
+
+.. doxygenclass:: OpenMM::GBSAOBCForce
+   :members:

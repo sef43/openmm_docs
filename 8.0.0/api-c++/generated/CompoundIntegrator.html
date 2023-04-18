@@ -1,0 +1,311 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>CompoundIntegrator &#8212; OpenMM C++ API @OPENMM_MAJOR_VERSION@.@OPENMM_MINOR_VERSION@ documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Extra classes" href="../extras.html" />
+    <link rel="prev" title="CustomIntegrator" href="CustomIntegrator.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="compoundintegrator">
+<span id="openmm-compoundintegrator"></span><h1><code class="docutils literal notranslate"><span class="pre">CompoundIntegrator</span></code><a class="headerlink" href="CompoundIntegrator.html#compoundintegrator" title="Permalink to this headline">¶</a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM18CompoundIntegratorE">
+<span id="_CPPv3N6OpenMM18CompoundIntegratorE"></span><span id="_CPPv2N6OpenMM18CompoundIntegratorE"></span><span id="OpenMM::CompoundIntegrator"></span><span class="target" id="classOpenMM_1_1CompoundIntegrator"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CompoundIntegrator</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">OpenMM</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="Integrator.html#_CPPv4N6OpenMM10IntegratorE" title="OpenMM::Integrator"><span class="n"><span class="pre">Integrator</span></span></a><a class="headerlink" href="CompoundIntegrator.html#_CPPv4N6OpenMM18CompoundIntegratorE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This class allows you to use multiple integration algorithms within a single simulation, switching back and forth between them. To use it, create whatever other Integrators you need, then add all of them to a <a class="reference internal" href="CustomIntegrator.html#classOpenMM_1_1CustomIntegrator"><span class="std std-ref">CustomIntegrator</span></a>:</p>
+<p><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">CompoundIntegrator</span><span class="w"> </span><span class="n">compoundIntegrator</span><span class="p">;</span>
+<span class="n">compoundIntegrator</span><span class="p">.</span><span class="n">addIntegrator</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">VerletIntegrator</span><span class="p">(</span><span class="mf">0.001</span><span class="p">));</span>
+<span class="n">compoundIntegrator</span><span class="p">.</span><span class="n">addIntegrator</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">LangevinIntegrator</span><span class="p">(</span><span class="mf">300.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.001</span><span class="p">));</span>
+</pre></div>
+</div>
+</p>
+<p>Next create a <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a>, specifying the <a class="reference internal" href="CompoundIntegrator.html#classOpenMM_1_1CompoundIntegrator"><span class="std std-ref">CompoundIntegrator</span></a> as the <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a> to use for the <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a>:</p>
+<p><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">Context</span><span class="w"> </span><span class="nf">context</span><span class="p">(</span><span class="n">system</span><span class="p">,</span><span class="w"> </span><span class="n">compoundIntegrator</span><span class="p">);</span>
+</pre></div>
+</div>
+</p>
+<p>Finally, call <a class="reference internal" href="CompoundIntegrator.html#classOpenMM_1_1CompoundIntegrator_1ad6c6734cb0f4e5507649e9c2698abcc5"><span class="std std-ref">setCurrentIntegrator()</span></a> to set which <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a> is active. That one will be used for all calls to <a class="reference internal" href="CompoundIntegrator.html#classOpenMM_1_1CompoundIntegrator_1aba23d74fdc33f9c5957aa7aab7d4dd83"><span class="std std-ref">step()</span></a> until the next time you change it.</p>
+<p><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">compoundIntegrator</span><span class="p">.</span><span class="n">setCurrentIntegrator</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="n">compoundIntegrator</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w"> </span><span class="c1">// Take 1000 steps of Verlet dynamics</span>
+<span class="n">compoundIntegrator</span><span class="p">.</span><span class="n">setCurrentIntegrator</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">compoundIntegrator</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w"> </span><span class="c1">// Take 1000 steps of Langevin dynamics</span>
+</pre></div>
+</div>
+</p>
+<p>When switching between integrators, it is important to make sure they are compatible with each other, and that they will interpret the positions and velocities in the same way. Remember that leapfrog style integrators assume the positions and velocities are offset from each other by half a time step. When switching between a leapfrog and non-leapfrog integrator, you must first adjust the velocities to avoid introducing error. This is also true when switching between two leapfrog integrators that use different step sizes, since they will interpret the velocities as corresponding to different times. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM18CompoundIntegrator18CompoundIntegratorEv">
+<span id="_CPPv3N6OpenMM18CompoundIntegrator18CompoundIntegratorEv"></span><span id="_CPPv2N6OpenMM18CompoundIntegrator18CompoundIntegratorEv"></span><span id="OpenMM::CompoundIntegrator::CompoundIntegrator"></span><span class="target" id="classOpenMM_1_1CompoundIntegrator_1a7b6cba1657f6f6fa090f861a81941440"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CompoundIntegrator</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="CompoundIntegrator.html#_CPPv4N6OpenMM18CompoundIntegrator18CompoundIntegratorEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a <a class="reference internal" href="CompoundIntegrator.html#classOpenMM_1_1CompoundIntegrator"><span class="std std-ref">CompoundIntegrator</span></a>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM18CompoundIntegrator17getNumIntegratorsEv">
+<span id="_CPPv3NK6OpenMM18CompoundIntegrator17getNumIntegratorsEv"></span><span id="_CPPv2NK6OpenMM18CompoundIntegrator17getNumIntegratorsEv"></span><span id="OpenMM::CompoundIntegrator::getNumIntegratorsC"></span><span class="target" id="classOpenMM_1_1CompoundIntegrator_1aaed10077238aba9f392531de741ca546"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getNumIntegrators</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CompoundIntegrator.html#_CPPv4NK6OpenMM18CompoundIntegrator17getNumIntegratorsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the number of Integrators that have been added to this <a class="reference internal" href="CompoundIntegrator.html#classOpenMM_1_1CompoundIntegrator"><span class="std std-ref">CompoundIntegrator</span></a>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM18CompoundIntegrator13addIntegratorEP10Integrator">
+<span id="_CPPv3N6OpenMM18CompoundIntegrator13addIntegratorEP10Integrator"></span><span id="_CPPv2N6OpenMM18CompoundIntegrator13addIntegratorEP10Integrator"></span><span id="OpenMM::CompoundIntegrator::addIntegrator__IntegratorP"></span><span class="target" id="classOpenMM_1_1CompoundIntegrator_1a9274d1a1d1ff0d1826781449cb2e980e"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addIntegrator</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="Integrator.html#_CPPv4N6OpenMM10IntegratorE" title="OpenMM::Integrator"><span class="n"><span class="pre">Integrator</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">integrator</span></span><span class="sig-paren">)</span><a class="headerlink" href="CompoundIntegrator.html#_CPPv4N6OpenMM18CompoundIntegrator13addIntegratorEP10Integrator" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add an <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a> to this <a class="reference internal" href="CompoundIntegrator.html#classOpenMM_1_1CompoundIntegrator"><span class="std std-ref">CompoundIntegrator</span></a>. The <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a> object should have been created on the heap with the “new” operator. The <a class="reference internal" href="CompoundIntegrator.html#classOpenMM_1_1CompoundIntegrator"><span class="std std-ref">CompoundIntegrator</span></a> takes over ownership of it, and deletes it when the <a class="reference internal" href="CompoundIntegrator.html#classOpenMM_1_1CompoundIntegrator"><span class="std std-ref">CompoundIntegrator</span></a> itself is deleted. All Integrators must be added before the <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a> is created.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>integrator</strong> – the <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a> to add </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the index of the <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a> that was added </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM18CompoundIntegrator13getIntegratorEi">
+<span id="_CPPv3N6OpenMM18CompoundIntegrator13getIntegratorEi"></span><span id="_CPPv2N6OpenMM18CompoundIntegrator13getIntegratorEi"></span><span id="OpenMM::CompoundIntegrator::getIntegrator__i"></span><span class="target" id="classOpenMM_1_1CompoundIntegrator_1a00f481a08ed67124e06d85c741ef562c"></span><a class="reference internal" href="Integrator.html#_CPPv4N6OpenMM10IntegratorE" title="OpenMM::Integrator"><span class="n"><span class="pre">Integrator</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getIntegrator</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><a class="headerlink" href="CompoundIntegrator.html#_CPPv4N6OpenMM18CompoundIntegrator13getIntegratorEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get a reference to one of the Integrators that have been added to this <a class="reference internal" href="CompoundIntegrator.html#classOpenMM_1_1CompoundIntegrator"><span class="std std-ref">CompoundIntegrator</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – the index of the <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a> to get </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM18CompoundIntegrator13getIntegratorEi">
+<span id="_CPPv3NK6OpenMM18CompoundIntegrator13getIntegratorEi"></span><span id="_CPPv2NK6OpenMM18CompoundIntegrator13getIntegratorEi"></span><span id="OpenMM::CompoundIntegrator::getIntegrator__iC"></span><span class="target" id="classOpenMM_1_1CompoundIntegrator_1a9df5975a205c239c9068384d9dd72181"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="Integrator.html#_CPPv4N6OpenMM10IntegratorE" title="OpenMM::Integrator"><span class="n"><span class="pre">Integrator</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getIntegrator</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CompoundIntegrator.html#_CPPv4NK6OpenMM18CompoundIntegrator13getIntegratorEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get a const reference to one of the Integrators that have been added to this <a class="reference internal" href="CompoundIntegrator.html#classOpenMM_1_1CompoundIntegrator"><span class="std std-ref">CompoundIntegrator</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – the index of the <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a> to get </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM18CompoundIntegrator20getCurrentIntegratorEv">
+<span id="_CPPv3NK6OpenMM18CompoundIntegrator20getCurrentIntegratorEv"></span><span id="_CPPv2NK6OpenMM18CompoundIntegrator20getCurrentIntegratorEv"></span><span id="OpenMM::CompoundIntegrator::getCurrentIntegratorC"></span><span class="target" id="classOpenMM_1_1CompoundIntegrator_1a3d37f7b96cd4bfc2e8d2bfa89fe299fa"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getCurrentIntegrator</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CompoundIntegrator.html#_CPPv4NK6OpenMM18CompoundIntegrator20getCurrentIntegratorEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the index of the current <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM18CompoundIntegrator20setCurrentIntegratorEi">
+<span id="_CPPv3N6OpenMM18CompoundIntegrator20setCurrentIntegratorEi"></span><span id="_CPPv2N6OpenMM18CompoundIntegrator20setCurrentIntegratorEi"></span><span id="OpenMM::CompoundIntegrator::setCurrentIntegrator__i"></span><span class="target" id="classOpenMM_1_1CompoundIntegrator_1ad6c6734cb0f4e5507649e9c2698abcc5"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setCurrentIntegrator</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><a class="headerlink" href="CompoundIntegrator.html#_CPPv4N6OpenMM18CompoundIntegrator20setCurrentIntegratorEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the current <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – the index of the <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a> to use </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM18CompoundIntegrator11getStepSizeEv">
+<span id="_CPPv3NK6OpenMM18CompoundIntegrator11getStepSizeEv"></span><span id="_CPPv2NK6OpenMM18CompoundIntegrator11getStepSizeEv"></span><span id="OpenMM::CompoundIntegrator::getStepSizeC"></span><span class="target" id="classOpenMM_1_1CompoundIntegrator_1a584cf6ec5f12df62143e394a96c5ba26"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getStepSize</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CompoundIntegrator.html#_CPPv4NK6OpenMM18CompoundIntegrator11getStepSizeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the size of each time step, in picoseconds. This method calls <a class="reference internal" href="CompoundIntegrator.html#classOpenMM_1_1CompoundIntegrator_1a584cf6ec5f12df62143e394a96c5ba26"><span class="std std-ref">getStepSize()</span></a> on whichever <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a> has been set as current.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the step size, measured in ps </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM18CompoundIntegrator11setStepSizeEd">
+<span id="_CPPv3N6OpenMM18CompoundIntegrator11setStepSizeEd"></span><span id="_CPPv2N6OpenMM18CompoundIntegrator11setStepSizeEd"></span><span id="OpenMM::CompoundIntegrator::setStepSize__double"></span><span class="target" id="classOpenMM_1_1CompoundIntegrator_1abb64e175a1a55b76088b1ad74aea76b0"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setStepSize</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">size</span></span><span class="sig-paren">)</span><a class="headerlink" href="CompoundIntegrator.html#_CPPv4N6OpenMM18CompoundIntegrator11setStepSizeEd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the size of each time step, in picoseconds. This method calls <a class="reference internal" href="CompoundIntegrator.html#classOpenMM_1_1CompoundIntegrator_1abb64e175a1a55b76088b1ad74aea76b0"><span class="std std-ref">setStepSize()</span></a> on whichever <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a> has been set as current.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>size</strong> – the step size, measured in ps </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM18CompoundIntegrator22getConstraintToleranceEv">
+<span id="_CPPv3NK6OpenMM18CompoundIntegrator22getConstraintToleranceEv"></span><span id="_CPPv2NK6OpenMM18CompoundIntegrator22getConstraintToleranceEv"></span><span id="OpenMM::CompoundIntegrator::getConstraintToleranceC"></span><span class="target" id="classOpenMM_1_1CompoundIntegrator_1a7c83301f2a67053d16e510de2701e0fa"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getConstraintTolerance</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CompoundIntegrator.html#_CPPv4NK6OpenMM18CompoundIntegrator22getConstraintToleranceEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the distance tolerance within which constraints are maintained, as a fraction of the constrained distance. This method calls <a class="reference internal" href="CompoundIntegrator.html#classOpenMM_1_1CompoundIntegrator_1a7c83301f2a67053d16e510de2701e0fa"><span class="std std-ref">getConstraintTolerance()</span></a> on whichever <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a> has been set as current. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM18CompoundIntegrator22setConstraintToleranceEd">
+<span id="_CPPv3N6OpenMM18CompoundIntegrator22setConstraintToleranceEd"></span><span id="_CPPv2N6OpenMM18CompoundIntegrator22setConstraintToleranceEd"></span><span id="OpenMM::CompoundIntegrator::setConstraintTolerance__double"></span><span class="target" id="classOpenMM_1_1CompoundIntegrator_1adb8469bf1fa3e318b202e3a20d1111cf"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setConstraintTolerance</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">tol</span></span><span class="sig-paren">)</span><a class="headerlink" href="CompoundIntegrator.html#_CPPv4N6OpenMM18CompoundIntegrator22setConstraintToleranceEd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the distance tolerance within which constraints are maintained, as a fraction of the constrained distance. This method calls <a class="reference internal" href="CompoundIntegrator.html#classOpenMM_1_1CompoundIntegrator_1adb8469bf1fa3e318b202e3a20d1111cf"><span class="std std-ref">setConstraintTolerance()</span></a> on whichever <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a> has been set as current. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM18CompoundIntegrator4stepEi">
+<span id="_CPPv3N6OpenMM18CompoundIntegrator4stepEi"></span><span id="_CPPv2N6OpenMM18CompoundIntegrator4stepEi"></span><span id="OpenMM::CompoundIntegrator::step__i"></span><span class="target" id="classOpenMM_1_1CompoundIntegrator_1aba23d74fdc33f9c5957aa7aab7d4dd83"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">step</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">steps</span></span><span class="sig-paren">)</span><a class="headerlink" href="CompoundIntegrator.html#_CPPv4N6OpenMM18CompoundIntegrator4stepEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Advance a simulation through time by taking a series of time steps. This method calls <a class="reference internal" href="CompoundIntegrator.html#classOpenMM_1_1CompoundIntegrator_1aba23d74fdc33f9c5957aa7aab7d4dd83"><span class="std std-ref">step()</span></a> on whichever <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a> has been set as current.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>steps</strong> – the number of time steps to take </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="CustomIntegrator.html" title="Previous document"><code class="docutils literal notranslate"><span class="pre">CustomIntegrator</span></code></a>
+        </li>
+        <li>
+          <a href="../extras.html" title="Next document">Extra classes</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM C++ API</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="System.html"><code class="docutils literal notranslate"><span class="pre">System</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Context.html"><code class="docutils literal notranslate"><span class="pre">Context</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="State.html"><code class="docutils literal notranslate"><span class="pre">State</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Platform.html"><code class="docutils literal notranslate"><span class="pre">Platform</span></code></a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../forces.html">Forces</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../integrators.html">Integrators</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../integrators.html#the-integrator-abstract-class">The <code class="docutils literal notranslate"><span class="pre">Integrator</span></code> abstract class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../integrators.html#general-purpose-integrators">General purpose integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../integrators.html#drude-integrators">Drude integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../integrators.html#ring-polymer-molecular-dynamics-integrators">Ring Polymer Molecular Dynamics integrators</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../integrators.html#customizing-integrator">Customizing <code class="docutils literal notranslate"><span class="pre">Integrator</span></code></a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../extras.html">Extra classes</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../userguide">
+                User's Manual
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../developerguide/index.html">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../api-python/index.html">
+                Python API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Stanford University and the Authors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../_sources/generated/CompoundIntegrator.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>5. The CPU Plaform &#8212; OpenMM Dev Guide 7.7 documentation</title>
+    <link rel="stylesheet" type="text/css" href="http://docs.openmm.org/7.7.0/developerguide/_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="http://docs.openmm.org/7.7.0/developerguide/_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="http://docs.openmm.org/7.7.0/developerguide/_static/documentation_options.js"></script>
+    <script src="http://docs.openmm.org/7.7.0/developerguide/_static/jquery.js"></script>
+    <script src="http://docs.openmm.org/7.7.0/developerguide/_static/underscore.js"></script>
+    <script src="http://docs.openmm.org/7.7.0/developerguide/_static/doctools.js"></script>
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="6. The OpenCL Platform" href="06_opencl_platform.html" />
+    <link rel="prev" title="4. The Reference Platform" href="04_reference_platform.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <style> .code {font-family:monospace;} </style>
+<style> .caption {text-align:center;} </style><section id="the-cpu-plaform">
+<span id="the-cpu-platform"></span><h1><span class="section-number">5. </span>The CPU Plaform<a class="headerlink" href="05_cpu_platform.html#the-cpu-plaform" title="Permalink to this headline">¶</a></h1>
+<p>CpuPlatform is a subclass of ReferencePlatform.  It provides optimized versions
+of a small number of kernels, while using the reference implementations for all
+the others.  Any kernel implementation written for the reference Platform will
+work equally well with the CPU platform.  Of course, if that kernel happens to
+be a performance bottleneck, you will probably want to write an optimized
+version of it.  But many kernels have negligible effect on performance, and for
+these you can just use the same implementation for both platforms.</p>
+<p>If you choose to do that, you can easily support both platforms with a single
+plugin library.  Just implement <code>registerKernelFactories()</code> like this:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">extern</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">registerKernelFactories</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Platform</span><span class="o">::</span><span class="n">getNumPlatforms</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">Platform</span><span class="o">&amp;</span><span class="w"> </span><span class="n">platform</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Platform</span><span class="o">::</span><span class="n">getPlatform</span><span class="p">(</span><span class="n">i</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">dynamic_cast</span><span class="o">&lt;</span><span class="n">ReferencePlatform</span><span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">platform</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="c1">// Create and register your KernelFactory.</span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The loop identifies every ReferencePlatform, either an instance of the base
+class or of a subclass, and registers a KernelFactory for every one.</p>
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="04_reference_platform.html" title="Previous document"><span class="section-number">4. </span>The Reference Platform</a>
+        </li>
+        <li>
+          <a href="06_opencl_platform.html" title="Next document"><span class="section-number">6. </span>The OpenCL Platform</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM Dev Guide</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="01_introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_core_library.html">2. The Core Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_writing_plugins.html">3. Writing Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_reference_platform.html">4. The Reference Platform</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="05_cpu_platform.html#">5. The CPU Plaform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_opencl_platform.html">6. The OpenCL Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_cuda_platform.html">7. The CUDA Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_common_compute.html">8. Common Compute</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../userguide/index.html">
+                User's Manual
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../api-python/index.html">
+                Python API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../api-c++/index.html">
+                C++ API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2011-2017, Stanford University.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/05_cpu_platform.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

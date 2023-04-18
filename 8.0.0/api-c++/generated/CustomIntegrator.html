@@ -1,0 +1,804 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>CustomIntegrator &#8212; OpenMM C++ API @OPENMM_MAJOR_VERSION@.@OPENMM_MINOR_VERSION@ documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CompoundIntegrator" href="CompoundIntegrator.html" />
+    <link rel="prev" title="RPMDIntegrator" href="RPMDIntegrator.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="customintegrator">
+<span id="openmm-customintegrator"></span><h1><code class="docutils literal notranslate"><span class="pre">CustomIntegrator</span></code><a class="headerlink" href="CustomIntegrator.html#customintegrator" title="Permalink to this headline">¶</a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegratorE">
+<span id="_CPPv3N6OpenMM16CustomIntegratorE"></span><span id="_CPPv2N6OpenMM16CustomIntegratorE"></span><span id="OpenMM::CustomIntegrator"></span><span class="target" id="classOpenMM_1_1CustomIntegrator"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CustomIntegrator</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">OpenMM</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="Integrator.html#_CPPv4N6OpenMM10IntegratorE" title="OpenMM::Integrator"><span class="n"><span class="pre">Integrator</span></span></a><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegratorE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This is an <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a> that can be used to implemented arbitrary, user defined integration algorithms. It is flexible enough to support a wide range of methods including both deterministic and stochastic integrators, Metropolized integrators, and integrators that must integrate additional quantities along with the particle positions and momenta.</p>
+<p>To create an integration algorithm, you first define a set of variables the integrator will compute. Variables come in two types: global variables have a single value, while per-DOF variables have a value for every degree of freedom (x, y, or z coordinate of a particle). You can define as many variables as you want of each type. The value of any variable can be computed by the integration algorithm, or set directly by calling a method on the <a class="reference internal" href="CustomIntegrator.html#classOpenMM_1_1CustomIntegrator"><span class="std std-ref">CustomIntegrator</span></a>. All variables are persistent between integration steps; once a value is set, it keeps that value until it is changed by the user or recomputed in a later integration step.</p>
+<p>Next, you define the algorithm as a series of computations. To execute a time step, the integrator performs the list of computations in order. Each computation updates the value of one global or per-DOF value. There are several types of computations that can be done:</p>
+<p><ul class="simple">
+<li><p>Global: You provide a mathematical expression involving only global variables. It is evaluated and stored into a global variable. </p></li>
+<li><p>Per-DOF: You provide a mathematical expression involving both global and per-DOF variables. It is evaluated once for every degree of freedom, and the values are stored into a per-DOF variable. </p></li>
+<li><p>Sum: You provide a mathematical expression involving both global and per-DOF variables. It is evaluated once for every degree of freedom. All of those values are then added together, and the sum is stored into a global variable. </p></li>
+<li><p>Constrain Positions: The particle positions are updated so that all distance constraints are satisfied. </p></li>
+<li><p>Constrain Velocities: The particle velocities are updated so the net velocity along any constrained distance is 0. </p></li>
+</ul>
+</p>
+<p>Like all integrators, <a class="reference internal" href="CustomIntegrator.html#classOpenMM_1_1CustomIntegrator"><span class="std std-ref">CustomIntegrator</span></a> ignores any particle whose mass is 0. It is skipped when doing per-DOF computations, and is not included when computing sums over degrees of freedom.</p>
+<p>In addition to the variables you define by calling <a class="reference internal" href="CustomIntegrator.html#classOpenMM_1_1CustomIntegrator_1abeb095877e186fcc371dfd65c1cc162c"><span class="std std-ref">addGlobalVariable()</span></a> and <a class="reference internal" href="CustomIntegrator.html#classOpenMM_1_1CustomIntegrator_1a250dc9f94c2c9e7ec3c6f6f6b5ea3b92"><span class="std std-ref">addPerDofVariable()</span></a>, the integrator provides the following pre-defined variables:</p>
+<p><ul class="simple">
+<li><p>dt: (global) This is the step size being used by the integrator. </p></li>
+<li><p>energy: (global, read-only) This is the current potential energy of the system. </p></li>
+<li><p>energy0, energy1, energy2, …: (global, read-only) This is similar to energy, but includes only the contribution from forces in one force group. A single computation step may only depend on a single energy variable (energy, energy0, energy1, etc.). </p></li>
+<li><p>x: (per-DOF) This is the current value of the degree of freedom (the x, y, or z coordinate of a particle). </p></li>
+<li><p>v: (per-DOF) This is the current velocity associated with the degree of freedom (the x, y, or z component of a particle’s velocity). </p></li>
+<li><p>f: (per-DOF, read-only) This is the current force acting on the degree of freedom (the x, y, or z component of the force on a particle). </p></li>
+<li><p>f0, f1, f2, …: (per-DOF, read-only) This is similar to f, but includes only the contribution from forces in one force group. A single computation step may only depend on a single force variable (f, f0, f1, etc.). </p></li>
+<li><p>m: (per-DOF, read-only) This is the mass of the particle the degree of freedom is associated with. </p></li>
+<li><p>uniform: (either global or per-DOF, read-only) This is a uniformly distributed random number between 0 and 1. Every time an expression is evaluated, a different value will be used. When used in a per-DOF expression, a different value will be used for every degree of freedom. Note, however, that if this variable appears multiple times in a single expression, the same value is used everywhere it appears in that expression. </p></li>
+<li><p>gaussian: (either global or per-DOF, read-only) This is a Gaussian distributed random number with mean 0 and variance 1. Every time an expression is evaluated, a different value will be used. When used in a per-DOF expression, a different value will be used for every degree of freedom. Note, however, that if this variable appears multiple times in a single expression, the same value is used everywhere it appears in that expression. </p></li>
+<li><p>A global variable is created for every adjustable parameter defined in the integrator’s <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a>. </p></li>
+</ul>
+</p>
+<p>The following example uses a <a class="reference internal" href="CustomIntegrator.html#classOpenMM_1_1CustomIntegrator"><span class="std std-ref">CustomIntegrator</span></a> to implement a velocity Verlet integrator:</p>
+<p><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">CustomIntegrator</span><span class="w"> </span><span class="nf">integrator</span><span class="p">(</span><span class="mf">0.001</span><span class="p">);</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addComputePerDof</span><span class="p">(</span><span class="s">&quot;v&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v+0.5*dt*f/m&quot;</span><span class="p">);</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addComputePerDof</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;x+dt*v&quot;</span><span class="p">);</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addComputePerDof</span><span class="p">(</span><span class="s">&quot;v&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v+0.5*dt*f/m&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</p>
+<p>The first step updates the velocities based on the current forces. The second step updates the positions based on the new velocities, and the third step updates the velocities again. Although the first and third steps look identical, the forces used in them are different. You do not need to tell the integrator that; it will recognize that the positions have changed and know to recompute the forces automatically.</p>
+<p>The above example has two problems. First, it does not respect distance constraints. To make the integrator work with constraints, you need to add extra steps to tell it when and how to apply them. Second, it never gives Forces an opportunity to update the context state. This should be done every time step so that, for example, an <a class="reference internal" href="AndersenThermostat.html#classOpenMM_1_1AndersenThermostat"><span class="std std-ref">AndersenThermostat</span></a> can randomize velocities or a <a class="reference internal" href="MonteCarloBarostat.html#classOpenMM_1_1MonteCarloBarostat"><span class="std std-ref">MonteCarloBarostat</span></a> can scale particle positions. You need to add a step to tell the integrator when to do this. The following example corrects both these problems, using the RATTLE algorithm to apply constraints:</p>
+<p><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">CustomIntegrator</span><span class="w"> </span><span class="nf">integrator</span><span class="p">(</span><span class="mf">0.001</span><span class="p">);</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addPerDofVariable</span><span class="p">(</span><span class="s">&quot;x1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addUpdateContextState</span><span class="p">();</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addComputePerDof</span><span class="p">(</span><span class="s">&quot;v&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v+0.5*dt*f/m&quot;</span><span class="p">);</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addComputePerDof</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;x+dt*v&quot;</span><span class="p">);</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addComputePerDof</span><span class="p">(</span><span class="s">&quot;x1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;x&quot;</span><span class="p">);</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addConstrainPositions</span><span class="p">();</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addComputePerDof</span><span class="p">(</span><span class="s">&quot;v&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v+0.5*dt*f/m+(x-x1)/dt&quot;</span><span class="p">);</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addConstrainVelocities</span><span class="p">();</span>
+</pre></div>
+</div>
+</p>
+<p><a class="reference internal" href="CustomIntegrator.html#classOpenMM_1_1CustomIntegrator"><span class="std std-ref">CustomIntegrator</span></a> can be used to implement multiple time step integrators. The following example shows an r-RESPA integrator. It assumes the quickly changing forces are in force group 0 and the slowly changing ones are in force group 1. It evaluates the “fast” forces four times as often as the “slow” forces.</p>
+<p><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">CustomIntegrator</span><span class="w"> </span><span class="nf">integrator</span><span class="p">(</span><span class="mf">0.004</span><span class="p">);</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addComputePerDof</span><span class="p">(</span><span class="s">&quot;v&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v+0.5*dt*f1/m&quot;</span><span class="p">);</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">integrator</span><span class="p">.</span><span class="n">addComputePerDof</span><span class="p">(</span><span class="s">&quot;v&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v+0.5*(dt/4)*f0/m&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">integrator</span><span class="p">.</span><span class="n">addComputePerDof</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;x+(dt/4)*v&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">integrator</span><span class="p">.</span><span class="n">addComputePerDof</span><span class="p">(</span><span class="s">&quot;v&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v+0.5*(dt/4)*f0/m&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addComputePerDof</span><span class="p">(</span><span class="s">&quot;v&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v+0.5*dt*f1/m&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</p>
+<p>The sequence of computations in a <a class="reference internal" href="CustomIntegrator.html#classOpenMM_1_1CustomIntegrator"><span class="std std-ref">CustomIntegrator</span></a> can include flow control in the form of “if” and “while” blocks. The computations inside an “if” block are executed either zero or one times, depending on whether a condition is true. The computations inside a “while” block are executed repeatedly for as long as the condition remains true. Be very careful when writing “while” blocks; there is nothing to stop you from creating an infinite loop!</p>
+<p>For example, suppose you are writing a Monte Carlo algorithm. Assume you have already computed a new set of particle coordinates “xnew” and a step acceptance probability “acceptanceProbability”. The following lines use an “if” block to decide whether to accept the step, and if it is accepted, store the new positions into “x”.</p>
+<p><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">integrator</span><span class="p">.</span><span class="n">beginIfBlock</span><span class="p">(</span><span class="s">&quot;uniform &lt; acceptanceProbability&quot;</span><span class="p">);</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addComputePerDof</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;xnew&quot;</span><span class="p">);</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">endBlock</span><span class="p">();</span>
+</pre></div>
+</div>
+</p>
+<p>The condition in an “if” or “while” block is evaluated globally, so it may only involve global variables, not per-DOF ones. It may use any of the following comparison operators: =, &lt;. &gt;, !=, &lt;=, &gt;=. Blocks may be nested inside each other.</p>
+<p>“Per-DOF” computations can also be thought of as per-particle computations that operate on three component vectors. For example, “x+dt*v” means to take the particle’s velocity (a vector), multiply it by the step size, and add the position (also a vector). The result is a new vector that can be stored into a per-DOF variable with <a class="reference internal" href="CustomIntegrator.html#classOpenMM_1_1CustomIntegrator_1a6934c0a85e70f7d9ae527d66893e76f7"><span class="std std-ref">addComputePerDof()</span></a>, or it can be summed over all components of all particles with <a class="reference internal" href="CustomIntegrator.html#classOpenMM_1_1CustomIntegrator_1a1f01f987d11e6945753ff04985adc69f"><span class="std std-ref">addComputeSum()</span></a>. Because the calculation is done on vectors, you can use functions that operate explicitly on vectors rather than just computing each component independently. For example, the following line uses a cross product to compute the angular momentum of each particle and stores it into a per-DOF variable.</p>
+<p><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">integrator</span><span class="p">.</span><span class="n">addComputePerDof</span><span class="p">(</span><span class="s">&quot;angularMomentum&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;m*cross(x, v)&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</p>
+<p>Here are two more examples that may be useful as starting points for writing your own integrators. The first one implements the algorithm used by the standard <a class="reference internal" href="VerletIntegrator.html#classOpenMM_1_1VerletIntegrator"><span class="std std-ref">VerletIntegrator</span></a> class. This is a leapfrog algorithm, in contrast to the velocity Verlet algorithm shown above, so it only requires applying constraints once in each time step.</p>
+<p><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">CustomIntegrator</span><span class="w"> </span><span class="nf">integrator</span><span class="p">(</span><span class="n">dt</span><span class="p">);</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addPerDofVariable</span><span class="p">(</span><span class="s">&quot;x0&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addUpdateContextState</span><span class="p">();</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addComputePerDof</span><span class="p">(</span><span class="s">&quot;x0&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;x&quot;</span><span class="p">);</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addComputePerDof</span><span class="p">(</span><span class="s">&quot;v&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v+dt*f/m&quot;</span><span class="p">);</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addComputePerDof</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;x+dt*v&quot;</span><span class="p">);</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addConstrainPositions</span><span class="p">();</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addComputePerDof</span><span class="p">(</span><span class="s">&quot;v&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;(x-x0)/dt&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</p>
+<p>The second one implements the algorithm used by the standard <a class="reference internal" href="LangevinMiddleIntegrator.html#classOpenMM_1_1LangevinMiddleIntegrator"><span class="std std-ref">LangevinMiddleIntegrator</span></a> class. kB is Boltzmann’s constant.</p>
+<p><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">CustomIntegrator</span><span class="w"> </span><span class="nf">integrator</span><span class="p">(</span><span class="n">dt</span><span class="p">);</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addGlobalVariable</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">friction</span><span class="o">*</span><span class="n">dt</span><span class="p">));</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addGlobalVariable</span><span class="p">(</span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">exp</span><span class="p">(</span><span class="mi">-2</span><span class="o">*</span><span class="n">friction</span><span class="o">*</span><span class="n">dt</span><span class="p">)));</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addGlobalVariable</span><span class="p">(</span><span class="s">&quot;kT&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">kB</span><span class="o">*</span><span class="n">temperature</span><span class="p">);</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addPerDofVariable</span><span class="p">(</span><span class="s">&quot;x1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addUpdateContextState</span><span class="p">();</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addComputePerDof</span><span class="p">(</span><span class="s">&quot;v&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v + dt*f/m&quot;</span><span class="p">);</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addConstrainVelocities</span><span class="p">();</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addComputePerDof</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;x + 0.5*dt*v&quot;</span><span class="p">);</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addComputePerDof</span><span class="p">(</span><span class="s">&quot;v&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;a*v + b*sqrt(kT/m)*gaussian&quot;</span><span class="p">);</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addComputePerDof</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;x + 0.5*dt*v&quot;</span><span class="p">);</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addComputePerDof</span><span class="p">(</span><span class="s">&quot;x1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;x&quot;</span><span class="p">);</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addConstrainPositions</span><span class="p">();</span>
+<span class="n">integrator</span><span class="p">.</span><span class="n">addComputePerDof</span><span class="p">(</span><span class="s">&quot;v&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v + (x-x1)/dt&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</p>
+<p>Another feature of <a class="reference internal" href="CustomIntegrator.html#classOpenMM_1_1CustomIntegrator"><span class="std std-ref">CustomIntegrator</span></a> is that it can use derivatives of the potential energy with respect to context parameters. These derivatives are typically computed by custom forces, and are only computed if a <a class="reference internal" href="Force.html#classOpenMM_1_1Force"><span class="std std-ref">Force</span></a> object has been specifically told to compute them by calling addEnergyParameterDerivative() on it. <a class="reference internal" href="CustomIntegrator.html#classOpenMM_1_1CustomIntegrator"><span class="std std-ref">CustomIntegrator</span></a> provides a deriv() function for accessing these derivatives in global or per-DOF expressions. For example, “deriv(energy, lambda)” is the derivative of the total potentially energy with respect to the parameter lambda. You can also restrict it to a single force group by specifying a different variable for the first argument, such as “deriv(energy1, lambda)”.</p>
+<p>An <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a> has one other job in addition to evolving the equations of motion: it defines how to compute the kinetic energy of the system. Depending on the integration method used, simply summing (mv^2)/2 over all degrees of freedom may not give the correct answer. For example, in a leapfrog integrator the velocities are “delayed” by half a time step, so the above formula would give the kinetic energy half a time step ago, not at the current time.</p>
+<p>Call <a class="reference internal" href="CustomIntegrator.html#classOpenMM_1_1CustomIntegrator_1ae08628d8254dfcbf5a7dc2ff7ac19f7b"><span class="std std-ref">setKineticEnergyExpression()</span></a> to set an expression for the kinetic energy. It is computed for every degree of freedom (excluding ones whose mass is 0) and the result is summed. The default expression is “m*v*v/2”, which is correct for many integrators.</p>
+<p>As example, the following line defines the correct way to compute kinetic energy when using a leapfrog algorithm:</p>
+<p><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">integrator</span><span class="p">.</span><span class="n">setKineticEnergyExpression</span><span class="p">(</span><span class="s">&quot;m*v1*v1/2; v1=v+0.5*dt*f/m&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</p>
+<p>The kinetic energy expression may depend on the following pre-defined variables: x, v, f, m, dt. It also may depend on user-defined global and per-DOF variables, and on the values of adjustable parameters defined in the integrator’s <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a>. It may not depend on any other variable, such as the potential energy, the force from a single force group, or a random number.</p>
+<p>Expressions may involve the operators + (add), - (subtract), * (multiply), / (divide), and ^ (power), and the following functions: sqrt, exp, log, sin, cos, sec, csc, tan, cot, asin, acos, atan, atan2, sinh, cosh, tanh, erf, erfc, min, max, abs, floor, ceil, step, delta, select. All trigonometric functions are defined in radians, and log is the natural logarithm. step(x) = 0 if x is less than 0, 1 otherwise. delta(x) = 1 if x is 0, 0 otherwise. select(x,y,z) = z if x = 0, y otherwise. An expression may also involve intermediate quantities that are defined following the main expression, using “;” as a separator.</p>
+<p>Expressions used in ComputePerDof and ComputeSum steps can also use the following functions that operate on vectors: cross(a, b) is the cross product of two vectors; dot(a, b) is the dot product of two vectors; _x(a), _y(a), and _z(a) extract a single component from a vector; and vector(a, b, c) creates a new vector with the x component of the first argument, the y component of the second argument, and the z component of the third argument. Remember that every quantity appearing in a vector expression is a vector. Functions that appear to return a scalar really return a vector whose components are all the same. For example, _z(a) returns the vector (a.z, a.z, a.z). Likewise, wherever a constant appears in the expression, it really means a vector whose components all have the same value.</p>
+<p>In addition, you can call <a class="reference internal" href="CustomIntegrator.html#classOpenMM_1_1CustomIntegrator_1a7a3b99f2fcf80cf47ef3bc95ed0fa69c"><span class="std std-ref">addTabulatedFunction()</span></a> to define a new function based on tabulated values. You specify the function by creating a <a class="reference internal" href="TabulatedFunction.html#classOpenMM_1_1TabulatedFunction"><span class="std std-ref">TabulatedFunction</span></a> object. That function can then appear in expressions. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
+<dl class="cpp enum">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator15ComputationTypeE">
+<span id="_CPPv3N6OpenMM16CustomIntegrator15ComputationTypeE"></span><span id="_CPPv2N6OpenMM16CustomIntegrator15ComputationTypeE"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a8455f563a82564ce2598bb16eef7fe94"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ComputationType</span></span></span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator15ComputationTypeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This is an enumeration of the different types of computations that may appear in an integration algorithm. </p>
+<p><em>Values:</em></p>
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator15ComputationType13ComputeGlobalE">
+<span id="_CPPv3N6OpenMM16CustomIntegrator15ComputationType13ComputeGlobalE"></span><span id="_CPPv2N6OpenMM16CustomIntegrator15ComputationType13ComputeGlobalE"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a8455f563a82564ce2598bb16eef7fe94aa40bc23c31491e49873971387c084fbc"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ComputeGlobal</span></span></span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator15ComputationType13ComputeGlobalE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compute an expression and store it in a global variable. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator15ComputationType13ComputePerDofE">
+<span id="_CPPv3N6OpenMM16CustomIntegrator15ComputationType13ComputePerDofE"></span><span id="_CPPv2N6OpenMM16CustomIntegrator15ComputationType13ComputePerDofE"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a8455f563a82564ce2598bb16eef7fe94af98c2d634cc8936bae2c352744247d2c"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ComputePerDof</span></span></span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator15ComputationType13ComputePerDofE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compute an expression for every degree of freedom and store it in a per-DOF variable. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator15ComputationType10ComputeSumE">
+<span id="_CPPv3N6OpenMM16CustomIntegrator15ComputationType10ComputeSumE"></span><span id="_CPPv2N6OpenMM16CustomIntegrator15ComputationType10ComputeSumE"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a8455f563a82564ce2598bb16eef7fe94a8ceb4bc519cb7d862ef03fd71f96412d"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ComputeSum</span></span></span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator15ComputationType10ComputeSumE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compute an expression for every degree of freedom, sum the values, and store the result in a global variable. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator15ComputationType18ConstrainPositionsE">
+<span id="_CPPv3N6OpenMM16CustomIntegrator15ComputationType18ConstrainPositionsE"></span><span id="_CPPv2N6OpenMM16CustomIntegrator15ComputationType18ConstrainPositionsE"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a8455f563a82564ce2598bb16eef7fe94a4e393da7491775e311c5f4b7de68597c"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ConstrainPositions</span></span></span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator15ComputationType18ConstrainPositionsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Update particle positions so all constraints are satisfied. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator15ComputationType19ConstrainVelocitiesE">
+<span id="_CPPv3N6OpenMM16CustomIntegrator15ComputationType19ConstrainVelocitiesE"></span><span id="_CPPv2N6OpenMM16CustomIntegrator15ComputationType19ConstrainVelocitiesE"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a8455f563a82564ce2598bb16eef7fe94aae0af132e8fe14e9a33e7f04b5c30a98"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ConstrainVelocities</span></span></span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator15ComputationType19ConstrainVelocitiesE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Update particle velocities so the net velocity along all constraints is 0. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator15ComputationType18UpdateContextStateE">
+<span id="_CPPv3N6OpenMM16CustomIntegrator15ComputationType18UpdateContextStateE"></span><span id="_CPPv2N6OpenMM16CustomIntegrator15ComputationType18UpdateContextStateE"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a8455f563a82564ce2598bb16eef7fe94aa1276890a76ddddd33dd49a70f4cd538"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">UpdateContextState</span></span></span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator15ComputationType18UpdateContextStateE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Allow Forces to update the context state. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator15ComputationType12IfBlockStartE">
+<span id="_CPPv3N6OpenMM16CustomIntegrator15ComputationType12IfBlockStartE"></span><span id="_CPPv2N6OpenMM16CustomIntegrator15ComputationType12IfBlockStartE"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a8455f563a82564ce2598bb16eef7fe94a7f9fa6cb4b0e7e4b260f9f5fa54708d2"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IfBlockStart</span></span></span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator15ComputationType12IfBlockStartE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Begin an “if” block. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator15ComputationType15WhileBlockStartE">
+<span id="_CPPv3N6OpenMM16CustomIntegrator15ComputationType15WhileBlockStartE"></span><span id="_CPPv2N6OpenMM16CustomIntegrator15ComputationType15WhileBlockStartE"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a8455f563a82564ce2598bb16eef7fe94a8541378242db55f1dd401923e7f1d59c"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">WhileBlockStart</span></span></span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator15ComputationType15WhileBlockStartE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Begin a while” block. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator15ComputationType8BlockEndE">
+<span id="_CPPv3N6OpenMM16CustomIntegrator15ComputationType8BlockEndE"></span><span id="_CPPv2N6OpenMM16CustomIntegrator15ComputationType8BlockEndE"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a8455f563a82564ce2598bb16eef7fe94a2b264f743b6d84d630419d306fb88dad"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BlockEnd</span></span></span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator15ComputationType8BlockEndE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>End an “if” or “while” block. </p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator16CustomIntegratorEd">
+<span id="_CPPv3N6OpenMM16CustomIntegrator16CustomIntegratorEd"></span><span id="_CPPv2N6OpenMM16CustomIntegrator16CustomIntegratorEd"></span><span id="OpenMM::CustomIntegrator::CustomIntegrator__double"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1ad8618f8cb7acb291d0332281d590c5df"></span><span class="sig-name descname"><span class="n"><span class="pre">CustomIntegrator</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">stepSize</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator16CustomIntegratorEd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a <a class="reference internal" href="CustomIntegrator.html#classOpenMM_1_1CustomIntegrator"><span class="std std-ref">CustomIntegrator</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>stepSize</strong> – the step size with which to integrate the system (in picoseconds) </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM16CustomIntegrator21getNumGlobalVariablesEv">
+<span id="_CPPv3NK6OpenMM16CustomIntegrator21getNumGlobalVariablesEv"></span><span id="_CPPv2NK6OpenMM16CustomIntegrator21getNumGlobalVariablesEv"></span><span id="OpenMM::CustomIntegrator::getNumGlobalVariablesC"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1aee483aabbf2e5bc7c4691303793d4fa4"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getNumGlobalVariables</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomIntegrator.html#_CPPv4NK6OpenMM16CustomIntegrator21getNumGlobalVariablesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the number of global variables that have been defined. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM16CustomIntegrator21getNumPerDofVariablesEv">
+<span id="_CPPv3NK6OpenMM16CustomIntegrator21getNumPerDofVariablesEv"></span><span id="_CPPv2NK6OpenMM16CustomIntegrator21getNumPerDofVariablesEv"></span><span id="OpenMM::CustomIntegrator::getNumPerDofVariablesC"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a3be849e19479c3c6c85cbe84abe8b28d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getNumPerDofVariables</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomIntegrator.html#_CPPv4NK6OpenMM16CustomIntegrator21getNumPerDofVariablesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the number of per-DOF variables that have been defined. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM16CustomIntegrator18getNumComputationsEv">
+<span id="_CPPv3NK6OpenMM16CustomIntegrator18getNumComputationsEv"></span><span id="_CPPv2NK6OpenMM16CustomIntegrator18getNumComputationsEv"></span><span id="OpenMM::CustomIntegrator::getNumComputationsC"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a24f7447f1776d1ba0cf026db26d30d00"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getNumComputations</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomIntegrator.html#_CPPv4NK6OpenMM16CustomIntegrator18getNumComputationsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the number of computation steps that have been added. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM16CustomIntegrator24getNumTabulatedFunctionsEv">
+<span id="_CPPv3NK6OpenMM16CustomIntegrator24getNumTabulatedFunctionsEv"></span><span id="_CPPv2NK6OpenMM16CustomIntegrator24getNumTabulatedFunctionsEv"></span><span id="OpenMM::CustomIntegrator::getNumTabulatedFunctionsC"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1ab5107b0f20adc0b84a20bed33ec8ac32"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getNumTabulatedFunctions</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomIntegrator.html#_CPPv4NK6OpenMM16CustomIntegrator24getNumTabulatedFunctionsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the number of tabulated functions that have been defined. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator17addGlobalVariableERKNSt6stringEd">
+<span id="_CPPv3N6OpenMM16CustomIntegrator17addGlobalVariableERKNSt6stringEd"></span><span id="_CPPv2N6OpenMM16CustomIntegrator17addGlobalVariableERKNSt6stringEd"></span><span id="OpenMM::CustomIntegrator::addGlobalVariable__ssCR.double"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1abeb095877e186fcc371dfd65c1cc162c"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addGlobalVariable</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">initialValue</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator17addGlobalVariableERKNSt6stringEd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Define a new global variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – the name of the variable </p></li>
+<li><p><strong>initialValue</strong> – the variable will initially be set to this value </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the index of the variable that was added </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM16CustomIntegrator21getGlobalVariableNameEi">
+<span id="_CPPv3NK6OpenMM16CustomIntegrator21getGlobalVariableNameEi"></span><span id="_CPPv2NK6OpenMM16CustomIntegrator21getGlobalVariableNameEi"></span><span id="OpenMM::CustomIntegrator::getGlobalVariableName__iC"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a08d7d9af31cfd652ae73b1e2c1cc0033"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getGlobalVariableName</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomIntegrator.html#_CPPv4NK6OpenMM16CustomIntegrator21getGlobalVariableNameEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the name of a global variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – the index of the variable to get </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the name of the variable </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator17addPerDofVariableERKNSt6stringEd">
+<span id="_CPPv3N6OpenMM16CustomIntegrator17addPerDofVariableERKNSt6stringEd"></span><span id="_CPPv2N6OpenMM16CustomIntegrator17addPerDofVariableERKNSt6stringEd"></span><span id="OpenMM::CustomIntegrator::addPerDofVariable__ssCR.double"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a250dc9f94c2c9e7ec3c6f6f6b5ea3b92"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addPerDofVariable</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">initialValue</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator17addPerDofVariableERKNSt6stringEd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Define a new per-DOF variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – the name of the variable </p></li>
+<li><p><strong>initialValue</strong> – the variable will initially be set to this value for all degrees of freedom </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the index of the variable that was added </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM16CustomIntegrator21getPerDofVariableNameEi">
+<span id="_CPPv3NK6OpenMM16CustomIntegrator21getPerDofVariableNameEi"></span><span id="_CPPv2NK6OpenMM16CustomIntegrator21getPerDofVariableNameEi"></span><span id="OpenMM::CustomIntegrator::getPerDofVariableName__iC"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a7c80d257c26e40f50632cd8d957cf8b8"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getPerDofVariableName</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomIntegrator.html#_CPPv4NK6OpenMM16CustomIntegrator21getPerDofVariableNameEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the name of a per-DOF variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – the index of the variable to get </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the name of the variable </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM16CustomIntegrator17getGlobalVariableEi">
+<span id="_CPPv3NK6OpenMM16CustomIntegrator17getGlobalVariableEi"></span><span id="_CPPv2NK6OpenMM16CustomIntegrator17getGlobalVariableEi"></span><span id="OpenMM::CustomIntegrator::getGlobalVariable__iC"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a08fbbd98541cadbe1431df1c36856d35"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getGlobalVariable</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomIntegrator.html#_CPPv4NK6OpenMM16CustomIntegrator17getGlobalVariableEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the current value of a global variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – the index of the variable to get </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the current value of the variable </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM16CustomIntegrator23getGlobalVariableByNameERKNSt6stringE">
+<span id="_CPPv3NK6OpenMM16CustomIntegrator23getGlobalVariableByNameERKNSt6stringE"></span><span id="_CPPv2NK6OpenMM16CustomIntegrator23getGlobalVariableByNameERKNSt6stringE"></span><span id="OpenMM::CustomIntegrator::getGlobalVariableByName__ssCRC"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1ad410984c1fa883c6c8c122b19fbc8a98"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getGlobalVariableByName</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomIntegrator.html#_CPPv4NK6OpenMM16CustomIntegrator23getGlobalVariableByNameERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the current value of a global variable, specified by name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> – the name of the variable to get </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the current value of the parameter </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator17setGlobalVariableEid">
+<span id="_CPPv3N6OpenMM16CustomIntegrator17setGlobalVariableEid"></span><span id="_CPPv2N6OpenMM16CustomIntegrator17setGlobalVariableEid"></span><span id="OpenMM::CustomIntegrator::setGlobalVariable__i.double"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a81ccb39f44fcc518c604d98480c1760b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setGlobalVariable</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator17setGlobalVariableEid" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the value of a global variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – the index of the variable to set </p></li>
+<li><p><strong>value</strong> – the new value of the variable </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator23setGlobalVariableByNameERKNSt6stringEd">
+<span id="_CPPv3N6OpenMM16CustomIntegrator23setGlobalVariableByNameERKNSt6stringEd"></span><span id="_CPPv2N6OpenMM16CustomIntegrator23setGlobalVariableByNameERKNSt6stringEd"></span><span id="OpenMM::CustomIntegrator::setGlobalVariableByName__ssCR.double"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a85e94b7451cef82cc49cfe3b5837aeef"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setGlobalVariableByName</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator23setGlobalVariableByNameERKNSt6stringEd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the value of a global variable, specified by name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – the name of the variable to set </p></li>
+<li><p><strong>value</strong> – the new value of the variable </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM16CustomIntegrator17getPerDofVariableEiRNSt6vectorI4Vec3EE">
+<span id="_CPPv3NK6OpenMM16CustomIntegrator17getPerDofVariableEiRNSt6vectorI4Vec3EE"></span><span id="_CPPv2NK6OpenMM16CustomIntegrator17getPerDofVariableEiRNSt6vectorI4Vec3EE"></span><span id="OpenMM::CustomIntegrator::getPerDofVariable__i.std::vector:Vec3:RC"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1ad5eeda5f7b94d86f7f0c9adf62ee62b2"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getPerDofVariable</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Vec3.html#_CPPv4N6OpenMM4Vec3E" title="OpenMM::Vec3"><span class="n"><span class="pre">Vec3</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">values</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomIntegrator.html#_CPPv4NK6OpenMM16CustomIntegrator17getPerDofVariableEiRNSt6vectorI4Vec3EE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the value of a per-DOF variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – the index of the variable to get </p></li>
+<li><p><strong>values</strong> – the values of the variable for all degrees of freedom are stored into this </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM16CustomIntegrator23getPerDofVariableByNameERKNSt6stringERNSt6vectorI4Vec3EE">
+<span id="_CPPv3NK6OpenMM16CustomIntegrator23getPerDofVariableByNameERKNSt6stringERNSt6vectorI4Vec3EE"></span><span id="_CPPv2NK6OpenMM16CustomIntegrator23getPerDofVariableByNameERKNSt6stringERNSt6vectorI4Vec3EE"></span><span id="OpenMM::CustomIntegrator::getPerDofVariableByName__ssCR.std::vector:Vec3:RC"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a042c3e391c9bb9db38e53900a927b2cf"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getPerDofVariableByName</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Vec3.html#_CPPv4N6OpenMM4Vec3E" title="OpenMM::Vec3"><span class="n"><span class="pre">Vec3</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">values</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomIntegrator.html#_CPPv4NK6OpenMM16CustomIntegrator23getPerDofVariableByNameERKNSt6stringERNSt6vectorI4Vec3EE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the value of a per-DOF variable, specified by name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – the name of the variable to get </p></li>
+<li><p><strong>values</strong> – <strong>[out]</strong> the values of the variable for all degrees of freedom are stored into this </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator17setPerDofVariableEiRKNSt6vectorI4Vec3EE">
+<span id="_CPPv3N6OpenMM16CustomIntegrator17setPerDofVariableEiRKNSt6vectorI4Vec3EE"></span><span id="_CPPv2N6OpenMM16CustomIntegrator17setPerDofVariableEiRKNSt6vectorI4Vec3EE"></span><span id="OpenMM::CustomIntegrator::setPerDofVariable__i.std::vector:Vec3:CR"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a2820061e2af5f40c0c03091557562595"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setPerDofVariable</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Vec3.html#_CPPv4N6OpenMM4Vec3E" title="OpenMM::Vec3"><span class="n"><span class="pre">Vec3</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">values</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator17setPerDofVariableEiRKNSt6vectorI4Vec3EE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the value of a per-DOF variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – the index of the variable to set </p></li>
+<li><p><strong>values</strong> – the new values of the variable for all degrees of freedom </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator23setPerDofVariableByNameERKNSt6stringERKNSt6vectorI4Vec3EE">
+<span id="_CPPv3N6OpenMM16CustomIntegrator23setPerDofVariableByNameERKNSt6stringERKNSt6vectorI4Vec3EE"></span><span id="_CPPv2N6OpenMM16CustomIntegrator23setPerDofVariableByNameERKNSt6stringERKNSt6vectorI4Vec3EE"></span><span id="OpenMM::CustomIntegrator::setPerDofVariableByName__ssCR.std::vector:Vec3:CR"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a70af73b410e7c6c30456e759051c941e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setPerDofVariableByName</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Vec3.html#_CPPv4N6OpenMM4Vec3E" title="OpenMM::Vec3"><span class="n"><span class="pre">Vec3</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">values</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator23setPerDofVariableByNameERKNSt6stringERKNSt6vectorI4Vec3EE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the value of a per-DOF variable, specified by name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – the name of the variable to set </p></li>
+<li><p><strong>values</strong> – the new values of the variable for all degrees of freedom </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator16addComputeGlobalERKNSt6stringERKNSt6stringE">
+<span id="_CPPv3N6OpenMM16CustomIntegrator16addComputeGlobalERKNSt6stringERKNSt6stringE"></span><span id="_CPPv2N6OpenMM16CustomIntegrator16addComputeGlobalERKNSt6stringERKNSt6stringE"></span><span id="OpenMM::CustomIntegrator::addComputeGlobal__ssCR.ssCR"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1adedc9cd6343d2383f84162eff7f210cc"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addComputeGlobal</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">variable</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">expression</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator16addComputeGlobalERKNSt6stringERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a step to the integration algorithm that computes a global value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>variable</strong> – the global variable to store the computed value into </p></li>
+<li><p><strong>expression</strong> – a mathematical expression involving only global variables. In each integration step, its value is computed and stored into the specified variable. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the index of the step that was added </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator16addComputePerDofERKNSt6stringERKNSt6stringE">
+<span id="_CPPv3N6OpenMM16CustomIntegrator16addComputePerDofERKNSt6stringERKNSt6stringE"></span><span id="_CPPv2N6OpenMM16CustomIntegrator16addComputePerDofERKNSt6stringERKNSt6stringE"></span><span id="OpenMM::CustomIntegrator::addComputePerDof__ssCR.ssCR"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a6934c0a85e70f7d9ae527d66893e76f7"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addComputePerDof</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">variable</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">expression</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator16addComputePerDofERKNSt6stringERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a step to the integration algorithm that computes a per-DOF value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>variable</strong> – the per-DOF variable to store the computed value into </p></li>
+<li><p><strong>expression</strong> – a mathematical expression involving both global and per-DOF variables. In each integration step, its value is computed for every degree of freedom and stored into the specified variable. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the index of the step that was added </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator13addComputeSumERKNSt6stringERKNSt6stringE">
+<span id="_CPPv3N6OpenMM16CustomIntegrator13addComputeSumERKNSt6stringERKNSt6stringE"></span><span id="_CPPv2N6OpenMM16CustomIntegrator13addComputeSumERKNSt6stringERKNSt6stringE"></span><span id="OpenMM::CustomIntegrator::addComputeSum__ssCR.ssCR"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a1f01f987d11e6945753ff04985adc69f"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addComputeSum</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">variable</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">expression</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator13addComputeSumERKNSt6stringERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a step to the integration algorithm that computes a sum over degrees of freedom.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>variable</strong> – the global variable to store the computed value into </p></li>
+<li><p><strong>expression</strong> – a mathematical expression involving both global and per-DOF variables. In each integration step, its value is computed for every degree of freedom. Those values are then added together, and the sum is stored in the specified variable. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the index of the step that was added </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator21addConstrainPositionsEv">
+<span id="_CPPv3N6OpenMM16CustomIntegrator21addConstrainPositionsEv"></span><span id="_CPPv2N6OpenMM16CustomIntegrator21addConstrainPositionsEv"></span><span id="OpenMM::CustomIntegrator::addConstrainPositions"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a7de186fff300b99bec76eb02eb87365d"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addConstrainPositions</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator21addConstrainPositionsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a step to the integration algorithm that updates particle positions so all constraints are satisfied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the index of the step that was added </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator22addConstrainVelocitiesEv">
+<span id="_CPPv3N6OpenMM16CustomIntegrator22addConstrainVelocitiesEv"></span><span id="_CPPv2N6OpenMM16CustomIntegrator22addConstrainVelocitiesEv"></span><span id="OpenMM::CustomIntegrator::addConstrainVelocities"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a147f50c1e80c9d89ee48787718aeae2f"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addConstrainVelocities</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator22addConstrainVelocitiesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a step to the integration algorithm that updates particle velocities so the net velocity along all constraints is 0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the index of the step that was added </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator21addUpdateContextStateEv">
+<span id="_CPPv3N6OpenMM16CustomIntegrator21addUpdateContextStateEv"></span><span id="_CPPv2N6OpenMM16CustomIntegrator21addUpdateContextStateEv"></span><span id="OpenMM::CustomIntegrator::addUpdateContextState"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a25b0be3ed185e03a968b8dcd0fa77c66"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addUpdateContextState</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator21addUpdateContextStateEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a step to the integration algorithm that allows Forces to update the context state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the index of the step that was added </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator12beginIfBlockERKNSt6stringE">
+<span id="_CPPv3N6OpenMM16CustomIntegrator12beginIfBlockERKNSt6stringE"></span><span id="_CPPv2N6OpenMM16CustomIntegrator12beginIfBlockERKNSt6stringE"></span><span id="OpenMM::CustomIntegrator::beginIfBlock__ssCR"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1aa77438c52f9652b8a3444ebb46dbd1db"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">beginIfBlock</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">condition</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator12beginIfBlockERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a step which begins a new “if” block.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>condition</strong> – a mathematical expression involving a comparison operator and global variables. All steps between this one and the end of the block are executed only if the condition is true.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the index of the step that was added </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator15beginWhileBlockERKNSt6stringE">
+<span id="_CPPv3N6OpenMM16CustomIntegrator15beginWhileBlockERKNSt6stringE"></span><span id="_CPPv2N6OpenMM16CustomIntegrator15beginWhileBlockERKNSt6stringE"></span><span id="OpenMM::CustomIntegrator::beginWhileBlock__ssCR"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1ab6ce81fa4f63bff07bec400e9a31f868"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">beginWhileBlock</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">condition</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator15beginWhileBlockERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a step which begins a new “while” block.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>condition</strong> – a mathematical expression involving a comparison operator and global variables. All steps between this one and the end of the block are executed repeatedly as long as the condition remains true.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the index of the step that was added </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator8endBlockEv">
+<span id="_CPPv3N6OpenMM16CustomIntegrator8endBlockEv"></span><span id="_CPPv2N6OpenMM16CustomIntegrator8endBlockEv"></span><span id="OpenMM::CustomIntegrator::endBlock"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a8516b990b15836fc9c17074c5b1b395e"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">endBlock</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator8endBlockEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a step which marks the end of the most recently begun “if” or “while” block.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the index of the step that was added </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM16CustomIntegrator18getComputationStepEiR15ComputationTypeRNSt6stringERNSt6stringE">
+<span id="_CPPv3NK6OpenMM16CustomIntegrator18getComputationStepEiR15ComputationTypeRNSt6stringERNSt6stringE"></span><span id="_CPPv2NK6OpenMM16CustomIntegrator18getComputationStepEiR15ComputationTypeRNSt6stringERNSt6stringE"></span><span id="OpenMM::CustomIntegrator::getComputationStep__i.ComputationTypeR.ssR.ssRC"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1ab53cb33a21b81529d55616c916ef95c3"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getComputationStep</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <a class="reference internal" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator15ComputationTypeE" title="OpenMM::CustomIntegrator::ComputationType"><span class="n"><span class="pre">ComputationType</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">type</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">variable</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">expression</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomIntegrator.html#_CPPv4NK6OpenMM16CustomIntegrator18getComputationStepEiR15ComputationTypeRNSt6stringERNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the details of a computation step that has been added to the integration algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – the index of the computation step to get </p></li>
+<li><p><strong>type</strong> – <strong>[out]</strong> the type of computation this step performs </p></li>
+<li><p><strong>variable</strong> – <strong>[out]</strong> the variable into which this step stores its result. If this step does not store a result in a variable, this will be an empty string. </p></li>
+<li><p><strong>expression</strong> – <strong>[out]</strong> the expression this step evaluates. If this step does not evaluate an expression, this will be an empty string. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator20addTabulatedFunctionERKNSt6stringEP17TabulatedFunction">
+<span id="_CPPv3N6OpenMM16CustomIntegrator20addTabulatedFunctionERKNSt6stringEP17TabulatedFunction"></span><span id="_CPPv2N6OpenMM16CustomIntegrator20addTabulatedFunctionERKNSt6stringEP17TabulatedFunction"></span><span id="OpenMM::CustomIntegrator::addTabulatedFunction__ssCR.TabulatedFunctionP"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a7a3b99f2fcf80cf47ef3bc95ed0fa69c"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addTabulatedFunction</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <a class="reference internal" href="TabulatedFunction.html#_CPPv4N6OpenMM17TabulatedFunctionE" title="OpenMM::TabulatedFunction"><span class="n"><span class="pre">TabulatedFunction</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">function</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator20addTabulatedFunctionERKNSt6stringEP17TabulatedFunction" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a tabulated function that may appear in expressions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – the name of the function as it appears in expressions </p></li>
+<li><p><strong>function</strong> – a <a class="reference internal" href="TabulatedFunction.html#classOpenMM_1_1TabulatedFunction"><span class="std std-ref">TabulatedFunction</span></a> object defining the function. The <a class="reference internal" href="TabulatedFunction.html#classOpenMM_1_1TabulatedFunction"><span class="std std-ref">TabulatedFunction</span></a> should have been created on the heap with the “new” operator. The integrator takes over ownership of it, and deletes it when the integrator itself is deleted. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the index of the function that was added </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM16CustomIntegrator20getTabulatedFunctionEi">
+<span id="_CPPv3NK6OpenMM16CustomIntegrator20getTabulatedFunctionEi"></span><span id="_CPPv2NK6OpenMM16CustomIntegrator20getTabulatedFunctionEi"></span><span id="OpenMM::CustomIntegrator::getTabulatedFunction__iC"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a539634c08cc06d9992bbc7ca136af382"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="TabulatedFunction.html#_CPPv4N6OpenMM17TabulatedFunctionE" title="OpenMM::TabulatedFunction"><span class="n"><span class="pre">TabulatedFunction</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getTabulatedFunction</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomIntegrator.html#_CPPv4NK6OpenMM16CustomIntegrator20getTabulatedFunctionEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get a const reference to a tabulated function that may appear in expressions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – the index of the function to get </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the <a class="reference internal" href="TabulatedFunction.html#classOpenMM_1_1TabulatedFunction"><span class="std std-ref">TabulatedFunction</span></a> object defining the function </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator20getTabulatedFunctionEi">
+<span id="_CPPv3N6OpenMM16CustomIntegrator20getTabulatedFunctionEi"></span><span id="_CPPv2N6OpenMM16CustomIntegrator20getTabulatedFunctionEi"></span><span id="OpenMM::CustomIntegrator::getTabulatedFunction__i"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1acd7d9f178199cb8dcd6131512c12410e"></span><a class="reference internal" href="TabulatedFunction.html#_CPPv4N6OpenMM17TabulatedFunctionE" title="OpenMM::TabulatedFunction"><span class="n"><span class="pre">TabulatedFunction</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getTabulatedFunction</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator20getTabulatedFunctionEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get a reference to a tabulated function that may appear in expressions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – the index of the function to get </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the <a class="reference internal" href="TabulatedFunction.html#classOpenMM_1_1TabulatedFunction"><span class="std std-ref">TabulatedFunction</span></a> object defining the function </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM16CustomIntegrator24getTabulatedFunctionNameEi">
+<span id="_CPPv3NK6OpenMM16CustomIntegrator24getTabulatedFunctionNameEi"></span><span id="_CPPv2NK6OpenMM16CustomIntegrator24getTabulatedFunctionNameEi"></span><span id="OpenMM::CustomIntegrator::getTabulatedFunctionName__iC"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a88405f38934d8910d12b93576976c232"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getTabulatedFunctionName</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomIntegrator.html#_CPPv4NK6OpenMM16CustomIntegrator24getTabulatedFunctionNameEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the name of a tabulated function that may appear in expressions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – the index of the function to get </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the name of the function as it appears in expressions </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM16CustomIntegrator26getKineticEnergyExpressionEv">
+<span id="_CPPv3NK6OpenMM16CustomIntegrator26getKineticEnergyExpressionEv"></span><span id="_CPPv2NK6OpenMM16CustomIntegrator26getKineticEnergyExpressionEv"></span><span id="OpenMM::CustomIntegrator::getKineticEnergyExpressionC"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a0a553e92b3a4927ada4fd6d70a76dc65"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getKineticEnergyExpression</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomIntegrator.html#_CPPv4NK6OpenMM16CustomIntegrator26getKineticEnergyExpressionEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the expression to use for computing the kinetic energy. The expression is evaluated for every degree of freedom. Those values are then added together, and the sum is reported as the current kinetic energy. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator26setKineticEnergyExpressionERKNSt6stringE">
+<span id="_CPPv3N6OpenMM16CustomIntegrator26setKineticEnergyExpressionERKNSt6stringE"></span><span id="_CPPv2N6OpenMM16CustomIntegrator26setKineticEnergyExpressionERKNSt6stringE"></span><span id="OpenMM::CustomIntegrator::setKineticEnergyExpression__ssCR"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1ae08628d8254dfcbf5a7dc2ff7ac19f7b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setKineticEnergyExpression</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">expression</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator26setKineticEnergyExpressionERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the expression to use for computing the kinetic energy. The expression is evaluated for every degree of freedom. Those values are then added together, and the sum is reported as the current kinetic energy. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM16CustomIntegrator19getRandomNumberSeedEv">
+<span id="_CPPv3NK6OpenMM16CustomIntegrator19getRandomNumberSeedEv"></span><span id="_CPPv2NK6OpenMM16CustomIntegrator19getRandomNumberSeedEv"></span><span id="OpenMM::CustomIntegrator::getRandomNumberSeedC"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a74b3c1991a9b753b6bd2eba75770edc9"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getRandomNumberSeed</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomIntegrator.html#_CPPv4NK6OpenMM16CustomIntegrator19getRandomNumberSeedEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the random number seed. See <a class="reference internal" href="CustomIntegrator.html#classOpenMM_1_1CustomIntegrator_1a54f72a242b1f079862e8143a741ceca7"><span class="std std-ref">setRandomNumberSeed()</span></a> for details. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator19setRandomNumberSeedEi">
+<span id="_CPPv3N6OpenMM16CustomIntegrator19setRandomNumberSeedEi"></span><span id="_CPPv2N6OpenMM16CustomIntegrator19setRandomNumberSeedEi"></span><span id="OpenMM::CustomIntegrator::setRandomNumberSeed__i"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a54f72a242b1f079862e8143a741ceca7"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setRandomNumberSeed</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">seed</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator19setRandomNumberSeedEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the random number seed. The precise meaning of this parameter is undefined, and is left up to each <a class="reference internal" href="Platform.html#classOpenMM_1_1Platform"><span class="std std-ref">Platform</span></a> to interpret in an appropriate way. It is guaranteed that if two simulations are run with different random number seeds, the sequence of random numbers will be different. On the other hand, no guarantees are made about the behavior of simulations that use the same seed. In particular, Platforms are permitted to use non-deterministic algorithms which produce different results on successive runs, even if those runs were initialized identically.</p>
+<p>If seed is set to 0 (which is the default value assigned), a unique seed is chosen when a <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a> is created from this <a class="reference internal" href="Force.html#classOpenMM_1_1Force"><span class="std std-ref">Force</span></a>. This is done to ensure that each <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a> receives unique random seeds without you needing to set them explicitly. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CustomIntegrator4stepEi">
+<span id="_CPPv3N6OpenMM16CustomIntegrator4stepEi"></span><span id="_CPPv2N6OpenMM16CustomIntegrator4stepEi"></span><span id="OpenMM::CustomIntegrator::step__i"></span><span class="target" id="classOpenMM_1_1CustomIntegrator_1a1eb08122e1eaf62121a3835f88813458"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">step</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">steps</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomIntegrator.html#_CPPv4N6OpenMM16CustomIntegrator4stepEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Advance a simulation through time by taking a series of time steps.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>steps</strong> – the number of time steps to take </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="RPMDIntegrator.html" title="Previous document"><code class="docutils literal notranslate"><span class="pre">RPMDIntegrator</span></code></a>
+        </li>
+        <li>
+          <a href="CompoundIntegrator.html" title="Next document"><code class="docutils literal notranslate"><span class="pre">CompoundIntegrator</span></code></a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM C++ API</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="System.html"><code class="docutils literal notranslate"><span class="pre">System</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Context.html"><code class="docutils literal notranslate"><span class="pre">Context</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="State.html"><code class="docutils literal notranslate"><span class="pre">State</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Platform.html"><code class="docutils literal notranslate"><span class="pre">Platform</span></code></a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../forces.html">Forces</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../integrators.html">Integrators</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../integrators.html#the-integrator-abstract-class">The <code class="docutils literal notranslate"><span class="pre">Integrator</span></code> abstract class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../integrators.html#general-purpose-integrators">General purpose integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../integrators.html#drude-integrators">Drude integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../integrators.html#ring-polymer-molecular-dynamics-integrators">Ring Polymer Molecular Dynamics integrators</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../integrators.html#customizing-integrator">Customizing <code class="docutils literal notranslate"><span class="pre">Integrator</span></code></a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../extras.html">Extra classes</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../userguide">
+                User's Manual
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../developerguide/index.html">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../api-python/index.html">
+                Python API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Stanford University and the Authors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../_sources/generated/CustomIntegrator.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

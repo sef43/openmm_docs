@@ -1,0 +1,7 @@
+.. _OpenMM::Integrator:
+
+``Integrator``
+==============
+
+.. doxygenclass:: OpenMM::Integrator
+   :members:

@@ -1,0 +1,313 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>10. Platform-Specific Properties &#8212; OpenMM User Guide 8.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="http://docs.openmm.org/8.0.0/userguide/_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="http://docs.openmm.org/8.0.0/userguide/_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="http://docs.openmm.org/8.0.0/userguide/_static/documentation_options.js"></script>
+    <script src="http://docs.openmm.org/8.0.0/userguide/_static/jquery.js"></script>
+    <script src="http://docs.openmm.org/8.0.0/userguide/_static/underscore.js"></script>
+    <script src="http://docs.openmm.org/8.0.0/userguide/_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="11. Using OpenMM with Software Written in Languages Other than C++" href="05_languages_not_cpp.html" />
+    <link rel="prev" title="9. OpenMM Tutorials" href="03_tutorials.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="platform-specific-properties">
+<span id="id1"></span><h1><span class="section-number">10. </span>Platform-Specific Properties<a class="headerlink" href="04_platform_specifics.html#platform-specific-properties" title="Permalink to this headline">¶</a></h1>
+<p>When creating a Context, you can specify values for properties specific to a
+particular Platform.  This is used to control how calculations are done in ways
+that are outside the scope of the generic OpenMM API.</p>
+<p>To do this, pass both the Platform object and a map of property values to the
+Context constructor:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">Platform</span><span class="o">&amp;</span><span class="w"> </span><span class="n">platform</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Platform</span><span class="o">::</span><span class="n">getPlatformByName</span><span class="p">(</span><span class="s">&quot;OpenCL&quot;</span><span class="p">);</span>
+<span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">string</span><span class="o">&gt;</span><span class="w"> </span><span class="n">properties</span><span class="p">;</span>
+<span class="n">properties</span><span class="p">[</span><span class="s">&quot;DeviceIndex&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;1&quot;</span><span class="p">;</span>
+<span class="n">Context</span><span class="w"> </span><span class="nf">context</span><span class="p">(</span><span class="n">system</span><span class="p">,</span><span class="w"> </span><span class="n">integrator</span><span class="p">,</span><span class="w"> </span><span class="n">platform</span><span class="p">,</span><span class="w"> </span><span class="n">properties</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>After a Context is created, you can use the Platform’s <code class="code docutils literal notranslate"><span class="pre">getPropertyValue()</span></code> method to query the values of properties.</p>
+<section id="opencl-platform">
+<h2><span class="section-number">10.1. </span>OpenCL Platform<a class="headerlink" href="04_platform_specifics.html#opencl-platform" title="Permalink to this headline">¶</a></h2>
+<p>The OpenCL Platform recognizes the following Platform-specific properties:</p>
+<ul class="simple">
+<li><p>Precision: This selects what numeric precision to use for calculations.
+The allowed values are “single”, “mixed”, and “double”.  If it is set to
+“single”, nearly all calculations are done in single precision.  This is the
+fastest option but also the least accurate.  If it is set to “mixed”, forces are
+computed in single precision but integration is done in double precision.  This
+gives much better energy conservation with only a slight decrease in speed.
+If it is set to “double”, all calculations are done in double precision.  This
+is the most accurate option, but is usually much slower than the others.</p></li>
+<li><p>UseCpuPme: This selects whether to use the CPU-based PME
+implementation.  The allowed values are “true” or “false”.  Depending on your
+hardware, this might (or might not) improve performance.</p></li>
+<li><p>OpenCLPlatformIndex: When multiple OpenCL implementations are installed on
+your computer, this is used to select which one to use.  The value is the
+zero-based index of the platform (in the OpenCL sense, not the OpenMM sense) to use,
+in the order they are returned by the OpenCL platform API.  This is useful, for
+example, in selecting whether to use a GPU or CPU based OpenCL implementation.</p></li>
+<li><p>DeviceIndex: When multiple OpenCL devices are available on your
+computer, this is used to select which one to use.  The value is the zero-based
+index of the device to use, in the order they are returned by the OpenCL device
+API.</p></li>
+</ul>
+<p>The OpenCL Platform also supports parallelizing a simulation across multiple
+GPUs.  To do that, set the DeviceIndex property to a comma separated list
+of values.  For example,</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">properties</span><span class="p">[</span><span class="s">&quot;DeviceIndex&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;0,1&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>This tells it to use both devices 0 and 1, splitting the work between them.</p>
+</section>
+<section id="cuda-platform">
+<h2><span class="section-number">10.2. </span>CUDA Platform<a class="headerlink" href="04_platform_specifics.html#cuda-platform" title="Permalink to this headline">¶</a></h2>
+<p>The CUDA Platform recognizes the following Platform-specific properties:</p>
+<ul class="simple">
+<li><p>Precision: This selects what numeric precision to use for calculations.
+The allowed values are “single”, “mixed”, and “double”.  If it is set to
+“single”, nearly all calculations are done in single precision.  This is the
+fastest option but also the least accurate.  If it is set to “mixed”, forces are
+computed in single precision but integration is done in double precision.  This
+gives much better energy conservation with only a slight decrease in speed.
+If it is set to “double”, all calculations are done in double precision.  This
+is the most accurate option, but is usually much slower than the others.</p></li>
+<li><p>UseCpuPme: This selects whether to use the CPU-based PME implementation.
+The allowed values are “true” or “false”.  Depending on your hardware, this
+might (or might not) improve performance.</p></li>
+<li><p>CudaCompiler: This specifies the path to the CUDA kernel compiler.  Versions
+of CUDA before 7.0 require a separate compiler executable.  If you do
+not specify this, OpenMM will try to locate the compiler itself.  Specify this
+only when you want to override the default location.  The logic used to pick the
+default location depends on the operating system:</p>
+<ul>
+<li><p>Mac/Linux: It first looks for an environment variable called
+OPENMM_CUDA_COMPILER.  If that is set, its value is used.  Otherwise, the
+default location is set to /usr/local/cuda/bin/nvcc.</p></li>
+<li><p>Windows: It looks for an environment variable called CUDA_BIN_PATH, then
+appends nvcc.exe to it.  That environment variable is set by the CUDA
+installer, so it usually is present.</p></li>
+</ul>
+</li>
+<li><p>TempDirectory: This specifies a directory where temporary files can be
+written while compiling kernels.  OpenMM usually can locate your operating
+system’s temp directory automatically (for example, by looking for the TEMP
+environment variable), so you rarely need to specify this.</p></li>
+<li><p>DeviceIndex: When multiple CUDA devices are available on your computer,
+this is used to select which one to use.  The value is the zero-based index of
+the device to use, in the order they are returned by the CUDA API.</p></li>
+<li><p>UseBlockingSync: This is used to control how the CUDA runtime
+synchronizes between the CPU and GPU.  If this is set to “true” (the default),
+CUDA will allow the calling thread to sleep while the GPU is performing a
+computation, allowing the CPU to do other work.  If it is set to “false”, CUDA
+will spin-lock while the GPU is working.  Setting it to “false” can improve performance slightly,
+but also prevents the CPU from doing anything else while the GPU is working.</p></li>
+<li><p>DeterministicForces: In some cases, the CUDA platform may compute forces
+in ways that are not fully deterministic (typically differing in what order a
+set of numbers get added together).  This means that if you compute the forces
+twice for the same particle positions, there may be tiny differences in the
+results.  In most cases this is not a problem, but certain algorithms depend
+on forces being exactly reproducible to the last bit.  If you set this
+property to “true”, it will instead do these calculations in a way that
+produces fully deterministic results, at the cost of a small decrease in
+performance.</p></li>
+</ul>
+<p>The CUDA Platform also supports parallelizing a simulation across multiple GPUs.
+To do that, set the DeviceIndex property to a comma separated list of
+values.  For example,</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">properties</span><span class="p">[</span><span class="s">&quot;DeviceIndex&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;0,1&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>This tells it to use both devices 0 and 1, splitting the work between them.</p>
+</section>
+<section id="cpu-platform">
+<h2><span class="section-number">10.3. </span>CPU Platform<a class="headerlink" href="04_platform_specifics.html#cpu-platform" title="Permalink to this headline">¶</a></h2>
+<p>The CPU Platform recognizes the following Platform-specific properties:</p>
+<ul>
+<li><p>Threads: This specifies the number of CPU threads to use.  If you do not
+specify this, OpenMM will select a default number of threads as follows:</p>
+<ul class="simple">
+<li><p>If an environment variable called OPENMM_CPU_THREADS is set, its value is
+used as the number of threads.</p></li>
+<li><p>Otherwise, the number of threads is set to the number of logical CPU cores
+in the computer it is running on.</p></li>
+</ul>
+<p>Usually the default value works well.  This is mainly useful when you are
+running something else on the computer at the same time, and you want to
+prevent OpenMM from monopolizing all available cores.</p>
+</li>
+</ul>
+</section>
+<section id="determinism">
+<span id="platform-specific-properties-determinism"></span><h2><span class="section-number">10.4. </span>Determinism<a class="headerlink" href="04_platform_specifics.html#determinism" title="Permalink to this headline">¶</a></h2>
+<p>Whether a simulation is deterministic will depend on what platform you run on in
+addition to what settings/methods you use. For instance, as of this writing,
+using PME on the Reference, OpenCL, and double-precision CUDA will result in
+deterministic simulations. Single-precision CUDA and CPU platforms are not
+deterministic in this case. However, none of this behavior is guaranteed in
+future versions. In many cases it will still result in an identical trajectory.
+If determinism is a critical for your needs, you should carefully check to
+ensure that your settings and platform allow for this.</p>
+</section>
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="03_tutorials.html" title="Previous document"><span class="section-number">9. </span>OpenMM Tutorials</a>
+        </li>
+        <li>
+          <a href="05_languages_not_cpp.html" title="Next document"><span class="section-number">11. </span>Using OpenMM with Software Written in Languages Other than C++</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM User Guide</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">1. Introduction</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../application.html">Part I: The OpenMM Application Layer</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../library.html">Part II: The OpenMM Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_introduction.html">7. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_compiling.html">8. Compiling OpenMM from Source Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_tutorials.html">9. OpenMM Tutorials</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="04_platform_specifics.html#">10. Platform-Specific Properties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="04_platform_specifics.html#opencl-platform">10.1. OpenCL Platform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_platform_specifics.html#cuda-platform">10.2. CUDA Platform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_platform_specifics.html#cpu-platform">10.3. CPU Platform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_platform_specifics.html#determinism">10.4. Determinism</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="05_languages_not_cpp.html">11. Using OpenMM with Software Written in Languages Other than C++</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_integration_examples.html">12. Examples of OpenMM Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07_testing_validation.html">13. Testing and Validation of OpenMM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08_amoeba_plugin.html">14. AMOEBA Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09_rpmd_plugin.html">15. Ring Polymer Molecular Dynamics (RPMD) Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_drude_plugin.html">16. Drude Plugin</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../theory.html">Part III: The Theory Behind OpenMM</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../zbibliography.html">22. Bibliography</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../developerguide/index.html">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../api-python/index.html">
+                Python API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../api-c++/index.html">
+                C++ API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2008-2017, Stanford University.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../_sources/library/04_platform_specifics.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

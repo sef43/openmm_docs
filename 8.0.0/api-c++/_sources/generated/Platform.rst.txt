@@ -1,0 +1,7 @@
+.. _OpenMM::Platform:
+
+``Platform``
+============
+
+.. doxygenclass:: OpenMM::Platform
+   :members:

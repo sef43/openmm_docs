@@ -1,0 +1,600 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>CustomCompoundBondForce &#8212; OpenMM C++ API @OPENMM_MAJOR_VERSION@.@OPENMM_MINOR_VERSION@ documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CustomExternalForce" href="CustomExternalForce.html" />
+    <link rel="prev" title="CustomCentroidBondForce" href="CustomCentroidBondForce.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="customcompoundbondforce">
+<span id="openmm-customcompoundbondforce"></span><h1><code class="docutils literal notranslate"><span class="pre">CustomCompoundBondForce</span></code><a class="headerlink" href="CustomCompoundBondForce.html#customcompoundbondforce" title="Permalink to this headline">¶</a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM23CustomCompoundBondForceE">
+<span id="_CPPv3N6OpenMM23CustomCompoundBondForceE"></span><span id="_CPPv2N6OpenMM23CustomCompoundBondForceE"></span><span id="OpenMM::CustomCompoundBondForce"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">OpenMM</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">CustomCompoundBondForce</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">OpenMM</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="Force.html#_CPPv4N6OpenMM5ForceE" title="OpenMM::Force"><span class="n"><span class="pre">Force</span></span></a><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4N6OpenMM23CustomCompoundBondForceE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This class supports a wide variety of bonded interactions. It defines a “bond” as a single energy term that depends on the positions of a fixed set of particles. The number of particles involved in a bond, and how the energy depends on their positions, is configurable. It may depend on the positions of individual particles, the distances between pairs of particles, the angles formed by sets of three particles, and the dihedral angles formed by sets of four particles.</p>
+<p>We refer to the particles in a bond as p1, p2, p3, etc. For each bond, <a class="reference internal" href="CustomCompoundBondForce.html#classOpenMM_1_1CustomCompoundBondForce"><span class="std std-ref">CustomCompoundBondForce</span></a> evaluates a user supplied algebraic expression to determine the interaction energy. The expression may depend on the following variables and functions:</p>
+<p><ul class="simple">
+<li><p>x1, y1, z1, x2, y2, z2, etc.: The x, y, and z coordinates of the particle positions. For example, x1 is the x coordinate of particle p1, and y3 is the y coordinate of particle p3. </p></li>
+<li><p>distance(p1, p2): the distance between particles p1 and p2 (where “p1” and “p2” may be replaced by the names of whichever particles you want to calculate the distance between). </p></li>
+<li><p>angle(p1, p2, p3): the angle formed by the three specified particles. </p></li>
+<li><p>dihedral(p1, p2, p3, p4): the dihedral angle formed by the four specified particles, guaranteed to be in the range [-pi,+pi]. </p></li>
+</ul>
+</p>
+<p>The expression also may involve tabulated functions, and may depend on arbitrary global and per-bond parameters.</p>
+<p>To use this class, create a <a class="reference internal" href="CustomCompoundBondForce.html#classOpenMM_1_1CustomCompoundBondForce"><span class="std std-ref">CustomCompoundBondForce</span></a> object, passing an algebraic expression to the constructor that defines the interaction energy of each bond. Then call <a class="reference internal" href="CustomCompoundBondForce.html#classOpenMM_1_1CustomCompoundBondForce_1ae0ee98e5d50be0abbd5e5b5f1495281e"><span class="std std-ref">addPerBondParameter()</span></a> to define per-bond parameters and <a class="reference internal" href="CustomCompoundBondForce.html#classOpenMM_1_1CustomCompoundBondForce_1a12aae0892fbc3c579d71fc2868f9386b"><span class="std std-ref">addGlobalParameter()</span></a> to define global parameters. The values of per-bond parameters are specified as part of the system definition, while values of global parameters may be modified during a simulation by calling <a class="reference internal" href="Context.html#classOpenMM_1_1Context_1a368b7f53ee35bb151ee686441b7900af"><span class="std std-ref">Context::setParameter()</span></a>.</p>
+<p>Next, call <a class="reference internal" href="CustomCompoundBondForce.html#classOpenMM_1_1CustomCompoundBondForce_1a169f6ce7a7d1c865057e33df07b5b668"><span class="std std-ref">addBond()</span></a> to define bonds and specify their parameter values. After a bond has been added, you can modify its parameters by calling <a class="reference internal" href="CustomCompoundBondForce.html#classOpenMM_1_1CustomCompoundBondForce_1a13d5c46cd01ac578e26cacdc1bffb533"><span class="std std-ref">setBondParameters()</span></a>. This will have no effect on Contexts that already exist unless you call <a class="reference internal" href="CustomCompoundBondForce.html#classOpenMM_1_1CustomCompoundBondForce_1aca8e6797eb1b1850fcac033628112dc0"><span class="std std-ref">updateParametersInContext()</span></a>.</p>
+<p>As an example, the following code creates a <a class="reference internal" href="CustomCompoundBondForce.html#classOpenMM_1_1CustomCompoundBondForce"><span class="std std-ref">CustomCompoundBondForce</span></a> that implements a Urey-Bradley potential. This is an interaction between three particles that depends on the angle formed by p1-p2-p3, and on the distance between p1 and p3.</p>
+<p><p><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">CustomCompoundBondForce</span><span class="o">*</span><span class="w"> </span><span class="n">force</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">CustomCompoundBondForce</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;0.5*(kangle*(angle(p1,p2,p3)-theta0)^2+kbond*(distance(p1,p3)-r0)^2)&quot;</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</p>
+</p>
+<p>This force depends on four parameters: kangle, kbond, theta0, and r0. The following code defines these as per-bond parameters:</p>
+<p><p><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">force</span><span class="o">-&gt;</span><span class="n">addPerBondParameter</span><span class="p">(</span><span class="s">&quot;kangle&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="n">force</span><span class="o">-&gt;</span><span class="n">addPerBondParameter</span><span class="p">(</span><span class="s">&quot;kbond&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="n">force</span><span class="o">-&gt;</span><span class="n">addPerBondParameter</span><span class="p">(</span><span class="s">&quot;theta0&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="n">force</span><span class="o">-&gt;</span><span class="n">addPerBondParameter</span><span class="p">(</span><span class="s">&quot;r0&quot;</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</p>
+</p>
+<p>This class also has the ability to compute derivatives of the potential energy with respect to global parameters. Call <a class="reference internal" href="CustomCompoundBondForce.html#classOpenMM_1_1CustomCompoundBondForce_1ac98f45cd8ddf4d38b5c0baf6a134fb6f"><span class="std std-ref">addEnergyParameterDerivative()</span></a> to request that the derivative with respect to a particular parameter be computed. You can then query its value in a <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a> by calling getState() on it.</p>
+<p>Expressions may involve the operators + (add), - (subtract), * (multiply), / (divide), and ^ (power), and the following functions: sqrt, exp, log, sin, cos, sec, csc, tan, cot, asin, acos, atan, atan2, sinh, cosh, tanh, erf, erfc, min, max, abs, floor, ceil, step, delta, select. All trigonometric functions are defined in radians, and log is the natural logarithm. step(x) = 0 if x is less than 0, 1 otherwise. delta(x) = 1 if x is 0, 0 otherwise. select(x,y,z) = z if x = 0, y otherwise.</p>
+<p>This class also supports the functions pointdistance(x1, y1, z1, x2, y2, z2), pointangle(x1, y1, z1, x2, y2, z2, x3, y3, z3), and pointdihedral(x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4). These functions are similar to distance(), angle(), and dihedral(), but the arguments are the coordinates of points to perform the calculation based on rather than the names of particles. This enables more flexible geometric calculations. For example, the following computes the distance from particle p1 to the midpoint between particles p2 and p3.</p>
+<p><p><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">CustomCompoundBondForce</span><span class="o">*</span><span class="w"> </span><span class="n">force</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">CustomCompoundBondForce</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;pointdistance(x1, y1, z1, (x2+x3)/2, (y2+y3)/2, (z2+z3)/2)&quot;</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</p>
+</p>
+<p>In addition, you can call <a class="reference internal" href="CustomCompoundBondForce.html#classOpenMM_1_1CustomCompoundBondForce_1afc78a1d1f5ef225632a5116c9c4ea99d"><span class="std std-ref">addTabulatedFunction()</span></a> to define a new function based on tabulated values. You specify the function by creating a <a class="reference internal" href="TabulatedFunction.html#classOpenMM_1_1TabulatedFunction"><span class="std std-ref">TabulatedFunction</span></a> object. That function can then appear in the expression. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM23CustomCompoundBondForce23CustomCompoundBondForceEiRKNSt6stringE">
+<span id="_CPPv3N6OpenMM23CustomCompoundBondForce23CustomCompoundBondForceEiRKNSt6stringE"></span><span id="_CPPv2N6OpenMM23CustomCompoundBondForce23CustomCompoundBondForceEiRKNSt6stringE"></span><span id="OpenMM::CustomCompoundBondForce::CustomCompoundBondForce__i.ssCR"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1aa2691997a9ea83422cb1355d88c50000"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CustomCompoundBondForce</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">numParticles</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">energy</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4N6OpenMM23CustomCompoundBondForce23CustomCompoundBondForceEiRKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a <a class="reference internal" href="CustomCompoundBondForce.html#classOpenMM_1_1CustomCompoundBondForce"><span class="std std-ref">CustomCompoundBondForce</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>numParticles</strong> – the number of particles used to define each bond </p></li>
+<li><p><strong>energy</strong> – an algebraic expression giving the interaction energy of each bond as a function of particle positions, inter-particle distances, angles, and dihedrals, and any global and per-bond parameters </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM23CustomCompoundBondForce22getNumParticlesPerBondEv">
+<span id="_CPPv3NK6OpenMM23CustomCompoundBondForce22getNumParticlesPerBondEv"></span><span id="_CPPv2NK6OpenMM23CustomCompoundBondForce22getNumParticlesPerBondEv"></span><span id="OpenMM::CustomCompoundBondForce::getNumParticlesPerBondC"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1aec389b8dea6682eb85a878b6db22b37a"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getNumParticlesPerBond</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4NK6OpenMM23CustomCompoundBondForce22getNumParticlesPerBondEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the number of particles used to define each bond. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM23CustomCompoundBondForce11getNumBondsEv">
+<span id="_CPPv3NK6OpenMM23CustomCompoundBondForce11getNumBondsEv"></span><span id="_CPPv2NK6OpenMM23CustomCompoundBondForce11getNumBondsEv"></span><span id="OpenMM::CustomCompoundBondForce::getNumBondsC"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1ae92cca23f73eb8cd8e135ef494e1c402"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getNumBonds</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4NK6OpenMM23CustomCompoundBondForce11getNumBondsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the number of bonds for which force field parameters have been defined. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM23CustomCompoundBondForce23getNumPerBondParametersEv">
+<span id="_CPPv3NK6OpenMM23CustomCompoundBondForce23getNumPerBondParametersEv"></span><span id="_CPPv2NK6OpenMM23CustomCompoundBondForce23getNumPerBondParametersEv"></span><span id="OpenMM::CustomCompoundBondForce::getNumPerBondParametersC"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1a470a1e27c52bfaeb433751cec58ccdec"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getNumPerBondParameters</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4NK6OpenMM23CustomCompoundBondForce23getNumPerBondParametersEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the number of per-bond parameters that the interaction depends on. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM23CustomCompoundBondForce22getNumGlobalParametersEv">
+<span id="_CPPv3NK6OpenMM23CustomCompoundBondForce22getNumGlobalParametersEv"></span><span id="_CPPv2NK6OpenMM23CustomCompoundBondForce22getNumGlobalParametersEv"></span><span id="OpenMM::CustomCompoundBondForce::getNumGlobalParametersC"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1abb6647033ec5081686fa0cf12bb931ba"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getNumGlobalParameters</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4NK6OpenMM23CustomCompoundBondForce22getNumGlobalParametersEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the number of global parameters that the interaction depends on. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM23CustomCompoundBondForce32getNumEnergyParameterDerivativesEv">
+<span id="_CPPv3NK6OpenMM23CustomCompoundBondForce32getNumEnergyParameterDerivativesEv"></span><span id="_CPPv2NK6OpenMM23CustomCompoundBondForce32getNumEnergyParameterDerivativesEv"></span><span id="OpenMM::CustomCompoundBondForce::getNumEnergyParameterDerivativesC"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1a2b78675b635f037e0ab8e30543c122c9"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getNumEnergyParameterDerivatives</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4NK6OpenMM23CustomCompoundBondForce32getNumEnergyParameterDerivativesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the number of global parameters with respect to which the derivative of the energy should be computed. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM23CustomCompoundBondForce24getNumTabulatedFunctionsEv">
+<span id="_CPPv3NK6OpenMM23CustomCompoundBondForce24getNumTabulatedFunctionsEv"></span><span id="_CPPv2NK6OpenMM23CustomCompoundBondForce24getNumTabulatedFunctionsEv"></span><span id="OpenMM::CustomCompoundBondForce::getNumTabulatedFunctionsC"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1a9cd5b3d25f79f5e93dbb447e1741b53e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getNumTabulatedFunctions</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4NK6OpenMM23CustomCompoundBondForce24getNumTabulatedFunctionsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the number of tabulated functions that have been defined. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM23CustomCompoundBondForce15getNumFunctionsEv">
+<span id="_CPPv3NK6OpenMM23CustomCompoundBondForce15getNumFunctionsEv"></span><span id="_CPPv2NK6OpenMM23CustomCompoundBondForce15getNumFunctionsEv"></span><span id="OpenMM::CustomCompoundBondForce::getNumFunctionsC"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1afc12224ae3fb8563f96af363a1ca04d3"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getNumFunctions</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4NK6OpenMM23CustomCompoundBondForce15getNumFunctionsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the number of tabulated functions that have been defined.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<em><span class="pre">Deprecated:</span></em></dt>
+<dd><p>This method exists only for backward compatibility. Use <a class="reference internal" href="CustomCompoundBondForce.html#classOpenMM_1_1CustomCompoundBondForce_1a9cd5b3d25f79f5e93dbb447e1741b53e"><span class="std std-ref">getNumTabulatedFunctions()</span></a> instead. </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM23CustomCompoundBondForce17getEnergyFunctionEv">
+<span id="_CPPv3NK6OpenMM23CustomCompoundBondForce17getEnergyFunctionEv"></span><span id="_CPPv2NK6OpenMM23CustomCompoundBondForce17getEnergyFunctionEv"></span><span id="OpenMM::CustomCompoundBondForce::getEnergyFunctionC"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1ad84adb1be1915e37b2898dffd3ccfb40"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getEnergyFunction</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4NK6OpenMM23CustomCompoundBondForce17getEnergyFunctionEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the algebraic expression that gives the interaction energy of each bond </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM23CustomCompoundBondForce17setEnergyFunctionERKNSt6stringE">
+<span id="_CPPv3N6OpenMM23CustomCompoundBondForce17setEnergyFunctionERKNSt6stringE"></span><span id="_CPPv2N6OpenMM23CustomCompoundBondForce17setEnergyFunctionERKNSt6stringE"></span><span id="OpenMM::CustomCompoundBondForce::setEnergyFunction__ssCR"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1acb8e1eb1a5269adb8723b4d5aec23ec6"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setEnergyFunction</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">energy</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4N6OpenMM23CustomCompoundBondForce17setEnergyFunctionERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the algebraic expression that gives the interaction energy of each bond </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM23CustomCompoundBondForce19addPerBondParameterERKNSt6stringE">
+<span id="_CPPv3N6OpenMM23CustomCompoundBondForce19addPerBondParameterERKNSt6stringE"></span><span id="_CPPv2N6OpenMM23CustomCompoundBondForce19addPerBondParameterERKNSt6stringE"></span><span id="OpenMM::CustomCompoundBondForce::addPerBondParameter__ssCR"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1ae0ee98e5d50be0abbd5e5b5f1495281e"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addPerBondParameter</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4N6OpenMM23CustomCompoundBondForce19addPerBondParameterERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a new per-bond parameter that the interaction may depend on.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> – the name of the parameter </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the index of the parameter that was added </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM23CustomCompoundBondForce23getPerBondParameterNameEi">
+<span id="_CPPv3NK6OpenMM23CustomCompoundBondForce23getPerBondParameterNameEi"></span><span id="_CPPv2NK6OpenMM23CustomCompoundBondForce23getPerBondParameterNameEi"></span><span id="OpenMM::CustomCompoundBondForce::getPerBondParameterName__iC"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1a122ade060293dd9c30ead1e2adfd0e32"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getPerBondParameterName</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4NK6OpenMM23CustomCompoundBondForce23getPerBondParameterNameEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the name of a per-bond parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – the index of the parameter for which to get the name </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the parameter name </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM23CustomCompoundBondForce23setPerBondParameterNameEiRKNSt6stringE">
+<span id="_CPPv3N6OpenMM23CustomCompoundBondForce23setPerBondParameterNameEiRKNSt6stringE"></span><span id="_CPPv2N6OpenMM23CustomCompoundBondForce23setPerBondParameterNameEiRKNSt6stringE"></span><span id="OpenMM::CustomCompoundBondForce::setPerBondParameterName__i.ssCR"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1a1b4c59df62d852bbb8d350f1319d58aa"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setPerBondParameterName</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4N6OpenMM23CustomCompoundBondForce23setPerBondParameterNameEiRKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the name of a per-bond parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – the index of the parameter for which to set the name </p></li>
+<li><p><strong>name</strong> – the name of the parameter </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM23CustomCompoundBondForce18addGlobalParameterERKNSt6stringEd">
+<span id="_CPPv3N6OpenMM23CustomCompoundBondForce18addGlobalParameterERKNSt6stringEd"></span><span id="_CPPv2N6OpenMM23CustomCompoundBondForce18addGlobalParameterERKNSt6stringEd"></span><span id="OpenMM::CustomCompoundBondForce::addGlobalParameter__ssCR.double"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1a12aae0892fbc3c579d71fc2868f9386b"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addGlobalParameter</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">defaultValue</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4N6OpenMM23CustomCompoundBondForce18addGlobalParameterERKNSt6stringEd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a new global parameter that the interaction may depend on. The default value provided to this method is the initial value of the parameter in newly created Contexts. You can change the value at any time by calling setParameter() on the <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – the name of the parameter </p></li>
+<li><p><strong>defaultValue</strong> – the default value of the parameter </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the index of the parameter that was added </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM23CustomCompoundBondForce22getGlobalParameterNameEi">
+<span id="_CPPv3NK6OpenMM23CustomCompoundBondForce22getGlobalParameterNameEi"></span><span id="_CPPv2NK6OpenMM23CustomCompoundBondForce22getGlobalParameterNameEi"></span><span id="OpenMM::CustomCompoundBondForce::getGlobalParameterName__iC"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1a341bdb97d399c848b19a06993926d7b4"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getGlobalParameterName</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4NK6OpenMM23CustomCompoundBondForce22getGlobalParameterNameEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the name of a global parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – the index of the parameter for which to get the name </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the parameter name </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM23CustomCompoundBondForce22setGlobalParameterNameEiRKNSt6stringE">
+<span id="_CPPv3N6OpenMM23CustomCompoundBondForce22setGlobalParameterNameEiRKNSt6stringE"></span><span id="_CPPv2N6OpenMM23CustomCompoundBondForce22setGlobalParameterNameEiRKNSt6stringE"></span><span id="OpenMM::CustomCompoundBondForce::setGlobalParameterName__i.ssCR"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1a52454e70e78706f36020712dbe0aea9f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setGlobalParameterName</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4N6OpenMM23CustomCompoundBondForce22setGlobalParameterNameEiRKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the name of a global parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – the index of the parameter for which to set the name </p></li>
+<li><p><strong>name</strong> – the name of the parameter </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM23CustomCompoundBondForce30getGlobalParameterDefaultValueEi">
+<span id="_CPPv3NK6OpenMM23CustomCompoundBondForce30getGlobalParameterDefaultValueEi"></span><span id="_CPPv2NK6OpenMM23CustomCompoundBondForce30getGlobalParameterDefaultValueEi"></span><span id="OpenMM::CustomCompoundBondForce::getGlobalParameterDefaultValue__iC"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1a5a6358b03866f897a82bc0dba12f467b"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getGlobalParameterDefaultValue</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4NK6OpenMM23CustomCompoundBondForce30getGlobalParameterDefaultValueEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the default value of a global parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – the index of the parameter for which to get the default value </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the parameter default value </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM23CustomCompoundBondForce30setGlobalParameterDefaultValueEid">
+<span id="_CPPv3N6OpenMM23CustomCompoundBondForce30setGlobalParameterDefaultValueEid"></span><span id="_CPPv2N6OpenMM23CustomCompoundBondForce30setGlobalParameterDefaultValueEid"></span><span id="OpenMM::CustomCompoundBondForce::setGlobalParameterDefaultValue__i.double"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1a51c60aa86f4cc2bf825adbf81eaa9121"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setGlobalParameterDefaultValue</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">defaultValue</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4N6OpenMM23CustomCompoundBondForce30setGlobalParameterDefaultValueEid" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the default value of a global parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – the index of the parameter for which to set the default value </p></li>
+<li><p><strong>defaultValue</strong> – the default value of the parameter </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM23CustomCompoundBondForce28addEnergyParameterDerivativeERKNSt6stringE">
+<span id="_CPPv3N6OpenMM23CustomCompoundBondForce28addEnergyParameterDerivativeERKNSt6stringE"></span><span id="_CPPv2N6OpenMM23CustomCompoundBondForce28addEnergyParameterDerivativeERKNSt6stringE"></span><span id="OpenMM::CustomCompoundBondForce::addEnergyParameterDerivative__ssCR"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1ac98f45cd8ddf4d38b5c0baf6a134fb6f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addEnergyParameterDerivative</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4N6OpenMM23CustomCompoundBondForce28addEnergyParameterDerivativeERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Request that this <a class="reference internal" href="Force.html#classOpenMM_1_1Force"><span class="std std-ref">Force</span></a> compute the derivative of its energy with respect to a global parameter. The parameter must have already been added with <a class="reference internal" href="CustomCompoundBondForce.html#classOpenMM_1_1CustomCompoundBondForce_1a12aae0892fbc3c579d71fc2868f9386b"><span class="std std-ref">addGlobalParameter()</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> – the name of the parameter </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM23CustomCompoundBondForce32getEnergyParameterDerivativeNameEi">
+<span id="_CPPv3NK6OpenMM23CustomCompoundBondForce32getEnergyParameterDerivativeNameEi"></span><span id="_CPPv2NK6OpenMM23CustomCompoundBondForce32getEnergyParameterDerivativeNameEi"></span><span id="OpenMM::CustomCompoundBondForce::getEnergyParameterDerivativeName__iC"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1a29f1db1f9aa93df622746817d8b5c3b5"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getEnergyParameterDerivativeName</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4NK6OpenMM23CustomCompoundBondForce32getEnergyParameterDerivativeNameEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the name of a global parameter with respect to which this <a class="reference internal" href="Force.html#classOpenMM_1_1Force"><span class="std std-ref">Force</span></a> should compute the derivative of the energy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – the index of the parameter derivative, between 0 and <a class="reference internal" href="CustomCompoundBondForce.html#classOpenMM_1_1CustomCompoundBondForce_1a2b78675b635f037e0ab8e30543c122c9"><span class="std std-ref">getNumEnergyParameterDerivatives()</span></a> </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the parameter name </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM23CustomCompoundBondForce7addBondERKNSt6vectorIiEERKNSt6vectorIdEE">
+<span id="_CPPv3N6OpenMM23CustomCompoundBondForce7addBondERKNSt6vectorIiEERKNSt6vectorIdEE"></span><span id="_CPPv2N6OpenMM23CustomCompoundBondForce7addBondERKNSt6vectorIiEERKNSt6vectorIdEE"></span><span id="OpenMM::CustomCompoundBondForce::addBond__std::vector:i:CR.std::vector:double:CR"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1a169f6ce7a7d1c865057e33df07b5b668"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addBond</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">particles</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">parameters</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4N6OpenMM23CustomCompoundBondForce7addBondERKNSt6vectorIiEERKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a bond to the force</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>particles</strong> – the indices of the particles the bond depends on </p></li>
+<li><p><strong>parameters</strong> – the list of per-bond parameter values for the new bond </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the index of the bond that was added </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM23CustomCompoundBondForce17getBondParametersEiRNSt6vectorIiEERNSt6vectorIdEE">
+<span id="_CPPv3NK6OpenMM23CustomCompoundBondForce17getBondParametersEiRNSt6vectorIiEERNSt6vectorIdEE"></span><span id="_CPPv2NK6OpenMM23CustomCompoundBondForce17getBondParametersEiRNSt6vectorIiEERNSt6vectorIdEE"></span><span id="OpenMM::CustomCompoundBondForce::getBondParameters__i.std::vector:i:R.std::vector:double:RC"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1ab0f724336b1e385d658ad46a4b1306e4"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getBondParameters</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">particles</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">parameters</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4NK6OpenMM23CustomCompoundBondForce17getBondParametersEiRNSt6vectorIiEERNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the properties of a bond.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – the index of the bond to get </p></li>
+<li><p><strong>particles</strong> – <strong>[out]</strong> the indices of the particles in the bond </p></li>
+<li><p><strong>parameters</strong> – <strong>[out]</strong> the list of per-bond parameter values for the bond </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM23CustomCompoundBondForce17setBondParametersEiRKNSt6vectorIiEERKNSt6vectorIdEE">
+<span id="_CPPv3N6OpenMM23CustomCompoundBondForce17setBondParametersEiRKNSt6vectorIiEERKNSt6vectorIdEE"></span><span id="_CPPv2N6OpenMM23CustomCompoundBondForce17setBondParametersEiRKNSt6vectorIiEERKNSt6vectorIdEE"></span><span id="OpenMM::CustomCompoundBondForce::setBondParameters__i.std::vector:i:CR.std::vector:double:CR"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1a13d5c46cd01ac578e26cacdc1bffb533"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setBondParameters</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">particles</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">parameters</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4N6OpenMM23CustomCompoundBondForce17setBondParametersEiRKNSt6vectorIiEERKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the properties of a bond.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – the index of the bond to set </p></li>
+<li><p><strong>particles</strong> – the indices of the particles in the bond </p></li>
+<li><p><strong>parameters</strong> – the list of per-bond parameter values for the bond </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM23CustomCompoundBondForce20addTabulatedFunctionERKNSt6stringEP17TabulatedFunction">
+<span id="_CPPv3N6OpenMM23CustomCompoundBondForce20addTabulatedFunctionERKNSt6stringEP17TabulatedFunction"></span><span id="_CPPv2N6OpenMM23CustomCompoundBondForce20addTabulatedFunctionERKNSt6stringEP17TabulatedFunction"></span><span id="OpenMM::CustomCompoundBondForce::addTabulatedFunction__ssCR.TabulatedFunctionP"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1afc78a1d1f5ef225632a5116c9c4ea99d"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addTabulatedFunction</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <a class="reference internal" href="TabulatedFunction.html#_CPPv4N6OpenMM17TabulatedFunctionE" title="OpenMM::TabulatedFunction"><span class="n"><span class="pre">TabulatedFunction</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">function</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4N6OpenMM23CustomCompoundBondForce20addTabulatedFunctionERKNSt6stringEP17TabulatedFunction" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a tabulated function that may appear in the energy expression.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – the name of the function as it appears in expressions </p></li>
+<li><p><strong>function</strong> – a <a class="reference internal" href="TabulatedFunction.html#classOpenMM_1_1TabulatedFunction"><span class="std std-ref">TabulatedFunction</span></a> object defining the function. The <a class="reference internal" href="TabulatedFunction.html#classOpenMM_1_1TabulatedFunction"><span class="std std-ref">TabulatedFunction</span></a> should have been created on the heap with the “new” operator. The <a class="reference internal" href="Force.html#classOpenMM_1_1Force"><span class="std std-ref">Force</span></a> takes over ownership of it, and deletes it when the <a class="reference internal" href="Force.html#classOpenMM_1_1Force"><span class="std std-ref">Force</span></a> itself is deleted. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the index of the function that was added </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM23CustomCompoundBondForce20getTabulatedFunctionEi">
+<span id="_CPPv3NK6OpenMM23CustomCompoundBondForce20getTabulatedFunctionEi"></span><span id="_CPPv2NK6OpenMM23CustomCompoundBondForce20getTabulatedFunctionEi"></span><span id="OpenMM::CustomCompoundBondForce::getTabulatedFunction__iC"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1af2c1cec54272119c922a366224c9e814"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="TabulatedFunction.html#_CPPv4N6OpenMM17TabulatedFunctionE" title="OpenMM::TabulatedFunction"><span class="n"><span class="pre">TabulatedFunction</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getTabulatedFunction</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4NK6OpenMM23CustomCompoundBondForce20getTabulatedFunctionEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get a const reference to a tabulated function that may appear in the energy expression.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – the index of the function to get </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the <a class="reference internal" href="TabulatedFunction.html#classOpenMM_1_1TabulatedFunction"><span class="std std-ref">TabulatedFunction</span></a> object defining the function </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM23CustomCompoundBondForce20getTabulatedFunctionEi">
+<span id="_CPPv3N6OpenMM23CustomCompoundBondForce20getTabulatedFunctionEi"></span><span id="_CPPv2N6OpenMM23CustomCompoundBondForce20getTabulatedFunctionEi"></span><span id="OpenMM::CustomCompoundBondForce::getTabulatedFunction__i"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1a235145c5cc7e17d9286def0654bd92cc"></span><a class="reference internal" href="TabulatedFunction.html#_CPPv4N6OpenMM17TabulatedFunctionE" title="OpenMM::TabulatedFunction"><span class="n"><span class="pre">TabulatedFunction</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getTabulatedFunction</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4N6OpenMM23CustomCompoundBondForce20getTabulatedFunctionEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get a reference to a tabulated function that may appear in the energy expression.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – the index of the function to get </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the <a class="reference internal" href="TabulatedFunction.html#classOpenMM_1_1TabulatedFunction"><span class="std std-ref">TabulatedFunction</span></a> object defining the function </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM23CustomCompoundBondForce24getTabulatedFunctionNameEi">
+<span id="_CPPv3NK6OpenMM23CustomCompoundBondForce24getTabulatedFunctionNameEi"></span><span id="_CPPv2NK6OpenMM23CustomCompoundBondForce24getTabulatedFunctionNameEi"></span><span id="OpenMM::CustomCompoundBondForce::getTabulatedFunctionName__iC"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1a96d44a37d152ed11297346cc29d62524"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getTabulatedFunctionName</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4NK6OpenMM23CustomCompoundBondForce24getTabulatedFunctionNameEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the name of a tabulated function that may appear in the energy expression.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – the index of the function to get </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the name of the function as it appears in expressions </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM23CustomCompoundBondForce11addFunctionERKNSt6stringERKNSt6vectorIdEEdd">
+<span id="_CPPv3N6OpenMM23CustomCompoundBondForce11addFunctionERKNSt6stringERKNSt6vectorIdEEdd"></span><span id="_CPPv2N6OpenMM23CustomCompoundBondForce11addFunctionERKNSt6stringERKNSt6vectorIdEEdd"></span><span id="OpenMM::CustomCompoundBondForce::addFunction__ssCR.std::vector:double:CR.double.double"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1adc8d57bd02cf8202bebb23d680abf496"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addFunction</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">values</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4N6OpenMM23CustomCompoundBondForce11addFunctionERKNSt6stringERKNSt6vectorIdEEdd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a tabulated function that may appear in the energy expression.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<em><span class="pre">Deprecated:</span></em></dt>
+<dd><p>This method exists only for backward compatibility. Use <a class="reference internal" href="CustomCompoundBondForce.html#classOpenMM_1_1CustomCompoundBondForce_1afc78a1d1f5ef225632a5116c9c4ea99d"><span class="std std-ref">addTabulatedFunction()</span></a> instead. </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM23CustomCompoundBondForce21getFunctionParametersEiRNSt6stringERNSt6vectorIdEERdRd">
+<span id="_CPPv3NK6OpenMM23CustomCompoundBondForce21getFunctionParametersEiRNSt6stringERNSt6vectorIdEERdRd"></span><span id="_CPPv2NK6OpenMM23CustomCompoundBondForce21getFunctionParametersEiRNSt6stringERNSt6vectorIdEERdRd"></span><span id="OpenMM::CustomCompoundBondForce::getFunctionParameters__i.ssR.std::vector:double:R.doubleR.doubleRC"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1a4c2647cc13857e96f8c29ea4994455c3"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getFunctionParameters</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">values</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">min</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">max</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4NK6OpenMM23CustomCompoundBondForce21getFunctionParametersEiRNSt6stringERNSt6vectorIdEERdRd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the parameters for a tabulated function that may appear in the energy expression.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<em><span class="pre">Deprecated:</span></em></dt>
+<dd><p>This method exists only for backward compatibility. Use getTabulatedFunctionParameters() instead. If the specified function is not a <a class="reference internal" href="Continuous1DFunction.html#classOpenMM_1_1Continuous1DFunction"><span class="std std-ref">Continuous1DFunction</span></a>, this throws an exception. </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM23CustomCompoundBondForce21setFunctionParametersEiRKNSt6stringERKNSt6vectorIdEEdd">
+<span id="_CPPv3N6OpenMM23CustomCompoundBondForce21setFunctionParametersEiRKNSt6stringERKNSt6vectorIdEEdd"></span><span id="_CPPv2N6OpenMM23CustomCompoundBondForce21setFunctionParametersEiRKNSt6stringERKNSt6vectorIdEEdd"></span><span id="OpenMM::CustomCompoundBondForce::setFunctionParameters__i.ssCR.std::vector:double:CR.double.double"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1aaf5e1b9fa0cde754917f5512c3077f95"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setFunctionParameters</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">values</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4N6OpenMM23CustomCompoundBondForce21setFunctionParametersEiRKNSt6stringERKNSt6vectorIdEEdd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the parameters for a tabulated function that may appear in the energy expression.</p>
+<p><dl>
+<dt class="sig sig-object cpp">
+<em><span class="pre">Deprecated:</span></em></dt>
+<dd><p>This method exists only for backward compatibility. Use setTabulatedFunctionParameters() instead. If the specified function is not a <a class="reference internal" href="Continuous1DFunction.html#classOpenMM_1_1Continuous1DFunction"><span class="std std-ref">Continuous1DFunction</span></a>, this throws an exception. </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM23CustomCompoundBondForce25updateParametersInContextER7Context">
+<span id="_CPPv3N6OpenMM23CustomCompoundBondForce25updateParametersInContextER7Context"></span><span id="_CPPv2N6OpenMM23CustomCompoundBondForce25updateParametersInContextER7Context"></span><span id="OpenMM::CustomCompoundBondForce::updateParametersInContext__ContextR"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1aca8e6797eb1b1850fcac033628112dc0"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">updateParametersInContext</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="Context.html#_CPPv4N6OpenMM7ContextE" title="OpenMM::Context"><span class="n"><span class="pre">Context</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">context</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4N6OpenMM23CustomCompoundBondForce25updateParametersInContextER7Context" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Update the per-bond parameters and tabulated functions in a <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a> to match those stored in this <a class="reference internal" href="Force.html#classOpenMM_1_1Force"><span class="std std-ref">Force</span></a> object. This method provides an efficient method to update certain parameters in an existing <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a> without needing to reinitialize it. Simply call <a class="reference internal" href="CustomCompoundBondForce.html#classOpenMM_1_1CustomCompoundBondForce_1a13d5c46cd01ac578e26cacdc1bffb533"><span class="std std-ref">setBondParameters()</span></a> to modify this object’s parameters, then call <a class="reference internal" href="CustomCompoundBondForce.html#classOpenMM_1_1CustomCompoundBondForce_1aca8e6797eb1b1850fcac033628112dc0"><span class="std std-ref">updateParametersInContext()</span></a> to copy them over to the <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a>.</p>
+<p>This method has several limitations. The only information it updates is the values of per-bond parameters and tabulated functions. All other aspects of the <a class="reference internal" href="Force.html#classOpenMM_1_1Force"><span class="std std-ref">Force</span></a> (such as the energy function) are unaffected and can only be changed by reinitializing the <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a>. The set of particles involved in a bond cannot be changed, nor can new bonds be added. Also, while the tabulated values of a function can change, everything else about it (its dimensions, the data range) must not be changed. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM23CustomCompoundBondForce33setUsesPeriodicBoundaryConditionsEb">
+<span id="_CPPv3N6OpenMM23CustomCompoundBondForce33setUsesPeriodicBoundaryConditionsEb"></span><span id="_CPPv2N6OpenMM23CustomCompoundBondForce33setUsesPeriodicBoundaryConditionsEb"></span><span id="OpenMM::CustomCompoundBondForce::setUsesPeriodicBoundaryConditions__b"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1af5f136c2b8a72f62665fce41f3816b9e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setUsesPeriodicBoundaryConditions</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">periodic</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4N6OpenMM23CustomCompoundBondForce33setUsesPeriodicBoundaryConditionsEb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set whether this force should apply periodic boundary conditions when calculating displacements. Usually this is not appropriate for bonded forces, but there are situations when it can be useful. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM23CustomCompoundBondForce30usesPeriodicBoundaryConditionsEv">
+<span id="_CPPv3NK6OpenMM23CustomCompoundBondForce30usesPeriodicBoundaryConditionsEv"></span><span id="_CPPv2NK6OpenMM23CustomCompoundBondForce30usesPeriodicBoundaryConditionsEv"></span><span id="OpenMM::CustomCompoundBondForce::usesPeriodicBoundaryConditionsC"></span><span class="target" id="classOpenMM_1_1CustomCompoundBondForce_1a8de302c705bbb440e244d538fd71124d"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">usesPeriodicBoundaryConditions</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomCompoundBondForce.html#_CPPv4NK6OpenMM23CustomCompoundBondForce30usesPeriodicBoundaryConditionsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Returns whether or not this force makes use of periodic boundary conditions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>true if force uses PBC and false otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="CustomCentroidBondForce.html" title="Previous document"><code class="docutils literal notranslate"><span class="pre">CustomCentroidBondForce</span></code></a>
+        </li>
+        <li>
+          <a href="CustomExternalForce.html" title="Next document"><code class="docutils literal notranslate"><span class="pre">CustomExternalForce</span></code></a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM C++ API</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="System.html"><code class="docutils literal notranslate"><span class="pre">System</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Context.html"><code class="docutils literal notranslate"><span class="pre">Context</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="State.html"><code class="docutils literal notranslate"><span class="pre">State</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Platform.html"><code class="docutils literal notranslate"><span class="pre">Platform</span></code></a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../forces.html">Forces</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../forces.html#the-force-abstract-class">The <code class="docutils literal notranslate"><span class="pre">Force</span></code> abstract class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forces.html#common-bonded-and-non-bonded-forces">Common bonded and non-bonded forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forces.html#amoeba-forces">AMOEBA forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forces.html#pseudo-forces">Pseudo-forces</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../forces.html#customizing-force">Customizing <code class="docutils literal notranslate"><span class="pre">Force</span></code></a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../integrators.html">Integrators</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../extras.html">Extra classes</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../userguide/index.html">
+                User's Manual
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../developerguide">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../api-python/index.html">
+                Python API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Stanford University and the Authors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/generated/CustomCompoundBondForce.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

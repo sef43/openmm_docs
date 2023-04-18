@@ -1,0 +1,425 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>NoseHooverIntegrator &#8212; OpenMM C++ API @OPENMM_MAJOR_VERSION@.@OPENMM_MINOR_VERSION@ documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="VariableLangevinIntegrator" href="VariableLangevinIntegrator.html" />
+    <link rel="prev" title="LangevinMiddleIntegrator" href="LangevinMiddleIntegrator.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="nosehooverintegrator">
+<span id="openmm-nosehooverintegrator"></span><h1><code class="docutils literal notranslate"><span class="pre">NoseHooverIntegrator</span></code><a class="headerlink" href="NoseHooverIntegrator.html#nosehooverintegrator" title="Permalink to this headline">¶</a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM20NoseHooverIntegratorE">
+<span id="_CPPv3N6OpenMM20NoseHooverIntegratorE"></span><span id="_CPPv2N6OpenMM20NoseHooverIntegratorE"></span><span id="OpenMM::NoseHooverIntegrator"></span><span class="target" id="classOpenMM_1_1NoseHooverIntegrator"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">OpenMM</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">NoseHooverIntegrator</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">OpenMM</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="Integrator.html#_CPPv4N6OpenMM10IntegratorE" title="OpenMM::Integrator"><span class="n"><span class="pre">Integrator</span></span></a><a class="headerlink" href="NoseHooverIntegrator.html#_CPPv4N6OpenMM20NoseHooverIntegratorE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This is an <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a> which simulates a <a class="reference internal" href="System.html#classOpenMM_1_1System"><span class="std std-ref">System</span></a> using one or more Nose Hoover chain thermostats, using the “middle” leapfrog propagation algorithm described in J. Phys. Chem. A 2019, 123, 6056-6079. </p>
+<p>Subclassed by <a class="reference internal" href="DrudeNoseHooverIntegrator.html#classOpenMM_1_1DrudeNoseHooverIntegrator"><span class="std std-ref">OpenMM::DrudeNoseHooverIntegrator</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM20NoseHooverIntegrator20NoseHooverIntegratorEd">
+<span id="_CPPv3N6OpenMM20NoseHooverIntegrator20NoseHooverIntegratorEd"></span><span id="_CPPv2N6OpenMM20NoseHooverIntegrator20NoseHooverIntegratorEd"></span><span id="OpenMM::NoseHooverIntegrator::NoseHooverIntegrator__double"></span><span class="target" id="classOpenMM_1_1NoseHooverIntegrator_1ae647d228bdf8461b9bbfe120fac5461c"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">NoseHooverIntegrator</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">stepSize</span></span><span class="sig-paren">)</span><a class="headerlink" href="NoseHooverIntegrator.html#_CPPv4N6OpenMM20NoseHooverIntegrator20NoseHooverIntegratorEd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a <a class="reference internal" href="NoseHooverIntegrator.html#classOpenMM_1_1NoseHooverIntegrator"><span class="std std-ref">NoseHooverIntegrator</span></a>. This version creates a bare leapfrog integrator with no thermostats; any thermostats should be added by calling addThermostat.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>stepSize</strong> – the step size with which to integrate the system (in picoseconds) </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM20NoseHooverIntegrator20NoseHooverIntegratorEdddiii">
+<span id="_CPPv3N6OpenMM20NoseHooverIntegrator20NoseHooverIntegratorEdddiii"></span><span id="_CPPv2N6OpenMM20NoseHooverIntegrator20NoseHooverIntegratorEdddiii"></span><span id="OpenMM::NoseHooverIntegrator::NoseHooverIntegrator__double.double.double.i.i.i"></span><span class="target" id="classOpenMM_1_1NoseHooverIntegrator_1a9da4d19234e7ee48ada389eb0b639434"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">NoseHooverIntegrator</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">temperature</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">collisionFrequency</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">stepSize</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">chainLength</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">3</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">numMTS</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">3</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">numYoshidaSuzuki</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">7</span></span><span class="sig-paren">)</span><a class="headerlink" href="NoseHooverIntegrator.html#_CPPv4N6OpenMM20NoseHooverIntegrator20NoseHooverIntegratorEdddiii" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a <a class="reference internal" href="NoseHooverIntegrator.html#classOpenMM_1_1NoseHooverIntegrator"><span class="std std-ref">NoseHooverIntegrator</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>temperature</strong> – the target temperature for the system (in Kelvin). </p></li>
+<li><p><strong>collisionFrequency</strong> – the frequency of the interaction with the heat bath (in inverse picoseconds). </p></li>
+<li><p><strong>stepSize</strong> – the step size with which to integrate the system (in picoseconds) </p></li>
+<li><p><strong>chainLength</strong> – the number of beads in the Nose-Hoover chain. </p></li>
+<li><p><strong>numMTS</strong> – the number of step in the multiple time step chain propagation algorithm. </p></li>
+<li><p><strong>numYoshidaSuzuki</strong> – the number of terms in the Yoshida-Suzuki multi time step decomposition used in the chain propagation algorithm (must be 1, 3, 5, or 7). </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM20NoseHooverIntegrator4stepEi">
+<span id="_CPPv3N6OpenMM20NoseHooverIntegrator4stepEi"></span><span id="_CPPv2N6OpenMM20NoseHooverIntegrator4stepEi"></span><span id="OpenMM::NoseHooverIntegrator::step__i"></span><span class="target" id="classOpenMM_1_1NoseHooverIntegrator_1ac33d58e470981fa34164dc4ee73c0966"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">step</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">steps</span></span><span class="sig-paren">)</span><a class="headerlink" href="NoseHooverIntegrator.html#_CPPv4N6OpenMM20NoseHooverIntegrator4stepEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Advance a simulation through time by taking a series of time steps.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>steps</strong> – the number of time steps to take </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM20NoseHooverIntegrator13addThermostatEddiii">
+<span id="_CPPv3N6OpenMM20NoseHooverIntegrator13addThermostatEddiii"></span><span id="_CPPv2N6OpenMM20NoseHooverIntegrator13addThermostatEddiii"></span><span id="OpenMM::NoseHooverIntegrator::addThermostat__double.double.i.i.i"></span><span class="target" id="classOpenMM_1_1NoseHooverIntegrator_1aecd3227c80df2fa12047c85014ff7900"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addThermostat</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">temperature</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">collisionFrequency</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">chainLength</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">numMTS</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">numYoshidaSuzuki</span></span><span class="sig-paren">)</span><a class="headerlink" href="NoseHooverIntegrator.html#_CPPv4N6OpenMM20NoseHooverIntegrator13addThermostatEddiii" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a simple Nose-Hoover Chain thermostat to control the temperature of the full system</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>temperature</strong> – the target temperature for the system. </p></li>
+<li><p><strong>collisionFrequency</strong> – the frequency of the interaction with the heat bath (in 1/ps). </p></li>
+<li><p><strong>chainLength</strong> – the number of beads in the Nose-Hoover chain </p></li>
+<li><p><strong>numMTS</strong> – the number of step in the multiple time step chain propagation algorithm. </p></li>
+<li><p><strong>numYoshidaSuzuki</strong> – the number of terms in the Yoshida-Suzuki multi time step decomposition used in the chain propagation algorithm (must be 1, 3, 5, or 7). </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM20NoseHooverIntegrator22addSubsystemThermostatERKNSt6vectorIiEERKNSt6vectorINSt4pairIiiEEEEddddiii">
+<span id="_CPPv3N6OpenMM20NoseHooverIntegrator22addSubsystemThermostatERKNSt6vectorIiEERKNSt6vectorINSt4pairIiiEEEEddddiii"></span><span id="_CPPv2N6OpenMM20NoseHooverIntegrator22addSubsystemThermostatERKNSt6vectorIiEERKNSt6vectorINSt4pairIiiEEEEddddiii"></span><span id="OpenMM::NoseHooverIntegrator::addSubsystemThermostat__std::vector:i:CR.std::vector:std::pair:i.i::CR.double.double.double.double.i.i.i"></span><span class="target" id="classOpenMM_1_1NoseHooverIntegrator_1ac091652bc861d90f7bc698d62f68bc7f"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addSubsystemThermostat</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">thermostatedParticles</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">pair</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">thermostatedPairs</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">temperature</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">collisionFrequency</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">relativeTemperature</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">relativeCollisionFrequency</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">chainLength</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">3</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">numMTS</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">3</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">numYoshidaSuzuki</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">7</span></span><span class="sig-paren">)</span><a class="headerlink" href="NoseHooverIntegrator.html#_CPPv4N6OpenMM20NoseHooverIntegrator22addSubsystemThermostatERKNSt6vectorIiEERKNSt6vectorINSt4pairIiiEEEEddddiii" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a Nose-Hoover Chain thermostat to control the temperature of a collection of atoms and/or pairs of connected atoms within the full system. A list of atoms defining the atoms to be thermostated is provided and the thermostat will only control members of that list. Additionally a list of pairs of connected atoms may be provided; in this case both the center of mass absolute motion of each pair is controlled as well as their motion relative to each other, which is independently thermostated. If both the list of thermostated particles and thermostated pairs are empty all particles will be thermostated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>thermostatedParticles</strong> – list of particle ids to be thermostated. </p></li>
+<li><p><strong>thermostatedPairs</strong> – a list of pairs of connected atoms whose absolute center of mass motion and motion relative to one another will be independently thermostated. </p></li>
+<li><p><strong>temperature</strong> – the target temperature for each pair’s absolute of center of mass motion. </p></li>
+<li><p><strong>collisionFrequency</strong> – the frequency of the interaction with the heat bath for the pairs’ center of mass motion (in 1/ps). </p></li>
+<li><p><strong>relativeTemperature</strong> – the target temperature for each pair’s relative motion. </p></li>
+<li><p><strong>relativeCollisionFrequency</strong> – the frequency of the interaction with the heat bath for the pairs’ relative motion (in 1/ps). </p></li>
+<li><p><strong>chainLength</strong> – the number of beads in the Nose-Hoover chain. </p></li>
+<li><p><strong>numMTS</strong> – the number of step in the multiple time step chain propagation algorithm. </p></li>
+<li><p><strong>numYoshidaSuzuki</strong> – the number of terms in the Yoshida-Suzuki multi time step decomposition used in the chain propagation algorithm (must be 1, 3, 5, or 7). </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM20NoseHooverIntegrator14getTemperatureEi">
+<span id="_CPPv3NK6OpenMM20NoseHooverIntegrator14getTemperatureEi"></span><span id="_CPPv2NK6OpenMM20NoseHooverIntegrator14getTemperatureEi"></span><span id="OpenMM::NoseHooverIntegrator::getTemperature__iC"></span><span class="target" id="classOpenMM_1_1NoseHooverIntegrator_1a608f1d7c3220277de95da8e02432447a"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getTemperature</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">chainID</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="NoseHooverIntegrator.html#_CPPv4NK6OpenMM20NoseHooverIntegrator14getTemperatureEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the temperature of the i-th chain for controling absolute particle motion (in Kelvin).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>chainID</strong> – the index of the Nose-Hoover chain thermostat (default=0).</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the temperature. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM20NoseHooverIntegrator14setTemperatureEdi">
+<span id="_CPPv3N6OpenMM20NoseHooverIntegrator14setTemperatureEdi"></span><span id="_CPPv2N6OpenMM20NoseHooverIntegrator14setTemperatureEdi"></span><span id="OpenMM::NoseHooverIntegrator::setTemperature__double.i"></span><span class="target" id="classOpenMM_1_1NoseHooverIntegrator_1a083159fe2b0c510d6e70c358ae006982"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setTemperature</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">temperature</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">chainID</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="NoseHooverIntegrator.html#_CPPv4N6OpenMM20NoseHooverIntegrator14setTemperatureEdi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>set the (absolute motion) temperature of the i-th chain.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>temperature</strong> – the temperature for the Nose-Hoover chain thermostat (in Kelvin). </p></li>
+<li><p><strong>chainID</strong> – The id of the Nose-Hoover chain thermostat for which the temperature is set (default=0). </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM20NoseHooverIntegrator22getRelativeTemperatureEi">
+<span id="_CPPv3NK6OpenMM20NoseHooverIntegrator22getRelativeTemperatureEi"></span><span id="_CPPv2NK6OpenMM20NoseHooverIntegrator22getRelativeTemperatureEi"></span><span id="OpenMM::NoseHooverIntegrator::getRelativeTemperature__iC"></span><span class="target" id="classOpenMM_1_1NoseHooverIntegrator_1a0e946bf7508ba846620e07855a69fccf"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getRelativeTemperature</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">chainID</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="NoseHooverIntegrator.html#_CPPv4NK6OpenMM20NoseHooverIntegrator22getRelativeTemperatureEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the temperature of the i-th chain for controling pairs’ relative particle motion (in Kelvin).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>chainID</strong> – the index of the Nose-Hoover chain thermostat (default=0).</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the temperature. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM20NoseHooverIntegrator22setRelativeTemperatureEdi">
+<span id="_CPPv3N6OpenMM20NoseHooverIntegrator22setRelativeTemperatureEdi"></span><span id="_CPPv2N6OpenMM20NoseHooverIntegrator22setRelativeTemperatureEdi"></span><span id="OpenMM::NoseHooverIntegrator::setRelativeTemperature__double.i"></span><span class="target" id="classOpenMM_1_1NoseHooverIntegrator_1add53341cedc70038951a9f2405b367f2"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setRelativeTemperature</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">temperature</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">chainID</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="NoseHooverIntegrator.html#_CPPv4N6OpenMM20NoseHooverIntegrator22setRelativeTemperatureEdi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>set the (relative pair motion) temperature of the i-th chain.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>temperature</strong> – the temperature for the Nose-Hoover chain thermostat (in Kelvin). </p></li>
+<li><p><strong>chainID</strong> – The id of the Nose-Hoover chain thermostat for which the temperature is set (default=0). </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM20NoseHooverIntegrator21getCollisionFrequencyEi">
+<span id="_CPPv3NK6OpenMM20NoseHooverIntegrator21getCollisionFrequencyEi"></span><span id="_CPPv2NK6OpenMM20NoseHooverIntegrator21getCollisionFrequencyEi"></span><span id="OpenMM::NoseHooverIntegrator::getCollisionFrequency__iC"></span><span class="target" id="classOpenMM_1_1NoseHooverIntegrator_1a0f567542ec2ea2172f9909ca1e0e32fe"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getCollisionFrequency</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">chainID</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="NoseHooverIntegrator.html#_CPPv4NK6OpenMM20NoseHooverIntegrator21getCollisionFrequencyEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the collision frequency for absolute motion of the i-th chain (in 1/picosecond).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>chainID</strong> – the index of the Nose-Hoover chain thermostat (default=0).</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the collision frequency. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM20NoseHooverIntegrator21setCollisionFrequencyEdi">
+<span id="_CPPv3N6OpenMM20NoseHooverIntegrator21setCollisionFrequencyEdi"></span><span id="_CPPv2N6OpenMM20NoseHooverIntegrator21setCollisionFrequencyEdi"></span><span id="OpenMM::NoseHooverIntegrator::setCollisionFrequency__double.i"></span><span class="target" id="classOpenMM_1_1NoseHooverIntegrator_1abb062d72fdca2a95d5acea2bcb271673"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setCollisionFrequency</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">frequency</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">chainID</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="NoseHooverIntegrator.html#_CPPv4N6OpenMM20NoseHooverIntegrator21setCollisionFrequencyEdi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the collision frequency for absolute motion of the i-th chain.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frequency</strong> – the collision frequency in picosecond. </p></li>
+<li><p><strong>chainID</strong> – the index of the Nose-Hoover chain thermostat (default=0). </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM20NoseHooverIntegrator29getRelativeCollisionFrequencyEi">
+<span id="_CPPv3NK6OpenMM20NoseHooverIntegrator29getRelativeCollisionFrequencyEi"></span><span id="_CPPv2NK6OpenMM20NoseHooverIntegrator29getRelativeCollisionFrequencyEi"></span><span id="OpenMM::NoseHooverIntegrator::getRelativeCollisionFrequency__iC"></span><span class="target" id="classOpenMM_1_1NoseHooverIntegrator_1a1e53589f9c707c39c96c2e4f767f6aa7"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getRelativeCollisionFrequency</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">chainID</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="NoseHooverIntegrator.html#_CPPv4NK6OpenMM20NoseHooverIntegrator29getRelativeCollisionFrequencyEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the collision frequency for pairs’ relative motion of the i-th chain (in 1/picosecond).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>chainID</strong> – the index of the Nose-Hoover chain thermostat (default=0).</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the collision frequency. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM20NoseHooverIntegrator29setRelativeCollisionFrequencyEdi">
+<span id="_CPPv3N6OpenMM20NoseHooverIntegrator29setRelativeCollisionFrequencyEdi"></span><span id="_CPPv2N6OpenMM20NoseHooverIntegrator29setRelativeCollisionFrequencyEdi"></span><span id="OpenMM::NoseHooverIntegrator::setRelativeCollisionFrequency__double.i"></span><span class="target" id="classOpenMM_1_1NoseHooverIntegrator_1a24859f9f242735d3e0cd95297071dad2"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setRelativeCollisionFrequency</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">frequency</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">chainID</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="NoseHooverIntegrator.html#_CPPv4N6OpenMM20NoseHooverIntegrator29setRelativeCollisionFrequencyEdi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the collision frequency for pairs’ relative motion of the i-th chain.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frequency</strong> – the collision frequency in picosecond. </p></li>
+<li><p><strong>chainID</strong> – the index of the Nose-Hoover chain thermostat (default=0). </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM20NoseHooverIntegrator21computeHeatBathEnergyEv">
+<span id="_CPPv3N6OpenMM20NoseHooverIntegrator21computeHeatBathEnergyEv"></span><span id="_CPPv2N6OpenMM20NoseHooverIntegrator21computeHeatBathEnergyEv"></span><span id="OpenMM::NoseHooverIntegrator::computeHeatBathEnergy"></span><span class="target" id="classOpenMM_1_1NoseHooverIntegrator_1ac39bc7e416ab5c4ac0b4da979e0dfba0"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">computeHeatBathEnergy</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="NoseHooverIntegrator.html#_CPPv4N6OpenMM20NoseHooverIntegrator21computeHeatBathEnergyEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compute the total (potential + kinetic) heat bath energy for all heat baths associated with this integrator, at the current time. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM20NoseHooverIntegrator17getNumThermostatsEv">
+<span id="_CPPv3NK6OpenMM20NoseHooverIntegrator17getNumThermostatsEv"></span><span id="_CPPv2NK6OpenMM20NoseHooverIntegrator17getNumThermostatsEv"></span><span id="OpenMM::NoseHooverIntegrator::getNumThermostatsC"></span><span class="target" id="classOpenMM_1_1NoseHooverIntegrator_1a92af0fb030086dfca8a0e603e90fc5ab"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getNumThermostats</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="NoseHooverIntegrator.html#_CPPv4NK6OpenMM20NoseHooverIntegrator17getNumThermostatsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the number of Nose-Hoover chains registered with this integrator. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM20NoseHooverIntegrator13getThermostatEi">
+<span id="_CPPv3NK6OpenMM20NoseHooverIntegrator13getThermostatEi"></span><span id="_CPPv2NK6OpenMM20NoseHooverIntegrator13getThermostatEi"></span><span id="OpenMM::NoseHooverIntegrator::getThermostat__iC"></span><span class="target" id="classOpenMM_1_1NoseHooverIntegrator_1a28f6c608a3069d4d2cffdd2f90d1ad38"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="NoseHooverChain.html#_CPPv4N6OpenMM15NoseHooverChainE" title="OpenMM::NoseHooverChain"><span class="n"><span class="pre">NoseHooverChain</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getThermostat</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">chainID</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="NoseHooverIntegrator.html#_CPPv4NK6OpenMM20NoseHooverIntegrator13getThermostatEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the <a class="reference internal" href="NoseHooverChain.html#classOpenMM_1_1NoseHooverChain"><span class="std std-ref">NoseHooverChain</span></a> thermostat</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>chainID</strong> – the index of the Nose-Hoover chain thermostat (default=0). </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM20NoseHooverIntegrator23hasSubsystemThermostatsEv">
+<span id="_CPPv3NK6OpenMM20NoseHooverIntegrator23hasSubsystemThermostatsEv"></span><span id="_CPPv2NK6OpenMM20NoseHooverIntegrator23hasSubsystemThermostatsEv"></span><span id="OpenMM::NoseHooverIntegrator::hasSubsystemThermostatsC"></span><span class="target" id="classOpenMM_1_1NoseHooverIntegrator_1a94ad4fddc295c1525bedb8a679447c70"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">hasSubsystemThermostats</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="NoseHooverIntegrator.html#_CPPv4NK6OpenMM20NoseHooverIntegrator23hasSubsystemThermostatsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return false, if this integrator was set up with the ‘default constructor’ that thermostats the whole system, true otherwise. Required for serialization. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM20NoseHooverIntegrator22getMaximumPairDistanceEv">
+<span id="_CPPv3NK6OpenMM20NoseHooverIntegrator22getMaximumPairDistanceEv"></span><span id="_CPPv2NK6OpenMM20NoseHooverIntegrator22getMaximumPairDistanceEv"></span><span id="OpenMM::NoseHooverIntegrator::getMaximumPairDistanceC"></span><span class="target" id="classOpenMM_1_1NoseHooverIntegrator_1af3a3ffee3ec72d22a8953a06ab3afd1c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getMaximumPairDistance</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="NoseHooverIntegrator.html#_CPPv4NK6OpenMM20NoseHooverIntegrator22getMaximumPairDistanceEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gets the maximum distance (in nm) that a connected pair may stray from each other. If zero, there are no constraints on the intra-pair separation. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM20NoseHooverIntegrator22setMaximumPairDistanceEd">
+<span id="_CPPv3N6OpenMM20NoseHooverIntegrator22setMaximumPairDistanceEd"></span><span id="_CPPv2N6OpenMM20NoseHooverIntegrator22setMaximumPairDistanceEd"></span><span id="OpenMM::NoseHooverIntegrator::setMaximumPairDistance__double"></span><span class="target" id="classOpenMM_1_1NoseHooverIntegrator_1a5b922bb9c4be0a54efcb285595b8d7fd"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setMaximumPairDistance</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">distance</span></span><span class="sig-paren">)</span><a class="headerlink" href="NoseHooverIntegrator.html#_CPPv4N6OpenMM20NoseHooverIntegrator22setMaximumPairDistanceEd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Sets the maximum distance (in nm) that a connected pair may stray from each other, implemented using a hard wall. If set to zero, the hard wall constraint is omited and the pairs are free to be separated by any distance. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM20NoseHooverIntegrator37getAllThermostatedIndividualParticlesEv">
+<span id="_CPPv3NK6OpenMM20NoseHooverIntegrator37getAllThermostatedIndividualParticlesEv"></span><span id="_CPPv2NK6OpenMM20NoseHooverIntegrator37getAllThermostatedIndividualParticlesEv"></span><span id="OpenMM::NoseHooverIntegrator::getAllThermostatedIndividualParticlesC"></span><span class="target" id="classOpenMM_1_1NoseHooverIntegrator_1a7c5009d764b41b40bfc850794efde430"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getAllThermostatedIndividualParticles</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="NoseHooverIntegrator.html#_CPPv4NK6OpenMM20NoseHooverIntegrator37getAllThermostatedIndividualParticlesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get a list of all individual atoms (i.e. not involved in a connected Drude-like pair) in the system. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM20NoseHooverIntegrator23getAllThermostatedPairsEv">
+<span id="_CPPv3NK6OpenMM20NoseHooverIntegrator23getAllThermostatedPairsEv"></span><span id="_CPPv2NK6OpenMM20NoseHooverIntegrator23getAllThermostatedPairsEv"></span><span id="OpenMM::NoseHooverIntegrator::getAllThermostatedPairsC"></span><span class="target" id="classOpenMM_1_1NoseHooverIntegrator_1a16363bae51aaf97f522cf9109f7604d2"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">tuple</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getAllThermostatedPairs</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="NoseHooverIntegrator.html#_CPPv4NK6OpenMM20NoseHooverIntegrator23getAllThermostatedPairsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get a list of all connected Drude-like pairs, and their target relative temperature, in the system. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="LangevinMiddleIntegrator.html" title="Previous document"><code class="docutils literal notranslate"><span class="pre">LangevinMiddleIntegrator</span></code></a>
+        </li>
+        <li>
+          <a href="VariableLangevinIntegrator.html" title="Next document"><code class="docutils literal notranslate"><span class="pre">VariableLangevinIntegrator</span></code></a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM C++ API</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="System.html"><code class="docutils literal notranslate"><span class="pre">System</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Context.html"><code class="docutils literal notranslate"><span class="pre">Context</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="State.html"><code class="docutils literal notranslate"><span class="pre">State</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Platform.html"><code class="docutils literal notranslate"><span class="pre">Platform</span></code></a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../forces.html">Forces</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../integrators.html">Integrators</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../integrators.html#the-integrator-abstract-class">The <code class="docutils literal notranslate"><span class="pre">Integrator</span></code> abstract class</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../integrators.html#general-purpose-integrators">General purpose integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../integrators.html#drude-integrators">Drude integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../integrators.html#ring-polymer-molecular-dynamics-integrators">Ring Polymer Molecular Dynamics integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../integrators.html#customizing-integrator">Customizing <code class="docutils literal notranslate"><span class="pre">Integrator</span></code></a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../extras.html">Extra classes</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../userguide/index.html">
+                User's Manual
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../developerguide">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../api-python/index.html">
+                Python API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Stanford University and the Authors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/generated/NoseHooverIntegrator.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,7 @@
+.. _OpenMM::Force:
+
+``Force``
+=========
+
+.. doxygenclass:: OpenMM::Force
+   :members:

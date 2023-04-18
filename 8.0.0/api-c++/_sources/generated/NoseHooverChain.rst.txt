@@ -1,0 +1,7 @@
+.. _OpenMM::NoseHooverChain:
+
+``NoseHooverChain``
+===================
+
+.. doxygenclass:: OpenMM::NoseHooverChain
+   :members:

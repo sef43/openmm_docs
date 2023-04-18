@@ -34,7 +34,7 @@
           <div class="body" role="main">
             
   <section id="model-building-and-editing">
-<span id="id1"></span><h1><span class="section-number">4. </span>Model Building and Editing<a class="headerlink" href="03_model_building_editing.html#model-building-and-editing" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1><span class="section-number">4. </span>Model Building and Editing<a class="headerlink" href="#model-building-and-editing" title="Permalink to this headline">¶</a></h1>
 <p>Sometimes you have a PDB file that needs some work before you can simulate it.
 Maybe it doesn’t contain hydrogen atoms (which is common for structures
 determined by X-ray crystallography), so you need to add them.  Or perhaps you
@@ -63,7 +63,7 @@ the starting point for your simulation:</p>
 </div>
 <p>Now let’s consider the particular functions you can call.</p>
 <section id="adding-hydrogens">
-<h2><span class="section-number">4.1. </span>Adding Hydrogens<a class="headerlink" href="03_model_building_editing.html#adding-hydrogens" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">4.1. </span>Adding Hydrogens<a class="headerlink" href="#adding-hydrogens" title="Permalink to this headline">¶</a></h2>
 <p>Call the <code class="xref py py-meth docutils literal notranslate"><span class="pre">addHydrogens()</span></code> function to add missing hydrogen atoms:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modeller</span><span class="o">.</span><span class="n">addHydrogens</span><span class="p">(</span><span class="n">forcefield</span><span class="p">)</span>
 </pre></div>
@@ -98,7 +98,7 @@ contains carbohydrates that you plan to simulate with the GLYCAM force field, ca
 definitions.</p>
 </section>
 <section id="adding-solvent">
-<h2><span class="section-number">4.2. </span>Adding Solvent<a class="headerlink" href="03_model_building_editing.html#adding-solvent" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">4.2. </span>Adding Solvent<a class="headerlink" href="#adding-solvent" title="Permalink to this headline">¶</a></h2>
 <p>Call <code class="xref py py-meth docutils literal notranslate"><span class="pre">addSolvent()</span></code> to create a box of solvent (water and ions) around the model:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modeller</span><span class="o">.</span><span class="n">addSolvent</span><span class="p">(</span><span class="n">forcefield</span><span class="p">)</span>
 </pre></div>
@@ -164,7 +164,7 @@ some force fields do not include parameters for all of these ion types, so you
 need to use types that are supported by your chosen force field.</p>
 </section>
 <section id="adding-a-membrane">
-<h2><span class="section-number">4.3. </span>Adding a Membrane<a class="headerlink" href="03_model_building_editing.html#adding-a-membrane" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">4.3. </span>Adding a Membrane<a class="headerlink" href="#adding-a-membrane" title="Permalink to this headline">¶</a></h2>
 <p>If you want to simulate a membrane protein, you may need to create a membrane as
 well.  You can do this by calling <code class="xref py py-meth docutils literal notranslate"><span class="pre">addMembrane()</span></code>.  Call it <em>instead</em> of
 <code class="xref py py-meth docutils literal notranslate"><span class="pre">addSolvent()</span></code>, not in addition to it.  This one method adds the membrane,
@@ -182,7 +182,7 @@ is up to you to select the protein position yourself.</p>
 <code class="xref py py-meth docutils literal notranslate"><span class="pre">addSolvent()</span></code>.  See the API documentation for details.</p>
 </section>
 <section id="adding-or-removing-extra-particles">
-<span id="id2"></span><h2><span class="section-number">4.4. </span>Adding or Removing Extra Particles<a class="headerlink" href="03_model_building_editing.html#adding-or-removing-extra-particles" title="Permalink to this headline">¶</a></h2>
+<span id="id2"></span><h2><span class="section-number">4.4. </span>Adding or Removing Extra Particles<a class="headerlink" href="#adding-or-removing-extra-particles" title="Permalink to this headline">¶</a></h2>
 <p>“Extra particles” are particles that do not represent ordinary atoms.  This
 includes the virtual interaction sites used in many water models, Drude
 particles, etc.  If you are using a force field that involves extra particles,
@@ -195,7 +195,7 @@ modifies each residue to include them.  This function can remove extra particles
 as well as adding them.</p>
 </section>
 <section id="removing-water">
-<h2><span class="section-number">4.5. </span>Removing Water<a class="headerlink" href="03_model_building_editing.html#removing-water" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">4.5. </span>Removing Water<a class="headerlink" href="#removing-water" title="Permalink to this headline">¶</a></h2>
 <p>Call deleteWater to remove all water molecules from the system:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modeller</span><span class="o">.</span><span class="n">deleteWater</span><span class="p">()</span>
 </pre></div>
@@ -205,7 +205,7 @@ Be aware, though, that this only removes water molecules, not ions or other
 small molecules that might be considered “solvent”.</p>
 </section>
 <section id="saving-the-results">
-<span id="id3"></span><h2><span class="section-number">4.6. </span>Saving The Results<a class="headerlink" href="03_model_building_editing.html#saving-the-results" title="Permalink to this headline">¶</a></h2>
+<span id="id3"></span><h2><span class="section-number">4.6. </span>Saving The Results<a class="headerlink" href="#saving-the-results" title="Permalink to this headline">¶</a></h2>
 <p>Once you have finished editing your model, you can immediately use the resulting
 <code class="xref py py-class docutils literal notranslate"><span class="pre">Topology</span></code> object and atom positions as the input to a <code class="xref py py-class docutils literal notranslate"><span class="pre">Simulation</span></code>.  If you plan to
 simulate it many times, though, it is usually better to save the result to a new
@@ -307,13 +307,13 @@ PDB file.</p>
 <li class="toctree-l1 current"><a class="reference internal" href="../application.html">Part I: The OpenMM Application Layer</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="01_getting_started.html">2. Getting Started</a></li>
 <li class="toctree-l2"><a class="reference internal" href="02_running_sims.html">3. Running Simulations</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="03_model_building_editing.html#">4. Model Building and Editing</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="03_model_building_editing.html#adding-hydrogens">4.1. Adding Hydrogens</a></li>
-<li class="toctree-l3"><a class="reference internal" href="03_model_building_editing.html#adding-solvent">4.2. Adding Solvent</a></li>
-<li class="toctree-l3"><a class="reference internal" href="03_model_building_editing.html#adding-a-membrane">4.3. Adding a Membrane</a></li>
-<li class="toctree-l3"><a class="reference internal" href="03_model_building_editing.html#adding-or-removing-extra-particles">4.4. Adding or Removing Extra Particles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="03_model_building_editing.html#removing-water">4.5. Removing Water</a></li>
-<li class="toctree-l3"><a class="reference internal" href="03_model_building_editing.html#saving-the-results">4.6. Saving The Results</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">4. Model Building and Editing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#adding-hydrogens">4.1. Adding Hydrogens</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adding-solvent">4.2. Adding Solvent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adding-a-membrane">4.3. Adding a Membrane</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adding-or-removing-extra-particles">4.4. Adding or Removing Extra Particles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#removing-water">4.5. Removing Water</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#saving-the-results">4.6. Saving The Results</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="04_advanced_sim_examples.html">5. Advanced Simulation Examples</a></li>
@@ -338,19 +338,19 @@ PDB file.</p>
         </li>
         
         <li class="toctree-l1">
-            <a href="http://docs.openmm.org/7.7.0/developerguide/">
+            <a href="../../developerguide/">
                 Developer Guide
             </a>
         </li>
         
         <li class="toctree-l1">
-            <a href="http://docs.openmm.org/7.7.0/api-python/">
+            <a href="../../api-python/">
                 Python API reference
             </a>
         </li>
         
         <li class="toctree-l1">
-            <a href="http://docs.openmm.org/7.7.0/api-c++/">
+            <a href="../../api-c++/">
                 C++ API reference
             </a>
         </li>

@@ -34,7 +34,7 @@
           <div class="body" role="main">
             
   <section id="platform-specific-properties">
-<span id="id1"></span><h1><span class="section-number">10. </span>Platform-Specific Properties<a class="headerlink" href="04_platform_specifics.html#platform-specific-properties" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1><span class="section-number">10. </span>Platform-Specific Properties<a class="headerlink" href="#platform-specific-properties" title="Permalink to this headline">¶</a></h1>
 <p>When creating a Context, you can specify values for properties specific to a
 particular Platform.  This is used to control how calculations are done in ways
 that are outside the scope of the generic OpenMM API.</p>
@@ -48,7 +48,7 @@ Context constructor:</p>
 </div>
 <p>After a Context is created, you can use the Platform’s <code class="code docutils literal notranslate"><span class="pre">getPropertyValue()</span></code> method to query the values of properties.</p>
 <section id="opencl-platform">
-<h2><span class="section-number">10.1. </span>OpenCL Platform<a class="headerlink" href="04_platform_specifics.html#opencl-platform" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">10.1. </span>OpenCL Platform<a class="headerlink" href="#opencl-platform" title="Permalink to this headline">¶</a></h2>
 <p>The OpenCL Platform recognizes the following Platform-specific properties:</p>
 <ul class="simple">
 <li><p>Precision: This selects what numeric precision to use for calculations.
@@ -83,7 +83,7 @@ of values.  For example,</p>
 <p>This tells it to use both devices 0 and 1, splitting the work between them.</p>
 </section>
 <section id="cuda-platform">
-<h2><span class="section-number">10.2. </span>CUDA Platform<a class="headerlink" href="04_platform_specifics.html#cuda-platform" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">10.2. </span>CUDA Platform<a class="headerlink" href="#cuda-platform" title="Permalink to this headline">¶</a></h2>
 <p>The CUDA Platform recognizes the following Platform-specific properties:</p>
 <ul class="simple">
 <li><p>Precision: This selects what numeric precision to use for calculations.
@@ -145,7 +145,7 @@ values.  For example,</p>
 <p>This tells it to use both devices 0 and 1, splitting the work between them.</p>
 </section>
 <section id="cpu-platform">
-<h2><span class="section-number">10.3. </span>CPU Platform<a class="headerlink" href="04_platform_specifics.html#cpu-platform" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">10.3. </span>CPU Platform<a class="headerlink" href="#cpu-platform" title="Permalink to this headline">¶</a></h2>
 <p>The CPU Platform recognizes the following Platform-specific properties:</p>
 <ul>
 <li><p>Threads: This specifies the number of CPU threads to use.  If you do not
@@ -163,7 +163,7 @@ prevent OpenMM from monopolizing all available cores.</p>
 </ul>
 </section>
 <section id="determinism">
-<span id="platform-specific-properties-determinism"></span><h2><span class="section-number">10.4. </span>Determinism<a class="headerlink" href="04_platform_specifics.html#determinism" title="Permalink to this headline">¶</a></h2>
+<span id="platform-specific-properties-determinism"></span><h2><span class="section-number">10.4. </span>Determinism<a class="headerlink" href="#determinism" title="Permalink to this headline">¶</a></h2>
 <p>Whether a simulation is deterministic will depend on what plaform you run on in
 addition to what settings/methods you use. For instance, as of this writing,
 using PME on the Reference, OpenCL, and double-precision CUDA will result in
@@ -236,11 +236,11 @@ ensure that your settings and platform allow for this.</p>
 <li class="toctree-l2"><a class="reference internal" href="01_introduction.html">7. Introduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="02_compiling.html">8. Compiling OpenMM from Source Code</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03_tutorials.html">9. OpenMM Tutorials</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="04_platform_specifics.html#">10. Platform-Specific Properties</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="04_platform_specifics.html#opencl-platform">10.1. OpenCL Platform</a></li>
-<li class="toctree-l3"><a class="reference internal" href="04_platform_specifics.html#cuda-platform">10.2. CUDA Platform</a></li>
-<li class="toctree-l3"><a class="reference internal" href="04_platform_specifics.html#cpu-platform">10.3. CPU Platform</a></li>
-<li class="toctree-l3"><a class="reference internal" href="04_platform_specifics.html#determinism">10.4. Determinism</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">10. Platform-Specific Properties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#opencl-platform">10.1. OpenCL Platform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cuda-platform">10.2. CUDA Platform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cpu-platform">10.3. CPU Platform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#determinism">10.4. Determinism</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="05_languages_not_cpp.html">11. Using OpenMM with Software Written in Languages Other than C++</a></li>
@@ -268,19 +268,19 @@ ensure that your settings and platform allow for this.</p>
         </li>
         
         <li class="toctree-l1">
-            <a href="http://docs.openmm.org/7.7.0/developerguide/">
+            <a href="../../developerguide/">
                 Developer Guide
             </a>
         </li>
         
         <li class="toctree-l1">
-            <a href="http://docs.openmm.org/7.7.0/api-python/">
+            <a href="../../api-python/">
                 Python API reference
             </a>
         </li>
         
         <li class="toctree-l1">
-            <a href="http://docs.openmm.org/7.7.0/api-c++/">
+            <a href="../../api-c++/">
                 C++ API reference
             </a>
         </li>

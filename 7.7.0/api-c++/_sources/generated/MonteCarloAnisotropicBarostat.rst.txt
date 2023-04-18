@@ -1,0 +1,7 @@
+.. _OpenMM::MonteCarloAnisotropicBarostat:
+
+``MonteCarloAnisotropicBarostat``
+=================================
+
+.. doxygenclass:: OpenMM::MonteCarloAnisotropicBarostat
+   :members:

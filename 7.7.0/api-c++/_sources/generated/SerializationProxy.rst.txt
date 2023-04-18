@@ -1,0 +1,7 @@
+.. _OpenMM::SerializationProxy:
+
+``SerializationProxy``
+======================
+
+.. doxygenclass:: OpenMM::SerializationProxy
+   :members:

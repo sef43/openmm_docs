@@ -1,0 +1,57 @@
+﻿DrudeNoseHooverIntegrator
+=======================================
+
+.. currentmodule:: openmm.openmm
+
+.. autoclass:: DrudeNoseHooverIntegrator
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~DrudeNoseHooverIntegrator.__init__
+      ~DrudeNoseHooverIntegrator.addSubsystemThermostat
+      ~DrudeNoseHooverIntegrator.addThermostat
+      ~DrudeNoseHooverIntegrator.computeDrudeKineticEnergy
+      ~DrudeNoseHooverIntegrator.computeHeatBathEnergy
+      ~DrudeNoseHooverIntegrator.computeTotalKineticEnergy
+      ~DrudeNoseHooverIntegrator.getCollisionFrequency
+      ~DrudeNoseHooverIntegrator.getConstraintTolerance
+      ~DrudeNoseHooverIntegrator.getIntegrationForceGroups
+      ~DrudeNoseHooverIntegrator.getMaxDrudeDistance
+      ~DrudeNoseHooverIntegrator.getMaximumPairDistance
+      ~DrudeNoseHooverIntegrator.getNumThermostats
+      ~DrudeNoseHooverIntegrator.getRelativeCollisionFrequency
+      ~DrudeNoseHooverIntegrator.getRelativeTemperature
+      ~DrudeNoseHooverIntegrator.getStepSize
+      ~DrudeNoseHooverIntegrator.getTemperature
+      ~DrudeNoseHooverIntegrator.getThermostat
+      ~DrudeNoseHooverIntegrator.getVelocitiesForTemperature
+      ~DrudeNoseHooverIntegrator.hasSubsystemThermostats
+      ~DrudeNoseHooverIntegrator.initialize
+      ~DrudeNoseHooverIntegrator.setCollisionFrequency
+      ~DrudeNoseHooverIntegrator.setConstraintTolerance
+      ~DrudeNoseHooverIntegrator.setIntegrationForceGroups
+      ~DrudeNoseHooverIntegrator.setMaxDrudeDistance
+      ~DrudeNoseHooverIntegrator.setMaximumPairDistance
+      ~DrudeNoseHooverIntegrator.setRelativeCollisionFrequency
+      ~DrudeNoseHooverIntegrator.setRelativeTemperature
+      ~DrudeNoseHooverIntegrator.setStepSize
+      ~DrudeNoseHooverIntegrator.setTemperature
+      ~DrudeNoseHooverIntegrator.step
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DrudeNoseHooverIntegrator.thisown
+   
+   

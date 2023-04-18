@@ -1,0 +1,16 @@
+﻿OpenMMException
+======================
+
+.. currentmodule:: openmm
+
+.. autoclass:: OpenMMException
+
+   
+   .. automethod:: __init__
+
+   
+   
+
+   
+   
+   

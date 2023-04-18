@@ -1,0 +1,339 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>CMAPTorsionForce &#8212; OpenMM C++ API @OPENMM_MAJOR_VERSION@.@OPENMM_MINOR_VERSION@ documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="DrudeForce" href="DrudeForce.html" />
+    <link rel="prev" title="Force" href="Force.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="cmaptorsionforce">
+<span id="openmm-cmaptorsionforce"></span><h1><code class="docutils literal notranslate"><span class="pre">CMAPTorsionForce</span></code><a class="headerlink" href="CMAPTorsionForce.html#cmaptorsionforce" title="Permalink to this headline">¶</a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CMAPTorsionForceE">
+<span id="_CPPv3N6OpenMM16CMAPTorsionForceE"></span><span id="_CPPv2N6OpenMM16CMAPTorsionForceE"></span><span id="OpenMM::CMAPTorsionForce"></span><span class="target" id="classOpenMM_1_1CMAPTorsionForce"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">OpenMM</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">CMAPTorsionForce</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">OpenMM</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="Force.html#_CPPv4N6OpenMM5ForceE" title="OpenMM::Force"><span class="n"><span class="pre">Force</span></span></a><a class="headerlink" href="CMAPTorsionForce.html#_CPPv4N6OpenMM16CMAPTorsionForceE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This class implements an interaction between pairs of dihedral angles. The interaction energy is defined by an “energy correction map” (CMAP), which is simply a set of tabulated energy values on a regular grid of (phi, psi) angles. Natural cubic spline interpolation is used to compute forces and energies at arbitrary values of the two angles.</p>
+<p>To use this class, first create one or more energy correction maps by calling <a class="reference internal" href="CMAPTorsionForce.html#classOpenMM_1_1CMAPTorsionForce_1aa01af8271de09e1a7682814b63f161af"><span class="std std-ref">addMap()</span></a>. For each one, you provide an array of energies at uniformly spaced values of the two angles. Next, add interactions by calling <a class="reference internal" href="CMAPTorsionForce.html#classOpenMM_1_1CMAPTorsionForce_1a947a5d06f3dc165c15978797bea46c0c"><span class="std std-ref">addTorsion()</span></a>. For each one, you specify the sequence of particles used to calculate each of the two dihedral angles, and the index of the map used to calculate their interaction energy. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CMAPTorsionForce16CMAPTorsionForceEv">
+<span id="_CPPv3N6OpenMM16CMAPTorsionForce16CMAPTorsionForceEv"></span><span id="_CPPv2N6OpenMM16CMAPTorsionForce16CMAPTorsionForceEv"></span><span id="OpenMM::CMAPTorsionForce::CMAPTorsionForce"></span><span class="target" id="classOpenMM_1_1CMAPTorsionForce_1a8c1f1482c1769947244643490e809d19"></span><span class="sig-name descname"><span class="n"><span class="pre">CMAPTorsionForce</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="CMAPTorsionForce.html#_CPPv4N6OpenMM16CMAPTorsionForce16CMAPTorsionForceEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a <a class="reference internal" href="CMAPTorsionForce.html#classOpenMM_1_1CMAPTorsionForce"><span class="std std-ref">CMAPTorsionForce</span></a>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM16CMAPTorsionForce10getNumMapsEv">
+<span id="_CPPv3NK6OpenMM16CMAPTorsionForce10getNumMapsEv"></span><span id="_CPPv2NK6OpenMM16CMAPTorsionForce10getNumMapsEv"></span><span id="OpenMM::CMAPTorsionForce::getNumMapsC"></span><span class="target" id="classOpenMM_1_1CMAPTorsionForce_1abbb1adb80662b71dfd7088395418061f"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getNumMaps</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CMAPTorsionForce.html#_CPPv4NK6OpenMM16CMAPTorsionForce10getNumMapsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the number of maps that have been defined. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM16CMAPTorsionForce14getNumTorsionsEv">
+<span id="_CPPv3NK6OpenMM16CMAPTorsionForce14getNumTorsionsEv"></span><span id="_CPPv2NK6OpenMM16CMAPTorsionForce14getNumTorsionsEv"></span><span id="OpenMM::CMAPTorsionForce::getNumTorsionsC"></span><span class="target" id="classOpenMM_1_1CMAPTorsionForce_1a965da7deaf689e71f5ba9e37cb839dee"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getNumTorsions</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CMAPTorsionForce.html#_CPPv4NK6OpenMM16CMAPTorsionForce14getNumTorsionsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the number of CMAP torsion terms in the potential function </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CMAPTorsionForce6addMapEiRKNSt6vectorIdEE">
+<span id="_CPPv3N6OpenMM16CMAPTorsionForce6addMapEiRKNSt6vectorIdEE"></span><span id="_CPPv2N6OpenMM16CMAPTorsionForce6addMapEiRKNSt6vectorIdEE"></span><span id="OpenMM::CMAPTorsionForce::addMap__i.std::vector:double:CR"></span><span class="target" id="classOpenMM_1_1CMAPTorsionForce_1aa01af8271de09e1a7682814b63f161af"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addMap</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">size</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">energy</span></span><span class="sig-paren">)</span><a class="headerlink" href="CMAPTorsionForce.html#_CPPv4N6OpenMM16CMAPTorsionForce6addMapEiRKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a new map that can be used for torsion pairs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>size</strong> – the size of the map along each dimension </p></li>
+<li><p><strong>energy</strong> – the energy values for the map. This must be of length size*size. The element energy[i+size*j] contains the energy when the first torsion angle equals i*2*PI/size and the second torsion angle equals j*2*PI/size. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the index of the map that was added </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM16CMAPTorsionForce16getMapParametersEiRiRNSt6vectorIdEE">
+<span id="_CPPv3NK6OpenMM16CMAPTorsionForce16getMapParametersEiRiRNSt6vectorIdEE"></span><span id="_CPPv2NK6OpenMM16CMAPTorsionForce16getMapParametersEiRiRNSt6vectorIdEE"></span><span id="OpenMM::CMAPTorsionForce::getMapParameters__i.iR.std::vector:double:RC"></span><span class="target" id="classOpenMM_1_1CMAPTorsionForce_1aac33d9102c1e53bbab91943333a04015"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getMapParameters</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">size</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">energy</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CMAPTorsionForce.html#_CPPv4NK6OpenMM16CMAPTorsionForce16getMapParametersEiRiRNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the energy values of a map.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – the index of the map for which to get energy values </p></li>
+<li><p><strong>size</strong> – <strong>[out]</strong> the size of the map along each dimension </p></li>
+<li><p><strong>energy</strong> – <strong>[out]</strong> the energy values for the map. This must be of length size*size. The element energy[i+size*j] contains the energy when the first torsion angle equals i*2*PI/size and the second torsion angle equals j*2*PI/size. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CMAPTorsionForce16setMapParametersEiiRKNSt6vectorIdEE">
+<span id="_CPPv3N6OpenMM16CMAPTorsionForce16setMapParametersEiiRKNSt6vectorIdEE"></span><span id="_CPPv2N6OpenMM16CMAPTorsionForce16setMapParametersEiiRKNSt6vectorIdEE"></span><span id="OpenMM::CMAPTorsionForce::setMapParameters__i.i.std::vector:double:CR"></span><span class="target" id="classOpenMM_1_1CMAPTorsionForce_1a02ef12332f9c1f56aaebc8de073fdf10"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setMapParameters</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">size</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">energy</span></span><span class="sig-paren">)</span><a class="headerlink" href="CMAPTorsionForce.html#_CPPv4N6OpenMM16CMAPTorsionForce16setMapParametersEiiRKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the energy values of a map.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – the index of the map for which to set energy values </p></li>
+<li><p><strong>size</strong> – the size of the map along each dimension </p></li>
+<li><p><strong>energy</strong> – the energy values for the map. This must be of length size*size. The element energy[i+size*j] contains the energy when the first torsion angle equals i*2*PI/size and the second torsion angle equals j*2*PI/size. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CMAPTorsionForce10addTorsionEiiiiiiiii">
+<span id="_CPPv3N6OpenMM16CMAPTorsionForce10addTorsionEiiiiiiiii"></span><span id="_CPPv2N6OpenMM16CMAPTorsionForce10addTorsionEiiiiiiiii"></span><span id="OpenMM::CMAPTorsionForce::addTorsion__i.i.i.i.i.i.i.i.i"></span><span class="target" id="classOpenMM_1_1CMAPTorsionForce_1a947a5d06f3dc165c15978797bea46c0c"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addTorsion</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">map</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">a1</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">a2</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">a3</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">a4</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">b1</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">b2</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">b3</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">b4</span></span><span class="sig-paren">)</span><a class="headerlink" href="CMAPTorsionForce.html#_CPPv4N6OpenMM16CMAPTorsionForce10addTorsionEiiiiiiiii" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a CMAP torsion term to the force field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>map</strong> – the index of the map to use for this term </p></li>
+<li><p><strong>a1</strong> – the index of the first particle forming the first torsion </p></li>
+<li><p><strong>a2</strong> – the index of the second particle forming the first torsion </p></li>
+<li><p><strong>a3</strong> – the index of the third particle forming the first torsion </p></li>
+<li><p><strong>a4</strong> – the index of the fourth particle forming the first torsion </p></li>
+<li><p><strong>b1</strong> – the index of the first particle forming the second torsion </p></li>
+<li><p><strong>b2</strong> – the index of the second particle forming the second torsion </p></li>
+<li><p><strong>b3</strong> – the index of the third particle forming the second torsion </p></li>
+<li><p><strong>b4</strong> – the index of the fourth particle forming the second torsion </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the index of the torsion that was added </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM16CMAPTorsionForce20getTorsionParametersEiRiRiRiRiRiRiRiRiRi">
+<span id="_CPPv3NK6OpenMM16CMAPTorsionForce20getTorsionParametersEiRiRiRiRiRiRiRiRiRi"></span><span id="_CPPv2NK6OpenMM16CMAPTorsionForce20getTorsionParametersEiRiRiRiRiRiRiRiRiRi"></span><span id="OpenMM::CMAPTorsionForce::getTorsionParameters__i.iR.iR.iR.iR.iR.iR.iR.iR.iRC"></span><span class="target" id="classOpenMM_1_1CMAPTorsionForce_1a8f86a82ab7473b73741fb1628a1f23cf"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getTorsionParameters</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">map</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">a1</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">a2</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">a3</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">a4</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">b1</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">b2</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">b3</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">b4</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CMAPTorsionForce.html#_CPPv4NK6OpenMM16CMAPTorsionForce20getTorsionParametersEiRiRiRiRiRiRiRiRiRi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the force field parameters for a CMAP torsion term.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – the index of the torsion for which to get parameters </p></li>
+<li><p><strong>map</strong> – <strong>[out]</strong> the index of the map to use for this term </p></li>
+<li><p><strong>a1</strong> – <strong>[out]</strong> the index of the first particle forming the first torsion </p></li>
+<li><p><strong>a2</strong> – <strong>[out]</strong> the index of the second particle forming the first torsion </p></li>
+<li><p><strong>a3</strong> – <strong>[out]</strong> the index of the third particle forming the first torsion </p></li>
+<li><p><strong>a4</strong> – <strong>[out]</strong> the index of the fourth particle forming the first torsion </p></li>
+<li><p><strong>b1</strong> – <strong>[out]</strong> the index of the first particle forming the second torsion </p></li>
+<li><p><strong>b2</strong> – <strong>[out]</strong> the index of the second particle forming the second torsion </p></li>
+<li><p><strong>b3</strong> – <strong>[out]</strong> the index of the third particle forming the second torsion </p></li>
+<li><p><strong>b4</strong> – <strong>[out]</strong> the index of the fourth particle forming the second torsion </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CMAPTorsionForce20setTorsionParametersEiiiiiiiiii">
+<span id="_CPPv3N6OpenMM16CMAPTorsionForce20setTorsionParametersEiiiiiiiiii"></span><span id="_CPPv2N6OpenMM16CMAPTorsionForce20setTorsionParametersEiiiiiiiiii"></span><span id="OpenMM::CMAPTorsionForce::setTorsionParameters__i.i.i.i.i.i.i.i.i.i"></span><span class="target" id="classOpenMM_1_1CMAPTorsionForce_1ade54e7bd828b0a06fa75c2b5d4617a63"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setTorsionParameters</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">map</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">a1</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">a2</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">a3</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">a4</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">b1</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">b2</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">b3</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">b4</span></span><span class="sig-paren">)</span><a class="headerlink" href="CMAPTorsionForce.html#_CPPv4N6OpenMM16CMAPTorsionForce20setTorsionParametersEiiiiiiiiii" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the force field parameters for a CMAP torsion term.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – the index of the torsion for which to set parameters </p></li>
+<li><p><strong>map</strong> – the index of the map to use for this term </p></li>
+<li><p><strong>a1</strong> – the index of the first particle forming the first torsion </p></li>
+<li><p><strong>a2</strong> – the index of the second particle forming the first torsion </p></li>
+<li><p><strong>a3</strong> – the index of the third particle forming the first torsion </p></li>
+<li><p><strong>a4</strong> – the index of the fourth particle forming the first torsion </p></li>
+<li><p><strong>b1</strong> – the index of the first particle forming the second torsion </p></li>
+<li><p><strong>b2</strong> – the index of the second particle forming the second torsion </p></li>
+<li><p><strong>b3</strong> – the index of the third particle forming the second torsion </p></li>
+<li><p><strong>b4</strong> – the index of the fourth particle forming the second torsion </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CMAPTorsionForce25updateParametersInContextER7Context">
+<span id="_CPPv3N6OpenMM16CMAPTorsionForce25updateParametersInContextER7Context"></span><span id="_CPPv2N6OpenMM16CMAPTorsionForce25updateParametersInContextER7Context"></span><span id="OpenMM::CMAPTorsionForce::updateParametersInContext__ContextR"></span><span class="target" id="classOpenMM_1_1CMAPTorsionForce_1ad269f36257dcf64d73e6895fae401a2e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">updateParametersInContext</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="Context.html#_CPPv4N6OpenMM7ContextE" title="OpenMM::Context"><span class="n"><span class="pre">Context</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">context</span></span><span class="sig-paren">)</span><a class="headerlink" href="CMAPTorsionForce.html#_CPPv4N6OpenMM16CMAPTorsionForce25updateParametersInContextER7Context" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Update the map and torsion parameters in a <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a> to match those stored in this <a class="reference internal" href="Force.html#classOpenMM_1_1Force"><span class="std std-ref">Force</span></a> object. This method provides an efficient method to update certain parameters in an existing <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a> without needing to reinitialize it. Simply call <a class="reference internal" href="CMAPTorsionForce.html#classOpenMM_1_1CMAPTorsionForce_1a02ef12332f9c1f56aaebc8de073fdf10"><span class="std std-ref">setMapParameters()</span></a> and <a class="reference internal" href="CMAPTorsionForce.html#classOpenMM_1_1CMAPTorsionForce_1ade54e7bd828b0a06fa75c2b5d4617a63"><span class="std std-ref">setTorsionParameters()</span></a> to modify this object’s parameters, then call <a class="reference internal" href="CMAPTorsionForce.html#classOpenMM_1_1CMAPTorsionForce_1ad269f36257dcf64d73e6895fae401a2e"><span class="std std-ref">updateParametersInContext()</span></a> to copy them over to the <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a>.</p>
+<p>The only information that can be updated with this method is the energy values for a map, and the map index for a torsion. The size of a map and the set of particles involved in a torsion cannot be changed. Also, new bonds and torsions cannot be added. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM16CMAPTorsionForce33setUsesPeriodicBoundaryConditionsEb">
+<span id="_CPPv3N6OpenMM16CMAPTorsionForce33setUsesPeriodicBoundaryConditionsEb"></span><span id="_CPPv2N6OpenMM16CMAPTorsionForce33setUsesPeriodicBoundaryConditionsEb"></span><span id="OpenMM::CMAPTorsionForce::setUsesPeriodicBoundaryConditions__b"></span><span class="target" id="classOpenMM_1_1CMAPTorsionForce_1aa6ef4429e87a2d5407cc1e9b6fa703f3"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setUsesPeriodicBoundaryConditions</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">periodic</span></span><span class="sig-paren">)</span><a class="headerlink" href="CMAPTorsionForce.html#_CPPv4N6OpenMM16CMAPTorsionForce33setUsesPeriodicBoundaryConditionsEb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set whether this force should apply periodic boundary conditions when calculating displacements. Usually this is not appropriate for bonded forces, but there are situations when it can be useful. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM16CMAPTorsionForce30usesPeriodicBoundaryConditionsEv">
+<span id="_CPPv3NK6OpenMM16CMAPTorsionForce30usesPeriodicBoundaryConditionsEv"></span><span id="_CPPv2NK6OpenMM16CMAPTorsionForce30usesPeriodicBoundaryConditionsEv"></span><span id="OpenMM::CMAPTorsionForce::usesPeriodicBoundaryConditionsC"></span><span class="target" id="classOpenMM_1_1CMAPTorsionForce_1a4f3be4a00655f54cf991d2160ef034d9"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">usesPeriodicBoundaryConditions</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CMAPTorsionForce.html#_CPPv4NK6OpenMM16CMAPTorsionForce30usesPeriodicBoundaryConditionsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Returns whether or not this force makes use of periodic boundary conditions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>true if force uses PBC and false otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="Force.html" title="Previous document"><code class="docutils literal notranslate"><span class="pre">Force</span></code></a>
+        </li>
+        <li>
+          <a href="DrudeForce.html" title="Next document"><code class="docutils literal notranslate"><span class="pre">DrudeForce</span></code></a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM C++ API</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="System.html"><code class="docutils literal notranslate"><span class="pre">System</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Context.html"><code class="docutils literal notranslate"><span class="pre">Context</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="State.html"><code class="docutils literal notranslate"><span class="pre">State</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Platform.html"><code class="docutils literal notranslate"><span class="pre">Platform</span></code></a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../forces.html">Forces</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../forces.html#the-force-abstract-class">The <code class="docutils literal notranslate"><span class="pre">Force</span></code> abstract class</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../forces.html#common-bonded-and-non-bonded-forces">Common bonded and non-bonded forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forces.html#amoeba-forces">AMOEBA forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forces.html#pseudo-forces">Pseudo-forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forces.html#customizing-force">Customizing <code class="docutils literal notranslate"><span class="pre">Force</span></code></a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../integrators.html">Integrators</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../extras.html">Extra classes</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../userguide/index.html">
+                User's Manual
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../developerguide">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../api-python/index.html">
+                Python API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Stanford University and the Authors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/generated/CMAPTorsionForce.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

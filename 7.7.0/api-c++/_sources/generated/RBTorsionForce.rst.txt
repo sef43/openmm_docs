@@ -1,0 +1,7 @@
+.. _OpenMM::RBTorsionForce:
+
+``RBTorsionForce``
+==================
+
+.. doxygenclass:: OpenMM::RBTorsionForce
+   :members:

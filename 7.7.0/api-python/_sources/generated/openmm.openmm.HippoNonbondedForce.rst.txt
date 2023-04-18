@@ -1,0 +1,68 @@
+﻿HippoNonbondedForce
+=================================
+
+.. currentmodule:: openmm.openmm
+
+.. autoclass:: HippoNonbondedForce
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~HippoNonbondedForce.__init__
+      ~HippoNonbondedForce.addException
+      ~HippoNonbondedForce.addParticle
+      ~HippoNonbondedForce.getCutoffDistance
+      ~HippoNonbondedForce.getDPMEParameters
+      ~HippoNonbondedForce.getDPMEParametersInContext
+      ~HippoNonbondedForce.getEwaldErrorTolerance
+      ~HippoNonbondedForce.getExceptionParameters
+      ~HippoNonbondedForce.getExtrapolationCoefficients
+      ~HippoNonbondedForce.getForceGroup
+      ~HippoNonbondedForce.getInducedDipoles
+      ~HippoNonbondedForce.getLabFramePermanentDipoles
+      ~HippoNonbondedForce.getName
+      ~HippoNonbondedForce.getNonbondedMethod
+      ~HippoNonbondedForce.getNumExceptions
+      ~HippoNonbondedForce.getNumParticles
+      ~HippoNonbondedForce.getPMEParameters
+      ~HippoNonbondedForce.getPMEParametersInContext
+      ~HippoNonbondedForce.getParticleParameters
+      ~HippoNonbondedForce.getSwitchingDistance
+      ~HippoNonbondedForce.setCutoffDistance
+      ~HippoNonbondedForce.setDPMEParameters
+      ~HippoNonbondedForce.setEwaldErrorTolerance
+      ~HippoNonbondedForce.setExceptionParameters
+      ~HippoNonbondedForce.setExtrapolationCoefficients
+      ~HippoNonbondedForce.setForceGroup
+      ~HippoNonbondedForce.setName
+      ~HippoNonbondedForce.setNonbondedMethod
+      ~HippoNonbondedForce.setPMEParameters
+      ~HippoNonbondedForce.setParticleParameters
+      ~HippoNonbondedForce.setSwitchingDistance
+      ~HippoNonbondedForce.updateParametersInContext
+      ~HippoNonbondedForce.usesPeriodicBoundaryConditions
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~HippoNonbondedForce.Bisector
+      ~HippoNonbondedForce.NoAxisType
+      ~HippoNonbondedForce.NoCutoff
+      ~HippoNonbondedForce.PME
+      ~HippoNonbondedForce.ThreeFold
+      ~HippoNonbondedForce.ZBisect
+      ~HippoNonbondedForce.ZOnly
+      ~HippoNonbondedForce.ZThenX
+      ~HippoNonbondedForce.thisown
+   
+   

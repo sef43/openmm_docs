@@ -1,0 +1,196 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>LocalEnergyMinimizer &#8212; OpenMM C++ API @OPENMM_MAJOR_VERSION@.@OPENMM_MINOR_VERSION@ documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="NoseHooverChain" href="NoseHooverChain.html" />
+    <link rel="prev" title="XmlSerializer" href="XmlSerializer.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="localenergyminimizer">
+<span id="openmm-localenergyminimizer"></span><h1><code class="docutils literal notranslate"><span class="pre">LocalEnergyMinimizer</span></code><a class="headerlink" href="LocalEnergyMinimizer.html#localenergyminimizer" title="Permalink to this headline">¶</a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM20LocalEnergyMinimizerE">
+<span id="_CPPv3N6OpenMM20LocalEnergyMinimizerE"></span><span id="_CPPv2N6OpenMM20LocalEnergyMinimizerE"></span><span id="OpenMM::LocalEnergyMinimizer"></span><span class="target" id="classOpenMM_1_1LocalEnergyMinimizer"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LocalEnergyMinimizer</span></span></span><a class="headerlink" href="LocalEnergyMinimizer.html#_CPPv4N6OpenMM20LocalEnergyMinimizerE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Given a <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a>, this class searches for a new set of particle positions that represent a local minimum of the potential energy. The search is performed with the L-BFGS algorithm. Distance constraints are enforced during minimization by adding a harmonic restraining force to the potential function. The strength of the restraining force is steadily increased until the minimum energy configuration satisfies all constraints to within the tolerance specified by the <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a>’s <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a>.</p>
+<p>Energy minimization is done using the force groups defined by the <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a>. If you have called setIntegrationForceGroups() on it to restrict the set of forces used for integration, only the energy of the included forces will be minimized. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM20LocalEnergyMinimizer8minimizeER7Contextdi">
+<span id="_CPPv3N6OpenMM20LocalEnergyMinimizer8minimizeER7Contextdi"></span><span id="_CPPv2N6OpenMM20LocalEnergyMinimizer8minimizeER7Contextdi"></span><span id="OpenMM::LocalEnergyMinimizer::minimize__ContextR.double.i"></span><span class="target" id="classOpenMM_1_1LocalEnergyMinimizer_1abd663ece1462f0eb42ba2bd240fbeb5b"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">minimize</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="Context.html#_CPPv4N6OpenMM7ContextE" title="OpenMM::Context"><span class="n"><span class="pre">Context</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">context</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">tolerance</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">10</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">maxIterations</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="LocalEnergyMinimizer.html#_CPPv4N6OpenMM20LocalEnergyMinimizer8minimizeER7Contextdi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Search for a new set of particle positions that represent a local potential energy minimum. On exit, the <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a> will have been updated with the new positions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>context</strong> – a <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a> specifying the <a class="reference internal" href="System.html#classOpenMM_1_1System"><span class="std std-ref">System</span></a> to minimize and the initial particle positions </p></li>
+<li><p><strong>tolerance</strong> – this specifies how precisely the energy minimum must be located. Minimization will be halted once the root-mean-square value of all force components reaches this tolerance. The default value is 10. </p></li>
+<li><p><strong>maxIterations</strong> – the maximum number of iterations to perform. If this is 0, minimation is continued until the results converge without regard to how many iterations it takes. The default value is 0. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="XmlSerializer.html" title="Previous document"><code class="docutils literal notranslate"><span class="pre">XmlSerializer</span></code></a>
+        </li>
+        <li>
+          <a href="NoseHooverChain.html" title="Next document"><code class="docutils literal notranslate"><span class="pre">NoseHooverChain</span></code></a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM C++ API</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="System.html"><code class="docutils literal notranslate"><span class="pre">System</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Context.html"><code class="docutils literal notranslate"><span class="pre">Context</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="State.html"><code class="docutils literal notranslate"><span class="pre">State</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Platform.html"><code class="docutils literal notranslate"><span class="pre">Platform</span></code></a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../forces.html">Forces</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../integrators.html">Integrators</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../extras.html">Extra classes</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../extras.html#tabulated-functions">Tabulated functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../extras.html#virtual-sites">Virtual Sites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../extras.html#serialization">Serialization</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../extras.html#other-classes">Other classes</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../userguide">
+                User's Manual
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../developerguide/index.html">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../api-python/index.html">
+                Python API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Stanford University and the Authors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../_sources/generated/LocalEnergyMinimizer.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

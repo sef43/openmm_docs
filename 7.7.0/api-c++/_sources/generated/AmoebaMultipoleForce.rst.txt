@@ -1,0 +1,7 @@
+.. _OpenMM::AmoebaMultipoleForce:
+
+``AmoebaMultipoleForce``
+========================
+
+.. doxygenclass:: OpenMM::AmoebaMultipoleForce
+   :members:

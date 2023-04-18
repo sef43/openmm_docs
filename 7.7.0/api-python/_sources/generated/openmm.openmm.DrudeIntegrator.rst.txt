@@ -1,0 +1,41 @@
+﻿DrudeIntegrator
+=============================
+
+.. currentmodule:: openmm.openmm
+
+.. autoclass:: DrudeIntegrator
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~DrudeIntegrator.__init__
+      ~DrudeIntegrator.getConstraintTolerance
+      ~DrudeIntegrator.getDrudeTemperature
+      ~DrudeIntegrator.getIntegrationForceGroups
+      ~DrudeIntegrator.getMaxDrudeDistance
+      ~DrudeIntegrator.getRandomNumberSeed
+      ~DrudeIntegrator.getStepSize
+      ~DrudeIntegrator.setConstraintTolerance
+      ~DrudeIntegrator.setDrudeTemperature
+      ~DrudeIntegrator.setIntegrationForceGroups
+      ~DrudeIntegrator.setMaxDrudeDistance
+      ~DrudeIntegrator.setRandomNumberSeed
+      ~DrudeIntegrator.setStepSize
+      ~DrudeIntegrator.step
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DrudeIntegrator.thisown
+   
+   

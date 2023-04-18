@@ -1,0 +1,7 @@
+.. _OpenMM::DrudeNoseHooverIntegrator:
+
+``DrudeNoseHooverIntegrator``
+=============================
+
+.. doxygenclass:: OpenMM::DrudeNoseHooverIntegrator
+   :members:

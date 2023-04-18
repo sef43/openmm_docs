@@ -35,7 +35,7 @@
           <div class="body" role="main">
             
   <section id="creating-force-fields">
-<span id="id1"></span><h1><span class="section-number">6. </span>Creating Force Fields<a class="headerlink" href="05_creating_ffs.html#creating-force-fields" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1><span class="section-number">6. </span>Creating Force Fields<a class="headerlink" href="#creating-force-fields" title="Permalink to this headline">¶</a></h1>
 <p>OpenMM uses a simple XML file format to describe force fields.  It includes many
 common force fields, but you can also create your own.  A force field can use
 all the standard OpenMM force classes, as well as the very flexible custom force
@@ -43,11 +43,11 @@ classes.  You can even extend the ForceField class to add support for completely
 new forces, such as ones defined in plugins.  This makes it a powerful tool for
 force field development.</p>
 <section id="basic-concepts">
-<h2><span class="section-number">6.1. </span>Basic Concepts<a class="headerlink" href="05_creating_ffs.html#basic-concepts" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">6.1. </span>Basic Concepts<a class="headerlink" href="#basic-concepts" title="Permalink to this headline">¶</a></h2>
 <p>Let’s start by considering how OpenMM defines a force field.  There are a small
 number of basic concepts to understand.</p>
 <section id="atom-types-and-atom-classes">
-<h3><span class="section-number">6.1.1. </span>Atom Types and Atom Classes<a class="headerlink" href="05_creating_ffs.html#atom-types-and-atom-classes" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.1.1. </span>Atom Types and Atom Classes<a class="headerlink" href="#atom-types-and-atom-classes" title="Permalink to this headline">¶</a></h3>
 <p>Force field parameters are assigned to atoms based on their “atom types”.  Atom
 types should be the most specific identification of an atom that will ever be
 needed.  Two atoms should have the same type only if the force field will always
@@ -64,7 +64,7 @@ types all share the same parameters, it is convenient to only have to specify
 them once.</p>
 </section>
 <section id="residue-templates">
-<h3><span class="section-number">6.1.2. </span>Residue Templates<a class="headerlink" href="05_creating_ffs.html#residue-templates" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.1.2. </span>Residue Templates<a class="headerlink" href="#residue-templates" title="Permalink to this headline">¶</a></h3>
 <p>Types are assigned to atoms by matching residues to templates.  A template
 specifies a list of atoms, the type of each one, and the bonds between them.
 For each residue in the PDB file, the force field searches its list of templates
@@ -75,7 +75,7 @@ file reader does care about names, of course, since it needs to figure out which
 atom each line of the file corresponds to.)</p>
 </section>
 <section id="forces">
-<h3><span class="section-number">6.1.3. </span>Forces<a class="headerlink" href="05_creating_ffs.html#forces" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.1.3. </span>Forces<a class="headerlink" href="#forces" title="Permalink to this headline">¶</a></h3>
 <p>Once a force field has defined its atom types and residue templates, it must
 define its force field parameters.  This generally involves one block of XML for
 each Force object that will be added to the System.  The details are different
@@ -88,7 +88,7 @@ match, it simply ignores that pair and continues.</p>
 </section>
 </section>
 <section id="writing-the-xml-file">
-<h2><span class="section-number">6.2. </span>Writing the XML File<a class="headerlink" href="05_creating_ffs.html#writing-the-xml-file" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">6.2. </span>Writing the XML File<a class="headerlink" href="#writing-the-xml-file" title="Permalink to this headline">¶</a></h2>
 <p>The root element of the XML file must be a <code class="code docutils literal notranslate"><span class="pre">&lt;ForceField&gt;</span></code> tag:</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;ForceField&gt;</span>
 ...
@@ -104,7 +104,7 @@ match, it simply ignores that pair and continues.</p>
 </ul>
 <p>The order of these tags does not matter.  They are described in detail below.</p>
 <section id="atomtypes">
-<h3><span class="section-number">6.2.1. </span>&lt;AtomTypes&gt;<a class="headerlink" href="05_creating_ffs.html#atomtypes" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.2.1. </span>&lt;AtomTypes&gt;<a class="headerlink" href="#atomtypes" title="Permalink to this headline">¶</a></h3>
 <p>The atom type definitions look like this:</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;AtomTypes&gt;</span>
  <span class="nt">&lt;Type</span> <span class="na">name=</span><span class="s">&quot;0&quot;</span> <span class="na">class=</span><span class="s">&quot;N&quot;</span> <span class="na">element=</span><span class="s">&quot;N&quot;</span> <span class="na">mass=</span><span class="s">&quot;14.00672&quot;</span><span class="nt">/&gt;</span>
@@ -123,7 +123,7 @@ types belong to the same class if they list the same value for the
 <code class="code docutils literal notranslate"><span class="pre">class</span></code> attribute.</p>
 </section>
 <section id="residues">
-<h3><span class="section-number">6.2.2. </span>&lt;Residues&gt;<a class="headerlink" href="05_creating_ffs.html#residues" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.2.2. </span>&lt;Residues&gt;<a class="headerlink" href="#residues" title="Permalink to this headline">¶</a></h3>
 <p>The residue template definitions look like this:</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;Residues&gt;</span>
  <span class="nt">&lt;Residue</span> <span class="na">name=</span><span class="s">&quot;ACE&quot;</span><span class="nt">&gt;</span>
@@ -199,7 +199,7 @@ of the site position in the local coordinate system), and <code class="code docu
 (giving the weights for computing the origin, x axis, and y axis).</p>
 </section>
 <section id="patches">
-<h3><span class="section-number">6.2.3. </span>&lt;Patches&gt;<a class="headerlink" href="05_creating_ffs.html#patches" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.2.3. </span>&lt;Patches&gt;<a class="headerlink" href="#patches" title="Permalink to this headline">¶</a></h3>
 <p>A “patch” is a set of rules for modifying a residue template (or possibly multiple
 templates at once).  For example a terminal amino acid is slightly different from
 one in the middle of a chain.  A force field could of course define multiple
@@ -292,7 +292,7 @@ within that patch:</p>
 </div>
 </section>
 <section id="missing-residue-templates">
-<h3><span class="section-number">6.2.4. </span>Missing residue templates<a class="headerlink" href="05_creating_ffs.html#missing-residue-templates" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.2.4. </span>Missing residue templates<a class="headerlink" href="#missing-residue-templates" title="Permalink to this headline">¶</a></h3>
 <div class="admonition caution">
 <p class="admonition-title">Caution</p>
 <p>These features are experimental, and their API is subject to change.</p>
@@ -333,7 +333,7 @@ are being matched:</p>
 </div>
 </section>
 <section id="harmonicbondforce">
-<h3><span class="section-number">6.2.5. </span>&lt;HarmonicBondForce&gt;<a class="headerlink" href="05_creating_ffs.html#harmonicbondforce" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.2.5. </span>&lt;HarmonicBondForce&gt;<a class="headerlink" href="#harmonicbondforce" title="Permalink to this headline">¶</a></h3>
 <p>To add a HarmonicBondForce to the System, include a tag that looks like this:</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;HarmonicBondForce&gt;</span>
  <span class="nt">&lt;Bond</span> <span class="na">class1=</span><span class="s">&quot;C&quot;</span> <span class="na">class2=</span><span class="s">&quot;C&quot;</span> <span class="na">length=</span><span class="s">&quot;0.1525&quot;</span> <span class="na">k=</span><span class="s">&quot;259408.0&quot;</span><span class="nt">/&gt;</span>
@@ -355,7 +355,7 @@ equilibrium bond length in nm, and <code class="code docutils literal notranslat
 kJ/mol/nm<sup>2</sup>.</p>
 </section>
 <section id="harmonicangleforce">
-<h3><span class="section-number">6.2.6. </span>&lt;HarmonicAngleForce&gt;<a class="headerlink" href="05_creating_ffs.html#harmonicangleforce" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.2.6. </span>&lt;HarmonicAngleForce&gt;<a class="headerlink" href="#harmonicangleforce" title="Permalink to this headline">¶</a></h3>
 <p>To add a HarmonicAngleForce to the System, include a tag that looks like this:</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;HarmonicAngleForce&gt;</span>
  <span class="nt">&lt;Angle</span> <span class="na">class1=</span><span class="s">&quot;C&quot;</span> <span class="na">class2=</span><span class="s">&quot;C&quot;</span> <span class="na">class3=</span><span class="s">&quot;O&quot;</span> <span class="na">angle=</span><span class="s">&quot;2.094&quot;</span> <span class="na">k=</span><span class="s">&quot;669.44&quot;</span><span class="nt">/&gt;</span>
@@ -378,7 +378,7 @@ specified parameters.  Otherwise, it ignores that set and continues.
 spring constant in kJ/mol/radian<sup>2</sup>.</p>
 </section>
 <section id="periodictorsionforce">
-<h3><span class="section-number">6.2.7. </span>&lt;PeriodicTorsionForce&gt;<a class="headerlink" href="05_creating_ffs.html#periodictorsionforce" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.2.7. </span>&lt;PeriodicTorsionForce&gt;<a class="headerlink" href="#periodictorsionforce" title="Permalink to this headline">¶</a></h3>
 <p>To add a PeriodicTorsionForce to the System, include a tag that looks like this:</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;PeriodicTorsionForce&gt;</span>
  <span class="nt">&lt;Proper</span> <span class="na">class1=</span><span class="s">&quot;HC&quot;</span> <span class="na">class2=</span><span class="s">&quot;CT&quot;</span> <span class="na">class3=</span><span class="s">&quot;CT&quot;</span> <span class="na">class4=</span><span class="s">&quot;CT&quot;</span> <span class="na">periodicity1=</span><span class="s">&quot;3&quot;</span> <span class="na">phase1=</span><span class="s">&quot;0.0&quot;</span>
@@ -446,7 +446,7 @@ impropers</p></li>
 values to be used for the sub-elements appearing within their tags.</p>
 </section>
 <section id="rbtorsionforce">
-<h3><span class="section-number">6.2.8. </span>&lt;RBTorsionForce&gt;<a class="headerlink" href="05_creating_ffs.html#rbtorsionforce" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.2.8. </span>&lt;RBTorsionForce&gt;<a class="headerlink" href="#rbtorsionforce" title="Permalink to this headline">¶</a></h3>
 <p>To add an RBTorsionForce to the System, include a tag that looks like this:</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;RBTorsionForce&gt;</span>
  <span class="nt">&lt;Proper</span> <span class="na">class1=</span><span class="s">&quot;CT&quot;</span> <span class="na">class2=</span><span class="s">&quot;CT&quot;</span> <span class="na">class3=</span><span class="s">&quot;OS&quot;</span> <span class="na">class4=</span><span class="s">&quot;CT&quot;</span> <span class="na">c0=</span><span class="s">&quot;2.439272&quot;</span> <span class="na">c1=</span><span class="s">&quot;4.807416&quot;</span>
@@ -486,7 +486,7 @@ second atom has class OS and the third has class P:</p>
 </div>
 </section>
 <section id="cmaptorsionforce">
-<h3><span class="section-number">6.2.9. </span>&lt;CMAPTorsionForce&gt;<a class="headerlink" href="05_creating_ffs.html#cmaptorsionforce" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.2.9. </span>&lt;CMAPTorsionForce&gt;<a class="headerlink" href="#cmaptorsionforce" title="Permalink to this headline">¶</a></h3>
 <p>To add a CMAPTorsionForce to the System, include a tag that looks like this:</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;CMAPTorsionForce&gt;</span>
  <span class="nt">&lt;Map&gt;</span>
@@ -527,7 +527,7 @@ where the middle three have classes CT, C, and N respectively:</p>
 </div>
 </section>
 <section id="nonbondedforce">
-<h3><span class="section-number">6.2.10. </span>&lt;NonbondedForce&gt;<a class="headerlink" href="05_creating_ffs.html#nonbondedforce" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.2.10. </span>&lt;NonbondedForce&gt;<a class="headerlink" href="#nonbondedforce" title="Permalink to this headline">¶</a></h3>
 <p>To add a NonbondedForce to the System, include a tag that looks like this:</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;NonbondedForce</span> <span class="na">coulomb14scale=</span><span class="s">&quot;0.833333&quot;</span> <span class="na">lj14scale=</span><span class="s">&quot;0.5&quot;</span><span class="nt">&gt;</span>
  <span class="nt">&lt;Atom</span> <span class="na">type=</span><span class="s">&quot;0&quot;</span> <span class="na">charge=</span><span class="s">&quot;-0.4157&quot;</span> <span class="na">sigma=</span><span class="s">&quot;0.32499&quot;</span> <span class="na">epsilon=</span><span class="s">&quot;0.71128&quot;</span><span class="nt">/&gt;</span>
@@ -552,7 +552,7 @@ must make sure that a unique set of parameters is defined for every atom type.
 is in nm, and <code class="code docutils literal notranslate"><span class="pre">epsilon</span></code> is in kJ/mole.</p>
 </section>
 <section id="gbsaobcforce">
-<h3><span class="section-number">6.2.11. </span>&lt;GBSAOBCForce&gt;<a class="headerlink" href="05_creating_ffs.html#gbsaobcforce" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.2.11. </span>&lt;GBSAOBCForce&gt;<a class="headerlink" href="#gbsaobcforce" title="Permalink to this headline">¶</a></h3>
 <p>To add a GBSAOBCForce to the System, include a tag that looks like this:</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;GBSAOBCForce&gt;</span>
  <span class="nt">&lt;Atom</span> <span class="na">type=</span><span class="s">&quot;0&quot;</span> <span class="na">charge=</span><span class="s">&quot;-0.4157&quot;</span> <span class="na">radius=</span><span class="s">&quot;0.1706&quot;</span> <span class="na">scale=</span><span class="s">&quot;0.79&quot;</span><span class="nt">/&gt;</span>
@@ -571,7 +571,7 @@ must make sure that a unique set of parameters is defined for every atom type.
 is the GBSA radius in nm, and <code class="code docutils literal notranslate"><span class="pre">scale</span></code> is the OBC scaling factor.</p>
 </section>
 <section id="custombondforce">
-<h3><span class="section-number">6.2.12. </span>&lt;CustomBondForce&gt;<a class="headerlink" href="05_creating_ffs.html#custombondforce" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.2.12. </span>&lt;CustomBondForce&gt;<a class="headerlink" href="#custombondforce" title="Permalink to this headline">¶</a></h3>
 <p>To add a CustomBondForce to the System, include a tag that looks like this:</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;CustomBondForce</span> <span class="na">energy=</span><span class="s">&quot;scale*k*(r-r0)^2&quot;</span><span class="nt">&gt;</span>
  <span class="nt">&lt;GlobalParameter</span> <span class="na">name=</span><span class="s">&quot;scale&quot;</span> <span class="na">defaultValue=</span><span class="s">&quot;0.5&quot;</span><span class="nt">/&gt;</span>
@@ -604,7 +604,7 @@ parameter.  For instance, if there is a per-bond parameter with the name “k”
 then every <code class="code docutils literal notranslate"><span class="pre">&lt;Bond&gt;</span></code> tag must include an attribute called <code class="code docutils literal notranslate"><span class="pre">k</span></code>.</p>
 </section>
 <section id="customangleforce">
-<h3><span class="section-number">6.2.13. </span>&lt;CustomAngleForce&gt;<a class="headerlink" href="05_creating_ffs.html#customangleforce" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.2.13. </span>&lt;CustomAngleForce&gt;<a class="headerlink" href="#customangleforce" title="Permalink to this headline">¶</a></h3>
 <p>To add a CustomAngleForce to the System, include a tag that looks like this:</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;CustomAngleForce</span> <span class="na">energy=</span><span class="s">&quot;scale*k*(theta-theta0)^2&quot;</span><span class="nt">&gt;</span>
  <span class="nt">&lt;GlobalParameter</span> <span class="na">name=</span><span class="s">&quot;scale&quot;</span> <span class="na">defaultValue=</span><span class="s">&quot;0.5&quot;</span><span class="nt">/&gt;</span>
@@ -638,7 +638,7 @@ parameter.  For instance, if there is a per-angle parameter with the name “k�
 then every <code class="code docutils literal notranslate"><span class="pre">&lt;Angle&gt;</span></code> tag must include an attribute called <code class="code docutils literal notranslate"><span class="pre">k</span></code>.</p>
 </section>
 <section id="customtorsionforce">
-<h3><span class="section-number">6.2.14. </span>&lt;CustomTorsionForce&gt;<a class="headerlink" href="05_creating_ffs.html#customtorsionforce" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.2.14. </span>&lt;CustomTorsionForce&gt;<a class="headerlink" href="#customtorsionforce" title="Permalink to this headline">¶</a></h3>
 <p>To add a CustomTorsionForce to the System, include a tag that looks like this:</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;CustomTorsionForce</span> <span class="na">energy=</span><span class="s">&quot;scale*k*(1+cos(per*theta-phase))&quot;</span><span class="nt">&gt;</span>
  <span class="nt">&lt;GlobalParameter</span> <span class="na">name=</span><span class="s">&quot;scale&quot;</span> <span class="na">defaultValue=</span><span class="s">&quot;1&quot;</span><span class="nt">/&gt;</span>
@@ -687,7 +687,7 @@ second atom has class OS and the third has class P:</p>
 </div>
 </section>
 <section id="customnonbondedforce">
-<h3><span class="section-number">6.2.15. </span>&lt;CustomNonbondedForce&gt;<a class="headerlink" href="05_creating_ffs.html#customnonbondedforce" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.2.15. </span>&lt;CustomNonbondedForce&gt;<a class="headerlink" href="#customnonbondedforce" title="Permalink to this headline">¶</a></h3>
 <p>To add a CustomNonbondedForce to the System, include a tag that looks like this:</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;CustomNonbondedForce</span> <span class="na">energy=</span><span class="s">&quot;scale*epsilon1*epsilon2*((sigma1+sigma2)/r)^12&quot;</span> <span class="na">bondCutoff=</span><span class="s">&quot;3&quot;</span><span class="nt">&gt;</span>
  <span class="nt">&lt;GlobalParameter</span> <span class="na">name=</span><span class="s">&quot;scale&quot;</span> <span class="na">defaultValue=</span><span class="s">&quot;1&quot;</span><span class="nt">/&gt;</span>
@@ -721,10 +721,10 @@ attribute name must match the name of the parameter.  For instance, if there is
 a per-atom parameter with the name “radius”, then every <code class="code docutils literal notranslate"><span class="pre">&lt;Atom&gt;</span></code> tag
 must include an attribute called <code class="code docutils literal notranslate"><span class="pre">radius</span></code>.</p>
 <p>CustomNonbondedForce also allows you to define tabulated functions.  See Section
-<a class="reference internal" href="05_creating_ffs.html#tabulated-functions"><span class="std std-numref">6.2.20</span></a> for details.</p>
+<a class="reference internal" href="#tabulated-functions"><span class="std std-numref">6.2.20</span></a> for details.</p>
 </section>
 <section id="customgbforce">
-<h3><span class="section-number">6.2.16. </span>&lt;CustomGBForce&gt;<a class="headerlink" href="05_creating_ffs.html#customgbforce" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.2.16. </span>&lt;CustomGBForce&gt;<a class="headerlink" href="#customgbforce" title="Permalink to this headline">¶</a></h3>
 <p>To add a CustomGBForce to the System, include a tag that looks like this:</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;CustomGBForce&gt;</span>
  <span class="nt">&lt;GlobalParameter</span> <span class="na">name=</span><span class="s">&quot;solventDielectric&quot;</span> <span class="na">defaultValue=</span><span class="s">&quot;78.3&quot;</span><span class="nt">/&gt;</span>
@@ -775,10 +775,10 @@ attribute name must match the name of the parameter.  For instance, if there is
 a per-atom parameter with the name “radius”, then every <code class="code docutils literal notranslate"><span class="pre">&lt;Atom&gt;</span></code> tag
 must include an attribute called <code class="code docutils literal notranslate"><span class="pre">radius</span></code>.</p>
 <p>CustomGBForce also allows you to define tabulated functions.  See Section
-<a class="reference internal" href="05_creating_ffs.html#tabulated-functions"><span class="std std-numref">6.2.20</span></a> for details.</p>
+<a class="reference internal" href="#tabulated-functions"><span class="std std-numref">6.2.20</span></a> for details.</p>
 </section>
 <section id="customhbondforce">
-<h3><span class="section-number">6.2.17. </span>&lt;CustomHbondForce&gt;<a class="headerlink" href="05_creating_ffs.html#customhbondforce" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.2.17. </span>&lt;CustomHbondForce&gt;<a class="headerlink" href="#customhbondforce" title="Permalink to this headline">¶</a></h3>
 <p>To add a CustomHbondForce to the System, include a tag that looks like this:</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;CustomHbondForce</span> <span class="na">particlesPerDonor=</span><span class="s">&quot;3&quot;</span> <span class="na">particlesPerAcceptor=</span><span class="s">&quot;2&quot;</span> <span class="na">bondCutoff=</span><span class="s">&quot;2&quot;</span>
     <span class="na">energy=</span><span class="s">&quot;scale*k*(distance(a1,d1)-r0)^2*(angle(a1,d1,d2)-theta0)^2&quot;</span><span class="nt">&gt;</span>
@@ -824,10 +824,10 @@ be specified for every tag, and the attribute name must match the name of the
 parameter.  For instance, if there is a per-donor parameter with the name “k”,
 then every <code class="code docutils literal notranslate"><span class="pre">&lt;Donor&gt;</span></code> tag must include an attribute called <code class="code docutils literal notranslate"><span class="pre">k</span></code>.</p>
 <p>CustomHbondForce also allows you to define tabulated functions.  See Section
-<a class="reference internal" href="05_creating_ffs.html#tabulated-functions"><span class="std std-numref">6.2.20</span></a> for details.</p>
+<a class="reference internal" href="#tabulated-functions"><span class="std std-numref">6.2.20</span></a> for details.</p>
 </section>
 <section id="custommanyparticleforce">
-<h3><span class="section-number">6.2.18. </span>&lt;CustomManyParticleForce&gt;<a class="headerlink" href="05_creating_ffs.html#custommanyparticleforce" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.2.18. </span>&lt;CustomManyParticleForce&gt;<a class="headerlink" href="#custommanyparticleforce" title="Permalink to this headline">¶</a></h3>
 <p>To add a CustomManyParticleForce to the System, include a tag that looks like this:</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;CustomManyParticleForce</span> <span class="na">particlesPerSet=</span><span class="s">&quot;3&quot;</span> <span class="na">permutationMode=</span><span class="s">&quot;UniqueCentralParticle&quot;</span>
     <span class="na">bondCutoff=</span><span class="s">&quot;3&quot;</span> <span class="na">energy=</span><span class="s">&quot;scale*(distance(p1,p2)-r1)*(distance(p1,p3)-r1)&quot;</span><span class="nt">&gt;</span>
@@ -871,10 +871,10 @@ attribute name must match the name of the parameter.  For instance, if there is
 a per-atom parameter with the name “radius”, then every <code class="code docutils literal notranslate"><span class="pre">&lt;Atom&gt;</span></code> tag
 must include an attribute called <code class="code docutils literal notranslate"><span class="pre">radius</span></code>.</p>
 <p>CustomManyParticleForce also allows you to define tabulated functions.  See Section
-<a class="reference internal" href="05_creating_ffs.html#tabulated-functions"><span class="std std-numref">6.2.20</span></a> for details.</p>
+<a class="reference internal" href="#tabulated-functions"><span class="std std-numref">6.2.20</span></a> for details.</p>
 </section>
 <section id="writing-custom-expressions">
-<h3><span class="section-number">6.2.19. </span>Writing Custom Expressions<a class="headerlink" href="05_creating_ffs.html#writing-custom-expressions" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.2.19. </span>Writing Custom Expressions<a class="headerlink" href="#writing-custom-expressions" title="Permalink to this headline">¶</a></h3>
 <p>The custom forces described in this chapter involve user defined algebraic
 expressions.  These expressions are specified as character strings, and may
 involve a variety of standard operators and mathematical functions.</p>
@@ -903,7 +903,7 @@ the expression</p>
 values.  All uses of a value must appear <em>before</em> that value’s definition.</p>
 </section>
 <section id="tabulated-functions">
-<span id="id2"></span><h3><span class="section-number">6.2.20. </span>Tabulated Functions<a class="headerlink" href="05_creating_ffs.html#tabulated-functions" title="Permalink to this headline">¶</a></h3>
+<span id="id2"></span><h3><span class="section-number">6.2.20. </span>Tabulated Functions<a class="headerlink" href="#tabulated-functions" title="Permalink to this headline">¶</a></h3>
 <p>Some forces, such as CustomNonbondedForce and CustomGBForce, allow you to define
 tabulated functions.  To define a function, include a <code class="code docutils literal notranslate"><span class="pre">&lt;Function&gt;</span></code> tag inside the
 <code class="code docutils literal notranslate"><span class="pre">&lt;CustomNonbondedForce&gt;</span></code> or <code class="code docutils literal notranslate"><span class="pre">&lt;CustomGBForce&gt;</span></code> tag:</p>
@@ -963,7 +963,7 @@ successive values separated by white space.  See the API documentation for more
 details.</p>
 </section>
 <section id="residue-template-parameters">
-<h3><span class="section-number">6.2.21. </span>Residue Template Parameters<a class="headerlink" href="05_creating_ffs.html#residue-template-parameters" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.2.21. </span>Residue Template Parameters<a class="headerlink" href="#residue-template-parameters" title="Permalink to this headline">¶</a></h3>
 <p>In forces that use an <code class="code docutils literal notranslate"><span class="pre">&lt;Atom&gt;</span></code> tag to define parameters for atom types or
 classes, there is an alternate mechanism you can also use: defining those
 parameter values in the residue template.  This is useful for situations that
@@ -997,7 +997,7 @@ need to be specified once for each class.  The atom charges, which are different
 for each type, are taken from the residue template instead.</p>
 </section>
 <section id="including-other-files">
-<h3><span class="section-number">6.2.22. </span>Including Other Files<a class="headerlink" href="05_creating_ffs.html#including-other-files" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.2.22. </span>Including Other Files<a class="headerlink" href="#including-other-files" title="Permalink to this headline">¶</a></h3>
 <p>Sometimes it is useful to split a force field definition into multiple files,
 but still be able to use the force field by specifying only a single file.  You
 can accomplish this with the <code class="code docutils literal notranslate"><span class="pre">&lt;Include&gt;</span></code> tag.  For example:</p>
@@ -1014,7 +1014,7 @@ built in force fields).</p>
 </section>
 </section>
 <section id="using-multiple-files">
-<h2><span class="section-number">6.3. </span>Using Multiple Files<a class="headerlink" href="05_creating_ffs.html#using-multiple-files" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">6.3. </span>Using Multiple Files<a class="headerlink" href="#using-multiple-files" title="Permalink to this headline">¶</a></h2>
 <p>If multiple XML files are specified when a ForceField is created, their
 definitions are combined as follows.</p>
 <ul class="simple">
@@ -1037,12 +1037,12 @@ multiple bonds between a single pair of atoms.</p></li>
 </ul>
 </section>
 <section id="extending-forcefield">
-<h2><span class="section-number">6.4. </span>Extending ForceField<a class="headerlink" href="05_creating_ffs.html#extending-forcefield" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">6.4. </span>Extending ForceField<a class="headerlink" href="#extending-forcefield" title="Permalink to this headline">¶</a></h2>
 <p>The ForceField class is designed to be modular and extensible.  This means you
 can add support for entirely new force types, such as ones implemented with
 plugins.</p>
 <section id="adding-new-force-types">
-<h3><span class="section-number">6.4.1. </span>Adding new force types<a class="headerlink" href="05_creating_ffs.html#adding-new-force-types" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.4.1. </span>Adding new force types<a class="headerlink" href="#adding-new-force-types" title="Permalink to this headline">¶</a></h3>
 <p>For every force class, there is a “generator” class that parses the
 corresponding XML tag, then creates Force objects and adds them to the System.
 ForceField maintains a map of tag names to generator classes.  When a ForceField
@@ -1097,7 +1097,7 @@ parsing it.</p>
 a <code class="code docutils literal notranslate"><span class="pre">&lt;MyForce&gt;</span></code> tag, it will be recognized and processed correctly.</p>
 </section>
 <section id="adding-residue-template-generators">
-<h3><span class="section-number">6.4.2. </span>Adding residue template generators<a class="headerlink" href="05_creating_ffs.html#adding-residue-template-generators" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">6.4.2. </span>Adding residue template generators<a class="headerlink" href="#adding-residue-template-generators" title="Permalink to this headline">¶</a></h3>
 <div class="admonition caution">
 <p class="admonition-title">Caution</p>
 <p>This feature is experimental, and its API is subject to change.</p>
@@ -1214,11 +1214,11 @@ calling the <code class="code docutils literal notranslate"><span class="pre">ge
 <li class="toctree-l2"><a class="reference internal" href="02_running_sims.html">3. Running Simulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03_model_building_editing.html">4. Model Building and Editing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04_advanced_sim_examples.html">5. Advanced Simulation Examples</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="05_creating_ffs.html#">6. Creating Force Fields</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="05_creating_ffs.html#basic-concepts">6.1. Basic Concepts</a></li>
-<li class="toctree-l3"><a class="reference internal" href="05_creating_ffs.html#writing-the-xml-file">6.2. Writing the XML File</a></li>
-<li class="toctree-l3"><a class="reference internal" href="05_creating_ffs.html#using-multiple-files">6.3. Using Multiple Files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="05_creating_ffs.html#extending-forcefield">6.4. Extending ForceField</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">6. Creating Force Fields</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#basic-concepts">6.1. Basic Concepts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#writing-the-xml-file">6.2. Writing the XML File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-multiple-files">6.3. Using Multiple Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#extending-forcefield">6.4. Extending ForceField</a></li>
 </ul>
 </li>
 </ul>
@@ -1241,19 +1241,19 @@ calling the <code class="code docutils literal notranslate"><span class="pre">ge
         </li>
         
         <li class="toctree-l1">
-            <a href="http://docs.openmm.org/7.7.0/developerguide/">
+            <a href="../../developerguide/">
                 Developer Guide
             </a>
         </li>
         
         <li class="toctree-l1">
-            <a href="http://docs.openmm.org/7.7.0/api-python/">
+            <a href="../../api-python/">
                 Python API reference
             </a>
         </li>
         
         <li class="toctree-l1">
-            <a href="http://docs.openmm.org/7.7.0/api-c++/">
+            <a href="../../api-c++/">
                 C++ API reference
             </a>
         </li>

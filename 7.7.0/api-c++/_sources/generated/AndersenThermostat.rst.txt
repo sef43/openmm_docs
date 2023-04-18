@@ -1,0 +1,7 @@
+.. _OpenMM::AndersenThermostat:
+
+``AndersenThermostat``
+======================
+
+.. doxygenclass:: OpenMM::AndersenThermostat
+   :members:

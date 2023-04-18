@@ -1,0 +1,384 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Unit &#8212; OpenMM Python API 8.0.0.dev-c7efe3d documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="UnitSystem" href="openmm.unit.unit.UnitSystem.html" />
+    <link rel="prev" title="SiPrefix" href="openmm.unit.prefix.SiPrefix.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="unit">
+<h1>Unit<a class="headerlink" href="openmm.unit.unit.Unit.html#unit" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="openmm.unit.unit.Unit">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">openmm.unit.unit.</span></span><span class="sig-name descname"><span class="pre">Unit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_or_scaled_units</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Physical unit such as meter or ampere.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.unit.unit.Unit.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_or_scaled_units</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new Unit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<a class="reference internal" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit" title="openmm.unit.unit.Unit"><em>Unit</em></a>) – The newly created Unit.</p></li>
+<li><p><strong>base_or_scaled_units</strong> (<em>dict</em>) – Keys are BaseUnits or ScaledUnits.  Values are exponents (numbers).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.__init__" title="openmm.unit.unit.Unit.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(base_or_scaled_units)</p></td>
+<td><p>Create a new Unit.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.conversion_factor_to" title="openmm.unit.unit.Unit.conversion_factor_to"><code class="xref py py-obj docutils literal notranslate"><span class="pre">conversion_factor_to</span></code></a>(other)</p></td>
+<td><p>Returns conversion factor for computing all of the common dimensions between self and other from self base units to other base units.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.create_unit" title="openmm.unit.unit.Unit.create_unit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_unit</span></code></a>(scale, name, symbol)</p></td>
+<td><p>Convenience method for creating a new simple unit from another simple unit.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.get_conversion_factor_to_base_units" title="openmm.unit.unit.Unit.get_conversion_factor_to_base_units"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_conversion_factor_to_base_units</span></code></a>()</p></td>
+<td><p>There may be ScaleUnit components to this Unit.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.get_name" title="openmm.unit.unit.Unit.get_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_name</span></code></a>()</p></td>
+<td><p>Returns a unit name (string) for this Unit, composed of its various BaseUnit symbols.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.get_symbol" title="openmm.unit.unit.Unit.get_symbol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_symbol</span></code></a>()</p></td>
+<td><p>Returns a unit symbol (string) for this Unit, composed of its various BaseUnit symbols.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.in_unit_system" title="openmm.unit.unit.Unit.in_unit_system"><code class="xref py py-obj docutils literal notranslate"><span class="pre">in_unit_system</span></code></a>(system)</p></td>
+<td><p>Returns a new Unit with the same dimensions as this one, expressed in a particular unit system.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.is_compatible" title="openmm.unit.unit.Unit.is_compatible"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_compatible</span></code></a>(other)</p></td>
+<td><p>Returns True if two Units share the same dimension.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.is_dimensionless" title="openmm.unit.unit.Unit.is_dimensionless"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_dimensionless</span></code></a>()</p></td>
+<td><p>Returns True if this Unit has no dimensions.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.iter_all_base_units" title="openmm.unit.unit.Unit.iter_all_base_units"><code class="xref py py-obj docutils literal notranslate"><span class="pre">iter_all_base_units</span></code></a>()</p></td>
+<td><p>Yields (BaseUnit, exponent) tuples comprising this unit, including those BaseUnits found within ScaledUnits.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.iter_base_dimensions" title="openmm.unit.unit.Unit.iter_base_dimensions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">iter_base_dimensions</span></code></a>()</p></td>
+<td><p>Yields (BaseDimension, exponent) tuples comprising this unit.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">iter_base_or_scaled_units</span></code>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">iter_scaled_units</span></code>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.iter_top_base_units" title="openmm.unit.unit.Unit.iter_top_base_units"><code class="xref py py-obj docutils literal notranslate"><span class="pre">iter_top_base_units</span></code></a>()</p></td>
+<td><p>Yields (BaseUnit, exponent) tuples in this Unit, excluding those within BaseUnits.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.sqrt" title="openmm.unit.unit.Unit.sqrt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sqrt</span></code></a>()</p></td>
+<td><p>Returns square root of a unit.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.unit.unit.Unit.create_unit">
+<span class="sig-name descname"><span class="pre">create_unit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symbol</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.create_unit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience method for creating a new simple unit from another simple unit.
+Both units must consist of a single BaseUnit.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.unit.unit.Unit.iter_base_dimensions">
+<span class="sig-name descname"><span class="pre">iter_base_dimensions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.iter_base_dimensions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields (BaseDimension, exponent) tuples comprising this unit.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.unit.unit.Unit.iter_all_base_units">
+<span class="sig-name descname"><span class="pre">iter_all_base_units</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.iter_all_base_units" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields (BaseUnit, exponent) tuples comprising this unit, including those BaseUnits
+found within ScaledUnits.</p>
+<p>There might be multiple BaseUnits with the same dimension.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.unit.unit.Unit.iter_top_base_units">
+<span class="sig-name descname"><span class="pre">iter_top_base_units</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.iter_top_base_units" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields (BaseUnit, exponent) tuples in this Unit, excluding those within BaseUnits.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.unit.unit.Unit.get_conversion_factor_to_base_units">
+<span class="sig-name descname"><span class="pre">get_conversion_factor_to_base_units</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.get_conversion_factor_to_base_units" title="Permalink to this definition">¶</a></dt>
+<dd><p>There may be ScaleUnit components to this Unit.
+Returns conversion factor to the set of BaseUnits returned by iter_all_base_units().</p>
+<p>Units comprised of only BaseUnits return 1.0</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.unit.unit.Unit.__lt__">
+<span class="sig-name descname"><span class="pre">__lt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.__lt__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compare two Units.</p>
+<p>Raises a TypeError if the units have different dimensions.</p>
+<p>Returns True if self &lt; other, False otherwise.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.unit.unit.Unit.__hash__">
+<span class="sig-name descname"><span class="pre">__hash__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.__hash__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute a hash code for this object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.unit.unit.Unit.__truediv__">
+<span class="sig-name descname"><span class="pre">__truediv__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.__truediv__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Divide a Unit by another object.</p>
+<p>Returns a composite Unit if other is another Unit.</p>
+<p>Returns a Quantity otherwise.  UNLESS other is a Quantity AND
+the resulting unit type is dimensionless, in which case the underlying
+value type of the Quantity is returned.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.unit.unit.Unit.__div__">
+<span class="sig-name descname"><span class="pre">__div__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.__div__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Divide a Unit by another object.</p>
+<p>Returns a composite Unit if other is another Unit.</p>
+<p>Returns a Quantity otherwise.  UNLESS other is a Quantity AND
+the resulting unit type is dimensionless, in which case the underlying
+value type of the Quantity is returned.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.unit.unit.Unit.__pow__">
+<span class="sig-name descname"><span class="pre">__pow__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exponent</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.__pow__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raise a Unit to a power.</p>
+<p>Returns a new Unit with different exponents on the BaseUnits.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.unit.unit.Unit.sqrt">
+<span class="sig-name descname"><span class="pre">sqrt</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.sqrt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns square root of a unit.</p>
+<p>Raises ArithmeticError if component exponents are not even.
+This behavior can be changed if you present a reasonable real life case to me.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.unit.unit.Unit.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.__str__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the human-readable name of this unit</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.unit.unit.Unit.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a unit name (string) for this Unit, composed of its various
+BaseUnit symbols.  e.g. ‘kilogram meter**2 second**-1’</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.unit.unit.Unit.is_compatible">
+<span class="sig-name descname"><span class="pre">is_compatible</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.is_compatible" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if two Units share the same dimension.
+Returns False otherwise.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.unit.unit.Unit.is_dimensionless">
+<span class="sig-name descname"><span class="pre">is_dimensionless</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.is_dimensionless" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if this Unit has no dimensions.
+Returns False otherwise.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.unit.unit.Unit.conversion_factor_to">
+<span class="sig-name descname"><span class="pre">conversion_factor_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.conversion_factor_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns conversion factor for computing all of the common dimensions
+between self and other from self base units to other base units.</p>
+<p>The two units need not share all of the same dimensions.  In case they
+do not, the conversion factor applies only to the BaseUnits of self
+that correspond to different BaseUnits in other.</p>
+<p>This method requires strict compatibility between the two units.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.unit.unit.Unit.in_unit_system">
+<span class="sig-name descname"><span class="pre">in_unit_system</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.in_unit_system" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new Unit with the same dimensions as this one, expressed in a particular unit system.</p>
+<p>Strips off any ScaledUnits in the Unit, leaving only BaseUnits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>system</strong> (<em>a dictionary of</em><em> (</em><a class="reference internal" href="openmm.unit.basedimension.BaseDimension.html#openmm.unit.basedimension.BaseDimension" title="openmm.unit.basedimension.BaseDimension"><em>BaseDimension</em></a><em>, </em><a class="reference internal" href="openmm.unit.baseunit.BaseUnit.html#openmm.unit.baseunit.BaseUnit" title="openmm.unit.baseunit.BaseUnit"><em>BaseUnit</em></a><em>) </em><em>pairs</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.unit.unit.Unit.get_symbol">
+<span class="sig-name descname"><span class="pre">get_symbol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.get_symbol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a unit symbol (string) for this Unit, composed of its various
+BaseUnit symbols.  e.g. ‘kg m**2 s**-1’</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.unit.unit.Unit.get_name">
+<span class="sig-name descname"><span class="pre">get_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="openmm.unit.unit.Unit.html#openmm.unit.unit.Unit.get_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a unit name (string) for this Unit, composed of its various
+BaseUnit symbols.  e.g. ‘kilogram meter**2 secon**-1’.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="openmm.unit.prefix.SiPrefix.html" title="Previous document">SiPrefix</a>
+        </li>
+        <li>
+          <a href="openmm.unit.unit.UnitSystem.html" title="Next document">UnitSystem</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM Python API</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../app.html">Application Layer</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../app.html#loaders-and-setup">Loaders and Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app.html#representation-and-manipulation">Representation and Manipulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app.html#simulation">Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app.html#reporting-output">Reporting Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app.html#extras">Extras</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../app.html#units">Units</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../library.html">Library Layer</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../userguide">
+                User's Manual
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../developerguide/index.html">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../api-c++/index.html">
+                C++ API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Stanford University and the Authors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../_sources/generated/openmm.unit.unit.Unit.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,7 @@
+.. _OpenMM::CustomAngleForce:
+
+``CustomAngleForce``
+====================
+
+.. doxygenclass:: OpenMM::CustomAngleForce
+   :members:

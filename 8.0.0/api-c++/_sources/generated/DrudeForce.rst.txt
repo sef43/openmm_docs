@@ -1,0 +1,7 @@
+.. _OpenMM::DrudeForce:
+
+``DrudeForce``
+==============
+
+.. doxygenclass:: OpenMM::DrudeForce
+   :members:

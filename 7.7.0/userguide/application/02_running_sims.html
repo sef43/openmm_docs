@@ -35,9 +35,9 @@
           <div class="body" role="main">
             
   <section id="running-simulations">
-<span id="id1"></span><h1><span class="section-number">3. </span>Running Simulations<a class="headerlink" href="02_running_sims.html#running-simulations" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1><span class="section-number">3. </span>Running Simulations<a class="headerlink" href="#running-simulations" title="Permalink to this headline">¶</a></h1>
 <section id="a-first-example">
-<span id="id2"></span><h2><span class="section-number">3.1. </span>A First Example<a class="headerlink" href="02_running_sims.html#a-first-example" title="Permalink to this headline">¶</a></h2>
+<span id="id2"></span><h2><span class="section-number">3.1. </span>A First Example<a class="headerlink" href="#a-first-example" title="Permalink to this headline">¶</a></h2>
 <p>Let’s begin with our first example of an OpenMM script. It loads a PDB file
 called <code class="file docutils literal notranslate"><span class="pre">input.pdb</span></code> that defines a biomolecular system, parameterizes it using the Amber14 force field and TIP3P-FB water
 model, energy minimizes it, simulates it for 10,000 steps with a Langevin
@@ -110,7 +110,7 @@ files in the newer PDBx/mmCIF format: just change <code class="xref py py-class 
 </pre></div>
 </div>
 <p>This line specifies the force field to use for the simulation.  Force fields are
-defined by XML files.  OpenMM includes XML files defining lots of standard force fields (see Section <a class="reference internal" href="02_running_sims.html#force-fields"><span class="std std-numref">3.6.2</span></a>).
+defined by XML files.  OpenMM includes XML files defining lots of standard force fields (see Section <a class="reference internal" href="#force-fields"><span class="std std-numref">3.6.2</span></a>).
 If you find you need to extend the repertoire of force fields available,
 you can find more information on how to create these XML files in Chapter <a class="reference internal" href="05_creating_ffs.html#creating-force-fields"><span class="std std-numref">6</span></a>.
 In this case we load two of those files: <code class="file docutils literal notranslate"><span class="pre">amber14-all.xml</span></code>, which contains the
@@ -146,7 +146,7 @@ simulation temperature (300 K), the friction coefficient (1 ps<sup>-1</sup>), an
 the step size (0.004 ps).  Lots of other integration methods are also available.
 For example, if you wanted to simulate the system at constant energy rather than
 constant temperature you would use a <code class="code docutils literal notranslate"><span class="pre">VerletIntegrator</span></code>.  The available
-integration methods are listed in Section <a class="reference internal" href="02_running_sims.html#integrators"><span class="std std-numref">3.6.8</span></a>.</p>
+integration methods are listed in Section <a class="reference internal" href="#integrators"><span class="std std-numref">3.6.8</span></a>.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">simulation</span> <span class="o">=</span> <span class="n">Simulation</span><span class="p">(</span><span class="n">pdb</span><span class="o">.</span><span class="n">topology</span><span class="p">,</span> <span class="n">system</span><span class="p">,</span> <span class="n">integrator</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -191,7 +191,7 @@ time steps.  Once it is finished, you can load the PDB file into any program you
 want for analysis and visualization (<a class="reference external" href="http://www.ks.uiuc.edu/Research/vmd/">VMD</a>, <a class="reference external" href="http://www.pymol.org">PyMol</a>, <a class="reference external" href="http://ambermd.org">AmberTools</a>, etc.).</p>
 </section>
 <section id="using-amber-files">
-<span id="id3"></span><h2><span class="section-number">3.2. </span>Using AMBER Files<a class="headerlink" href="02_running_sims.html#using-amber-files" title="Permalink to this headline">¶</a></h2>
+<span id="id3"></span><h2><span class="section-number">3.2. </span>Using AMBER Files<a class="headerlink" href="#using-amber-files" title="Permalink to this headline">¶</a></h2>
 <p>OpenMM can build a system in several different ways.  One option, as shown
 above, is to start with a PDB file and then select a force field with which to
 model it.  Alternatively, you can use <a class="reference external" href="http://ambermd.org">AmberTools</a> to model your system.  In that
@@ -275,7 +275,7 @@ we call <code class="xref py py-meth docutils literal notranslate"><span class="
 default ones provided by the <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code>.</p>
 </section>
 <section id="using-gromacs-files">
-<span id="id4"></span><h2><span class="section-number">3.3. </span>Using Gromacs Files<a class="headerlink" href="02_running_sims.html#using-gromacs-files" title="Permalink to this headline">¶</a></h2>
+<span id="id4"></span><h2><span class="section-number">3.3. </span>Using Gromacs Files<a class="headerlink" href="#using-gromacs-files" title="Permalink to this headline">¶</a></h2>
 <p>A third option for creating your system is to use the Gromacs setup tools.  They
 produce a <code class="file docutils literal notranslate"><span class="pre">gro</span></code> file containing the coordinates and a <code class="file docutils literal notranslate"><span class="pre">top</span></code> file containing the
 topology.  OpenMM can load these exactly as it did the AMBER files.  This is
@@ -328,7 +328,7 @@ this parameter, but if the Gromacs files were installed in any other location,
 we would need to include it.</p>
 </section>
 <section id="using-charmm-files">
-<span id="id5"></span><h2><span class="section-number">3.4. </span>Using CHARMM Files<a class="headerlink" href="02_running_sims.html#using-charmm-files" title="Permalink to this headline">¶</a></h2>
+<span id="id5"></span><h2><span class="section-number">3.4. </span>Using CHARMM Files<a class="headerlink" href="#using-charmm-files" title="Permalink to this headline">¶</a></h2>
 <p>Yet another option is to load files created by the CHARMM setup tools, or other compatible
 tools such as VMD.  Those include a <code class="file docutils literal notranslate"><span class="pre">psf</span></code> file containing topology information, and an
 ordinary PDB file for the atomic coordinates.  (Coordinates can also be loaded from CHARMM
@@ -367,7 +367,7 @@ on the <code class="xref py py-class docutils literal notranslate"><span class="
 <p>Note that both the CHARMM and XPLOR versions of the <code class="file docutils literal notranslate"><span class="pre">psf</span></code> file format are supported.</p>
 </section>
 <section id="the-openmm-setup-application">
-<span id="the-script-builder-application"></span><h2><span class="section-number">3.5. </span>The OpenMM-Setup Application<a class="headerlink" href="02_running_sims.html#the-openmm-setup-application" title="Permalink to this headline">¶</a></h2>
+<span id="the-script-builder-application"></span><h2><span class="section-number">3.5. </span>The OpenMM-Setup Application<a class="headerlink" href="#the-openmm-setup-application" title="Permalink to this headline">¶</a></h2>
 <p>One way to create your own scripts is to start with one of the examples given
 above and customize it to suit your needs, but there’s an even easier option.
 OpenMM-Setup is a graphical application that walks you through the whole process
@@ -376,7 +376,7 @@ script, and can even run it for you.</p>
 <figure class="align-center" id="id73">
 <a class="reference internal image-reference" href="../_images/OpenMMSetup.png"><img alt="../_images/OpenMMSetup.png" src="../_images/OpenMMSetup.png" style="width: 100%;" /></a>
 <figcaption>
-<p><span class="caption-text">Figure 3-1:  The OpenMM-Setup application</span><a class="headerlink" href="02_running_sims.html#id73" title="Permalink to this image">¶</a></p>
+<p><span class="caption-text">Figure 3-1:  The OpenMM-Setup application</span><a class="headerlink" href="#id73" title="Permalink to this image">¶</a></p>
 </figcaption>
 </figure>
 <p>To install OpenMM-Setup, open a command line terminal and type the following command</p>
@@ -394,10 +394,10 @@ more.  It is a very easy way to quickly do all necessary preparation and setup.
 We highly recommend it to all users of OpenMM, from novices to experts.</p>
 </section>
 <section id="simulation-parameters">
-<span id="id6"></span><h2><span class="section-number">3.6. </span>Simulation Parameters<a class="headerlink" href="02_running_sims.html#simulation-parameters" title="Permalink to this headline">¶</a></h2>
+<span id="id6"></span><h2><span class="section-number">3.6. </span>Simulation Parameters<a class="headerlink" href="#simulation-parameters" title="Permalink to this headline">¶</a></h2>
 <p>Now let’s consider lots of ways you might want to customize your script.</p>
 <section id="platforms">
-<h3><span class="section-number">3.6.1. </span>Platforms<a class="headerlink" href="02_running_sims.html#platforms" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.6.1. </span>Platforms<a class="headerlink" href="#platforms" title="Permalink to this headline">¶</a></h3>
 <p>When creating a <code class="xref py py-class docutils literal notranslate"><span class="pre">Simulation</span></code>, you can optionally tell it what <code class="xref py py-class docutils literal notranslate"><span class="pre">Platform</span></code> to use.
 OpenMM includes four platforms: <code class="xref py py-class docutils literal notranslate"><span class="pre">Reference</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">CPU</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">CUDA</span></code>, and <code class="xref py py-class docutils literal notranslate"><span class="pre">OpenCL</span></code>.  For a
 description of the differences between them, see Section <a class="reference internal" href="../library/01_introduction.html#platforms"><span class="std std-numref">7.7</span></a>.  There are three ways in which
@@ -426,7 +426,7 @@ double precision:</p>
 </div>
 </section>
 <section id="force-fields">
-<span id="id7"></span><h3><span class="section-number">3.6.2. </span>Force Fields<a class="headerlink" href="02_running_sims.html#force-fields" title="Permalink to this headline">¶</a></h3>
+<span id="id7"></span><h3><span class="section-number">3.6.2. </span>Force Fields<a class="headerlink" href="#force-fields" title="Permalink to this headline">¶</a></h3>
 <p>When you create a force field, you specify one or more XML files from which to
 load the force field definition.  Most often, there will be one file to define
 the main force field, and possibly a second file to define the water model
@@ -446,7 +446,7 @@ must first add the extra particles to the <code class="xref py py-class docutils
 <p>The force fields described below are the ones that are bundled with OpenMM.
 Additional force fields are available online at <a class="reference external" href="https://github.com/choderalab/openmm-forcefields">https://github.com/choderalab/openmm-forcefields</a>.</p>
 <section id="amber14">
-<h4>Amber14<a class="headerlink" href="02_running_sims.html#amber14" title="Permalink to this headline">¶</a></h4>
+<h4>Amber14<a class="headerlink" href="#amber14" title="Permalink to this headline">¶</a></h4>
 <p>The Amber14<span id="id8">[<a class="reference internal" href="../zbibliography.html#id32" title="James A. Maier, Carmenza Martinez, Koushik Kasavajhala, Lauren Wickstrom, Kevin E. Hauser, and Carlos Simmerling. Ff14sb: improving the accuracy of protein side chain and backbone parameters from ff99sb. Journal of Chemical Theory and Computation, 11(8):3696-3713, 2015.">1</a>]</span> force field is made up of various files that define
 parameters for proteins, DNA, RNA, lipids, water, and ions.</p>
 <table class="docutils align-default">
@@ -528,7 +528,7 @@ you run the risk of having <code class="xref py py-class docutils literal notran
 and were converted using the <a class="reference external" href="https://github.com/choderalab/openmm-forcefields">openmm-forcefields</a> package and <a class="reference external" href="https://github.com/parmed/parmed">ParmEd</a>.</p>
 </section>
 <section id="charmm36">
-<h4>CHARMM36<a class="headerlink" href="02_running_sims.html#charmm36" title="Permalink to this headline">¶</a></h4>
+<h4>CHARMM36<a class="headerlink" href="#charmm36" title="Permalink to this headline">¶</a></h4>
 <p>The CHARMM36<span id="id16">[<a class="reference internal" href="../zbibliography.html#id8" title="Robert B. Best, Xiao Zhu, Jihyun Shim, Pedro E. M. Lopes, Jeetain Mittal, Michael Feig, and Alexander D. MacKerell. Optimization of the additive charmm all-atom protein force field targeting improved sampling of the backbone φ, ψ, and side-chain χ1 and χ2 dihedral angles. Journal of Chemical Theory and Computation, 8(9):3257-3273, 2012.">7</a>]</span> force field provides parameters for proteins, DNA,
 RNA, lipids, carbohydrates, water, ions, and various small molecules (see <a class="reference external" href="http://mackerell.umaryland.edu/charmm_ff.shtml#refs">here</a>
 for full references).</p>
@@ -608,7 +608,7 @@ must already contain appropriate hydrogens. This can often cause problems when
 trying to read in PDB files from sources such as <a class="reference external" href="http://charmm-gui.org/">CHARMM-GUI</a>
 that do not generate PDB files that comply with the <a class="reference external" href="http://www.wwpdb.org/documentation/file-format">PDB standard</a>.
 If you’re using files from <a class="reference external" href="http://charmm-gui.org/">CHARMM-GUI</a>, it’s easiest to load
-the PSF file directly, as discussed in Section <a class="reference internal" href="02_running_sims.html#using-charmm-files"><span class="std std-numref">3.4</span></a>.</p>
+the PSF file directly, as discussed in Section <a class="reference internal" href="#using-charmm-files"><span class="std std-numref">3.4</span></a>.</p>
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
@@ -620,13 +620,13 @@ can cause issues with the detection and parameter assignment for disulfide bonds
 Make sure the files you read in comply with the appropriate standards regarding
 additional bonds and nonstandard residue definitions. If you’re using files from
 <a class="reference external" href="http://charmm-gui.org/">CHARMM-GUI</a>, it’s easiest to load
-the PSF file directly, as discussed in Section <a class="reference internal" href="02_running_sims.html#using-charmm-files"><span class="std std-numref">3.4</span></a>.</p>
+the PSF file directly, as discussed in Section <a class="reference internal" href="#using-charmm-files"><span class="std std-numref">3.4</span></a>.</p>
 </div>
 <p>The converted parameter sets come from the <a class="reference external" href="http://mackerell.umaryland.edu/charmm_ff.shtml">CHARMM36 July 2017 update</a>
 and were converted using the <a class="reference external" href="https://github.com/choderalab/openmm-forcefields">openmm-forcefields</a> package and <a class="reference external" href="https://github.com/parmed/parmed">parmed</a>.</p>
 </section>
 <section id="implicit-solvent">
-<h4>Implicit Solvent<a class="headerlink" href="02_running_sims.html#implicit-solvent" title="Permalink to this headline">¶</a></h4>
+<h4>Implicit Solvent<a class="headerlink" href="#implicit-solvent" title="Permalink to this headline">¶</a></h4>
 <p>The Amber and CHARMM force fields described above can be used with any of the Generalized
 Born implicit solvent models from AMBER.  To use them, include an extra file when
 creating the ForceField.  For example,</p>
@@ -687,7 +687,7 @@ Debye-Huckel screening parameter<span id="id39">[<a class="reference internal" h
 dielectric constant, and <span class="math notranslate nohighlight">\(T\)</span> is the temperature in Kelvin.</p>
 </section>
 <section id="amoeba">
-<h4>AMOEBA<a class="headerlink" href="02_running_sims.html#amoeba" title="Permalink to this headline">¶</a></h4>
+<h4>AMOEBA<a class="headerlink" href="#amoeba" title="Permalink to this headline">¶</a></h4>
 <p>The AMOEBA polarizable force field provides parameters for proteins, nucleic acids, water, and ions.</p>
 <table class="docutils align-default">
 <colgroup>
@@ -729,7 +729,7 @@ it, also include <code class="file docutils literal notranslate"><span class="pr
 recommended for most simulations.</p>
 </section>
 <section id="charmm-polarizable-force-field">
-<h4>CHARMM Polarizable Force Field<a class="headerlink" href="02_running_sims.html#charmm-polarizable-force-field" title="Permalink to this headline">¶</a></h4>
+<h4>CHARMM Polarizable Force Field<a class="headerlink" href="#charmm-polarizable-force-field" title="Permalink to this headline">¶</a></h4>
 <p>To use the CHARMM 2019 polarizable force field<span id="id43">[<a class="reference internal" href="../zbibliography.html#id30" title="Pedro E. M. Lopes, Jing Huang, Jihyun Shim, Yun Luo, Hui Li, Benoît Roux, and Alexander D. MacKerell. Polarizable force field for peptides and proteins based on the classical Drude oscillator. Journal of Chemical Theory and Computation, 9(12):5430-5449, 2013.">12</a>]</span>, include the
 single file <code class="file docutils literal notranslate"><span class="pre">charmm_polar_2019.xml</span></code>.  It includes parameters for proteins, lipids,
 water, and ions.  When using this force field, remember to add extra particles to
@@ -739,7 +739,7 @@ supports Drude particles.  The options are DrudeLangevinIntegrator, DrudeNoseHoo
 and DrudeSCFIntegrator.</p>
 </section>
 <section id="older-force-fields">
-<h4>Older Force Fields<a class="headerlink" href="02_running_sims.html#older-force-fields" title="Permalink to this headline">¶</a></h4>
+<h4>Older Force Fields<a class="headerlink" href="#older-force-fields" title="Permalink to this headline">¶</a></h4>
 <p>OpenMM includes several older force fields as well.  For most simulations, the
 newer force fields described above are preferred over any of these, but they are
 still useful for reproducing older results.</p>
@@ -809,7 +809,7 @@ They are designed for use with Amber force fields, but they are different from
 the parameters found in the AMBER application.</p>
 </section>
 <section id="water-models">
-<h4>Water Models<a class="headerlink" href="02_running_sims.html#water-models" title="Permalink to this headline">¶</a></h4>
+<h4>Water Models<a class="headerlink" href="#water-models" title="Permalink to this headline">¶</a></h4>
 <p>The following files define popular water models.  They can be used with force fields
 that do not provide their own water models.  When using Amber14 or CHARMM36, use
 the water files included with those force fields instead, since they also include
@@ -851,13 +851,13 @@ ion parameters.</p>
 </section>
 </section>
 <section id="small-molecule-parameters">
-<h3><span class="section-number">3.6.3. </span>Small molecule parameters<a class="headerlink" href="02_running_sims.html#small-molecule-parameters" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.6.3. </span>Small molecule parameters<a class="headerlink" href="#small-molecule-parameters" title="Permalink to this headline">¶</a></h3>
 <p>The OpenMM force fields above include pregenerated templates for biopolymers
 and solvents. If your system instead contain small molecules, it is often
 necessary to generate these parameters on the fly.</p>
 <p>There are two options for doing this within the OpenMM <code class="docutils literal notranslate"><span class="pre">app</span></code> ecosystem:</p>
 <section id="small-molecule-residue-template-generators">
-<h4>Small molecule residue template generators<a class="headerlink" href="02_running_sims.html#small-molecule-residue-template-generators" title="Permalink to this headline">¶</a></h4>
+<h4>Small molecule residue template generators<a class="headerlink" href="#small-molecule-residue-template-generators" title="Permalink to this headline">¶</a></h4>
 <p>One approach is to use residue template generators for small molecules from the
 <a class="reference external" href="http://github.com/openmm/openmmforcefields">openmmforcefields</a>  conda package.
 You can install this via conda with:</p>
@@ -902,7 +902,7 @@ Field Initiative small molecule force fields using the following example:</p>
 <p>More documentation can be found on the <a class="reference external" href="http://github.com/openmm/openmmforcefields">openmmforcefields</a> page.</p>
 </section>
 <section id="managing-force-fields-with-systemgenerator">
-<h4>Managing force fields with <code class="docutils literal notranslate"><span class="pre">SystemGenerator</span></code><a class="headerlink" href="02_running_sims.html#managing-force-fields-with-systemgenerator" title="Permalink to this headline">¶</a></h4>
+<h4>Managing force fields with <code class="docutils literal notranslate"><span class="pre">SystemGenerator</span></code><a class="headerlink" href="#managing-force-fields-with-systemgenerator" title="Permalink to this headline">¶</a></h4>
 <p>As an alternative to explicitly registering template generators, the <a class="reference external" href="http://github.com/openmm/openmmforcefields">openmmforcefields</a>
 package provides a <code class="docutils literal notranslate"><span class="pre">SystemGenerator</span></code> facility to simplify biopolymer and
 small molecule force field management. To use this, you can simply specify the
@@ -926,7 +926,7 @@ See the <a class="reference external" href="http://github.com/openmm/openmmforce
 </section>
 </section>
 <section id="amber-implicit-solvent">
-<h3><span class="section-number">3.6.4. </span>AMBER Implicit Solvent<a class="headerlink" href="02_running_sims.html#amber-implicit-solvent" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.6.4. </span>AMBER Implicit Solvent<a class="headerlink" href="#amber-implicit-solvent" title="Permalink to this headline">¶</a></h3>
 <p>When creating a system from a prmtop file you do not specify force field files,
 so you need a different way to tell it to use implicit solvent.  This is done
 with the <code class="code docutils literal notranslate"><span class="pre">implicitSolvent</span></code> parameter:</p>
@@ -957,7 +957,7 @@ allowed values for <code class="code docutils literal notranslate"><span class="
 </tr>
 <tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">OBC2</span></code></p></td>
 <td><p>Onufriev-Bashford-Case GBSA model<span id="id62">[<a class="reference internal" href="../zbibliography.html#id38" title="Alexey Onufriev, Donald Bashford, and David A. Case. Exploring protein native states and large-scale conformational changes with a modified generalized Born model. Proteins, 55(22):383-394, 2004.">14</a>]</span> using the GB<sup>OBC</sup>II parameters (corresponds to igb=5 in AMBER).
-This is the same model used by the GBSA-OBC files described in Section <a class="reference internal" href="02_running_sims.html#force-fields"><span class="std std-numref">3.6.2</span></a>.</p></td>
+This is the same model used by the GBSA-OBC files described in Section <a class="reference internal" href="#force-fields"><span class="std std-numref">3.6.2</span></a>.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">GBn</span></code></p></td>
 <td><p>GBn solvation model<span id="id63">[<a class="reference internal" href="../zbibliography.html#id36" title="John Mongan, Carlos Simmerling, J. Andrew McCammon, David A. Case, and Alexey Onufriev. Generalized Born model with a simple, robust molecular volume correction. Journal of Chemical Theory and Computation, 3(1):156-169, 2007.">15</a>]</span> (corresponds to igb=7 in AMBER).</p></td>
@@ -984,7 +984,7 @@ Debye-Huckel screening parameter<span id="id65">[<a class="reference internal" h
 </div>
 </section>
 <section id="nonbonded-interactions">
-<h3><span class="section-number">3.6.5. </span>Nonbonded Interactions<a class="headerlink" href="02_running_sims.html#nonbonded-interactions" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.6.5. </span>Nonbonded Interactions<a class="headerlink" href="#nonbonded-interactions" title="Permalink to this headline">¶</a></h3>
 <p>When creating the system (either from a force field or a prmtop file), you can
 specify options about how nonbonded interactions should be treated:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">system</span> <span class="o">=</span> <span class="n">prmtop</span><span class="o">.</span><span class="n">createSystem</span><span class="p">(</span><span class="n">nonbondedMethod</span><span class="o">=</span><span class="n">PME</span><span class="p">,</span> <span class="n">nonbondedCutoff</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">nanometer</span><span class="p">)</span>
@@ -1045,7 +1045,7 @@ should start being reduced.  For example:</p>
 </pre></div>
 </div>
 <section id="nonbonded-forces-for-amoeba">
-<h4>Nonbonded Forces for AMOEBA<a class="headerlink" href="02_running_sims.html#nonbonded-forces-for-amoeba" title="Permalink to this headline">¶</a></h4>
+<h4>Nonbonded Forces for AMOEBA<a class="headerlink" href="#nonbonded-forces-for-amoeba" title="Permalink to this headline">¶</a></h4>
 <p>For the AMOEBA force field, the valid values for the <code class="code docutils literal notranslate"><span class="pre">nonbondedMethod</span></code>
 are <code class="code docutils literal notranslate"><span class="pre">NoCutoff</span></code> and <code class="code docutils literal notranslate"><span class="pre">PME</span></code>.  The other nonbonded methods,
 <code class="code docutils literal notranslate"><span class="pre">CutoffNonPeriodic</span></code>, <code class="code docutils literal notranslate"><span class="pre">CutoffPeriodic</span></code>, and <code class="code docutils literal notranslate"><span class="pre">Ewald</span></code>
@@ -1053,7 +1053,7 @@ are unavailable for this force field.</p>
 <p>For implicit solvent runs using AMOEBA, only the <code class="code docutils literal notranslate"><span class="pre">nonbondedMethod</span></code>
 option <code class="code docutils literal notranslate"><span class="pre">NoCutoff</span></code> is available.</p>
 <section id="lennard-jones-interaction-cutoff-value">
-<h5>Lennard-Jones Interaction Cutoff Value<a class="headerlink" href="02_running_sims.html#lennard-jones-interaction-cutoff-value" title="Permalink to this headline">¶</a></h5>
+<h5>Lennard-Jones Interaction Cutoff Value<a class="headerlink" href="#lennard-jones-interaction-cutoff-value" title="Permalink to this headline">¶</a></h5>
 <p>In addition, for the AMOEBA force field a cutoff for the Lennard-Jones
 interaction independent of the value used for the electrostatic interactions may
 be specified using the keyword <code class="code docutils literal notranslate"><span class="pre">vdwCutoff</span></code>.</p>
@@ -1065,7 +1065,7 @@ be specified using the keyword <code class="code docutils literal notranslate"><
 <code class="code docutils literal notranslate"><span class="pre">nonbondedCutoff</span></code> is used for the Lennard-Jones interactions.</p>
 </section>
 <section id="specifying-the-polarization-method">
-<h5>Specifying the Polarization Method<a class="headerlink" href="02_running_sims.html#specifying-the-polarization-method" title="Permalink to this headline">¶</a></h5>
+<h5>Specifying the Polarization Method<a class="headerlink" href="#specifying-the-polarization-method" title="Permalink to this headline">¶</a></h5>
 <p>When using the AMOEBA force field, OpenMM allows the induced dipoles to be
 calculated in any of three different ways.  The slowest but potentially most
 accurate method is to iterate the calculation until the dipoles converge to a
@@ -1094,7 +1094,7 @@ that have been specifically parameterized for use with this approximation.</p>
 </div>
 </section>
 <section id="implicit-solvent-and-solute-dielectrics">
-<h5>Implicit Solvent and Solute Dielectrics<a class="headerlink" href="02_running_sims.html#implicit-solvent-and-solute-dielectrics" title="Permalink to this headline">¶</a></h5>
+<h5>Implicit Solvent and Solute Dielectrics<a class="headerlink" href="#implicit-solvent-and-solute-dielectrics" title="Permalink to this headline">¶</a></h5>
 <p>For implicit solvent simulations using the AMOEBA force field, the
 <code class="file docutils literal notranslate"><span class="pre">amoeba2013_gk.xml</span></code> file should be included in the initialization of the force
 field:</p>
@@ -1114,7 +1114,7 @@ dielectric.</p>
 </section>
 </section>
 <section id="constraints">
-<h3><span class="section-number">3.6.6. </span>Constraints<a class="headerlink" href="02_running_sims.html#constraints" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.6.6. </span>Constraints<a class="headerlink" href="#constraints" title="Permalink to this headline">¶</a></h3>
 <p>When creating the system (either from a force field or an AMBER <code class="file docutils literal notranslate"><span class="pre">prmtop</span></code> file), you can
 optionally tell OpenMM to constrain certain bond lengths and angles.  For
 example,</p>
@@ -1169,7 +1169,7 @@ rigid by specifying <code class="code docutils literal notranslate"><span class=
 </div>
 </section>
 <section id="heavy-hydrogens">
-<h3><span class="section-number">3.6.7. </span>Heavy Hydrogens<a class="headerlink" href="02_running_sims.html#heavy-hydrogens" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.6.7. </span>Heavy Hydrogens<a class="headerlink" href="#heavy-hydrogens" title="Permalink to this headline">¶</a></h3>
 <p>When creating the system (either from a force field or an AMBER <code class="file docutils literal notranslate"><span class="pre">prmtop</span></code> file), you can
 optionally tell OpenMM to increase the mass of hydrogen atoms.  For example,</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">system</span> <span class="o">=</span> <span class="n">prmtop</span><span class="o">.</span><span class="n">createSystem</span><span class="p">(</span><span class="n">hydrogenMass</span><span class="o">=</span><span class="mi">4</span><span class="o">*</span><span class="n">amu</span><span class="p">)</span>
@@ -1182,14 +1182,14 @@ with constraints (typically <code class="code docutils literal notranslate"><spa
 further increase in integration step size.</p>
 </section>
 <section id="integrators">
-<span id="id67"></span><h3><span class="section-number">3.6.8. </span>Integrators<a class="headerlink" href="02_running_sims.html#integrators" title="Permalink to this headline">¶</a></h3>
+<span id="id67"></span><h3><span class="section-number">3.6.8. </span>Integrators<a class="headerlink" href="#integrators" title="Permalink to this headline">¶</a></h3>
 <p>OpenMM offers a choice of several different integration methods.  You select
 which one to use by creating an integrator object of the appropriate type.
 Detailed descriptions of all these integrators can be found in Chapter
 <a class="reference internal" href="../theory/04_integrators.html#integrators-theory"><span class="std std-numref">20</span></a>.  In addition to these built in integrators, lots of
 others are available as part of the <a class="reference external" href="https://openmmtools.readthedocs.io">OpenMMTools</a> package.</p>
 <section id="langevin-middle-integrator">
-<h4>Langevin Middle Integrator<a class="headerlink" href="02_running_sims.html#langevin-middle-integrator" title="Permalink to this headline">¶</a></h4>
+<h4>Langevin Middle Integrator<a class="headerlink" href="#langevin-middle-integrator" title="Permalink to this headline">¶</a></h4>
 <p>In the examples of the previous sections, we used Langevin integration:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">integrator</span> <span class="o">=</span> <span class="n">LangevinMiddleIntegrator</span><span class="p">(</span><span class="mi">300</span><span class="o">*</span><span class="n">kelvin</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">picosecond</span><span class="p">,</span> <span class="mf">0.004</span><span class="o">*</span><span class="n">picoseconds</span><span class="p">)</span>
 </pre></div>
@@ -1203,7 +1203,7 @@ equivalent.  Note that <code class="code docutils literal notranslate"><span cla
 integrator, so the velocities are offset by half a time step from the positions.</p>
 </section>
 <section id="langevin-integrator">
-<h4>Langevin Integrator<a class="headerlink" href="02_running_sims.html#langevin-integrator" title="Permalink to this headline">¶</a></h4>
+<h4>Langevin Integrator<a class="headerlink" href="#langevin-integrator" title="Permalink to this headline">¶</a></h4>
 <p><code class="code docutils literal notranslate"><span class="pre">LangevinIntegrator</span></code> is very similar to <code class="code docutils literal notranslate"><span class="pre">LangevinMiddleIntegrator</span></code>,
 but it uses a different discretization of the Langevin equation.
 <code class="code docutils literal notranslate"><span class="pre">LangevinMiddleIntegrator</span></code> tends to produce more accurate configurational
@@ -1212,7 +1212,7 @@ sampling, and therefore is preferred for most applications.  Also note that
 integrator, so the velocities are offset by half a time step from the positions.</p>
 </section>
 <section id="nose-hoover-integrator">
-<h4>Nosé-Hoover Integrator<a class="headerlink" href="02_running_sims.html#nose-hoover-integrator" title="Permalink to this headline">¶</a></h4>
+<h4>Nosé-Hoover Integrator<a class="headerlink" href="#nose-hoover-integrator" title="Permalink to this headline">¶</a></h4>
 <p>The <code class="code docutils literal notranslate"><span class="pre">NoseHooverIntegrator</span></code> uses the same “middle” leapfrog propagation
 algorithm as <code class="code docutils literal notranslate"><span class="pre">LangevinMiddleIntegrator</span></code>, but replaces the stochastic
 temperature control with a velocity scaling algorithm that produces more
@@ -1238,7 +1238,7 @@ different parts of the system to thermostats at different temperatures. See the
 API documentation for details.</p>
 </section>
 <section id="leapfrog-verlet-integrator">
-<h4>Leapfrog Verlet Integrator<a class="headerlink" href="02_running_sims.html#leapfrog-verlet-integrator" title="Permalink to this headline">¶</a></h4>
+<h4>Leapfrog Verlet Integrator<a class="headerlink" href="#leapfrog-verlet-integrator" title="Permalink to this headline">¶</a></h4>
 <p>A leapfrog Verlet integrator can be used for running constant energy dynamics.
 The command for this is:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">integrator</span> <span class="o">=</span> <span class="n">VerletIntegrator</span><span class="p">(</span><span class="mf">0.002</span><span class="o">*</span><span class="n">picoseconds</span><span class="p">)</span>
@@ -1247,7 +1247,7 @@ The command for this is:</p>
 <p>The only option is the step size.</p>
 </section>
 <section id="brownian-integrator">
-<h4>Brownian Integrator<a class="headerlink" href="02_running_sims.html#brownian-integrator" title="Permalink to this headline">¶</a></h4>
+<h4>Brownian Integrator<a class="headerlink" href="#brownian-integrator" title="Permalink to this headline">¶</a></h4>
 <p>Brownian (diffusive) dynamics can be used by specifying the following:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">integrator</span> <span class="o">=</span> <span class="n">BrownianIntegrator</span><span class="p">(</span><span class="mi">300</span><span class="o">*</span><span class="n">kelvin</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">picosecond</span><span class="p">,</span> <span class="mf">0.002</span><span class="o">*</span><span class="n">picoseconds</span><span class="p">)</span>
 </pre></div>
@@ -1256,7 +1256,7 @@ The command for this is:</p>
 friction coefficient (1 ps<sup>-1</sup>), and step size (0.002 ps).</p>
 </section>
 <section id="variable-time-step-langevin-integrator">
-<h4>Variable Time Step Langevin Integrator<a class="headerlink" href="02_running_sims.html#variable-time-step-langevin-integrator" title="Permalink to this headline">¶</a></h4>
+<h4>Variable Time Step Langevin Integrator<a class="headerlink" href="#variable-time-step-langevin-integrator" title="Permalink to this headline">¶</a></h4>
 <p>A variable time step Langevin integrator continuously adjusts its step size to
 keep the integration error below a specified tolerance.  In some cases, this can
 allow you to use a larger average step size than would be possible with a fixed
@@ -1274,7 +1274,7 @@ size.  You should try different values to find the largest one that produces a
 trajectory sufficiently accurate for your purposes.</p>
 </section>
 <section id="variable-time-step-leapfrog-verlet-integrator">
-<h4>Variable Time Step Leapfrog Verlet Integrator<a class="headerlink" href="02_running_sims.html#variable-time-step-leapfrog-verlet-integrator" title="Permalink to this headline">¶</a></h4>
+<h4>Variable Time Step Leapfrog Verlet Integrator<a class="headerlink" href="#variable-time-step-leapfrog-verlet-integrator" title="Permalink to this headline">¶</a></h4>
 <p>A variable time step leapfrog Verlet integrator works similarly to the variable
 time step Langevin integrator in that it continuously adjusts its step size to
 keep the integration error below a specified tolerance.  The command for this
@@ -1286,20 +1286,20 @@ integrator is:</p>
 same as for the Langevin integrator.</p>
 </section>
 <section id="multiple-time-step-integrator">
-<h4>Multiple Time Step Integrator<a class="headerlink" href="02_running_sims.html#multiple-time-step-integrator" title="Permalink to this headline">¶</a></h4>
+<h4>Multiple Time Step Integrator<a class="headerlink" href="#multiple-time-step-integrator" title="Permalink to this headline">¶</a></h4>
 <p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">MTSIntegrator</span></code> class implements the rRESPA multiple time step
 algorithm<span id="id69">[<a class="reference internal" href="../zbibliography.html#id58" title="M. Tuckerman, Bruce J. Berne, and Glenn J. Martyna. Reversible multiple time scale molecular dynamics. Journal of Chemical Physics, 97(3):1990-2001, 1992.">31</a>]</span>.  This allows some forces in the system to be evaluated more
 frequently than others.  For details on how to use it, consult the API
 documentation.</p>
 </section>
 <section id="multiple-time-step-langevin-integrator">
-<h4>Multiple Time Step Langevin Integrator<a class="headerlink" href="02_running_sims.html#multiple-time-step-langevin-integrator" title="Permalink to this headline">¶</a></h4>
+<h4>Multiple Time Step Langevin Integrator<a class="headerlink" href="#multiple-time-step-langevin-integrator" title="Permalink to this headline">¶</a></h4>
 <p><code class="xref py py-class docutils literal notranslate"><span class="pre">MTSLangevinIntegrator</span></code> is similar to <code class="xref py py-class docutils literal notranslate"><span class="pre">MTSIntegrator</span></code>, but it uses
 the Langevin method to perform constant temperature dynamics.  For details on
 how to use it, consult the API documentation.</p>
 </section>
 <section id="compound-integrator">
-<h4>Compound Integrator<a class="headerlink" href="02_running_sims.html#compound-integrator" title="Permalink to this headline">¶</a></h4>
+<h4>Compound Integrator<a class="headerlink" href="#compound-integrator" title="Permalink to this headline">¶</a></h4>
 <p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">CompoundIntegrator</span></code> class is useful for cases where you want to use
 multiple integration algorithms within a single simulation.  It allows you to
 create multiple integrators, then switch back and forth between them.  For
@@ -1307,7 +1307,7 @@ details on how to use it, consult the API documentation.</p>
 </section>
 </section>
 <section id="temperature-coupling">
-<h3><span class="section-number">3.6.9. </span>Temperature Coupling<a class="headerlink" href="02_running_sims.html#temperature-coupling" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.6.9. </span>Temperature Coupling<a class="headerlink" href="#temperature-coupling" title="Permalink to this headline">¶</a></h3>
 <p>If you want to run a simulation at constant temperature, using a Langevin
 integrator (as shown in the examples above) is usually the best way to do it.
 OpenMM does provide an alternative, however: you can use a Verlet integrator,
@@ -1325,7 +1325,7 @@ then add an Andersen thermostat to your system to provide temperature coupling.<
 collision frequency (1 ps<sup>-1</sup>).</p>
 </section>
 <section id="pressure-coupling">
-<h3><span class="section-number">3.6.10. </span>Pressure Coupling<a class="headerlink" href="02_running_sims.html#pressure-coupling" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.6.10. </span>Pressure Coupling<a class="headerlink" href="#pressure-coupling" title="Permalink to this headline">¶</a></h3>
 <p>All the examples so far have been constant volume simulations.  If you want to
 run at constant pressure instead, add a Monte Carlo barostat to your system.
 You do this exactly the same way you added the Andersen thermostat in the
@@ -1381,7 +1381,7 @@ change independently.</p>
 their meanings.</p>
 </section>
 <section id="energy-minimization">
-<h3><span class="section-number">3.6.11. </span>Energy Minimization<a class="headerlink" href="02_running_sims.html#energy-minimization" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.6.11. </span>Energy Minimization<a class="headerlink" href="#energy-minimization" title="Permalink to this headline">¶</a></h3>
 <p>As seen in the examples, performing a local energy minimization takes a single
 line in the script:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">simulation</span><span class="o">.</span><span class="n">minimizeEnergy</span><span class="p">()</span>
@@ -1408,7 +1408,7 @@ iterations it takes.</p>
 </div>
 </section>
 <section id="removing-center-of-mass-motion">
-<h3><span class="section-number">3.6.12. </span>Removing Center of Mass Motion<a class="headerlink" href="02_running_sims.html#removing-center-of-mass-motion" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.6.12. </span>Removing Center of Mass Motion<a class="headerlink" href="#removing-center-of-mass-motion" title="Permalink to this headline">¶</a></h3>
 <p>By default, <code class="xref py py-class docutils literal notranslate"><span class="pre">System</span></code> objects created with the OpenMM application tools add
 a <code class="xref py py-class docutils literal notranslate"><span class="pre">CMMotionRemover</span></code> that removes all center of mass motion at every time step so the
 system as a whole does not drift with time.  This is almost always what you
@@ -1421,7 +1421,7 @@ create the System:</p>
 </div>
 </section>
 <section id="writing-trajectories">
-<h3><span class="section-number">3.6.13. </span>Writing Trajectories<a class="headerlink" href="02_running_sims.html#writing-trajectories" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.6.13. </span>Writing Trajectories<a class="headerlink" href="#writing-trajectories" title="Permalink to this headline">¶</a></h3>
 <p>OpenMM can save simulation trajectories to disk in three formats: <a class="reference external" href="http://www.wwpdb.org/documentation/format33/v3.3.html">PDB</a>,
 <a class="reference external" href="http://mmcif.wwpdb.org">PDBx/mmCIF</a>, and <a class="reference external" href="http://www.ks.uiuc.edu/Research/vmd/plugins/molfile/dcdplugin.html">DCD</a>.  All of these are widely supported formats, so you
 should be able to read them into most analysis and visualization programs.</p>
@@ -1439,7 +1439,7 @@ DCD format, just replace <code class="xref py py-class docutils literal notransl
 </div>
 </section>
 <section id="recording-other-data">
-<h3><span class="section-number">3.6.14. </span>Recording Other Data<a class="headerlink" href="02_running_sims.html#recording-other-data" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.6.14. </span>Recording Other Data<a class="headerlink" href="#recording-other-data" title="Permalink to this headline">¶</a></h3>
 <p>In addition to saving a trajectory, you may want to record other information
 over the course of a simulation, such as the potential energy or temperature.
 OpenMM provides a reporter for this purpose also.  Create a <code class="xref py py-class docutils literal notranslate"><span class="pre">StateDataReporter</span></code>
@@ -1472,7 +1472,7 @@ separated by spaces instead of commas:</p>
 </div>
 </section>
 <section id="saving-simulation-progress-and-results">
-<h3><span class="section-number">3.6.15. </span>Saving Simulation Progress and Results<a class="headerlink" href="02_running_sims.html#saving-simulation-progress-and-results" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.6.15. </span>Saving Simulation Progress and Results<a class="headerlink" href="#saving-simulation-progress-and-results" title="Permalink to this headline">¶</a></h3>
 <p>There are three built-in ways to save the results of your simulation in OpenMM
 (additional methods can be written yourself or imported through other packages
 like mdtraj or parmed). If you are simply interested in saving the structure,
@@ -1519,7 +1519,7 @@ a checkpoint file every 5,000 steps, for example:</p>
 <p>Note that the checkpoint reporter will overwrite the last checkpoint file.</p>
 </section>
 <section id="enhanced-sampling-methods">
-<h3><span class="section-number">3.6.16. </span>Enhanced Sampling Methods<a class="headerlink" href="02_running_sims.html#enhanced-sampling-methods" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.6.16. </span>Enhanced Sampling Methods<a class="headerlink" href="#enhanced-sampling-methods" title="Permalink to this headline">¶</a></h3>
 <p>In many situations, the goal of a simulation is to sample the range of configurations
 accessible to a system.  It does not matter whether the simulation represents a
 single, physically realistic trajectory, only whether it produces a correct distribution
@@ -1529,7 +1529,7 @@ These are known as enhanced sampling methods.  OpenMM offers several that you
 can choose from.  They are briefly described here.  Consult the API documentation
 for more detailed descriptions and example code.</p>
 <section id="simulated-tempering">
-<h4>Simulated Tempering<a class="headerlink" href="02_running_sims.html#simulated-tempering" title="Permalink to this headline">¶</a></h4>
+<h4>Simulated Tempering<a class="headerlink" href="#simulated-tempering" title="Permalink to this headline">¶</a></h4>
 <p>Simulated tempering<span id="id70">[<a class="reference internal" href="../zbibliography.html#id33" title="E Marinari and G Parisi. Simulated tempering: a new monte carlo scheme. Europhysics Letters (EPL), 19(6):451–458, 1992. doi:10.1209/0295-5075/19/6/002.">32</a>]</span> involves making frequent changes to the
 temperature of a simulation.  At high temperatures, it can quickly cross energy barriers
 and explore a wide range of configurations.  At lower temperatures, it more thoroughly
@@ -1539,7 +1539,7 @@ Simply specify the range of temperatures to simulate and the algorithm handles
 everything for you mostly automatically.</p>
 </section>
 <section id="metadynamics">
-<h4>Metadynamics<a class="headerlink" href="02_running_sims.html#metadynamics" title="Permalink to this headline">¶</a></h4>
+<h4>Metadynamics<a class="headerlink" href="#metadynamics" title="Permalink to this headline">¶</a></h4>
 <p>Metadynamics<span id="id71">[<a class="reference internal" href="../zbibliography.html#id5" title="Alessandro Barducci, Giovanni Bussi, and Michele Parrinello. Well-tempered metadynamics: a smoothly converging and tunable free-energy method. Physical Review Letters, 100:020603, 2008. doi:10.1103/PhysRevLett.100.020603.">33</a>]</span> is used when you do know in advance what
 motions you want to sample.  You specify one or more collective variables, and the
 algorithm adds a biasing potential to make the simulation explore a wide range of
@@ -1550,7 +1550,7 @@ At the end of the simulation, the biasing potential can be used to calculate the
 free energy of the system as a function of the collective variables.</p>
 </section>
 <section id="accelerated-molecular-dynamics-amd">
-<h4>Accelerated Molecular Dynamics (aMD)<a class="headerlink" href="02_running_sims.html#accelerated-molecular-dynamics-amd" title="Permalink to this headline">¶</a></h4>
+<h4>Accelerated Molecular Dynamics (aMD)<a class="headerlink" href="#accelerated-molecular-dynamics-amd" title="Permalink to this headline">¶</a></h4>
 <p>aMD<span id="id72">[<a class="reference internal" href="../zbibliography.html#id16" title="Donald Hamelberg, Cesar Augusto F. de Oliveira, and J. Andrew McCammon. Sampling of slow diffusive conformational transitions with accelerated molecular dynamics. Journal of Chemical Physics, 127(15):155102, 2007.">34</a>]</span> is another method that can be used when you do not know in
 advance what motions you want to accelerate.  It alters the potential energy surface
 by adding a “boost” potential whenever the potential energy is below a threshold.
@@ -1622,13 +1622,13 @@ and <code class="xref py py-class docutils literal notranslate"><span class="pre
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../application.html">Part I: The OpenMM Application Layer</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="01_getting_started.html">2. Getting Started</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="02_running_sims.html#">3. Running Simulations</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="02_running_sims.html#a-first-example">3.1. A First Example</a></li>
-<li class="toctree-l3"><a class="reference internal" href="02_running_sims.html#using-amber-files">3.2. Using AMBER Files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="02_running_sims.html#using-gromacs-files">3.3. Using Gromacs Files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="02_running_sims.html#using-charmm-files">3.4. Using CHARMM Files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="02_running_sims.html#the-openmm-setup-application">3.5. The OpenMM-Setup Application</a></li>
-<li class="toctree-l3"><a class="reference internal" href="02_running_sims.html#simulation-parameters">3.6. Simulation Parameters</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3. Running Simulations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#a-first-example">3.1. A First Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-amber-files">3.2. Using AMBER Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-gromacs-files">3.3. Using Gromacs Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-charmm-files">3.4. Using CHARMM Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-openmm-setup-application">3.5. The OpenMM-Setup Application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#simulation-parameters">3.6. Simulation Parameters</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="03_model_building_editing.html">4. Model Building and Editing</a></li>
@@ -1654,19 +1654,19 @@ and <code class="xref py py-class docutils literal notranslate"><span class="pre
         </li>
         
         <li class="toctree-l1">
-            <a href="http://docs.openmm.org/7.7.0/developerguide/">
+            <a href="../../developerguide/">
                 Developer Guide
             </a>
         </li>
         
         <li class="toctree-l1">
-            <a href="http://docs.openmm.org/7.7.0/api-python/">
+            <a href="../../api-python/">
                 Python API reference
             </a>
         </li>
         
         <li class="toctree-l1">
-            <a href="http://docs.openmm.org/7.7.0/api-c++/">
+            <a href="../../api-c++/">
                 C++ API reference
             </a>
         </li>

@@ -1,0 +1,32 @@
+﻿Continuous3DFunction
+==================================
+
+.. currentmodule:: openmm.openmm
+
+.. autoclass:: Continuous3DFunction
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Continuous3DFunction.Copy
+      ~Continuous3DFunction.__init__
+      ~Continuous3DFunction.getFunctionParameters
+      ~Continuous3DFunction.getPeriodic
+      ~Continuous3DFunction.setFunctionParameters
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Continuous3DFunction.thisown
+   
+   

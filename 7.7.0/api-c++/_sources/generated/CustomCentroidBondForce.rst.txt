@@ -1,0 +1,7 @@
+.. _OpenMM::CustomCentroidBondForce:
+
+``CustomCentroidBondForce``
+===========================
+
+.. doxygenclass:: OpenMM::CustomCentroidBondForce
+   :members:

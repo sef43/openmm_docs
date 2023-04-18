@@ -1,0 +1,30 @@
+﻿VirtualSite
+=========================
+
+.. currentmodule:: openmm.openmm
+
+.. autoclass:: VirtualSite
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~VirtualSite.__init__
+      ~VirtualSite.getNumParticles
+      ~VirtualSite.getParticle
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~VirtualSite.thisown
+   
+   

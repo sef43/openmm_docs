@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>OpenMM Python API &#8212; OpenMM Python API 7.7.0.dev-130124a documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Application Layer" href="app.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="openmm-python-api">
+<h1>OpenMM Python API<a class="headerlink" href="index.html#openmm-python-api" title="Permalink to this headline">¶</a></h1>
+<p>The Python API provides information about the classes and methods available in OpenMM for Python developers.</p>
+<p>OpenMM consists of two parts. First, there is a set of <a class="reference internal" href="library.html#library"><span class="std std-ref">libraries</span></a> for performing many types of computations needed for molecular simulations: force evaluation, numerical integration, energy minimization, etc.</p>
+<p>Second, there is an <a class="reference internal" href="app.html#app"><span class="std std-ref">application layer</span></a>, a set of Python libraries providing a high level interface for running simulations. This layer is targeted at computational biologists or other people who want to run simulations, and who may or may not be programmers.</p>
+<p>See the user guide for more details.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="app.html">Application Layer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="app.html#loaders-and-setup">Loaders and Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app.html#representation-and-manipulation">Representation and Manipulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app.html#simulation">Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app.html#reporting-output">Reporting Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app.html#extras">Extras</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app.html#units">Units</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="library.html">Library Layer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="library.html#core-objects">Core Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library.html#forces">Forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library.html#integrators">Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library.html#extras">Extras</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          <a href="app.html" title="Next document">Application Layer</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html#">
+    <img class="logo" src="_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM Python API</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="app.html">Application Layer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="library.html">Library Layer</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../userguide/index.html">
+                User's Manual
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../developerguide">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../api-c++/index.html">
+                C++ API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Stanford University and the Authors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

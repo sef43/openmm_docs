@@ -1,0 +1,42 @@
+﻿DrudeForce
+========================
+
+.. currentmodule:: openmm.openmm
+
+.. autoclass:: DrudeForce
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~DrudeForce.__init__
+      ~DrudeForce.addParticle
+      ~DrudeForce.addScreenedPair
+      ~DrudeForce.getForceGroup
+      ~DrudeForce.getName
+      ~DrudeForce.getNumParticles
+      ~DrudeForce.getNumScreenedPairs
+      ~DrudeForce.getParticleParameters
+      ~DrudeForce.getScreenedPairParameters
+      ~DrudeForce.setForceGroup
+      ~DrudeForce.setName
+      ~DrudeForce.setParticleParameters
+      ~DrudeForce.setScreenedPairParameters
+      ~DrudeForce.updateParametersInContext
+      ~DrudeForce.usesPeriodicBoundaryConditions
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DrudeForce.thisown
+   
+   

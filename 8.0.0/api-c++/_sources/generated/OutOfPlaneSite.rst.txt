@@ -1,0 +1,7 @@
+.. _OpenMM::OutOfPlaneSite:
+
+``OutOfPlaneSite``
+==================
+
+.. doxygenclass:: OpenMM::OutOfPlaneSite
+   :members:

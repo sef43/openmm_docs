@@ -1,0 +1,290 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>LocalCoordinatesSite &#8212; OpenMM Python API 8.0.0.dev-c7efe3d documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="LocalEnergyMinimizer" href="openmm.openmm.LocalEnergyMinimizer.html" />
+    <link rel="prev" title="Discrete3DFunction" href="openmm.openmm.Discrete3DFunction.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="localcoordinatessite">
+<h1>LocalCoordinatesSite<a class="headerlink" href="openmm.openmm.LocalCoordinatesSite.html#localcoordinatessite" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="openmm.openmm.LocalCoordinatesSite">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">openmm.openmm.</span></span><span class="sig-name descname"><span class="pre">LocalCoordinatesSite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.openmm.LocalCoordinatesSite.html#openmm.openmm.LocalCoordinatesSite" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a VirtualSite that uses the locations of several other particles to compute a local coordinate system, then places the virtual site at a fixed location in that coordinate system. The origin of the coordinate system and the directions of its x and y axes are each specified as a weighted sum of the locations of the other particles:</p>
+<p>origin = w&lt;sub&gt;1&lt;/sub&gt;r&lt;sub&gt;1&lt;/sub&gt; + w&lt;sub&gt;2&lt;/sub&gt;r&lt;sub&gt;2&lt;/sub&gt; + w&lt;sub&gt;3&lt;/sub&gt;r&lt;sub&gt;3&lt;/sub&gt; + …</p>
+<p>xdir = w&lt;sub&gt;1&lt;/sub&gt;r&lt;sub&gt;1&lt;/sub&gt; + w&lt;sub&gt;2&lt;/sub&gt;r&lt;sub&gt;2&lt;/sub&gt; + w&lt;sub&gt;3&lt;/sub&gt;r&lt;sub&gt;3&lt;/sub&gt; + …</p>
+<p>ydir = w&lt;sub&gt;1&lt;/sub&gt;r&lt;sub&gt;1&lt;/sub&gt; + w&lt;sub&gt;2&lt;/sub&gt;r&lt;sub&gt;2&lt;/sub&gt; + w&lt;sub&gt;3&lt;/sub&gt;r&lt;sub&gt;3&lt;/sub&gt; + …</p>
+<p>For the origin, the weights must add to one. For example if (w&lt;sub&gt;1&lt;/sub&gt;, w&lt;sub&gt;2&lt;/sub&gt;, w&lt;sub&gt;3&lt;/sub&gt;) = (1.0, 0.0, 0.0), the origin of the local coordinate system is at the location of particle 1. For xdir and ydir, the weights must add to zero. For example, if (w&lt;sub&gt;1&lt;/sub&gt;, w&lt;sub&gt;2&lt;/sub&gt;, w&lt;sub&gt;3&lt;/sub&gt;) = (-1.0, 0.5, 0.5), the x axis points from particle 1 toward the midpoint between particles 2 and 3.</p>
+<p>The z direction is computed as zdir = xdir x ydir. To ensure the axes are all orthogonal, ydir is then recomputed as ydir = zdir x xdir. All three axis vectors are then normalized, and the virtual site location is set to</p>
+<p>origin + x*xdir + y*ydir + z*zdir</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.LocalCoordinatesSite.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">particles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">originWeights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xWeights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yWeights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">localPosition</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="openmm.openmm.LocalCoordinatesSite.html#openmm.openmm.LocalCoordinatesSite" title="openmm.openmm.LocalCoordinatesSite"><span class="pre">LocalCoordinatesSite</span></a><a class="headerlink" href="openmm.openmm.LocalCoordinatesSite.html#openmm.openmm.LocalCoordinatesSite.__init__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">particle1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">particle2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">particle3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">originWeights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xWeights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yWeights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">localPosition</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="openmm.openmm.LocalCoordinatesSite.html#openmm.openmm.LocalCoordinatesSite" title="openmm.openmm.LocalCoordinatesSite"><span class="pre">LocalCoordinatesSite</span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="openmm.openmm.LocalCoordinatesSite.html#openmm.openmm.LocalCoordinatesSite" title="openmm.openmm.LocalCoordinatesSite"><span class="pre">LocalCoordinatesSite</span></a></dt>
+<dd><p>Create a new LocalCoordinatesSite virtual site. This constructor assumes the site depends on exactly three other particles.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>particle1</strong> (<em>int</em>) – the index of the first particle</p></li>
+<li><p><strong>particle2</strong> (<em>int</em>) – the index of the second particle</p></li>
+<li><p><strong>particle3</strong> (<em>int</em>) – the index of the third particle</p></li>
+<li><p><strong>originWeights</strong> (<a class="reference internal" href="openmm.vec3.Vec3.html#openmm.vec3.Vec3" title="openmm.vec3.Vec3"><em>Vec3</em></a>) – the weight factors for the three particles when computing the origin location</p></li>
+<li><p><strong>xWeights</strong> (<a class="reference internal" href="openmm.vec3.Vec3.html#openmm.vec3.Vec3" title="openmm.vec3.Vec3"><em>Vec3</em></a>) – the weight factors for the three particles when computing xdir</p></li>
+<li><p><strong>yWeights</strong> (<a class="reference internal" href="openmm.vec3.Vec3.html#openmm.vec3.Vec3" title="openmm.vec3.Vec3"><em>Vec3</em></a>) – the weight factors for the three particles when computing ydir</p></li>
+<li><p><strong>localPosition</strong> (<a class="reference internal" href="openmm.vec3.Vec3.html#openmm.vec3.Vec3" title="openmm.vec3.Vec3"><em>Vec3</em></a>) – the position of the virtual site in the local coordinate system</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.openmm.LocalCoordinatesSite.html#openmm.openmm.LocalCoordinatesSite.__init__" title="openmm.openmm.LocalCoordinatesSite.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(…)</p></td>
+<td><p>Create a new LocalCoordinatesSite virtual site.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="openmm.openmm.LocalCoordinatesSite.html#openmm.openmm.LocalCoordinatesSite.getLocalPosition" title="openmm.openmm.LocalCoordinatesSite.getLocalPosition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLocalPosition</span></code></a>(self)</p></td>
+<td><p>Get the position of the virtual site in the local coordinate system.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.openmm.LocalCoordinatesSite.html#openmm.openmm.LocalCoordinatesSite.getNumParticles" title="openmm.openmm.LocalCoordinatesSite.getNumParticles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getNumParticles</span></code></a>(self)</p></td>
+<td><p>Get the number of particles this virtual site depends on.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="openmm.openmm.LocalCoordinatesSite.html#openmm.openmm.LocalCoordinatesSite.getOriginWeights" title="openmm.openmm.LocalCoordinatesSite.getOriginWeights"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOriginWeights</span></code></a>(self)</p></td>
+<td><p>Get the weight factors for the particles when computing the origin location.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.openmm.LocalCoordinatesSite.html#openmm.openmm.LocalCoordinatesSite.getParticle" title="openmm.openmm.LocalCoordinatesSite.getParticle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParticle</span></code></a>(self, particle)</p></td>
+<td><p>Get the index of a particle this virtual site depends on.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="openmm.openmm.LocalCoordinatesSite.html#openmm.openmm.LocalCoordinatesSite.getXWeights" title="openmm.openmm.LocalCoordinatesSite.getXWeights"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getXWeights</span></code></a>(self)</p></td>
+<td><p>Get the weight factors for the particles when computing xdir.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.openmm.LocalCoordinatesSite.html#openmm.openmm.LocalCoordinatesSite.getYWeights" title="openmm.openmm.LocalCoordinatesSite.getYWeights"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getYWeights</span></code></a>(self)</p></td>
+<td><p>Get the weight factors for the particles when computing ydir.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.openmm.LocalCoordinatesSite.html#openmm.openmm.LocalCoordinatesSite.thisown" title="openmm.openmm.LocalCoordinatesSite.thisown"><code class="xref py py-obj docutils literal notranslate"><span class="pre">thisown</span></code></a></p></td>
+<td><p>The membership flag</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py property">
+<dt class="sig sig-object py" id="openmm.openmm.LocalCoordinatesSite.thisown">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">thisown</span></span><a class="headerlink" href="openmm.openmm.LocalCoordinatesSite.html#openmm.openmm.LocalCoordinatesSite.thisown" title="Permalink to this definition">¶</a></dt>
+<dd><p>The membership flag</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.LocalCoordinatesSite.getOriginWeights">
+<span class="sig-name descname"><span class="pre">getOriginWeights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.openmm.LocalCoordinatesSite.html#openmm.openmm.LocalCoordinatesSite.getOriginWeights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the weight factors for the particles when computing the origin location.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.LocalCoordinatesSite.getXWeights">
+<span class="sig-name descname"><span class="pre">getXWeights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.openmm.LocalCoordinatesSite.html#openmm.openmm.LocalCoordinatesSite.getXWeights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the weight factors for the particles when computing xdir.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.LocalCoordinatesSite.getYWeights">
+<span class="sig-name descname"><span class="pre">getYWeights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.openmm.LocalCoordinatesSite.html#openmm.openmm.LocalCoordinatesSite.getYWeights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the weight factors for the particles when computing ydir.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.LocalCoordinatesSite.getLocalPosition">
+<span class="sig-name descname"><span class="pre">getLocalPosition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Vec3</span> <span class="pre">const</span> <span class="pre">&amp;</span><a class="headerlink" href="openmm.openmm.LocalCoordinatesSite.html#openmm.openmm.LocalCoordinatesSite.getLocalPosition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the position of the virtual site in the local coordinate system.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.LocalCoordinatesSite.getNumParticles">
+<span class="sig-name descname"><span class="pre">getNumParticles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="openmm.openmm.LocalCoordinatesSite.html#openmm.openmm.LocalCoordinatesSite.getNumParticles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the number of particles this virtual site depends on.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.LocalCoordinatesSite.getParticle">
+<span class="sig-name descname"><span class="pre">getParticle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">particle</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="openmm.openmm.LocalCoordinatesSite.html#openmm.openmm.LocalCoordinatesSite.getParticle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the index of a particle this virtual site depends on.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>particle</strong> (<em>int</em>) – the particle to get (between 0 and getNumParticles())</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the index of the particle in the System</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="openmm.openmm.Discrete3DFunction.html" title="Previous document">Discrete3DFunction</a>
+        </li>
+        <li>
+          <a href="openmm.openmm.LocalEnergyMinimizer.html" title="Next document">LocalEnergyMinimizer</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM Python API</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../app.html">Application Layer</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../library.html">Library Layer</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../library.html#core-objects">Core Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../library.html#forces">Forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../library.html#integrators">Integrators</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../library.html#extras">Extras</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../userguide">
+                User's Manual
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../developerguide/index.html">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../api-c++/index.html">
+                C++ API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Stanford University and the Authors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../_sources/generated/openmm.openmm.LocalCoordinatesSite.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

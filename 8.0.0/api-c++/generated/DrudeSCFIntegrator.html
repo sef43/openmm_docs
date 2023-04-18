@@ -1,0 +1,226 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>DrudeSCFIntegrator &#8212; OpenMM C++ API @OPENMM_MAJOR_VERSION@.@OPENMM_MINOR_VERSION@ documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="RPMDIntegrator" href="RPMDIntegrator.html" />
+    <link rel="prev" title="DrudeNoseHooverIntegrator" href="DrudeNoseHooverIntegrator.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="drudescfintegrator">
+<span id="openmm-drudescfintegrator"></span><h1><code class="docutils literal notranslate"><span class="pre">DrudeSCFIntegrator</span></code><a class="headerlink" href="DrudeSCFIntegrator.html#drudescfintegrator" title="Permalink to this headline">¶</a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM18DrudeSCFIntegratorE">
+<span id="_CPPv3N6OpenMM18DrudeSCFIntegratorE"></span><span id="_CPPv2N6OpenMM18DrudeSCFIntegratorE"></span><span id="OpenMM::DrudeSCFIntegrator"></span><span class="target" id="classOpenMM_1_1DrudeSCFIntegrator"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DrudeSCFIntegrator</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">OpenMM</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="DrudeIntegrator.html#_CPPv4N6OpenMM15DrudeIntegratorE" title="OpenMM::DrudeIntegrator"><span class="n"><span class="pre">DrudeIntegrator</span></span></a><a class="headerlink" href="DrudeSCFIntegrator.html#_CPPv4N6OpenMM18DrudeSCFIntegratorE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This is a leap-frog Verlet <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a> that simulates systems with Drude particles. It uses the self-consistent field (SCF) method: at every time step, the positions of Drude particles are adjusted to minimize the potential energy.</p>
+<p>This <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a> requires the <a class="reference internal" href="System.html#classOpenMM_1_1System"><span class="std std-ref">System</span></a> to include a <a class="reference internal" href="DrudeForce.html#classOpenMM_1_1DrudeForce"><span class="std std-ref">DrudeForce</span></a>, which it uses to identify the Drude particles. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM18DrudeSCFIntegrator18DrudeSCFIntegratorEd">
+<span id="_CPPv3N6OpenMM18DrudeSCFIntegrator18DrudeSCFIntegratorEd"></span><span id="_CPPv2N6OpenMM18DrudeSCFIntegrator18DrudeSCFIntegratorEd"></span><span id="OpenMM::DrudeSCFIntegrator::DrudeSCFIntegrator__double"></span><span class="target" id="classOpenMM_1_1DrudeSCFIntegrator_1a367cfa2c858fb913f8ed6806144761f7"></span><span class="sig-name descname"><span class="n"><span class="pre">DrudeSCFIntegrator</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">stepSize</span></span><span class="sig-paren">)</span><a class="headerlink" href="DrudeSCFIntegrator.html#_CPPv4N6OpenMM18DrudeSCFIntegrator18DrudeSCFIntegratorEd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a <a class="reference internal" href="DrudeSCFIntegrator.html#classOpenMM_1_1DrudeSCFIntegrator"><span class="std std-ref">DrudeSCFIntegrator</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>stepSize</strong> – the step size with which to integrator the system (in picoseconds) </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM18DrudeSCFIntegrator29getMinimizationErrorToleranceEv">
+<span id="_CPPv3NK6OpenMM18DrudeSCFIntegrator29getMinimizationErrorToleranceEv"></span><span id="_CPPv2NK6OpenMM18DrudeSCFIntegrator29getMinimizationErrorToleranceEv"></span><span id="OpenMM::DrudeSCFIntegrator::getMinimizationErrorToleranceC"></span><span class="target" id="classOpenMM_1_1DrudeSCFIntegrator_1afc062788ad3c74277ca1e20d285aa9a3"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getMinimizationErrorTolerance</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="DrudeSCFIntegrator.html#_CPPv4NK6OpenMM18DrudeSCFIntegrator29getMinimizationErrorToleranceEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the error tolerance to use when minimizing the potential energy. This roughly corresponds to the maximum allowed force magnitude on the Drude particles after minimization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the error tolerance to use, measured in kJ/mol/nm </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM18DrudeSCFIntegrator29setMinimizationErrorToleranceEd">
+<span id="_CPPv3N6OpenMM18DrudeSCFIntegrator29setMinimizationErrorToleranceEd"></span><span id="_CPPv2N6OpenMM18DrudeSCFIntegrator29setMinimizationErrorToleranceEd"></span><span id="OpenMM::DrudeSCFIntegrator::setMinimizationErrorTolerance__double"></span><span class="target" id="classOpenMM_1_1DrudeSCFIntegrator_1a4860e0fa8245a8f3973738892d582090"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setMinimizationErrorTolerance</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">tol</span></span><span class="sig-paren">)</span><a class="headerlink" href="DrudeSCFIntegrator.html#_CPPv4N6OpenMM18DrudeSCFIntegrator29setMinimizationErrorToleranceEd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the error tolerance to use when minimizing the potential energy. This roughly corresponds to the maximum allowed force magnitude on the Drude particles after minimization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>tol</strong> – the error tolerance to use, measured in kJ/mol/nm </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM18DrudeSCFIntegrator4stepEi">
+<span id="_CPPv3N6OpenMM18DrudeSCFIntegrator4stepEi"></span><span id="_CPPv2N6OpenMM18DrudeSCFIntegrator4stepEi"></span><span id="OpenMM::DrudeSCFIntegrator::step__i"></span><span class="target" id="classOpenMM_1_1DrudeSCFIntegrator_1a83203aa9557e3f1851578a5f218ce9fc"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">step</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">steps</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="DrudeSCFIntegrator.html#_CPPv4N6OpenMM18DrudeSCFIntegrator4stepEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Advance a simulation through time by taking a series of time steps.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>steps</strong> – the number of time steps to take </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="DrudeNoseHooverIntegrator.html" title="Previous document"><code class="docutils literal notranslate"><span class="pre">DrudeNoseHooverIntegrator</span></code></a>
+        </li>
+        <li>
+          <a href="RPMDIntegrator.html" title="Next document"><code class="docutils literal notranslate"><span class="pre">RPMDIntegrator</span></code></a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM C++ API</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="System.html"><code class="docutils literal notranslate"><span class="pre">System</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Context.html"><code class="docutils literal notranslate"><span class="pre">Context</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="State.html"><code class="docutils literal notranslate"><span class="pre">State</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Platform.html"><code class="docutils literal notranslate"><span class="pre">Platform</span></code></a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../forces.html">Forces</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../integrators.html">Integrators</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../integrators.html#the-integrator-abstract-class">The <code class="docutils literal notranslate"><span class="pre">Integrator</span></code> abstract class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../integrators.html#general-purpose-integrators">General purpose integrators</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../integrators.html#drude-integrators">Drude integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../integrators.html#ring-polymer-molecular-dynamics-integrators">Ring Polymer Molecular Dynamics integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../integrators.html#customizing-integrator">Customizing <code class="docutils literal notranslate"><span class="pre">Integrator</span></code></a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../extras.html">Extra classes</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../userguide">
+                User's Manual
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../developerguide/index.html">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../api-python/index.html">
+                Python API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Stanford University and the Authors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../_sources/generated/DrudeSCFIntegrator.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

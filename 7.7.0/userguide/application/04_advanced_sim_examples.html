@@ -35,7 +35,7 @@
           <div class="body" role="main">
             
   <section id="advanced-simulation-examples">
-<span id="id1"></span><h1><span class="section-number">5. </span>Advanced Simulation Examples<a class="headerlink" href="04_advanced_sim_examples.html#advanced-simulation-examples" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1><span class="section-number">5. </span>Advanced Simulation Examples<a class="headerlink" href="#advanced-simulation-examples" title="Permalink to this headline">¶</a></h1>
 <p>In the previous chapter, we looked at some basic scripts for running simulations
 and saw lots of ways to customize them.  If that is all you want to do—run
 straightforward molecular simulations—you already know everything you need to
@@ -57,7 +57,7 @@ usethe Python <code class="code docutils literal notranslate"><span class="pre">
 </div>
 <p>will print detailed documentation on the <code class="xref py py-class docutils literal notranslate"><span class="pre">Simulation</span></code> class.</p>
 <section id="simulated-annealing">
-<h2><span class="section-number">5.1. </span>Simulated Annealing<a class="headerlink" href="04_advanced_sim_examples.html#simulated-annealing" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">5.1. </span>Simulated Annealing<a class="headerlink" href="#simulated-annealing" title="Permalink to this headline">¶</a></h2>
 <p>Here is a very simple example of how to do simulated annealing.  The following
 lines linearly reduce the temperature from 300 K to 0 K in 100 increments,
 executing 1000 time steps at each temperature:</p>
@@ -79,7 +79,7 @@ time through, it adjusts the temperature of the <code class="xref py py-class do
 calls <code class="code docutils literal notranslate"><span class="pre">step(1000)</span></code> to take 1000 time steps.</p>
 </section>
 <section id="applying-an-external-force-to-particles-a-spherical-container">
-<h2><span class="section-number">5.2. </span>Applying an External Force to Particles: a Spherical Container<a class="headerlink" href="04_advanced_sim_examples.html#applying-an-external-force-to-particles-a-spherical-container" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">5.2. </span>Applying an External Force to Particles: a Spherical Container<a class="headerlink" href="#applying-an-external-force-to-particles-a-spherical-container" title="Permalink to this headline">¶</a></h2>
 <p>In this example, we will simulate a non-periodic system contained inside a
 spherical container with radius 2 nm.  We implement the container by applying a
 harmonic potential to every particle:</p>
@@ -131,7 +131,7 @@ Once you create a <code class="xref py py-class docutils literal notranslate"><s
 </div>
 </section>
 <section id="extracting-and-reporting-forces-and-other-data">
-<h2><span class="section-number">5.3. </span>Extracting and Reporting Forces (and other data)<a class="headerlink" href="04_advanced_sim_examples.html#extracting-and-reporting-forces-and-other-data" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">5.3. </span>Extracting and Reporting Forces (and other data)<a class="headerlink" href="#extracting-and-reporting-forces-and-other-data" title="Permalink to this headline">¶</a></h2>
 <p>OpenMM provides reporters for three output formats: <a class="reference external" href="https://www.wwpdb.org/documentation/file-format-content/format33/v3.3.html">PDB</a>, <a class="reference external" href="https://mmcif.wwpdb.org/pdbx-mmcif-home-page.html">PDBx/mmCIF</a> and <a class="reference external" href="https://www.ks.uiuc.edu/Research/namd/2.6/ug/node13.html">DCD</a>.
 All of those formats store only positions, not velocities, forces, or other data.  In this
 section, we create a new reporter that outputs forces.  This illustrates two
@@ -202,7 +202,7 @@ reporter.  For example,</p>
 <p>will output forces to a file called “forces.txt” every 100 time steps.</p>
 </section>
 <section id="computing-energies">
-<h2><span class="section-number">5.4. </span>Computing Energies<a class="headerlink" href="04_advanced_sim_examples.html#computing-energies" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">5.4. </span>Computing Energies<a class="headerlink" href="#computing-energies" title="Permalink to this headline">¶</a></h2>
 <p>This example illustrates a different sort of analysis.  Instead of running a
 simulation, assume we have already identified a set of structures we are
 interested in.  These structures are saved in a set of PDB files.  We want to
@@ -291,11 +291,11 @@ with the name of the file.</p>
 <li class="toctree-l2"><a class="reference internal" href="01_getting_started.html">2. Getting Started</a></li>
 <li class="toctree-l2"><a class="reference internal" href="02_running_sims.html">3. Running Simulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03_model_building_editing.html">4. Model Building and Editing</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="04_advanced_sim_examples.html#">5. Advanced Simulation Examples</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="04_advanced_sim_examples.html#simulated-annealing">5.1. Simulated Annealing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="04_advanced_sim_examples.html#applying-an-external-force-to-particles-a-spherical-container">5.2. Applying an External Force to Particles: a Spherical Container</a></li>
-<li class="toctree-l3"><a class="reference internal" href="04_advanced_sim_examples.html#extracting-and-reporting-forces-and-other-data">5.3. Extracting and Reporting Forces (and other data)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="04_advanced_sim_examples.html#computing-energies">5.4. Computing Energies</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">5. Advanced Simulation Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#simulated-annealing">5.1. Simulated Annealing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#applying-an-external-force-to-particles-a-spherical-container">5.2. Applying an External Force to Particles: a Spherical Container</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#extracting-and-reporting-forces-and-other-data">5.3. Extracting and Reporting Forces (and other data)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#computing-energies">5.4. Computing Energies</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="05_creating_ffs.html">6. Creating Force Fields</a></li>
@@ -319,19 +319,19 @@ with the name of the file.</p>
         </li>
         
         <li class="toctree-l1">
-            <a href="http://docs.openmm.org/7.7.0/developerguide/">
+            <a href="../../developerguide/">
                 Developer Guide
             </a>
         </li>
         
         <li class="toctree-l1">
-            <a href="http://docs.openmm.org/7.7.0/api-python/">
+            <a href="../../api-python/">
                 Python API reference
             </a>
         </li>
         
         <li class="toctree-l1">
-            <a href="http://docs.openmm.org/7.7.0/api-c++/">
+            <a href="../../api-c++/">
                 C++ API reference
             </a>
         </li>

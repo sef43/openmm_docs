@@ -1,0 +1,7 @@
+.. _OpenMM::CustomTorsionForce:
+
+``CustomTorsionForce``
+======================
+
+.. doxygenclass:: OpenMM::CustomTorsionForce
+   :members:

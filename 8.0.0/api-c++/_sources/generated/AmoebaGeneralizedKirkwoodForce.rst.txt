@@ -1,0 +1,7 @@
+.. _OpenMM::AmoebaGeneralizedKirkwoodForce:
+
+``AmoebaGeneralizedKirkwoodForce``
+==================================
+
+.. doxygenclass:: OpenMM::AmoebaGeneralizedKirkwoodForce
+   :members:

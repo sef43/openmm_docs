@@ -1,0 +1,16 @@
+﻿CharmmPSFWarning
+======================================================
+
+.. currentmodule:: openmm.app.internal.charmm.exceptions
+
+.. autoclass:: CharmmPSFWarning
+
+   
+   .. automethod:: __init__
+
+   
+   
+
+   
+   
+   

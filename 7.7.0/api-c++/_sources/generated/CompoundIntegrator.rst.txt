@@ -1,0 +1,7 @@
+.. _OpenMM::CompoundIntegrator:
+
+``CompoundIntegrator``
+======================
+
+.. doxygenclass:: OpenMM::CompoundIntegrator
+   :members:

@@ -1,0 +1,7 @@
+.. _OpenMM::RPMDIntegrator:
+
+``RPMDIntegrator``
+==================
+
+.. doxygenclass:: OpenMM::RPMDIntegrator
+   :members:

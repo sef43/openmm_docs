@@ -1,0 +1,7 @@
+.. _OpenMM::SerializationNode:
+
+``SerializationNode``
+=====================
+
+.. doxygenclass:: OpenMM::SerializationNode
+   :members:

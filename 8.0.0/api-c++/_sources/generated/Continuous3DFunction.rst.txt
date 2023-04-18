@@ -1,0 +1,7 @@
+.. _OpenMM::Continuous3DFunction:
+
+``Continuous3DFunction``
+========================
+
+.. doxygenclass:: OpenMM::Continuous3DFunction
+   :members:

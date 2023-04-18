@@ -34,9 +34,9 @@
           <div class="body" role="main">
             
   <section id="introduction">
-<span id="the-openmm-library-introduction"></span><h1><span class="section-number">7. </span>Introduction<a class="headerlink" href="01_introduction.html#introduction" title="Permalink to this headline">¶</a></h1>
+<span id="the-openmm-library-introduction"></span><h1><span class="section-number">7. </span>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
 <section id="what-is-the-openmm-library">
-<h2><span class="section-number">7.1. </span>What Is the OpenMM Library?<a class="headerlink" href="01_introduction.html#what-is-the-openmm-library" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">7.1. </span>What Is the OpenMM Library?<a class="headerlink" href="#what-is-the-openmm-library" title="Permalink to this headline">¶</a></h2>
 <p>OpenMM consists of two parts.  First, there is a set of libraries for performing
 many types of computations needed for molecular simulations: force evaluation,
 numerical integration, energy minimization, etc.  These libraries provide an
@@ -52,7 +52,7 @@ you are a programmer, that you are writing your own applications, and that you
 want to add simulation features to those applications.  The following chapters
 describe how to do that with OpenMM.</p>
 <section id="how-to-get-started">
-<h3><span class="section-number">7.1.1. </span>How to get started<a class="headerlink" href="01_introduction.html#how-to-get-started" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">7.1.1. </span>How to get started<a class="headerlink" href="#how-to-get-started" title="Permalink to this headline">¶</a></h3>
 <p>We have provided a number of files that make it easy to get started with OpenMM.
 Pre-compiled binaries are provided for quickly getting OpenMM onto your computer
 (See Chapter <a class="reference internal" href="../application/01_getting_started.html#installing-openmm"><span class="std std-numref">2.2</span></a> for set-up instructions).  We recommend that you then
@@ -63,7 +63,7 @@ through Chapter <a class="reference internal" href="06_integration_examples.html
 done this.</p>
 </section>
 <section id="license">
-<h3><span class="section-number">7.1.2. </span>License<a class="headerlink" href="01_introduction.html#license" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">7.1.2. </span>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h3>
 <p>Two different licenses are used for different parts of OpenMM.  The public API,
 the low level API, the reference platform, the CPU platform, and the application
 layer are all distributed under the MIT
@@ -83,7 +83,7 @@ OpenMM.</p>
 </section>
 </section>
 <section id="design-principles">
-<h2><span class="section-number">7.2. </span>Design Principles<a class="headerlink" href="01_introduction.html#design-principles" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">7.2. </span>Design Principles<a class="headerlink" href="#design-principles" title="Permalink to this headline">¶</a></h2>
 <p>The design of the OpenMM API is guided by the following principles.</p>
 <ol class="arabic simple">
 <li><p>The API must support efficient implementations on a variety of architectures.</p></li>
@@ -124,7 +124,7 @@ automatically take advantage of any architecture that OpenMM supports, even
 architectures that do not yet exist when they write it.</p>
 </section>
 <section id="choice-of-language">
-<h2><span class="section-number">7.3. </span>Choice of Language<a class="headerlink" href="01_introduction.html#choice-of-language" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">7.3. </span>Choice of Language<a class="headerlink" href="#choice-of-language" title="Permalink to this headline">¶</a></h2>
 <p>Molecular modeling and simulation tools are written in a variety of languages:
 C, C++, Fortran, Python, TCL, etc.  It is important that any of these tools be
 able to use OpenMM.  There are two possible approaches to achieving this goal.</p>
@@ -159,12 +159,12 @@ we make minimal use of templates and avoid multiple inheritance altogether.  Our
 goal is to support OpenMM on all major compilers and operating systems.</p>
 </section>
 <section id="architectural-overview">
-<h2><span class="section-number">7.4. </span>Architectural Overview<a class="headerlink" href="01_introduction.html#architectural-overview" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">7.4. </span>Architectural Overview<a class="headerlink" href="#architectural-overview" title="Permalink to this headline">¶</a></h2>
 <p>OpenMM is based on a layered architecture, as shown in the following diagram:</p>
 <figure class="align-center" id="id3">
 <a class="reference internal image-reference" href="../_images/ArchitectureLayers.jpg"><img alt="../_images/ArchitectureLayers.jpg" src="../_images/ArchitectureLayers.jpg" style="width: 100%;" /></a>
 <figcaption>
-<p><span class="caption-text">Figure 7-1:  OpenMM architecture</span><a class="headerlink" href="01_introduction.html#id3" title="Permalink to this image">¶</a></p>
+<p><span class="caption-text">Figure 7-1:  OpenMM architecture</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
 </figcaption>
 </figure>
 <p>At the highest level is the OpenMM public API.  This is the API developers
@@ -192,7 +192,7 @@ sets no restrictions on how these computational kernels are written.  As long as
 they are wrapped in the appropriate OLLA interfaces, OpenMM can use them.</p>
 </section>
 <section id="the-openmm-public-api">
-<span id="id1"></span><h2><span class="section-number">7.5. </span>The OpenMM Public API<a class="headerlink" href="01_introduction.html#the-openmm-public-api" title="Permalink to this headline">¶</a></h2>
+<span id="id1"></span><h2><span class="section-number">7.5. </span>The OpenMM Public API<a class="headerlink" href="#the-openmm-public-api" title="Permalink to this headline">¶</a></h2>
 <p>The public API is based on a small number of classes:</p>
 <p><strong>System</strong>: A System specifies generic properties of the system to be
 simulated: the number of particles it contains, the mass of each one, the size
@@ -251,7 +251,7 @@ Context in which to run a simulation, and instruct the Integrator to advance the
 simulation for 10,000 time steps.</p>
 </section>
 <section id="the-openmm-low-level-api">
-<h2><span class="section-number">7.6. </span>The OpenMM Low Level API<a class="headerlink" href="01_introduction.html#the-openmm-low-level-api" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">7.6. </span>The OpenMM Low Level API<a class="headerlink" href="#the-openmm-low-level-api" title="Permalink to this headline">¶</a></h2>
 <p>The OpenMM Low Level API (OLLA) defines a set of interfaces that users must
 implement in their own code if they want to extend OpenMM, such as to create a
 new Force subclass or support a new hardware platform.  It is based on the
@@ -304,7 +304,7 @@ KernelImpl might invoke several GPU kernels.  Alternatively, a single GPU kernel
 might perform the calculations of several KernelImpl subclasses.</p>
 </section>
 <section id="platforms">
-<span id="id2"></span><h2><span class="section-number">7.7. </span>Platforms<a class="headerlink" href="01_introduction.html#platforms" title="Permalink to this headline">¶</a></h2>
+<span id="id2"></span><h2><span class="section-number">7.7. </span>Platforms<a class="headerlink" href="#platforms" title="Permalink to this headline">¶</a></h2>
 <p>This release of OpenMM contains the following Platform subclasses:</p>
 <p><strong>ReferencePlatform</strong>: This is designed to serve as reference code for
 writing other platforms.  It is written with simplicity and clarity in mind, not
@@ -392,14 +392,14 @@ is usually too slow to be useful on those platforms.</p></li>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../application.html">Part I: The OpenMM Application Layer</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../library.html">Part II: The OpenMM Library</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="01_introduction.html#">7. Introduction</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="01_introduction.html#what-is-the-openmm-library">7.1. What Is the OpenMM Library?</a></li>
-<li class="toctree-l3"><a class="reference internal" href="01_introduction.html#design-principles">7.2. Design Principles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="01_introduction.html#choice-of-language">7.3. Choice of Language</a></li>
-<li class="toctree-l3"><a class="reference internal" href="01_introduction.html#architectural-overview">7.4. Architectural Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="01_introduction.html#the-openmm-public-api">7.5. The OpenMM Public API</a></li>
-<li class="toctree-l3"><a class="reference internal" href="01_introduction.html#the-openmm-low-level-api">7.6. The OpenMM Low Level API</a></li>
-<li class="toctree-l3"><a class="reference internal" href="01_introduction.html#platforms">7.7. Platforms</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">7. Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#what-is-the-openmm-library">7.1. What Is the OpenMM Library?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#design-principles">7.2. Design Principles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#choice-of-language">7.3. Choice of Language</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#architectural-overview">7.4. Architectural Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-openmm-public-api">7.5. The OpenMM Public API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-openmm-low-level-api">7.6. The OpenMM Low Level API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#platforms">7.7. Platforms</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="02_compiling.html">8. Compiling OpenMM from Source Code</a></li>
@@ -430,19 +430,19 @@ is usually too slow to be useful on those platforms.</p></li>
         </li>
         
         <li class="toctree-l1">
-            <a href="http://docs.openmm.org/7.7.0/developerguide/">
+            <a href="../../developerguide/">
                 Developer Guide
             </a>
         </li>
         
         <li class="toctree-l1">
-            <a href="http://docs.openmm.org/7.7.0/api-python/">
+            <a href="../../api-python/">
                 Python API reference
             </a>
         </li>
         
         <li class="toctree-l1">
-            <a href="http://docs.openmm.org/7.7.0/api-c++/">
+            <a href="../../api-c++/">
                 C++ API reference
             </a>
         </li>

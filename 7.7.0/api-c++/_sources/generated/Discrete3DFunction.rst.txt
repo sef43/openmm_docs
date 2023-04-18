@@ -1,0 +1,7 @@
+.. _OpenMM::Discrete3DFunction:
+
+``Discrete3DFunction``
+======================
+
+.. doxygenclass:: OpenMM::Discrete3DFunction
+   :members:

@@ -1,0 +1,7 @@
+.. _OpenMM::LocalCoordinatesSite:
+
+``LocalCoordinatesSite``
+========================
+
+.. doxygenclass:: OpenMM::LocalCoordinatesSite
+   :members:

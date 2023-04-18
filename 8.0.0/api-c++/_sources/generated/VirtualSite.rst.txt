@@ -1,0 +1,7 @@
+.. _OpenMM::VirtualSite:
+
+``VirtualSite``
+===============
+
+.. doxygenclass:: OpenMM::VirtualSite
+   :members:

@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>OpenMM Developer’s Guide &#8212; OpenMM Dev Guide 7.7 documentation</title>
+    <link rel="stylesheet" type="text/css" href="http://docs.openmm.org/7.7.0/developerguide/_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="http://docs.openmm.org/7.7.0/developerguide/_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="http://docs.openmm.org/7.7.0/developerguide/_static/documentation_options.js"></script>
+    <script src="http://docs.openmm.org/7.7.0/developerguide/_static/jquery.js"></script>
+    <script src="http://docs.openmm.org/7.7.0/developerguide/_static/underscore.js"></script>
+    <script src="http://docs.openmm.org/7.7.0/developerguide/_static/doctools.js"></script>
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="1. Introduction" href="01_introduction.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="openmm-developer-s-guide">
+<h1>OpenMM Developer’s Guide<a class="headerlink" href="index.html#openmm-developer-s-guide" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="01_introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_core_library.html">2. The Core Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_writing_plugins.html">3. Writing Plugins</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="03_writing_plugins.html#creating-new-platforms">3.1. Creating New Platforms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_writing_plugins.html#creating-new-forces">3.2. Creating New Forces</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="04_reference_platform.html">4. The Reference Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_cpu_platform.html">5. The CPU Plaform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_opencl_platform.html">6. The OpenCL Platform</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="06_opencl_platform.html#overview">6.1. Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_opencl_platform.html#numerical-precision">6.2. Numerical Precision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_opencl_platform.html#computing-forces">6.3. Computing Forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_opencl_platform.html#nonbonded-forces">6.4. Nonbonded Forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_opencl_platform.html#bonded-forces">6.5. Bonded Forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_opencl_platform.html#reordering-of-particles">6.6. Reordering of Particles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_opencl_platform.html#integration-utilities">6.7. Integration Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="07_cuda_platform.html">7. The CUDA Platform</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="07_cuda_platform.html#compiling-kernels">7.1. Compiling Kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07_cuda_platform.html#accumulating-forces">7.2. Accumulating Forces</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="08_common_compute.html">8. Common Compute</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="08_common_compute.html#writing-device-code">8.1. Writing Device Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08_common_compute.html#writing-host-code">8.2. Writing Host Code</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>Portions copyright (c) 2011-2020 Stanford University and the Authors</p>
+<p>Contributors: Peter Eastman</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of
+this document (the “Document”), to deal in the Document without restriction,
+including without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Document, and to permit
+persons to whom the Document is furnished to do so, subject to the following
+conditions:</p>
+<p>This copyright and permission notice shall be included in all copies or
+substantial portions of the Document.</p>
+<p>THE DOCUMENT IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE AUTHORS,
+CONTRIBUTORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE DOCUMENT OR THE USE OR OTHER DEALINGS IN THE
+DOCUMENT.</p>
+<p>Acknowledgments</p>
+<p>OpenMM software and all related activities, such as this manual, are funded by
+the Simbios National Center for Biomedical Computing through the National
+Institutes of Health Roadmap for Medical Research, Grant U54 GM072970.
+Information on the National Centers can be found at
+<a class="reference external" href="https://commonfund.nih.gov/bioinformatics">https://commonfund.nih.gov/bioinformatics</a>.</p>
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          <a href="01_introduction.html" title="Next document"><span class="section-number">1. </span>Introduction</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html#">
+    <img class="logo" src="_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM Dev Guide</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="01_introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_core_library.html">2. The Core Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_writing_plugins.html">3. Writing Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_reference_platform.html">4. The Reference Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_cpu_platform.html">5. The CPU Plaform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_opencl_platform.html">6. The OpenCL Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_cuda_platform.html">7. The CUDA Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_common_compute.html">8. Common Compute</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../userguide/index.html">
+                User's Manual
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../api-python/index.html">
+                Python API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../api-c++/index.html">
+                C++ API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2011-2017, Stanford University.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

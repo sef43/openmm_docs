@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Integrator &#8212; OpenMM C++ API @OPENMM_MAJOR_VERSION@.@OPENMM_MINOR_VERSION@ documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="BrownianIntegrator" href="BrownianIntegrator.html" />
+    <link rel="prev" title="Integrators" href="../integrators.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="integrator">
+<span id="openmm-integrator"></span><h1><code class="docutils literal notranslate"><span class="pre">Integrator</span></code><a class="headerlink" href="Integrator.html#integrator" title="Permalink to this headline">¶</a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM10IntegratorE">
+<span id="_CPPv3N6OpenMM10IntegratorE"></span><span id="_CPPv2N6OpenMM10IntegratorE"></span><span id="OpenMM::Integrator"></span><span class="target" id="classOpenMM_1_1Integrator"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">OpenMM</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">Integrator</span></span></span><a class="headerlink" href="Integrator.html#_CPPv4N6OpenMM10IntegratorE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>An <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a> defines a method for simulating a <a class="reference internal" href="System.html#classOpenMM_1_1System"><span class="std std-ref">System</span></a> by integrating the equations of motion. This is an abstract class. Subclasses define particular integration methods.</p>
+<p>Each <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a> object is bound to a particular <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a> which it integrates. This connection is specified by passing the <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a> as an argument to the constructor of the <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a>. </p>
+<p>Subclassed by <a class="reference internal" href="BrownianIntegrator.html#classOpenMM_1_1BrownianIntegrator"><span class="std std-ref">OpenMM::BrownianIntegrator</span></a>, <a class="reference internal" href="CompoundIntegrator.html#classOpenMM_1_1CompoundIntegrator"><span class="std std-ref">OpenMM::CompoundIntegrator</span></a>, <a class="reference internal" href="CustomIntegrator.html#classOpenMM_1_1CustomIntegrator"><span class="std std-ref">OpenMM::CustomIntegrator</span></a>, <a class="reference internal" href="DrudeIntegrator.html#classOpenMM_1_1DrudeIntegrator"><span class="std std-ref">OpenMM::DrudeIntegrator</span></a>, <a class="reference internal" href="LangevinIntegrator.html#classOpenMM_1_1LangevinIntegrator"><span class="std std-ref">OpenMM::LangevinIntegrator</span></a>, <a class="reference internal" href="LangevinMiddleIntegrator.html#classOpenMM_1_1LangevinMiddleIntegrator"><span class="std std-ref">OpenMM::LangevinMiddleIntegrator</span></a>, <a class="reference internal" href="NoseHooverIntegrator.html#classOpenMM_1_1NoseHooverIntegrator"><span class="std std-ref">OpenMM::NoseHooverIntegrator</span></a>, <a class="reference internal" href="RPMDIntegrator.html#classOpenMM_1_1RPMDIntegrator"><span class="std std-ref">OpenMM::RPMDIntegrator</span></a>, <a class="reference internal" href="VariableLangevinIntegrator.html#classOpenMM_1_1VariableLangevinIntegrator"><span class="std std-ref">OpenMM::VariableLangevinIntegrator</span></a>, <a class="reference internal" href="VariableVerletIntegrator.html#classOpenMM_1_1VariableVerletIntegrator"><span class="std std-ref">OpenMM::VariableVerletIntegrator</span></a>, <a class="reference internal" href="VerletIntegrator.html#classOpenMM_1_1VerletIntegrator"><span class="std std-ref">OpenMM::VerletIntegrator</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM10Integrator11getStepSizeEv">
+<span id="_CPPv3NK6OpenMM10Integrator11getStepSizeEv"></span><span id="_CPPv2NK6OpenMM10Integrator11getStepSizeEv"></span><span id="OpenMM::Integrator::getStepSizeC"></span><span class="target" id="classOpenMM_1_1Integrator_1a880821318aee5b25b02f0929887825c1"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getStepSize</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="Integrator.html#_CPPv4NK6OpenMM10Integrator11getStepSizeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the size of each time step, in picoseconds. If this integrator uses variable time steps, the size of the most recent step is returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the step size, measured in ps </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM10Integrator11setStepSizeEd">
+<span id="_CPPv3N6OpenMM10Integrator11setStepSizeEd"></span><span id="_CPPv2N6OpenMM10Integrator11setStepSizeEd"></span><span id="OpenMM::Integrator::setStepSize__double"></span><span class="target" id="classOpenMM_1_1Integrator_1a86ef00f4e3abb9e3e325e3c4ebe5ead1"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setStepSize</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">size</span></span><span class="sig-paren">)</span><a class="headerlink" href="Integrator.html#_CPPv4N6OpenMM10Integrator11setStepSizeEd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the size of each time step, in picoseconds. If this integrator uses variable time steps, the effect of calling this method is undefined, and it may simply be ignored.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>size</strong> – the step size, measured in ps </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM10Integrator22getConstraintToleranceEv">
+<span id="_CPPv3NK6OpenMM10Integrator22getConstraintToleranceEv"></span><span id="_CPPv2NK6OpenMM10Integrator22getConstraintToleranceEv"></span><span id="OpenMM::Integrator::getConstraintToleranceC"></span><span class="target" id="classOpenMM_1_1Integrator_1af742feb7b5b9adfcb259bf2dbc9319c4"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getConstraintTolerance</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="Integrator.html#_CPPv4NK6OpenMM10Integrator22getConstraintToleranceEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the distance tolerance within which constraints are maintained, as a fraction of the constrained distance. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM10Integrator22setConstraintToleranceEd">
+<span id="_CPPv3N6OpenMM10Integrator22setConstraintToleranceEd"></span><span id="_CPPv2N6OpenMM10Integrator22setConstraintToleranceEd"></span><span id="OpenMM::Integrator::setConstraintTolerance__double"></span><span class="target" id="classOpenMM_1_1Integrator_1a47f81ac027670bcad6050c72cc41bd67"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setConstraintTolerance</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">tol</span></span><span class="sig-paren">)</span><a class="headerlink" href="Integrator.html#_CPPv4N6OpenMM10Integrator22setConstraintToleranceEd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the distance tolerance within which constraints are maintained, as a fraction of the constrained distance. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM10Integrator4stepEi">
+<span id="_CPPv3N6OpenMM10Integrator4stepEi"></span><span id="_CPPv2N6OpenMM10Integrator4stepEi"></span><span id="OpenMM::Integrator::step__i"></span><span class="target" id="classOpenMM_1_1Integrator_1a55151232664ae778eb2f0e2e8bbe7b67"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">step</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">steps</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="Integrator.html#_CPPv4N6OpenMM10Integrator4stepEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Advance a simulation through time by taking a series of time steps.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>steps</strong> – the number of time steps to take </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM10Integrator25getIntegrationForceGroupsEv">
+<span id="_CPPv3NK6OpenMM10Integrator25getIntegrationForceGroupsEv"></span><span id="_CPPv2NK6OpenMM10Integrator25getIntegrationForceGroupsEv"></span><span id="OpenMM::Integrator::getIntegrationForceGroupsC"></span><span class="target" id="classOpenMM_1_1Integrator_1a38c94f952b4fcab36371402e508eacf1"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getIntegrationForceGroups</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="Integrator.html#_CPPv4NK6OpenMM10Integrator25getIntegrationForceGroupsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get which force groups to use for integration. By default, all force groups are included. This is interpreted as a set of bit flags: the forces from group i will be included if (groups&amp;(1&lt;&lt;i)) != 0. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM10Integrator25setIntegrationForceGroupsEi">
+<span id="_CPPv3N6OpenMM10Integrator25setIntegrationForceGroupsEi"></span><span id="_CPPv2N6OpenMM10Integrator25setIntegrationForceGroupsEi"></span><span id="OpenMM::Integrator::setIntegrationForceGroups__i"></span><span class="target" id="classOpenMM_1_1Integrator_1a22b42a4a502c999d87e6bbd3f444eab4"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setIntegrationForceGroups</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">groups</span></span><span class="sig-paren">)</span><a class="headerlink" href="Integrator.html#_CPPv4N6OpenMM10Integrator25setIntegrationForceGroupsEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set which force groups to use for integration. By default, all force groups are included. This is interpreted as a set of bit flags: the forces from group i will be included if (groups&amp;(1&lt;&lt;i)) != 0. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="../integrators.html" title="Previous document">Integrators</a>
+        </li>
+        <li>
+          <a href="BrownianIntegrator.html" title="Next document"><code class="docutils literal notranslate"><span class="pre">BrownianIntegrator</span></code></a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM C++ API</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="System.html"><code class="docutils literal notranslate"><span class="pre">System</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Context.html"><code class="docutils literal notranslate"><span class="pre">Context</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="State.html"><code class="docutils literal notranslate"><span class="pre">State</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Platform.html"><code class="docutils literal notranslate"><span class="pre">Platform</span></code></a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../forces.html">Forces</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../integrators.html">Integrators</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../integrators.html#the-integrator-abstract-class">The <code class="docutils literal notranslate"><span class="pre">Integrator</span></code> abstract class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../integrators.html#general-purpose-integrators">General purpose integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../integrators.html#drude-integrators">Drude integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../integrators.html#ring-polymer-molecular-dynamics-integrators">Ring Polymer Molecular Dynamics integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../integrators.html#customizing-integrator">Customizing <code class="docutils literal notranslate"><span class="pre">Integrator</span></code></a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../extras.html">Extra classes</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../userguide/index.html">
+                User's Manual
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../developerguide">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../api-python/index.html">
+                Python API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Stanford University and the Authors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/generated/Integrator.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

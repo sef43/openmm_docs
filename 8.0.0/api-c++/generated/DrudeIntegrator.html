@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>DrudeIntegrator &#8212; OpenMM C++ API @OPENMM_MAJOR_VERSION@.@OPENMM_MINOR_VERSION@ documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="DrudeLangevinIntegrator" href="DrudeLangevinIntegrator.html" />
+    <link rel="prev" title="VerletIntegrator" href="VerletIntegrator.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="drudeintegrator">
+<span id="openmm-drudeintegrator"></span><h1><code class="docutils literal notranslate"><span class="pre">DrudeIntegrator</span></code><a class="headerlink" href="DrudeIntegrator.html#drudeintegrator" title="Permalink to this headline">¶</a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM15DrudeIntegratorE">
+<span id="_CPPv3N6OpenMM15DrudeIntegratorE"></span><span id="_CPPv2N6OpenMM15DrudeIntegratorE"></span><span id="OpenMM::DrudeIntegrator"></span><span class="target" id="classOpenMM_1_1DrudeIntegrator"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DrudeIntegrator</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">OpenMM</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="Integrator.html#_CPPv4N6OpenMM10IntegratorE" title="OpenMM::Integrator"><span class="n"><span class="pre">Integrator</span></span></a><a class="headerlink" href="DrudeIntegrator.html#_CPPv4N6OpenMM15DrudeIntegratorE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>A base class to encapsulate features common to Drude integrators. </p>
+<p>Subclassed by <a class="reference internal" href="DrudeLangevinIntegrator.html#classOpenMM_1_1DrudeLangevinIntegrator"><span class="std std-ref">OpenMM::DrudeLangevinIntegrator</span></a>, <a class="reference internal" href="DrudeSCFIntegrator.html#classOpenMM_1_1DrudeSCFIntegrator"><span class="std std-ref">OpenMM::DrudeSCFIntegrator</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM15DrudeIntegrator15DrudeIntegratorEd">
+<span id="_CPPv3N6OpenMM15DrudeIntegrator15DrudeIntegratorEd"></span><span id="_CPPv2N6OpenMM15DrudeIntegrator15DrudeIntegratorEd"></span><span id="OpenMM::DrudeIntegrator::DrudeIntegrator__double"></span><span class="target" id="classOpenMM_1_1DrudeIntegrator_1ae4bb7e6cc9e04383692ae6866340e057"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DrudeIntegrator</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">stepSize</span></span><span class="sig-paren">)</span><a class="headerlink" href="DrudeIntegrator.html#_CPPv4N6OpenMM15DrudeIntegrator15DrudeIntegratorEd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a <a class="reference internal" href="DrudeSCFIntegrator.html#classOpenMM_1_1DrudeSCFIntegrator"><span class="std std-ref">DrudeSCFIntegrator</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>stepSize</strong> – the step size with which to integrator the system (in picoseconds) </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM15DrudeIntegrator4stepEi">
+<span id="_CPPv3N6OpenMM15DrudeIntegrator4stepEi"></span><span id="_CPPv2N6OpenMM15DrudeIntegrator4stepEi"></span><span id="OpenMM::DrudeIntegrator::step__i"></span><span class="target" id="classOpenMM_1_1DrudeIntegrator_1ad1009cf9c59c3d8ed72b643988d49ad4"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">step</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">steps</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="DrudeIntegrator.html#_CPPv4N6OpenMM15DrudeIntegrator4stepEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Advance a simulation through time by taking a series of time steps.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>steps</strong> – the number of time steps to take </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM15DrudeIntegrator19getDrudeTemperatureEv">
+<span id="_CPPv3NK6OpenMM15DrudeIntegrator19getDrudeTemperatureEv"></span><span id="_CPPv2NK6OpenMM15DrudeIntegrator19getDrudeTemperatureEv"></span><span id="OpenMM::DrudeIntegrator::getDrudeTemperatureC"></span><span class="target" id="classOpenMM_1_1DrudeIntegrator_1a67f74b0f96aab922e167c36f34bde4da"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getDrudeTemperature</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="DrudeIntegrator.html#_CPPv4NK6OpenMM15DrudeIntegrator19getDrudeTemperatureEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the temperature of the heat bath applied to internal coordinates of Drude particles (in Kelvin).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the temperature of the heat bath, measured in Kelvin </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM15DrudeIntegrator19setDrudeTemperatureEd">
+<span id="_CPPv3N6OpenMM15DrudeIntegrator19setDrudeTemperatureEd"></span><span id="_CPPv2N6OpenMM15DrudeIntegrator19setDrudeTemperatureEd"></span><span id="OpenMM::DrudeIntegrator::setDrudeTemperature__double"></span><span class="target" id="classOpenMM_1_1DrudeIntegrator_1a55b0b8499c4b57a401c4d2544ae5ac1b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setDrudeTemperature</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">temp</span></span><span class="sig-paren">)</span><a class="headerlink" href="DrudeIntegrator.html#_CPPv4N6OpenMM15DrudeIntegrator19setDrudeTemperatureEd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the temperature of the heat bath applied to internal coordinates of Drude particles (in Kelvin).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>temp</strong> – the temperature of the heat bath, measured in Kelvin </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM15DrudeIntegrator19getMaxDrudeDistanceEv">
+<span id="_CPPv3NK6OpenMM15DrudeIntegrator19getMaxDrudeDistanceEv"></span><span id="_CPPv2NK6OpenMM15DrudeIntegrator19getMaxDrudeDistanceEv"></span><span id="OpenMM::DrudeIntegrator::getMaxDrudeDistanceC"></span><span class="target" id="classOpenMM_1_1DrudeIntegrator_1a7b82b8db3a1ec58baece52656258d1cb"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getMaxDrudeDistance</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="DrudeIntegrator.html#_CPPv4NK6OpenMM15DrudeIntegrator19getMaxDrudeDistanceEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the maximum distance a Drude particle can ever move from its parent particle, measured in nm. This is implemented with a hard wall constraint. The default value is 0.02. If this distance is set to 0, the hard wall constraint is omitted. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM15DrudeIntegrator19setMaxDrudeDistanceEd">
+<span id="_CPPv3N6OpenMM15DrudeIntegrator19setMaxDrudeDistanceEd"></span><span id="_CPPv2N6OpenMM15DrudeIntegrator19setMaxDrudeDistanceEd"></span><span id="OpenMM::DrudeIntegrator::setMaxDrudeDistance__double"></span><span class="target" id="classOpenMM_1_1DrudeIntegrator_1ad48071c91a96bdcdab8a0d56b4bd40ca"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setMaxDrudeDistance</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">distance</span></span><span class="sig-paren">)</span><a class="headerlink" href="DrudeIntegrator.html#_CPPv4N6OpenMM15DrudeIntegrator19setMaxDrudeDistanceEd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the maximum distance a Drude particle can ever move from its parent particle, measured in nm. This is implemented with a hard wall constraint. The default value is 0.02. If this distance is set to 0, the hard wall constraint is omitted. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM15DrudeIntegrator19setRandomNumberSeedEi">
+<span id="_CPPv3N6OpenMM15DrudeIntegrator19setRandomNumberSeedEi"></span><span id="_CPPv2N6OpenMM15DrudeIntegrator19setRandomNumberSeedEi"></span><span id="OpenMM::DrudeIntegrator::setRandomNumberSeed__i"></span><span class="target" id="classOpenMM_1_1DrudeIntegrator_1a6b90dae171d8172cfcea760ffcf114b8"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setRandomNumberSeed</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">seed</span></span><span class="sig-paren">)</span><a class="headerlink" href="DrudeIntegrator.html#_CPPv4N6OpenMM15DrudeIntegrator19setRandomNumberSeedEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the random number seed. The precise meaning of this parameter is undefined, and is left up to each <a class="reference internal" href="Platform.html#classOpenMM_1_1Platform"><span class="std std-ref">Platform</span></a> to interpret in an appropriate way. It is guaranteed that if two simulations are run with different random number seeds, the sequence of random forces will be different. On the other hand, no guarantees are made about the behavior of simulations that use the same seed. In particular, Platforms are permitted to use non-deterministic algorithms which produce different results on successive runs, even if those runs were initialized identically.</p>
+<p>If seed is set to 0 (which is the default value assigned), a unique seed is chosen when a <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a> is created from this <a class="reference internal" href="Force.html#classOpenMM_1_1Force"><span class="std std-ref">Force</span></a>. This is done to ensure that each <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a> receives unique random seeds without you needing to set them explicitly. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM15DrudeIntegrator19getRandomNumberSeedEv">
+<span id="_CPPv3NK6OpenMM15DrudeIntegrator19getRandomNumberSeedEv"></span><span id="_CPPv2NK6OpenMM15DrudeIntegrator19getRandomNumberSeedEv"></span><span id="OpenMM::DrudeIntegrator::getRandomNumberSeedC"></span><span class="target" id="classOpenMM_1_1DrudeIntegrator_1a0b286d3f3b571e071abb60689a06bbca"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getRandomNumberSeed</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="DrudeIntegrator.html#_CPPv4NK6OpenMM15DrudeIntegrator19getRandomNumberSeedEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the random number seed. See <a class="reference internal" href="DrudeIntegrator.html#classOpenMM_1_1DrudeIntegrator_1a6b90dae171d8172cfcea760ffcf114b8"><span class="std std-ref">setRandomNumberSeed()</span></a> for details. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="VerletIntegrator.html" title="Previous document"><code class="docutils literal notranslate"><span class="pre">VerletIntegrator</span></code></a>
+        </li>
+        <li>
+          <a href="DrudeLangevinIntegrator.html" title="Next document"><code class="docutils literal notranslate"><span class="pre">DrudeLangevinIntegrator</span></code></a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM C++ API</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="System.html"><code class="docutils literal notranslate"><span class="pre">System</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Context.html"><code class="docutils literal notranslate"><span class="pre">Context</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="State.html"><code class="docutils literal notranslate"><span class="pre">State</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Platform.html"><code class="docutils literal notranslate"><span class="pre">Platform</span></code></a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../forces.html">Forces</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../integrators.html">Integrators</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../integrators.html#the-integrator-abstract-class">The <code class="docutils literal notranslate"><span class="pre">Integrator</span></code> abstract class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../integrators.html#general-purpose-integrators">General purpose integrators</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../integrators.html#drude-integrators">Drude integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../integrators.html#ring-polymer-molecular-dynamics-integrators">Ring Polymer Molecular Dynamics integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../integrators.html#customizing-integrator">Customizing <code class="docutils literal notranslate"><span class="pre">Integrator</span></code></a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../extras.html">Extra classes</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../userguide">
+                User's Manual
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../developerguide/index.html">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../api-python/index.html">
+                Python API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Stanford University and the Authors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../_sources/generated/DrudeIntegrator.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

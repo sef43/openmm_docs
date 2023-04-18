@@ -1,0 +1,76 @@
+﻿AmoebaVdwForce
+============================
+
+.. currentmodule:: openmm.openmm
+
+.. autoclass:: AmoebaVdwForce
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~AmoebaVdwForce.Lambda
+      ~AmoebaVdwForce.__init__
+      ~AmoebaVdwForce.addParticle
+      ~AmoebaVdwForce.addParticleType
+      ~AmoebaVdwForce.addTypePair
+      ~AmoebaVdwForce.getAlchemicalMethod
+      ~AmoebaVdwForce.getCutoff
+      ~AmoebaVdwForce.getCutoffDistance
+      ~AmoebaVdwForce.getEpsilonCombiningRule
+      ~AmoebaVdwForce.getForceGroup
+      ~AmoebaVdwForce.getName
+      ~AmoebaVdwForce.getNonbondedMethod
+      ~AmoebaVdwForce.getNumParticleTypes
+      ~AmoebaVdwForce.getNumParticles
+      ~AmoebaVdwForce.getNumTypePairs
+      ~AmoebaVdwForce.getParticleExclusions
+      ~AmoebaVdwForce.getParticleParameters
+      ~AmoebaVdwForce.getParticleTypeParameters
+      ~AmoebaVdwForce.getPotentialFunction
+      ~AmoebaVdwForce.getSigmaCombiningRule
+      ~AmoebaVdwForce.getSoftcoreAlpha
+      ~AmoebaVdwForce.getSoftcorePower
+      ~AmoebaVdwForce.getTypePairParameters
+      ~AmoebaVdwForce.getUseDispersionCorrection
+      ~AmoebaVdwForce.getUseParticleTypes
+      ~AmoebaVdwForce.setAlchemicalMethod
+      ~AmoebaVdwForce.setCutoff
+      ~AmoebaVdwForce.setCutoffDistance
+      ~AmoebaVdwForce.setEpsilonCombiningRule
+      ~AmoebaVdwForce.setForceGroup
+      ~AmoebaVdwForce.setName
+      ~AmoebaVdwForce.setNonbondedMethod
+      ~AmoebaVdwForce.setParticleExclusions
+      ~AmoebaVdwForce.setParticleParameters
+      ~AmoebaVdwForce.setParticleTypeParameters
+      ~AmoebaVdwForce.setPotentialFunction
+      ~AmoebaVdwForce.setSigmaCombiningRule
+      ~AmoebaVdwForce.setSoftcoreAlpha
+      ~AmoebaVdwForce.setSoftcorePower
+      ~AmoebaVdwForce.setTypePairParameters
+      ~AmoebaVdwForce.setUseDispersionCorrection
+      ~AmoebaVdwForce.updateParametersInContext
+      ~AmoebaVdwForce.usesPeriodicBoundaryConditions
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AmoebaVdwForce.Annihilate
+      ~AmoebaVdwForce.Buffered147
+      ~AmoebaVdwForce.CutoffPeriodic
+      ~AmoebaVdwForce.Decouple
+      ~AmoebaVdwForce.LennardJones
+      ~AmoebaVdwForce.NoCutoff
+      ~AmoebaVdwForce.thisown
+   
+   

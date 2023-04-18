@@ -1,0 +1,7 @@
+.. _OpenMM::AmoebaTorsionTorsionForce:
+
+``AmoebaTorsionTorsionForce``
+=============================
+
+.. doxygenclass:: OpenMM::AmoebaTorsionTorsionForce
+   :members:

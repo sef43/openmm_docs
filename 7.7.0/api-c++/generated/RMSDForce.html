@@ -1,0 +1,237 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>RMSDForce &#8212; OpenMM C++ API @OPENMM_MAJOR_VERSION@.@OPENMM_MINOR_VERSION@ documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="RPMDMonteCarloBarostat" href="RPMDMonteCarloBarostat.html" />
+    <link rel="prev" title="MonteCarloMembraneBarostat" href="MonteCarloMembraneBarostat.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="rmsdforce">
+<span id="openmm-rmsdforce"></span><h1><code class="docutils literal notranslate"><span class="pre">RMSDForce</span></code><a class="headerlink" href="RMSDForce.html#rmsdforce" title="Permalink to this headline">¶</a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM9RMSDForceE">
+<span id="_CPPv3N6OpenMM9RMSDForceE"></span><span id="_CPPv2N6OpenMM9RMSDForceE"></span><span id="OpenMM::RMSDForce"></span><span class="target" id="classOpenMM_1_1RMSDForce"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">OpenMM</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">RMSDForce</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">OpenMM</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="Force.html#_CPPv4N6OpenMM5ForceE" title="OpenMM::Force"><span class="n"><span class="pre">Force</span></span></a><a class="headerlink" href="RMSDForce.html#_CPPv4N6OpenMM9RMSDForceE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This is a force whose energy equals the root mean squared deviation (RMSD) between the current coordinates and a reference structure. It is intended for use with <a class="reference internal" href="CustomCVForce.html#classOpenMM_1_1CustomCVForce"><span class="std std-ref">CustomCVForce</span></a>. You will not normally want a force that exactly equals the RMSD, but there are many situations where it is useful to have a restraining or biasing force that depends on the RMSD in some way.</p>
+<p>The force is computed by first aligning the particle positions to the reference structure, then computing the RMSD between the aligned positions and the reference. The computation can optionally be done based on only a subset of the particles in the system. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM9RMSDForce9RMSDForceERKNSt6vectorI4Vec3EERKNSt6vectorIiEE">
+<span id="_CPPv3N6OpenMM9RMSDForce9RMSDForceERKNSt6vectorI4Vec3EERKNSt6vectorIiEE"></span><span id="_CPPv2N6OpenMM9RMSDForce9RMSDForceERKNSt6vectorI4Vec3EERKNSt6vectorIiEE"></span><span id="OpenMM::RMSDForce::RMSDForce__std::vector:Vec3:CR.std::vector:i:CR"></span><span class="target" id="classOpenMM_1_1RMSDForce_1a7b1432d65f4566ff641c39287546bcf9"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RMSDForce</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Vec3.html#_CPPv4N6OpenMM4Vec3E" title="OpenMM::Vec3"><span class="n"><span class="pre">Vec3</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">referencePositions</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">particles</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="RMSDForce.html#_CPPv4N6OpenMM9RMSDForce9RMSDForceERKNSt6vectorI4Vec3EERKNSt6vectorIiEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create an <a class="reference internal" href="RMSDForce.html#classOpenMM_1_1RMSDForce"><span class="std std-ref">RMSDForce</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>referencePositions</strong> – the reference positions to compute the deviation from. The length of this vector must equal the number of particles in the system, even if not all particles are used in computing the RMSD. </p></li>
+<li><p><strong>particles</strong> – the indices of the particles to use when computing the RMSD. If this is empty (the default), all particles in the system will be used. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM9RMSDForce21getReferencePositionsEv">
+<span id="_CPPv3NK6OpenMM9RMSDForce21getReferencePositionsEv"></span><span id="_CPPv2NK6OpenMM9RMSDForce21getReferencePositionsEv"></span><span id="OpenMM::RMSDForce::getReferencePositionsC"></span><span class="target" id="classOpenMM_1_1RMSDForce_1a5b8e8be8f85daefb38ac0b16590ec34f"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Vec3.html#_CPPv4N6OpenMM4Vec3E" title="OpenMM::Vec3"><span class="n"><span class="pre">Vec3</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getReferencePositions</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="RMSDForce.html#_CPPv4NK6OpenMM9RMSDForce21getReferencePositionsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the reference positions to compute the deviation from. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM9RMSDForce21setReferencePositionsERKNSt6vectorI4Vec3EE">
+<span id="_CPPv3N6OpenMM9RMSDForce21setReferencePositionsERKNSt6vectorI4Vec3EE"></span><span id="_CPPv2N6OpenMM9RMSDForce21setReferencePositionsERKNSt6vectorI4Vec3EE"></span><span id="OpenMM::RMSDForce::setReferencePositions__std::vector:Vec3:CR"></span><span class="target" id="classOpenMM_1_1RMSDForce_1a101ab50c14e3a92bec544a6adabe103d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setReferencePositions</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Vec3.html#_CPPv4N6OpenMM4Vec3E" title="OpenMM::Vec3"><span class="n"><span class="pre">Vec3</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">positions</span></span><span class="sig-paren">)</span><a class="headerlink" href="RMSDForce.html#_CPPv4N6OpenMM9RMSDForce21setReferencePositionsERKNSt6vectorI4Vec3EE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the reference positions to compute the deviation from. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM9RMSDForce12getParticlesEv">
+<span id="_CPPv3NK6OpenMM9RMSDForce12getParticlesEv"></span><span id="_CPPv2NK6OpenMM9RMSDForce12getParticlesEv"></span><span id="OpenMM::RMSDForce::getParticlesC"></span><span class="target" id="classOpenMM_1_1RMSDForce_1ae8f005e091a64b4792cb8fd75a290679"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getParticles</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="RMSDForce.html#_CPPv4NK6OpenMM9RMSDForce12getParticlesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the indices of the particles to use when computing the RMSD. If this is empty, all particles in the system will be used. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM9RMSDForce12setParticlesERKNSt6vectorIiEE">
+<span id="_CPPv3N6OpenMM9RMSDForce12setParticlesERKNSt6vectorIiEE"></span><span id="_CPPv2N6OpenMM9RMSDForce12setParticlesERKNSt6vectorIiEE"></span><span id="OpenMM::RMSDForce::setParticles__std::vector:i:CR"></span><span class="target" id="classOpenMM_1_1RMSDForce_1af47a7b5619c52936ed813d26bd4f1b29"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setParticles</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">particles</span></span><span class="sig-paren">)</span><a class="headerlink" href="RMSDForce.html#_CPPv4N6OpenMM9RMSDForce12setParticlesERKNSt6vectorIiEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the indices of the particles to use when computing the RMSD. If this is empty, all particles in the system will be used. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM9RMSDForce25updateParametersInContextER7Context">
+<span id="_CPPv3N6OpenMM9RMSDForce25updateParametersInContextER7Context"></span><span id="_CPPv2N6OpenMM9RMSDForce25updateParametersInContextER7Context"></span><span id="OpenMM::RMSDForce::updateParametersInContext__ContextR"></span><span class="target" id="classOpenMM_1_1RMSDForce_1a7639f88f275b329910c163b681ea623d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">updateParametersInContext</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="Context.html#_CPPv4N6OpenMM7ContextE" title="OpenMM::Context"><span class="n"><span class="pre">Context</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">context</span></span><span class="sig-paren">)</span><a class="headerlink" href="RMSDForce.html#_CPPv4N6OpenMM9RMSDForce25updateParametersInContextER7Context" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Update the reference positions and particle indices in a <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a> to match those stored in this <a class="reference internal" href="Force.html#classOpenMM_1_1Force"><span class="std std-ref">Force</span></a> object. This method provides an efficient method to update certain parameters in an existing <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a> without needing to reinitialize it. Simply call <a class="reference internal" href="RMSDForce.html#classOpenMM_1_1RMSDForce_1a101ab50c14e3a92bec544a6adabe103d"><span class="std std-ref">setReferencePositions()</span></a> and <a class="reference internal" href="RMSDForce.html#classOpenMM_1_1RMSDForce_1af47a7b5619c52936ed813d26bd4f1b29"><span class="std std-ref">setParticles()</span></a> to modify this object’s parameters, then call <a class="reference internal" href="RMSDForce.html#classOpenMM_1_1RMSDForce_1a7639f88f275b329910c163b681ea623d"><span class="std std-ref">updateParametersInContext()</span></a> to copy them over to the <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM9RMSDForce30usesPeriodicBoundaryConditionsEv">
+<span id="_CPPv3NK6OpenMM9RMSDForce30usesPeriodicBoundaryConditionsEv"></span><span id="_CPPv2NK6OpenMM9RMSDForce30usesPeriodicBoundaryConditionsEv"></span><span id="OpenMM::RMSDForce::usesPeriodicBoundaryConditionsC"></span><span class="target" id="classOpenMM_1_1RMSDForce_1abb03e09c146e031857692bb189dcf33b"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">usesPeriodicBoundaryConditions</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="RMSDForce.html#_CPPv4NK6OpenMM9RMSDForce30usesPeriodicBoundaryConditionsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Returns whether or not this force makes use of periodic boundary conditions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>true if force uses PBC and false otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="MonteCarloMembraneBarostat.html" title="Previous document"><code class="docutils literal notranslate"><span class="pre">MonteCarloMembraneBarostat</span></code></a>
+        </li>
+        <li>
+          <a href="RPMDMonteCarloBarostat.html" title="Next document"><code class="docutils literal notranslate"><span class="pre">RPMDMonteCarloBarostat</span></code></a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM C++ API</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="System.html"><code class="docutils literal notranslate"><span class="pre">System</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Context.html"><code class="docutils literal notranslate"><span class="pre">Context</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="State.html"><code class="docutils literal notranslate"><span class="pre">State</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Platform.html"><code class="docutils literal notranslate"><span class="pre">Platform</span></code></a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../forces.html">Forces</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../forces.html#the-force-abstract-class">The <code class="docutils literal notranslate"><span class="pre">Force</span></code> abstract class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forces.html#common-bonded-and-non-bonded-forces">Common bonded and non-bonded forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forces.html#amoeba-forces">AMOEBA forces</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../forces.html#pseudo-forces">Pseudo-forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forces.html#customizing-force">Customizing <code class="docutils literal notranslate"><span class="pre">Force</span></code></a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../integrators.html">Integrators</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../extras.html">Extra classes</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../userguide/index.html">
+                User's Manual
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../developerguide">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../api-python/index.html">
+                Python API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Stanford University and the Authors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/generated/RMSDForce.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

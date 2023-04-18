@@ -35,14 +35,14 @@
           <div class="body" role="main">
             
   <section id="custom-forces">
-<span id="id1"></span><h1><span class="section-number">19. </span>Custom Forces<a class="headerlink" href="03_custom_forces.html#custom-forces" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1><span class="section-number">19. </span>Custom Forces<a class="headerlink" href="#custom-forces" title="Permalink to this headline">¶</a></h1>
 <p>In addition to the standard forces described in the previous chapter, OpenMM
 provides a number of “custom” force classes.   These classes provide detailed
 control over the mathematical form of the force by allowing the user to specify
 one or more arbitrary algebraic expressions.  The details of how to write these
-custom expressions are described in section <a class="reference internal" href="03_custom_forces.html#writing-custom-expressions"><span class="std std-numref">19.12</span></a>.</p>
+custom expressions are described in section <a class="reference internal" href="#writing-custom-expressions"><span class="std std-numref">19.12</span></a>.</p>
 <section id="custombondforce">
-<h2><span class="section-number">19.1. </span>CustomBondForce<a class="headerlink" href="03_custom_forces.html#custombondforce" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">19.1. </span>CustomBondForce<a class="headerlink" href="#custombondforce" title="Permalink to this headline">¶</a></h2>
 <p>CustomBondForce is similar to HarmonicBondForce in that it represents an
 interaction between certain pairs of particles as a function of the distance
 between them, but it allows the precise form of the interaction to be specified
@@ -59,7 +59,7 @@ specified in two ways:</p>
 </ul>
 </section>
 <section id="customangleforce">
-<h2><span class="section-number">19.2. </span>CustomAngleForce<a class="headerlink" href="03_custom_forces.html#customangleforce" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">19.2. </span>CustomAngleForce<a class="headerlink" href="#customangleforce" title="Permalink to this headline">¶</a></h2>
 <p>CustomAngleForce is similar to HarmonicAngleForce in that it represents an
 interaction between sets of three particles as a function of the angle between
 them, but it allows the precise form of the interaction to be specified by the
@@ -76,7 +76,7 @@ ways:</p>
 </ul>
 </section>
 <section id="customtorsionforce">
-<h2><span class="section-number">19.3. </span>CustomTorsionForce<a class="headerlink" href="03_custom_forces.html#customtorsionforce" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">19.3. </span>CustomTorsionForce<a class="headerlink" href="#customtorsionforce" title="Permalink to this headline">¶</a></h2>
 <p>CustomTorsionForce is similar to PeriodicTorsionForce in that it represents an
 interaction between sets of four particles as a function of the dihedral angle
 between them, but it allows the precise form of the interaction to be specified
@@ -96,7 +96,7 @@ ways:</p>
 </ul>
 </section>
 <section id="customnonbondedforce">
-<span id="id2"></span><h2><span class="section-number">19.4. </span>CustomNonbondedForce<a class="headerlink" href="03_custom_forces.html#customnonbondedforce" title="Permalink to this headline">¶</a></h2>
+<span id="id2"></span><h2><span class="section-number">19.4. </span>CustomNonbondedForce<a class="headerlink" href="#customnonbondedforce" title="Permalink to this headline">¶</a></h2>
 <p>CustomNonbondedForce is similar to NonbondedForce in that it represents a
 pairwise interaction between all particles in the System, but it allows the
 precise form of the interaction to be specified by the user.  That is, the
@@ -140,7 +140,7 @@ simulations at constant pressure, since it produces a more accurate variation in
 system energy with respect to volume.</p>
 </section>
 <section id="customexternalforce">
-<h2><span class="section-number">19.5. </span>CustomExternalForce<a class="headerlink" href="03_custom_forces.html#customexternalforce" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">19.5. </span>CustomExternalForce<a class="headerlink" href="#customexternalforce" title="Permalink to this headline">¶</a></h2>
 <p>CustomExternalForce represents a force that is applied independently to each
 particle as a function of its position.   That is, the energy of each particle
 is given by</p>
@@ -157,7 +157,7 @@ parameters.  Parameters may be specified in two ways:</p>
 </ul>
 </section>
 <section id="customcompoundbondforce">
-<h2><span class="section-number">19.6. </span>CustomCompoundBondForce<a class="headerlink" href="03_custom_forces.html#customcompoundbondforce" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">19.6. </span>CustomCompoundBondForce<a class="headerlink" href="#customcompoundbondforce" title="Permalink to this headline">¶</a></h2>
 <p>CustomCompoundBondForce supports a wide variety of bonded interactions.  It
 defines a “bond” as a single energy term that depends on the positions of a
 fixed set of particles.  The number of particles involved in a bond, and how the
@@ -188,7 +188,7 @@ Parameters may be specified in two ways:</p>
 </ul>
 </section>
 <section id="customcentroidbondforce">
-<h2><span class="section-number">19.7. </span>CustomCentroidBondForce<a class="headerlink" href="03_custom_forces.html#customcentroidbondforce" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">19.7. </span>CustomCentroidBondForce<a class="headerlink" href="#customcentroidbondforce" title="Permalink to this headline">¶</a></h2>
 <p>CustomCentroidBondForce is very similar to CustomCompoundBondForce, but instead
 of creating bonds between individual particles, the bonds are between the
 centers of groups of particles.  This is useful for purposes such as restraining
@@ -206,7 +206,7 @@ with CustomCompoundBondForce can also be implemented with this class, simply by
 defining each group to contain only a single atom.</p>
 </section>
 <section id="custommanyparticleforce">
-<h2><span class="section-number">19.8. </span>CustomManyParticleForce<a class="headerlink" href="03_custom_forces.html#custommanyparticleforce" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">19.8. </span>CustomManyParticleForce<a class="headerlink" href="#custommanyparticleforce" title="Permalink to this headline">¶</a></h2>
 <p>CustomManyParticleForce is similar to CustomNonbondedForce in that it represents
 a custom nonbonded interaction between particles, but it allows the interaction
 to depend on more than two particles.  This allows it to represent a wide range
@@ -247,7 +247,7 @@ restricted to only a specified set of types.  This provides a great deal of
 flexibility in controlling which particles interact with each other.</p>
 </section>
 <section id="customgbforce">
-<h2><span class="section-number">19.9. </span>CustomGBForce<a class="headerlink" href="03_custom_forces.html#customgbforce" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">19.9. </span>CustomGBForce<a class="headerlink" href="#customgbforce" title="Permalink to this headline">¶</a></h2>
 <p>CustomGBForce implements complex, multiple stage nonbonded interactions between
 particles.  It is designed primarily for implementing Generalized Born implicit
 solvation models, although it is not strictly limited to that purpose.</p>
@@ -319,7 +319,7 @@ sufficient for most Generalized Born models, but might not permit some other
 types of calculations to be implemented.</p>
 </section>
 <section id="customhbondforce">
-<h2><span class="section-number">19.10. </span>CustomHbondForce<a class="headerlink" href="03_custom_forces.html#customhbondforce" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">19.10. </span>CustomHbondForce<a class="headerlink" href="#customhbondforce" title="Permalink to this headline">¶</a></h2>
 <p>CustomHbondForce supports a wide variety of energy functions used to represent
 hydrogen bonding.  It computes interactions between “donor” particle groups and
 “acceptor” particle groups, where each group may include up to three particles.
@@ -351,7 +351,7 @@ specified in three ways:</p>
 </ul>
 </section>
 <section id="customcvforce">
-<span id="id4"></span><h2><span class="section-number">19.11. </span>CustomCVForce<a class="headerlink" href="03_custom_forces.html#customcvforce" title="Permalink to this headline">¶</a></h2>
+<span id="id4"></span><h2><span class="section-number">19.11. </span>CustomCVForce<a class="headerlink" href="#customcvforce" title="Permalink to this headline">¶</a></h2>
 <p>CustomCVForce computes an energy as a function of “collective variables”.  A
 collective variable may be any scalar valued function of the particle positions
 and other parameters.  Each one is defined by a <code class="code docutils literal notranslate"><span class="pre">Force</span></code> object, so any
@@ -363,7 +363,7 @@ be used as a collective variable.  The energy is then computed as</p>
 variables.  It also may depend on user defined global parameters.</p>
 </section>
 <section id="writing-custom-expressions">
-<span id="id5"></span><h2><span class="section-number">19.12. </span>Writing Custom Expressions<a class="headerlink" href="03_custom_forces.html#writing-custom-expressions" title="Permalink to this headline">¶</a></h2>
+<span id="id5"></span><h2><span class="section-number">19.12. </span>Writing Custom Expressions<a class="headerlink" href="#writing-custom-expressions" title="Permalink to this headline">¶</a></h2>
 <p>The custom forces described in this chapter involve user defined algebraic
 expressions.  These expressions are specified as character strings, and may
 involve a variety of standard operators and mathematical functions.</p>
@@ -392,7 +392,7 @@ the expression</p>
 values.  All uses of a value must appear <em>before</em> that value’s definition.</p>
 </section>
 <section id="setting-parameters">
-<h2><span class="section-number">19.13. </span>Setting Parameters<a class="headerlink" href="03_custom_forces.html#setting-parameters" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">19.13. </span>Setting Parameters<a class="headerlink" href="#setting-parameters" title="Permalink to this headline">¶</a></h2>
 <p>Most custom forces have two types of parameters you can define.  The simplest type
 are global parameters, which represent a single number.  The value is stored in
 the <code class="xref py py-class docutils literal notranslate"><span class="pre">Context</span></code>, and can be changed at any time by calling <code class="xref py py-meth docutils literal notranslate"><span class="pre">setParameter()</span></code>
@@ -415,7 +415,7 @@ them too often.  On the other hand, they are still much less expensive than call
 the system definition for a running simulation.</p>
 </section>
 <section id="parameter-derivatives">
-<h2><span class="section-number">19.14. </span>Parameter Derivatives<a class="headerlink" href="03_custom_forces.html#parameter-derivatives" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">19.14. </span>Parameter Derivatives<a class="headerlink" href="#parameter-derivatives" title="Permalink to this headline">¶</a></h2>
 <p>Many custom forces have the ability to compute derivatives of the potential energy
 with respect to global parameters.  To use this feature, first define a global
 parameter that the energy depends on.  Then instruct the custom force to compute
@@ -492,21 +492,21 @@ where a global parameter is integrated as a dynamic variable.</p>
 <li class="toctree-l1 current"><a class="reference internal" href="../theory.html">Part III: The Theory Behind OpenMM</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="01_introduction.html">17. Introduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="02_standard_forces.html">18. Standard Forces</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="03_custom_forces.html#">19. Custom Forces</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="03_custom_forces.html#custombondforce">19.1. CustomBondForce</a></li>
-<li class="toctree-l3"><a class="reference internal" href="03_custom_forces.html#customangleforce">19.2. CustomAngleForce</a></li>
-<li class="toctree-l3"><a class="reference internal" href="03_custom_forces.html#customtorsionforce">19.3. CustomTorsionForce</a></li>
-<li class="toctree-l3"><a class="reference internal" href="03_custom_forces.html#customnonbondedforce">19.4. CustomNonbondedForce</a></li>
-<li class="toctree-l3"><a class="reference internal" href="03_custom_forces.html#customexternalforce">19.5. CustomExternalForce</a></li>
-<li class="toctree-l3"><a class="reference internal" href="03_custom_forces.html#customcompoundbondforce">19.6. CustomCompoundBondForce</a></li>
-<li class="toctree-l3"><a class="reference internal" href="03_custom_forces.html#customcentroidbondforce">19.7. CustomCentroidBondForce</a></li>
-<li class="toctree-l3"><a class="reference internal" href="03_custom_forces.html#custommanyparticleforce">19.8. CustomManyParticleForce</a></li>
-<li class="toctree-l3"><a class="reference internal" href="03_custom_forces.html#customgbforce">19.9. CustomGBForce</a></li>
-<li class="toctree-l3"><a class="reference internal" href="03_custom_forces.html#customhbondforce">19.10. CustomHbondForce</a></li>
-<li class="toctree-l3"><a class="reference internal" href="03_custom_forces.html#customcvforce">19.11. CustomCVForce</a></li>
-<li class="toctree-l3"><a class="reference internal" href="03_custom_forces.html#writing-custom-expressions">19.12. Writing Custom Expressions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="03_custom_forces.html#setting-parameters">19.13. Setting Parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="03_custom_forces.html#parameter-derivatives">19.14. Parameter Derivatives</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">19. Custom Forces</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#custombondforce">19.1. CustomBondForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customangleforce">19.2. CustomAngleForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customtorsionforce">19.3. CustomTorsionForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customnonbondedforce">19.4. CustomNonbondedForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customexternalforce">19.5. CustomExternalForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customcompoundbondforce">19.6. CustomCompoundBondForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customcentroidbondforce">19.7. CustomCentroidBondForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#custommanyparticleforce">19.8. CustomManyParticleForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customgbforce">19.9. CustomGBForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customhbondforce">19.10. CustomHbondForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customcvforce">19.11. CustomCVForce</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#writing-custom-expressions">19.12. Writing Custom Expressions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setting-parameters">19.13. Setting Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#parameter-derivatives">19.14. Parameter Derivatives</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="04_integrators.html">20. Integrators</a></li>
@@ -529,19 +529,19 @@ where a global parameter is integrated as a dynamic variable.</p>
         </li>
         
         <li class="toctree-l1">
-            <a href="http://docs.openmm.org/7.7.0/developerguide/">
+            <a href="../../developerguide/">
                 Developer Guide
             </a>
         </li>
         
         <li class="toctree-l1">
-            <a href="http://docs.openmm.org/7.7.0/api-python/">
+            <a href="../../api-python/">
                 Python API reference
             </a>
         </li>
         
         <li class="toctree-l1">
-            <a href="http://docs.openmm.org/7.7.0/api-c++/">
+            <a href="../../api-c++/">
                 C++ API reference
             </a>
         </li>

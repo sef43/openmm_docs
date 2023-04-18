@@ -1,0 +1,7 @@
+.. _OpenMM::PeriodicTorsionForce:
+
+``PeriodicTorsionForce``
+========================
+
+.. doxygenclass:: OpenMM::PeriodicTorsionForce
+   :members:

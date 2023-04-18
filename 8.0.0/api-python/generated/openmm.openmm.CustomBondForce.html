@@ -1,0 +1,605 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>CustomBondForce &#8212; OpenMM Python API 8.0.0.dev-c7efe3d documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CustomCVForce" href="openmm.openmm.CustomCVForce.html" />
+    <link rel="prev" title="CustomAngleForce" href="openmm.openmm.CustomAngleForce.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="custombondforce">
+<h1>CustomBondForce<a class="headerlink" href="openmm.openmm.CustomBondForce.html#custombondforce" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="openmm.openmm.CustomBondForce">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">openmm.openmm.</span></span><span class="sig-name descname"><span class="pre">CustomBondForce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class implements bonded interactions between pairs of particles. Unlike HarmonicBondForce, the functional form of the interaction is completely customizable, and may involve arbitrary algebraic expressions. It may depend on the distance between particles, as well as on arbitrary global and per-bond parameters.</p>
+<p>To use this class, create a CustomBondForce object, passing an algebraic expression to the constructor that defines the interaction energy between each pair of bonded particles. The expression may depend on r, the distance between the particles, as well as on any parameters you choose. Then call addPerBondParameter() to define per-bond parameters, and addGlobalParameter() to define global parameters. The values of per-bond parameters are specified as part of the system definition, while values of global parameters may be modified during a simulation by calling Context::setParameter(). Finally, call addBond() once for each bond. After a bond has been added, you can modify its parameters by calling setBondParameters(). This will have no effect on Contexts that already exist unless you call updateParametersInContext().</p>
+<p>As an example, the following code creates a CustomBondForce that implements a harmonic potential:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">CustomBondForce</span><span class="o">*</span><span class="w"> </span><span class="n">force</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">CustomBondForce</span><span class="p">(</span><span class="s">&quot;0.5*k*(r-r0)^2&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This force depends on two parameters: the spring constant k and equilibrium distance r0. The following code defines these parameters:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">force</span><span class="o">-&gt;</span><span class="n">addPerBondParameter</span><span class="p">(</span><span class="s">&quot;k&quot;</span><span class="p">);</span>
+<span class="n">force</span><span class="o">-&gt;</span><span class="n">addPerBondParameter</span><span class="p">(</span><span class="s">&quot;r0&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This class also has the ability to compute derivatives of the potential energy with respect to global parameters. Call addEnergyParameterDerivative() to request that the derivative with respect to a particular parameter be computed. You can then query its value in a Context by calling getState() on it.</p>
+<p>Expressions may involve the operators + (add), - (subtract), * (multiply), / (divide), and ^ (power), and the following functions: sqrt, exp, log, sin, cos, sec, csc, tan, cot, asin, acos, atan, atan2, sinh, cosh, tanh, erf, erfc, min, max, abs, floor, ceil, step, delta, select. All trigonometric functions are defined in radians, and log is the natural logarithm. step(x) = 0 if x is less than 0, 1 otherwise. delta(x) = 1 if x is 0, 0 otherwise. select(x,y,z) = z if x = 0, y otherwise.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.CustomBondForce.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">energy</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce" title="openmm.openmm.CustomBondForce"><span class="pre">CustomBondForce</span></a><a class="headerlink" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.__init__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce" title="openmm.openmm.CustomBondForce"><span class="pre">CustomBondForce</span></a></dt>
+<dd><p>Create a CustomBondForce.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>energy</strong> (<em>string</em>) – an algebraic expression giving the interaction energy between two bonded particles as a function of r, the distance between them</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.__init__" title="openmm.openmm.CustomBondForce.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(-&gt; CustomBondForce)</p></td>
+<td><p>Create a CustomBondForce.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.addBond" title="openmm.openmm.CustomBondForce.addBond"><code class="xref py py-obj docutils literal notranslate"><span class="pre">addBond</span></code></a>(self, particle1, particle2[, parameters])</p></td>
+<td><p>Add a bond term to the force field.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.addEnergyParameterDerivative" title="openmm.openmm.CustomBondForce.addEnergyParameterDerivative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">addEnergyParameterDerivative</span></code></a>(self, name)</p></td>
+<td><p>Request that this Force compute the derivative of its energy with respect to a global parameter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.addGlobalParameter" title="openmm.openmm.CustomBondForce.addGlobalParameter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">addGlobalParameter</span></code></a>(self, name, defaultValue)</p></td>
+<td><p>Add a new global parameter that the interaction may depend on.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.addPerBondParameter" title="openmm.openmm.CustomBondForce.addPerBondParameter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">addPerBondParameter</span></code></a>(self, name)</p></td>
+<td><p>Add a new per-bond parameter that the interaction may depend on.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.getBondParameters" title="openmm.openmm.CustomBondForce.getBondParameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getBondParameters</span></code></a>(self, index)</p></td>
+<td><p>Get the force field parameters for a bond term.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.getEnergyFunction" title="openmm.openmm.CustomBondForce.getEnergyFunction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getEnergyFunction</span></code></a>(self)</p></td>
+<td><p>Get the algebraic expression that gives the interaction energy for each bond</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.getEnergyParameterDerivativeName" title="openmm.openmm.CustomBondForce.getEnergyParameterDerivativeName"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getEnergyParameterDerivativeName</span></code></a>(self, index)</p></td>
+<td><p>Get the name of a global parameter with respect to which this Force should compute the derivative of the energy.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.getForceGroup" title="openmm.openmm.CustomBondForce.getForceGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getForceGroup</span></code></a>(self)</p></td>
+<td><p>Get the force group this Force belongs to.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.getGlobalParameterDefaultValue" title="openmm.openmm.CustomBondForce.getGlobalParameterDefaultValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getGlobalParameterDefaultValue</span></code></a>(self, index)</p></td>
+<td><p>Get the default value of a global parameter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.getGlobalParameterName" title="openmm.openmm.CustomBondForce.getGlobalParameterName"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getGlobalParameterName</span></code></a>(self, index)</p></td>
+<td><p>Get the name of a global parameter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.getName" title="openmm.openmm.CustomBondForce.getName"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getName</span></code></a>(self)</p></td>
+<td><p>Get the name of this Force.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.getNumBonds" title="openmm.openmm.CustomBondForce.getNumBonds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getNumBonds</span></code></a>(self)</p></td>
+<td><p>Get the number of bonds for which force field parameters have been defined.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.getNumEnergyParameterDerivatives" title="openmm.openmm.CustomBondForce.getNumEnergyParameterDerivatives"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getNumEnergyParameterDerivatives</span></code></a>(self)</p></td>
+<td><p>Get the number of global parameters with respect to which the derivative of the energy should be computed.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.getNumGlobalParameters" title="openmm.openmm.CustomBondForce.getNumGlobalParameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getNumGlobalParameters</span></code></a>(self)</p></td>
+<td><p>Get the number of global parameters that the interaction depends on.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.getNumPerBondParameters" title="openmm.openmm.CustomBondForce.getNumPerBondParameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getNumPerBondParameters</span></code></a>(self)</p></td>
+<td><p>Get the number of per-bond parameters that the interaction depends on.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.getPerBondParameterName" title="openmm.openmm.CustomBondForce.getPerBondParameterName"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getPerBondParameterName</span></code></a>(self, index)</p></td>
+<td><p>Get the name of a per-bond parameter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.setBondParameters" title="openmm.openmm.CustomBondForce.setBondParameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setBondParameters</span></code></a>(self, index, particle1, …)</p></td>
+<td><p>Set the force field parameters for a bond term.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.setEnergyFunction" title="openmm.openmm.CustomBondForce.setEnergyFunction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEnergyFunction</span></code></a>(self, energy)</p></td>
+<td><p>Set the algebraic expression that gives the interaction energy for each bond</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.setForceGroup" title="openmm.openmm.CustomBondForce.setForceGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setForceGroup</span></code></a>(self, group)</p></td>
+<td><p>Set the force group this Force belongs to.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.setGlobalParameterDefaultValue" title="openmm.openmm.CustomBondForce.setGlobalParameterDefaultValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setGlobalParameterDefaultValue</span></code></a>(self, index, …)</p></td>
+<td><p>Set the default value of a global parameter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.setGlobalParameterName" title="openmm.openmm.CustomBondForce.setGlobalParameterName"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setGlobalParameterName</span></code></a>(self, index, name)</p></td>
+<td><p>Set the name of a global parameter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.setName" title="openmm.openmm.CustomBondForce.setName"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setName</span></code></a>(self, name)</p></td>
+<td><p>Set the name of this Force.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.setPerBondParameterName" title="openmm.openmm.CustomBondForce.setPerBondParameterName"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPerBondParameterName</span></code></a>(self, index, name)</p></td>
+<td><p>Set the name of a per-bond parameter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.setUsesPeriodicBoundaryConditions" title="openmm.openmm.CustomBondForce.setUsesPeriodicBoundaryConditions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setUsesPeriodicBoundaryConditions</span></code></a>(self, periodic)</p></td>
+<td><p>Set whether this force should apply periodic boundary conditions when calculating displacements.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.updateParametersInContext" title="openmm.openmm.CustomBondForce.updateParametersInContext"><code class="xref py py-obj docutils literal notranslate"><span class="pre">updateParametersInContext</span></code></a>(self, context)</p></td>
+<td><p>Update the per-bond parameters in a Context to match those stored in this Force object.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.usesPeriodicBoundaryConditions" title="openmm.openmm.CustomBondForce.usesPeriodicBoundaryConditions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">usesPeriodicBoundaryConditions</span></code></a>(self)</p></td>
+<td><p>Returns whether or not this force makes use of periodic boundary conditions.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.thisown" title="openmm.openmm.CustomBondForce.thisown"><code class="xref py py-obj docutils literal notranslate"><span class="pre">thisown</span></code></a></p></td>
+<td><p>The membership flag</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py property">
+<dt class="sig sig-object py" id="openmm.openmm.CustomBondForce.thisown">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">thisown</span></span><a class="headerlink" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.thisown" title="Permalink to this definition">¶</a></dt>
+<dd><p>The membership flag</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.CustomBondForce.getNumBonds">
+<span class="sig-name descname"><span class="pre">getNumBonds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.getNumBonds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the number of bonds for which force field parameters have been defined.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.CustomBondForce.getNumPerBondParameters">
+<span class="sig-name descname"><span class="pre">getNumPerBondParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.getNumPerBondParameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the number of per-bond parameters that the interaction depends on.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.CustomBondForce.getNumGlobalParameters">
+<span class="sig-name descname"><span class="pre">getNumGlobalParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.getNumGlobalParameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the number of global parameters that the interaction depends on.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.CustomBondForce.getNumEnergyParameterDerivatives">
+<span class="sig-name descname"><span class="pre">getNumEnergyParameterDerivatives</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.getNumEnergyParameterDerivatives" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the number of global parameters with respect to which the derivative of the energy should be computed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.CustomBondForce.getEnergyFunction">
+<span class="sig-name descname"><span class="pre">getEnergyFunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">std::string</span> <span class="pre">const</span> <span class="pre">&amp;</span><a class="headerlink" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.getEnergyFunction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the algebraic expression that gives the interaction energy for each bond</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.CustomBondForce.setEnergyFunction">
+<span class="sig-name descname"><span class="pre">setEnergyFunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">energy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.setEnergyFunction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the algebraic expression that gives the interaction energy for each bond</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.CustomBondForce.addPerBondParameter">
+<span class="sig-name descname"><span class="pre">addPerBondParameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.addPerBondParameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a new per-bond parameter that the interaction may depend on.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>string</em>) – the name of the parameter</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the index of the parameter that was added</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.CustomBondForce.getPerBondParameterName">
+<span class="sig-name descname"><span class="pre">getPerBondParameterName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">std::string</span> <span class="pre">const</span> <span class="pre">&amp;</span><a class="headerlink" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.getPerBondParameterName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the name of a per-bond parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – the index of the parameter for which to get the name</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the parameter name</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.CustomBondForce.setPerBondParameterName">
+<span class="sig-name descname"><span class="pre">setPerBondParameterName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.setPerBondParameterName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the name of a per-bond parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – the index of the parameter for which to set the name</p></li>
+<li><p><strong>name</strong> (<em>string</em>) – the name of the parameter</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.CustomBondForce.addGlobalParameter">
+<span class="sig-name descname"><span class="pre">addGlobalParameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defaultValue</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.addGlobalParameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a new global parameter that the interaction may depend on. The default value provided to this method is the initial value of the parameter in newly created Contexts. You can change the value at any time by calling setParameter() on the Context.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>string</em>) – the name of the parameter</p></li>
+<li><p><strong>defaultValue</strong> (<em>double</em>) – the default value of the parameter</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the index of the parameter that was added</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.CustomBondForce.getGlobalParameterName">
+<span class="sig-name descname"><span class="pre">getGlobalParameterName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">std::string</span> <span class="pre">const</span> <span class="pre">&amp;</span><a class="headerlink" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.getGlobalParameterName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the name of a global parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – the index of the parameter for which to get the name</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the parameter name</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.CustomBondForce.setGlobalParameterName">
+<span class="sig-name descname"><span class="pre">setGlobalParameterName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.setGlobalParameterName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the name of a global parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – the index of the parameter for which to set the name</p></li>
+<li><p><strong>name</strong> (<em>string</em>) – the name of the parameter</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.CustomBondForce.getGlobalParameterDefaultValue">
+<span class="sig-name descname"><span class="pre">getGlobalParameterDefaultValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">double</span><a class="headerlink" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.getGlobalParameterDefaultValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the default value of a global parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – the index of the parameter for which to get the default value</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the parameter default value</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>double</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.CustomBondForce.setGlobalParameterDefaultValue">
+<span class="sig-name descname"><span class="pre">setGlobalParameterDefaultValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defaultValue</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.setGlobalParameterDefaultValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the default value of a global parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – the index of the parameter for which to set the default value</p></li>
+<li><p><strong>defaultValue</strong> (<em>double</em>) – the default value of the parameter</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.CustomBondForce.addEnergyParameterDerivative">
+<span class="sig-name descname"><span class="pre">addEnergyParameterDerivative</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.addEnergyParameterDerivative" title="Permalink to this definition">¶</a></dt>
+<dd><p>Request that this Force compute the derivative of its energy with respect to a global parameter. The parameter must have already been added with addGlobalParameter().</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>string</em>) – the name of the parameter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.CustomBondForce.getEnergyParameterDerivativeName">
+<span class="sig-name descname"><span class="pre">getEnergyParameterDerivativeName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">std::string</span> <span class="pre">const</span> <span class="pre">&amp;</span><a class="headerlink" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.getEnergyParameterDerivativeName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the name of a global parameter with respect to which this Force should compute the derivative of the energy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – the index of the parameter derivative, between 0 and getNumEnergyParameterDerivatives()</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the parameter name</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.CustomBondForce.addBond">
+<span class="sig-name descname"><span class="pre">addBond</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">particle1</span></em>, <em class="sig-param"><span class="pre">particle2</span></em>, <em class="sig-param"><span class="pre">parameters=std::vector&lt;</span> <span class="pre">double</span> <span class="pre">&gt;()</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.addBond" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a bond term to the force field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>particle1</strong> (<em>int</em>) – the index of the first particle connected by the bond</p></li>
+<li><p><strong>particle2</strong> (<em>int</em>) – the index of the second particle connected by the bond</p></li>
+<li><p><strong>parameters</strong> (<em>vector&lt; double &gt;</em>) – the list of parameters for the new bond</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the index of the bond that was added</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.CustomBondForce.getBondParameters">
+<span class="sig-name descname"><span class="pre">getBondParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.getBondParameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the force field parameters for a bond term.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – the index of the bond for which to get parameters</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>particle1</strong> (<em>int</em>) – the index of the first particle connected by the bond</p></li>
+<li><p><strong>particle2</strong> (<em>int</em>) – the index of the second particle connected by the bond</p></li>
+<li><p><strong>parameters</strong> (<em>vector&lt; double &gt;</em>) – the list of parameters for the bond</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.CustomBondForce.setBondParameters">
+<span class="sig-name descname"><span class="pre">setBondParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">index</span></em>, <em class="sig-param"><span class="pre">particle1</span></em>, <em class="sig-param"><span class="pre">particle2</span></em>, <em class="sig-param"><span class="pre">parameters=std::vector&lt;</span> <span class="pre">double</span> <span class="pre">&gt;()</span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.setBondParameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the force field parameters for a bond term.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – the index of the bond for which to set parameters</p></li>
+<li><p><strong>particle1</strong> (<em>int</em>) – the index of the first particle connected by the bond</p></li>
+<li><p><strong>particle2</strong> (<em>int</em>) – the index of the second particle connected by the bond</p></li>
+<li><p><strong>parameters</strong> (<em>vector&lt; double &gt;</em>) – the list of parameters for the bond</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.CustomBondForce.updateParametersInContext">
+<span class="sig-name descname"><span class="pre">updateParametersInContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.updateParametersInContext" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the per-bond parameters in a Context to match those stored in this Force object. This method provides an efficient method to update certain parameters in an existing Context without needing to reinitialize it. Simply call setBondParameters() to modify this object’s parameters, then call updateParametersInContext() to copy them over to the Context.</p>
+<p>This method has several limitations. The only information it updates is the values of per-bond parameters. All other aspects of the Force (such as the energy function) are unaffected and can only be changed by reinitializing the Context. The set of particles involved in a bond cannot be changed, nor can new bonds be added.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.CustomBondForce.setUsesPeriodicBoundaryConditions">
+<span class="sig-name descname"><span class="pre">setUsesPeriodicBoundaryConditions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">periodic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.setUsesPeriodicBoundaryConditions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set whether this force should apply periodic boundary conditions when calculating displacements. Usually this is not appropriate for bonded forces, but there are situations when it can be useful.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.CustomBondForce.usesPeriodicBoundaryConditions">
+<span class="sig-name descname"><span class="pre">usesPeriodicBoundaryConditions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.usesPeriodicBoundaryConditions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether or not this force makes use of periodic boundary conditions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>true if force uses PBC and false otherwise</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.CustomBondForce.getForceGroup">
+<span class="sig-name descname"><span class="pre">getForceGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.getForceGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the force group this Force belongs to.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.CustomBondForce.getName">
+<span class="sig-name descname"><span class="pre">getName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">std::string</span> <span class="pre">const</span> <span class="pre">&amp;</span><a class="headerlink" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.getName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the name of this Force. This is an arbitrary, user modifiable identifier. By default it equals the class name, but you can change it to anything useful.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.CustomBondForce.setForceGroup">
+<span class="sig-name descname"><span class="pre">setForceGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.setForceGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the force group this Force belongs to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>group</strong> (<em>int</em>) – the group index. Legal values are between 0 and 31 (inclusive).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.openmm.CustomBondForce.setName">
+<span class="sig-name descname"><span class="pre">setName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.openmm.CustomBondForce.html#openmm.openmm.CustomBondForce.setName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the name of this Force. This is an arbitrary, user modifiable identifier. By default it equals the class name, but you can change it to anything useful.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="openmm.openmm.CustomAngleForce.html" title="Previous document">CustomAngleForce</a>
+        </li>
+        <li>
+          <a href="openmm.openmm.CustomCVForce.html" title="Next document">CustomCVForce</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM Python API</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../app.html">Application Layer</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../library.html">Library Layer</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../library.html#core-objects">Core Objects</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../library.html#forces">Forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../library.html#integrators">Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../library.html#extras">Extras</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../userguide">
+                User's Manual
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../developerguide/index.html">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../api-c++/index.html">
+                C++ API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Stanford University and the Authors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../_sources/generated/openmm.openmm.CustomBondForce.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

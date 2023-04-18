@@ -1,0 +1,23 @@
+﻿GromacsTopFile
+========================================
+
+.. currentmodule:: openmm.app.gromacstopfile
+
+.. autoclass:: GromacsTopFile
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~GromacsTopFile.__init__
+      ~GromacsTopFile.createSystem
+   
+   
+
+   
+   
+   

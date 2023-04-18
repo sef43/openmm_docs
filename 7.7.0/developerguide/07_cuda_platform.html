@@ -1,0 +1,196 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>7. The CUDA Platform &#8212; OpenMM Dev Guide 7.7 documentation</title>
+    <link rel="stylesheet" type="text/css" href="http://docs.openmm.org/7.7.0/developerguide/_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="http://docs.openmm.org/7.7.0/developerguide/_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="http://docs.openmm.org/7.7.0/developerguide/_static/documentation_options.js"></script>
+    <script src="http://docs.openmm.org/7.7.0/developerguide/_static/jquery.js"></script>
+    <script src="http://docs.openmm.org/7.7.0/developerguide/_static/underscore.js"></script>
+    <script src="http://docs.openmm.org/7.7.0/developerguide/_static/doctools.js"></script>
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="8. Common Compute" href="08_common_compute.html" />
+    <link rel="prev" title="6. The OpenCL Platform" href="06_opencl_platform.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <style> .code {font-family:monospace;} </style>
+<style> .caption {text-align:center;} </style><section id="the-cuda-platform">
+<span id="id1"></span><h1><span class="section-number">7. </span>The CUDA Platform<a class="headerlink" href="07_cuda_platform.html#the-cuda-platform" title="Permalink to this headline">¶</a></h1>
+<p>The CUDA platform is very similar to the OpenCL platform, and most of the
+previous chapter applies equally well to it, just changing “OpenCL” to “Cuda” in
+class names.  There are a few differences worth noting.</p>
+<section id="compiling-kernels">
+<h2><span class="section-number">7.1. </span>Compiling Kernels<a class="headerlink" href="07_cuda_platform.html#compiling-kernels" title="Permalink to this headline">¶</a></h2>
+<p>Like the OpenCL platform, the CUDA platform compiles all its kernels at runtime.
+Unlike OpenCL, CUDA does not have built in support for runtime compilation.
+OpenMM therefore needs to implement this itself by writing the source code out
+to disk, invoking the nvcc compiler as a separate process, and then loading the
+compiled kernel in from disk.</p>
+<p>For the most part, you can ignore all of this.  Just call
+<code>createModule()</code> on the CudaContext, passing it the CUDA source code.
+It takes care of the details of compilation and loading, returning a CUmodule
+object when it is done.  You can then call <code>getKernel()</code> to look up
+individual kernels in the module (represented as CUfunction objects) and
+<code>executeKernel()</code> to execute them.</p>
+<p>The CUDA platform does need two things to make this work: a directory on disk
+where it can write out temporary files, and the path to the nvcc compiler.
+These are specified by the “CudaTempDirectory” and “CudaCompiler” properties
+when you create a new Context.  It often can figure out suitable values for them
+on its own, but sometimes it needs help.  See the “Platform-Specific Properties”
+chapter of the User’s Manual for details.</p>
+</section>
+<section id="accumulating-forces">
+<h2><span class="section-number">7.2. </span>Accumulating Forces<a class="headerlink" href="07_cuda_platform.html#accumulating-forces" title="Permalink to this headline">¶</a></h2>
+<p>The OpenCL platform, as described in Section <a class="reference internal" href="06_opencl_platform.html#computing-forces"><span class="std std-numref">6.3</span></a>, uses two types of buffers for
+accumulating forces: a set of floating point buffers, and a single fixed point
+buffer.  In contrast, the CUDA platform uses <em>only</em> the fixed point buffer
+(represented by the CUDA type <code>long</code> <code>long</code>).  This means
+the CUDA platform only works on devices that support 64 bit atomic operations
+(compute capability 1.2 or higher).</p>
+</section>
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="06_opencl_platform.html" title="Previous document"><span class="section-number">6. </span>The OpenCL Platform</a>
+        </li>
+        <li>
+          <a href="08_common_compute.html" title="Next document"><span class="section-number">8. </span>Common Compute</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM Dev Guide</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="01_introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_core_library.html">2. The Core Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_writing_plugins.html">3. Writing Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_reference_platform.html">4. The Reference Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_cpu_platform.html">5. The CPU Plaform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_opencl_platform.html">6. The OpenCL Platform</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="07_cuda_platform.html#">7. The CUDA Platform</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="07_cuda_platform.html#compiling-kernels">7.1. Compiling Kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07_cuda_platform.html#accumulating-forces">7.2. Accumulating Forces</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="08_common_compute.html">8. Common Compute</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../userguide/index.html">
+                User's Manual
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../api-python/index.html">
+                Python API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../api-c++/index.html">
+                C++ API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2011-2017, Stanford University.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/07_cuda_platform.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

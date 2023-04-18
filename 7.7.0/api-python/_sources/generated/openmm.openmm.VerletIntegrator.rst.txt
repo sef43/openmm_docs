@@ -1,0 +1,35 @@
+﻿VerletIntegrator
+==============================
+
+.. currentmodule:: openmm.openmm
+
+.. autoclass:: VerletIntegrator
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~VerletIntegrator.__init__
+      ~VerletIntegrator.getConstraintTolerance
+      ~VerletIntegrator.getIntegrationForceGroups
+      ~VerletIntegrator.getStepSize
+      ~VerletIntegrator.setConstraintTolerance
+      ~VerletIntegrator.setIntegrationForceGroups
+      ~VerletIntegrator.setStepSize
+      ~VerletIntegrator.step
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~VerletIntegrator.thisown
+   
+   

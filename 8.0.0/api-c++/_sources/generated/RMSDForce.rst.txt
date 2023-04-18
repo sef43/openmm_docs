@@ -1,0 +1,7 @@
+.. _OpenMM::RMSDForce:
+
+``RMSDForce``
+=============
+
+.. doxygenclass:: OpenMM::RMSDForce
+   :members:

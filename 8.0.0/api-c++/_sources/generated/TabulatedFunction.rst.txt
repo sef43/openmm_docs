@@ -1,0 +1,7 @@
+.. _OpenMM::TabulatedFunction:
+
+``TabulatedFunction``
+=====================
+
+.. doxygenclass:: OpenMM::TabulatedFunction
+   :members:

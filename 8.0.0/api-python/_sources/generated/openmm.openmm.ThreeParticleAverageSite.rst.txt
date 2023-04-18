@@ -1,0 +1,31 @@
+﻿ThreeParticleAverageSite
+======================================
+
+.. currentmodule:: openmm.openmm
+
+.. autoclass:: ThreeParticleAverageSite
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ThreeParticleAverageSite.__init__
+      ~ThreeParticleAverageSite.getNumParticles
+      ~ThreeParticleAverageSite.getParticle
+      ~ThreeParticleAverageSite.getWeight
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ThreeParticleAverageSite.thisown
+   
+   

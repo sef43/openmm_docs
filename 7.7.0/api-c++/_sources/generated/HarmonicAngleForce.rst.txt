@@ -1,0 +1,7 @@
+.. _OpenMM::HarmonicAngleForce:
+
+``HarmonicAngleForce``
+======================
+
+.. doxygenclass:: OpenMM::HarmonicAngleForce
+   :members:

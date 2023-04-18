@@ -1,0 +1,7 @@
+.. _OpenMM::Vec3:
+
+``Vec3``
+========
+
+.. doxygenclass:: OpenMM::Vec3
+   :members:

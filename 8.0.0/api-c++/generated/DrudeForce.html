@@ -1,0 +1,336 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>DrudeForce &#8212; OpenMM C++ API @OPENMM_MAJOR_VERSION@.@OPENMM_MINOR_VERSION@ documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="GBSAOBCForce" href="GBSAOBCForce.html" />
+    <link rel="prev" title="CMAPTorsionForce" href="CMAPTorsionForce.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="drudeforce">
+<span id="openmm-drudeforce"></span><h1><code class="docutils literal notranslate"><span class="pre">DrudeForce</span></code><a class="headerlink" href="DrudeForce.html#drudeforce" title="Permalink to this headline">¶</a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM10DrudeForceE">
+<span id="_CPPv3N6OpenMM10DrudeForceE"></span><span id="_CPPv2N6OpenMM10DrudeForceE"></span><span id="OpenMM::DrudeForce"></span><span class="target" id="classOpenMM_1_1DrudeForce"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DrudeForce</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">OpenMM</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="Force.html#_CPPv4N6OpenMM5ForceE" title="OpenMM::Force"><span class="n"><span class="pre">Force</span></span></a><a class="headerlink" href="DrudeForce.html#_CPPv4N6OpenMM10DrudeForceE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This class implements forces that are specific to Drude oscillators. There are two distinct forces it applies: an anisotropic harmonic force connecting each Drude particle to its parent particle; and a screened Coulomb interaction between specific pairs of dipoles. The latter is typically used between closely bonded particles whose Coulomb interaction would otherwise be fully excluded.</p>
+<p>To use this class, create a <a class="reference internal" href="DrudeForce.html#classOpenMM_1_1DrudeForce"><span class="std std-ref">DrudeForce</span></a> object, then call <a class="reference internal" href="DrudeForce.html#classOpenMM_1_1DrudeForce_1a636ac705968a41e23f728a9a36dd86bb"><span class="std std-ref">addParticle()</span></a> once for each Drude particle in the <a class="reference internal" href="System.html#classOpenMM_1_1System"><span class="std std-ref">System</span></a> to define its parameters. After a particle has been added, you can modify its force field parameters by calling <a class="reference internal" href="DrudeForce.html#classOpenMM_1_1DrudeForce_1a533233fd10ed4dddd09538094dc9e4eb"><span class="std std-ref">setParticleParameters()</span></a>. This will have no effect on Contexts that already exist unless you call <a class="reference internal" href="DrudeForce.html#classOpenMM_1_1DrudeForce_1a240d5206dac41f5b19785c41bf6c651d"><span class="std std-ref">updateParametersInContext()</span></a>. Likewise, call <a class="reference internal" href="DrudeForce.html#classOpenMM_1_1DrudeForce_1a650f74befc24a4f63f65cfc89f0daa40"><span class="std std-ref">addScreenedPair()</span></a> for each pair of dipoles (each dipole consisting of a Drude particle and its parent) that should be computed. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM10DrudeForce10DrudeForceEv">
+<span id="_CPPv3N6OpenMM10DrudeForce10DrudeForceEv"></span><span id="_CPPv2N6OpenMM10DrudeForce10DrudeForceEv"></span><span id="OpenMM::DrudeForce::DrudeForce"></span><span class="target" id="classOpenMM_1_1DrudeForce_1aed9630c7ebc88e97c6ffcd1681323dcb"></span><span class="sig-name descname"><span class="n"><span class="pre">DrudeForce</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="DrudeForce.html#_CPPv4N6OpenMM10DrudeForce10DrudeForceEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a <a class="reference internal" href="DrudeForce.html#classOpenMM_1_1DrudeForce"><span class="std std-ref">DrudeForce</span></a>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM10DrudeForce15getNumParticlesEv">
+<span id="_CPPv3NK6OpenMM10DrudeForce15getNumParticlesEv"></span><span id="_CPPv2NK6OpenMM10DrudeForce15getNumParticlesEv"></span><span id="OpenMM::DrudeForce::getNumParticlesC"></span><span class="target" id="classOpenMM_1_1DrudeForce_1a0748c1cdbde34a24fd4354e38c1b2f9d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getNumParticles</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="DrudeForce.html#_CPPv4NK6OpenMM10DrudeForce15getNumParticlesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the number of particles for which force field parameters have been defined. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM10DrudeForce19getNumScreenedPairsEv">
+<span id="_CPPv3NK6OpenMM10DrudeForce19getNumScreenedPairsEv"></span><span id="_CPPv2NK6OpenMM10DrudeForce19getNumScreenedPairsEv"></span><span id="OpenMM::DrudeForce::getNumScreenedPairsC"></span><span class="target" id="classOpenMM_1_1DrudeForce_1abe55e8b9bb04509278f9dbb701497fb2"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getNumScreenedPairs</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="DrudeForce.html#_CPPv4NK6OpenMM10DrudeForce19getNumScreenedPairsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the number of special interactions that should be calculated differently from other interactions. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM10DrudeForce11addParticleEiiiiidddd">
+<span id="_CPPv3N6OpenMM10DrudeForce11addParticleEiiiiidddd"></span><span id="_CPPv2N6OpenMM10DrudeForce11addParticleEiiiiidddd"></span><span id="OpenMM::DrudeForce::addParticle__i.i.i.i.i.double.double.double.double"></span><span class="target" id="classOpenMM_1_1DrudeForce_1a636ac705968a41e23f728a9a36dd86bb"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addParticle</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle1</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle2</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle3</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle4</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">charge</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">polarizability</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">aniso12</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">aniso34</span></span><span class="sig-paren">)</span><a class="headerlink" href="DrudeForce.html#_CPPv4N6OpenMM10DrudeForce11addParticleEiiiiidddd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a Drude particle to which forces should be applied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>particle</strong> – the index within the <a class="reference internal" href="System.html#classOpenMM_1_1System"><span class="std std-ref">System</span></a> of the Drude particle </p></li>
+<li><p><strong>particle1</strong> – the index within the <a class="reference internal" href="System.html#classOpenMM_1_1System"><span class="std std-ref">System</span></a> of the particle to which the Drude particle is attached </p></li>
+<li><p><strong>particle2</strong> – the index within the <a class="reference internal" href="System.html#classOpenMM_1_1System"><span class="std std-ref">System</span></a> of the second particle used for defining anisotropic polarizability. This may be set to -1, in which case aniso12 will be ignored. </p></li>
+<li><p><strong>particle3</strong> – the index within the <a class="reference internal" href="System.html#classOpenMM_1_1System"><span class="std std-ref">System</span></a> of the third particle used for defining anisotropic polarizability. This may be set to -1, in which case aniso34 will be ignored. </p></li>
+<li><p><strong>particle4</strong> – the index within the <a class="reference internal" href="System.html#classOpenMM_1_1System"><span class="std std-ref">System</span></a> of the fourth particle used for defining anisotropic polarizability. This may be set to -1, in which case aniso34 will be ignored. </p></li>
+<li><p><strong>charge</strong> – The charge on the Drude particle </p></li>
+<li><p><strong>polarizability</strong> – The isotropic polarizability </p></li>
+<li><p><strong>aniso12</strong> – The scale factor for the polarizability along the direction defined by particle1 and particle2 </p></li>
+<li><p><strong>aniso34</strong> – The scale factor for the polarizability along the direction defined by particle3 and particle4 </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the index of the particle that was added </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM10DrudeForce21getParticleParametersEiRiRiRiRiRiRdRdRdRd">
+<span id="_CPPv3NK6OpenMM10DrudeForce21getParticleParametersEiRiRiRiRiRiRdRdRdRd"></span><span id="_CPPv2NK6OpenMM10DrudeForce21getParticleParametersEiRiRiRiRiRiRdRdRdRd"></span><span id="OpenMM::DrudeForce::getParticleParameters__i.iR.iR.iR.iR.iR.doubleR.doubleR.doubleR.doubleRC"></span><span class="target" id="classOpenMM_1_1DrudeForce_1a4c19fbae1aa2291c9ca6ce34d453c764"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getParticleParameters</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">particle</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">particle1</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">particle2</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">particle3</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">particle4</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">charge</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">polarizability</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">aniso12</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">aniso34</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="DrudeForce.html#_CPPv4NK6OpenMM10DrudeForce21getParticleParametersEiRiRiRiRiRiRdRdRdRd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the parameters for a Drude particle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – the index of the Drude particle for which to get parameters </p></li>
+<li><p><strong>particle</strong> – <strong>[out]</strong> the index within the <a class="reference internal" href="System.html#classOpenMM_1_1System"><span class="std std-ref">System</span></a> of the Drude particle </p></li>
+<li><p><strong>particle1</strong> – <strong>[out]</strong> the index within the <a class="reference internal" href="System.html#classOpenMM_1_1System"><span class="std std-ref">System</span></a> of the particle to which the Drude particle is attached </p></li>
+<li><p><strong>particle2</strong> – <strong>[out]</strong> the index within the <a class="reference internal" href="System.html#classOpenMM_1_1System"><span class="std std-ref">System</span></a> of the second particle used for defining anisotropic polarizability. This may be set to -1, in which case aniso12 will be ignored. </p></li>
+<li><p><strong>particle3</strong> – <strong>[out]</strong> the index within the <a class="reference internal" href="System.html#classOpenMM_1_1System"><span class="std std-ref">System</span></a> of the third particle used for defining anisotropic polarizability. This may be set to -1, in which case aniso34 will be ignored. </p></li>
+<li><p><strong>particle4</strong> – <strong>[out]</strong> the index within the <a class="reference internal" href="System.html#classOpenMM_1_1System"><span class="std std-ref">System</span></a> of the fourth particle used for defining anisotropic polarizability. This may be set to -1, in which case aniso34 will be ignored. </p></li>
+<li><p><strong>charge</strong> – <strong>[out]</strong> The charge on the Drude particle </p></li>
+<li><p><strong>polarizability</strong> – <strong>[out]</strong> The isotropic polarizability </p></li>
+<li><p><strong>aniso12</strong> – <strong>[out]</strong> The scale factor for the polarizability along the direction defined by particle1 and particle2 </p></li>
+<li><p><strong>aniso34</strong> – <strong>[out]</strong> The scale factor for the polarizability along the direction defined by particle3 and particle4 </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM10DrudeForce21setParticleParametersEiiiiiidddd">
+<span id="_CPPv3N6OpenMM10DrudeForce21setParticleParametersEiiiiiidddd"></span><span id="_CPPv2N6OpenMM10DrudeForce21setParticleParametersEiiiiiidddd"></span><span id="OpenMM::DrudeForce::setParticleParameters__i.i.i.i.i.i.double.double.double.double"></span><span class="target" id="classOpenMM_1_1DrudeForce_1a533233fd10ed4dddd09538094dc9e4eb"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setParticleParameters</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle1</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle2</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle3</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle4</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">charge</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">polarizability</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">aniso12</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">aniso34</span></span><span class="sig-paren">)</span><a class="headerlink" href="DrudeForce.html#_CPPv4N6OpenMM10DrudeForce21setParticleParametersEiiiiiidddd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the parameters for a Drude particle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – the index of the Drude particle for which to set parameters </p></li>
+<li><p><strong>particle</strong> – the index within the <a class="reference internal" href="System.html#classOpenMM_1_1System"><span class="std std-ref">System</span></a> of the Drude particle </p></li>
+<li><p><strong>particle1</strong> – the index within the <a class="reference internal" href="System.html#classOpenMM_1_1System"><span class="std std-ref">System</span></a> of the particle to which the Drude particle is attached </p></li>
+<li><p><strong>particle2</strong> – the index within the <a class="reference internal" href="System.html#classOpenMM_1_1System"><span class="std std-ref">System</span></a> of the second particle used for defining anisotropic polarizability. This may be set to -1, in which case aniso12 will be ignored. </p></li>
+<li><p><strong>particle3</strong> – the index within the <a class="reference internal" href="System.html#classOpenMM_1_1System"><span class="std std-ref">System</span></a> of the third particle used for defining anisotropic polarizability. This may be set to -1, in which case aniso34 will be ignored. </p></li>
+<li><p><strong>particle4</strong> – the index within the <a class="reference internal" href="System.html#classOpenMM_1_1System"><span class="std std-ref">System</span></a> of the fourth particle used for defining anisotropic polarizability. This may be set to -1, in which case aniso34 will be ignored. </p></li>
+<li><p><strong>charge</strong> – The charge on the Drude particle </p></li>
+<li><p><strong>polarizability</strong> – The isotropic polarizability </p></li>
+<li><p><strong>aniso12</strong> – The scale factor for the polarizability along the direction defined by particle1 and particle2 </p></li>
+<li><p><strong>aniso34</strong> – The scale factor for the polarizability along the direction defined by particle3 and particle4 </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM10DrudeForce15addScreenedPairEiid">
+<span id="_CPPv3N6OpenMM10DrudeForce15addScreenedPairEiid"></span><span id="_CPPv2N6OpenMM10DrudeForce15addScreenedPairEiid"></span><span id="OpenMM::DrudeForce::addScreenedPair__i.i.double"></span><span class="target" id="classOpenMM_1_1DrudeForce_1a650f74befc24a4f63f65cfc89f0daa40"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addScreenedPair</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle1</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle2</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">thole</span></span><span class="sig-paren">)</span><a class="headerlink" href="DrudeForce.html#_CPPv4N6OpenMM10DrudeForce15addScreenedPairEiid" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add an interaction to the list of screened pairs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>particle1</strong> – the index within this <a class="reference internal" href="Force.html#classOpenMM_1_1Force"><span class="std std-ref">Force</span></a> of the first particle involved in the interaction </p></li>
+<li><p><strong>particle2</strong> – the index within this <a class="reference internal" href="Force.html#classOpenMM_1_1Force"><span class="std std-ref">Force</span></a> of the second particle involved in the interaction </p></li>
+<li><p><strong>thole</strong> – the Thole screening factor </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the index of the screenedPair that was added </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM10DrudeForce25getScreenedPairParametersEiRiRiRd">
+<span id="_CPPv3NK6OpenMM10DrudeForce25getScreenedPairParametersEiRiRiRd"></span><span id="_CPPv2NK6OpenMM10DrudeForce25getScreenedPairParametersEiRiRiRd"></span><span id="OpenMM::DrudeForce::getScreenedPairParameters__i.iR.iR.doubleRC"></span><span class="target" id="classOpenMM_1_1DrudeForce_1a07699a0e1a53c6f66a6712f16ab29d6a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getScreenedPairParameters</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">particle1</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">particle2</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">thole</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="DrudeForce.html#_CPPv4NK6OpenMM10DrudeForce25getScreenedPairParametersEiRiRiRd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the force field parameters for screened pair.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – the index of the pair for which to get parameters </p></li>
+<li><p><strong>particle1</strong> – <strong>[out]</strong> the index within this <a class="reference internal" href="Force.html#classOpenMM_1_1Force"><span class="std std-ref">Force</span></a> of the first particle involved in the interaction </p></li>
+<li><p><strong>particle2</strong> – <strong>[out]</strong> the index within this <a class="reference internal" href="Force.html#classOpenMM_1_1Force"><span class="std std-ref">Force</span></a> of the second particle involved in the interaction </p></li>
+<li><p><strong>thole</strong> – <strong>[out]</strong> the Thole screening factor </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM10DrudeForce25setScreenedPairParametersEiiid">
+<span id="_CPPv3N6OpenMM10DrudeForce25setScreenedPairParametersEiiid"></span><span id="_CPPv2N6OpenMM10DrudeForce25setScreenedPairParametersEiiid"></span><span id="OpenMM::DrudeForce::setScreenedPairParameters__i.i.i.double"></span><span class="target" id="classOpenMM_1_1DrudeForce_1a123cf97eeee7d75228f31a6ce0d19c81"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setScreenedPairParameters</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle1</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle2</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">thole</span></span><span class="sig-paren">)</span><a class="headerlink" href="DrudeForce.html#_CPPv4N6OpenMM10DrudeForce25setScreenedPairParametersEiiid" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the force field parameters for screened pair.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – the index of the pair for which to get parameters </p></li>
+<li><p><strong>particle1</strong> – the index within this <a class="reference internal" href="Force.html#classOpenMM_1_1Force"><span class="std std-ref">Force</span></a> of the first particle involved in the interaction </p></li>
+<li><p><strong>particle2</strong> – the index within this <a class="reference internal" href="Force.html#classOpenMM_1_1Force"><span class="std std-ref">Force</span></a> of the second particle involved in the interaction </p></li>
+<li><p><strong>thole</strong> – the Thole screening factor </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM10DrudeForce25updateParametersInContextER7Context">
+<span id="_CPPv3N6OpenMM10DrudeForce25updateParametersInContextER7Context"></span><span id="_CPPv2N6OpenMM10DrudeForce25updateParametersInContextER7Context"></span><span id="OpenMM::DrudeForce::updateParametersInContext__ContextR"></span><span class="target" id="classOpenMM_1_1DrudeForce_1a240d5206dac41f5b19785c41bf6c651d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">updateParametersInContext</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="Context.html#_CPPv4N6OpenMM7ContextE" title="OpenMM::Context"><span class="n"><span class="pre">Context</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">context</span></span><span class="sig-paren">)</span><a class="headerlink" href="DrudeForce.html#_CPPv4N6OpenMM10DrudeForce25updateParametersInContextER7Context" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Update the particle and screened pair parameters in a <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a> to match those stored in this <a class="reference internal" href="Force.html#classOpenMM_1_1Force"><span class="std std-ref">Force</span></a> object. This method provides an efficient method to update certain parameters in an existing <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a> without needing to reinitialize it. Simply call <a class="reference internal" href="DrudeForce.html#classOpenMM_1_1DrudeForce_1a533233fd10ed4dddd09538094dc9e4eb"><span class="std std-ref">setParticleParameters()</span></a> and <a class="reference internal" href="DrudeForce.html#classOpenMM_1_1DrudeForce_1a123cf97eeee7d75228f31a6ce0d19c81"><span class="std std-ref">setScreenedPairParameters()</span></a> to modify this object’s parameters, then call <a class="reference internal" href="DrudeForce.html#classOpenMM_1_1DrudeForce_1a240d5206dac41f5b19785c41bf6c651d"><span class="std std-ref">updateParametersInContext()</span></a> to copy them over to the <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a>.</p>
+<p>This method has several limitations. It can be used to modify the numeric parameters associated with a particle or screened pair (polarizability, thole, etc.), but not the identities of the particles they involve. It also cannot be used to add new particles or screenedPairs, only to change the parameters of existing ones. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM10DrudeForce30usesPeriodicBoundaryConditionsEv">
+<span id="_CPPv3NK6OpenMM10DrudeForce30usesPeriodicBoundaryConditionsEv"></span><span id="_CPPv2NK6OpenMM10DrudeForce30usesPeriodicBoundaryConditionsEv"></span><span id="OpenMM::DrudeForce::usesPeriodicBoundaryConditionsC"></span><span class="target" id="classOpenMM_1_1DrudeForce_1acfd509ec50a8410a735b077783b1c686"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">usesPeriodicBoundaryConditions</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="DrudeForce.html#_CPPv4NK6OpenMM10DrudeForce30usesPeriodicBoundaryConditionsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Returns whether or not this force makes use of periodic boundary conditions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>true if nonbondedMethod uses PBC and false otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="CMAPTorsionForce.html" title="Previous document"><code class="docutils literal notranslate"><span class="pre">CMAPTorsionForce</span></code></a>
+        </li>
+        <li>
+          <a href="GBSAOBCForce.html" title="Next document"><code class="docutils literal notranslate"><span class="pre">GBSAOBCForce</span></code></a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM C++ API</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="System.html"><code class="docutils literal notranslate"><span class="pre">System</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Context.html"><code class="docutils literal notranslate"><span class="pre">Context</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="State.html"><code class="docutils literal notranslate"><span class="pre">State</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Platform.html"><code class="docutils literal notranslate"><span class="pre">Platform</span></code></a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../forces.html">Forces</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../forces.html#the-force-abstract-class">The <code class="docutils literal notranslate"><span class="pre">Force</span></code> abstract class</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../forces.html#common-bonded-and-non-bonded-forces">Common bonded and non-bonded forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forces.html#amoeba-forces">AMOEBA forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forces.html#pseudo-forces">Pseudo-forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forces.html#customizing-force">Customizing <code class="docutils literal notranslate"><span class="pre">Force</span></code></a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../integrators.html">Integrators</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../extras.html">Extra classes</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../userguide">
+                User's Manual
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../developerguide/index.html">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../api-python/index.html">
+                Python API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Stanford University and the Authors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../_sources/generated/DrudeForce.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

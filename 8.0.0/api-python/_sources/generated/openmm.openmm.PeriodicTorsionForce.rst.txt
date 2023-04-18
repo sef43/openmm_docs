@@ -1,0 +1,39 @@
+﻿PeriodicTorsionForce
+==================================
+
+.. currentmodule:: openmm.openmm
+
+.. autoclass:: PeriodicTorsionForce
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~PeriodicTorsionForce.__init__
+      ~PeriodicTorsionForce.addTorsion
+      ~PeriodicTorsionForce.getForceGroup
+      ~PeriodicTorsionForce.getName
+      ~PeriodicTorsionForce.getNumTorsions
+      ~PeriodicTorsionForce.getTorsionParameters
+      ~PeriodicTorsionForce.setForceGroup
+      ~PeriodicTorsionForce.setName
+      ~PeriodicTorsionForce.setTorsionParameters
+      ~PeriodicTorsionForce.setUsesPeriodicBoundaryConditions
+      ~PeriodicTorsionForce.updateParametersInContext
+      ~PeriodicTorsionForce.usesPeriodicBoundaryConditions
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PeriodicTorsionForce.thisown
+   
+   

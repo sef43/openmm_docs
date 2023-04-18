@@ -1,0 +1,51 @@
+﻿NoseHooverIntegrator
+==================================
+
+.. currentmodule:: openmm.openmm
+
+.. autoclass:: NoseHooverIntegrator
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~NoseHooverIntegrator.__init__
+      ~NoseHooverIntegrator.addSubsystemThermostat
+      ~NoseHooverIntegrator.addThermostat
+      ~NoseHooverIntegrator.computeHeatBathEnergy
+      ~NoseHooverIntegrator.getCollisionFrequency
+      ~NoseHooverIntegrator.getConstraintTolerance
+      ~NoseHooverIntegrator.getIntegrationForceGroups
+      ~NoseHooverIntegrator.getMaximumPairDistance
+      ~NoseHooverIntegrator.getNumThermostats
+      ~NoseHooverIntegrator.getRelativeCollisionFrequency
+      ~NoseHooverIntegrator.getRelativeTemperature
+      ~NoseHooverIntegrator.getStepSize
+      ~NoseHooverIntegrator.getTemperature
+      ~NoseHooverIntegrator.getThermostat
+      ~NoseHooverIntegrator.hasSubsystemThermostats
+      ~NoseHooverIntegrator.setCollisionFrequency
+      ~NoseHooverIntegrator.setConstraintTolerance
+      ~NoseHooverIntegrator.setIntegrationForceGroups
+      ~NoseHooverIntegrator.setMaximumPairDistance
+      ~NoseHooverIntegrator.setRelativeCollisionFrequency
+      ~NoseHooverIntegrator.setRelativeTemperature
+      ~NoseHooverIntegrator.setStepSize
+      ~NoseHooverIntegrator.setTemperature
+      ~NoseHooverIntegrator.step
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~NoseHooverIntegrator.thisown
+   
+   

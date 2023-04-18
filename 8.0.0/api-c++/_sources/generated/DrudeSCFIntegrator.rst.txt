@@ -1,0 +1,7 @@
+.. _OpenMM::DrudeSCFIntegrator:
+
+``DrudeSCFIntegrator``
+======================
+
+.. doxygenclass:: OpenMM::DrudeSCFIntegrator
+   :members:

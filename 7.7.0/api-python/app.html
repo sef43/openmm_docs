@@ -1,0 +1,336 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Application Layer &#8212; OpenMM Python API 7.7.0.dev-130124a documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="AmberInpcrdFile" href="generated/openmm.app.amberinpcrdfile.AmberInpcrdFile.html" />
+    <link rel="prev" title="OpenMM Python API" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="application-layer">
+<span id="app"></span><h1>Application Layer<a class="headerlink" href="app.html#application-layer" title="Permalink to this headline">¶</a></h1>
+<section id="loaders-and-setup">
+<h2>Loaders and Setup<a class="headerlink" href="app.html#loaders-and-setup" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/openmm.app.amberinpcrdfile.AmberInpcrdFile.html#openmm.app.amberinpcrdfile.AmberInpcrdFile" title="openmm.app.amberinpcrdfile.AmberInpcrdFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AmberInpcrdFile</span></code></a>(file[, loadVelocities, …])</p></td>
+<td><p>AmberInpcrdFile parses an AMBER inpcrd file and loads the data stored in it.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/openmm.app.amberprmtopfile.AmberPrmtopFile.html#openmm.app.amberprmtopfile.AmberPrmtopFile" title="openmm.app.amberprmtopfile.AmberPrmtopFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AmberPrmtopFile</span></code></a>(file)</p></td>
+<td><p>AmberPrmtopFile parses an AMBER prmtop file and constructs a Topology and (optionally) an OpenMM System from it.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/openmm.app.charmmcrdfiles.CharmmCrdFile.html#openmm.app.charmmcrdfiles.CharmmCrdFile" title="openmm.app.charmmcrdfiles.CharmmCrdFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CharmmCrdFile</span></code></a>(fname)</p></td>
+<td><p>Reads and parses a CHARMM coordinate file (.crd) into its components, namely the coordinates, CHARMM atom types, resname, etc.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/openmm.app.charmmparameterset.CharmmParameterSet.html#openmm.app.charmmparameterset.CharmmParameterSet" title="openmm.app.charmmparameterset.CharmmParameterSet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CharmmParameterSet</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Stores a parameter set defined by CHARMM files.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/openmm.app.charmmpsffile.CharmmPsfFile.html#openmm.app.charmmpsffile.CharmmPsfFile" title="openmm.app.charmmpsffile.CharmmPsfFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CharmmPsfFile</span></code></a>(psf_name[, …])</p></td>
+<td><p>A chemical structure instantiated from CHARMM files.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/openmm.app.charmmcrdfiles.CharmmRstFile.html#openmm.app.charmmcrdfiles.CharmmRstFile" title="openmm.app.charmmcrdfiles.CharmmRstFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CharmmRstFile</span></code></a>(fname)</p></td>
+<td><p>Reads and parses data, velocities and coordinates from a CHARMM restart file (.rst) of file name ‘fname’ into class attributes</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/openmm.app.dcdfile.DCDFile.html#openmm.app.dcdfile.DCDFile" title="openmm.app.dcdfile.DCDFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DCDFile</span></code></a>(file, topology, dt[, firstStep, …])</p></td>
+<td><p>DCDFile provides methods for creating DCD files.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/openmm.app.desmonddmsfile.DesmondDMSFile.html#openmm.app.desmonddmsfile.DesmondDMSFile" title="openmm.app.desmonddmsfile.DesmondDMSFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DesmondDMSFile</span></code></a>(file[, verbose])</p></td>
+<td><p>DesmondDMSFile parses a Desmond DMS (desmond molecular system) and constructs a topology and (optionally) an OpenMM System from it</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/openmm.app.gromacsgrofile.GromacsGroFile.html#openmm.app.gromacsgrofile.GromacsGroFile" title="openmm.app.gromacsgrofile.GromacsGroFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GromacsGroFile</span></code></a>(file)</p></td>
+<td><p>GromacsGroFile parses a Gromacs .gro file and constructs a set of atom positions from it.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/openmm.app.gromacstopfile.GromacsTopFile.html#openmm.app.gromacstopfile.GromacsTopFile" title="openmm.app.gromacstopfile.GromacsTopFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GromacsTopFile</span></code></a>(file[, periodicBoxVectors, …])</p></td>
+<td><p>GromacsTopFile parses a Gromacs top file and constructs a Topology and (optionally) an OpenMM System from it.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/openmm.app.pdbfile.PDBFile.html#openmm.app.pdbfile.PDBFile" title="openmm.app.pdbfile.PDBFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PDBFile</span></code></a>(file[, extraParticleIdentifier])</p></td>
+<td><p>PDBFile parses a Protein Data Bank (PDB) file and constructs a Topology and a set of atom positions from it.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/openmm.app.pdbxfile.PDBxFile.html#openmm.app.pdbxfile.PDBxFile" title="openmm.app.pdbxfile.PDBxFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PDBxFile</span></code></a>(file)</p></td>
+<td><p>PDBxFile parses a PDBx/mmCIF file and constructs a Topology and a set of atom positions from it.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="representation-and-manipulation">
+<h2>Representation and Manipulation<a class="headerlink" href="app.html#representation-and-manipulation" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/openmm.app.topology.Topology.html#openmm.app.topology.Topology" title="openmm.app.topology.Topology"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Topology</span></code></a>()</p></td>
+<td><p>Topology stores the topological information about a system.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/openmm.app.topology.Chain.html#openmm.app.topology.Chain" title="openmm.app.topology.Chain"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Chain</span></code></a>(index, topology, id)</p></td>
+<td><p>A Chain object represents a chain within a Topology.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/openmm.app.topology.Residue.html#openmm.app.topology.Residue" title="openmm.app.topology.Residue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Residue</span></code></a>(name, index, chain, id, insertionCode)</p></td>
+<td><p>A Residue object represents a residue within a Topology.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/openmm.app.topology.Atom.html#openmm.app.topology.Atom" title="openmm.app.topology.Atom"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Atom</span></code></a>(name, element, index, residue, id)</p></td>
+<td><p>An Atom object represents an atom within a Topology.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/openmm.app.modeller.Modeller.html#openmm.app.modeller.Modeller" title="openmm.app.modeller.Modeller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Modeller</span></code></a>(topology, positions)</p></td>
+<td><p>Modeller provides tools for editing molecular models, such as adding water or missing hydrogens.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="simulation">
+<h2>Simulation<a class="headerlink" href="app.html#simulation" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/openmm.app.forcefield.ForceField.html#openmm.app.forcefield.ForceField" title="openmm.app.forcefield.ForceField"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ForceField</span></code></a>(*files)</p></td>
+<td><p>A ForceField constructs OpenMM System objects based on a Topology.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/openmm.app.simulation.Simulation.html#openmm.app.simulation.Simulation" title="openmm.app.simulation.Simulation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Simulation</span></code></a>(topology, system, integrator[, …])</p></td>
+<td><p>Simulation provides a simplified API for running simulations with OpenMM and reporting results.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="reporting-output">
+<h2>Reporting Output<a class="headerlink" href="app.html#reporting-output" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/openmm.app.checkpointreporter.CheckpointReporter.html#openmm.app.checkpointreporter.CheckpointReporter" title="openmm.app.checkpointreporter.CheckpointReporter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CheckpointReporter</span></code></a>(file, reportInterval[, …])</p></td>
+<td><p>CheckpointReporter saves periodic checkpoints of a simulation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/openmm.app.dcdreporter.DCDReporter.html#openmm.app.dcdreporter.DCDReporter" title="openmm.app.dcdreporter.DCDReporter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DCDReporter</span></code></a>(file, reportInterval[, append, …])</p></td>
+<td><p>DCDReporter outputs a series of frames from a Simulation to a DCD file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/openmm.app.pdbreporter.PDBReporter.html#openmm.app.pdbreporter.PDBReporter" title="openmm.app.pdbreporter.PDBReporter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PDBReporter</span></code></a>(file, reportInterval[, …])</p></td>
+<td><p>PDBReporter outputs a series of frames from a Simulation to a PDB file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/openmm.app.pdbreporter.PDBxReporter.html#openmm.app.pdbreporter.PDBxReporter" title="openmm.app.pdbreporter.PDBxReporter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PDBxReporter</span></code></a>(file, reportInterval[, …])</p></td>
+<td><p>PDBxReporter outputs a series of frames from a Simulation to a PDBx/mmCIF file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/openmm.app.statedatareporter.StateDataReporter.html#openmm.app.statedatareporter.StateDataReporter" title="openmm.app.statedatareporter.StateDataReporter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StateDataReporter</span></code></a>(file, reportInterval[, …])</p></td>
+<td><p>StateDataReporter outputs information about a simulation, such as energy and temperature, to a file.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="extras">
+<h2>Extras<a class="headerlink" href="app.html#extras" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/openmm.app.metadynamics.BiasVariable.html#openmm.app.metadynamics.BiasVariable" title="openmm.app.metadynamics.BiasVariable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BiasVariable</span></code></a>(force, minValue, maxValue, …)</p></td>
+<td><p>A collective variable that can be used to bias a simulation with metadynamics.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/openmm.app.internal.charmm.exceptions.CharmmPSFWarning.html#openmm.app.internal.charmm.exceptions.CharmmPSFWarning" title="openmm.app.internal.charmm.exceptions.CharmmPSFWarning"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CharmmPSFWarning</span></code></a></p></td>
+<td><p>For non-fatal PSF parsing issues</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/openmm.app.element.Element.html#openmm.app.element.Element" title="openmm.app.element.Element"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Element</span></code></a>(number, name, symbol, mass)</p></td>
+<td><p>An Element represents a chemical element.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/openmm.app.metadynamics.Metadynamics.html#openmm.app.metadynamics.Metadynamics" title="openmm.app.metadynamics.Metadynamics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Metadynamics</span></code></a>(system, variables, temperature, …)</p></td>
+<td><p>Performs metadynamics.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/openmm.app.simulatedtempering.SimulatedTempering.html#openmm.app.simulatedtempering.SimulatedTempering" title="openmm.app.simulatedtempering.SimulatedTempering"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SimulatedTempering</span></code></a>(simulation[, …])</p></td>
+<td><p>SimulatedTempering implements the simulated tempering algorithm for accelerated sampling.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="units">
+<h2>Units<a class="headerlink" href="app.html#units" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/openmm.unit.basedimension.BaseDimension.html#openmm.unit.basedimension.BaseDimension" title="openmm.unit.basedimension.BaseDimension"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BaseDimension</span></code></a></p></td>
+<td><p>A physical dimension such as length, mass, or temperature.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/openmm.unit.baseunit.BaseUnit.html#openmm.unit.baseunit.BaseUnit" title="openmm.unit.baseunit.BaseUnit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BaseUnit</span></code></a></p></td>
+<td><p>Physical unit expressed in exactly one BaseDimension.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/openmm.unit.quantity.Quantity.html#openmm.unit.quantity.Quantity" title="openmm.unit.quantity.Quantity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Quantity</span></code></a></p></td>
+<td><p>Physical quantity, such as 1.3 meters per second.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/openmm.unit.unit.ScaledUnit.html#openmm.unit.unit.ScaledUnit" title="openmm.unit.unit.ScaledUnit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ScaledUnit</span></code></a></p></td>
+<td><p>ScaledUnit is like a BaseUnit, but it is based on another Unit.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/openmm.unit.prefix.SiPrefix.html#openmm.unit.prefix.SiPrefix" title="openmm.unit.prefix.SiPrefix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SiPrefix</span></code></a></p></td>
+<td><p>Unit prefix that can be multiplied by a unit to yield a new unit.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/openmm.unit.unit.Unit.html#openmm.unit.unit.Unit" title="openmm.unit.unit.Unit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Unit</span></code></a></p></td>
+<td><p>Physical unit such as meter or ampere.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/openmm.unit.unit.UnitSystem.html#openmm.unit.unit.UnitSystem" title="openmm.unit.unit.UnitSystem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UnitSystem</span></code></a></p></td>
+<td><p>A complete system of units defining the <em>base</em> unit in each dimension</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="index.html" title="Previous document">OpenMM Python API</a>
+        </li>
+        <li>
+          <a href="generated/openmm.app.amberinpcrdfile.AmberInpcrdFile.html" title="Next document">AmberInpcrdFile</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM Python API</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="app.html#">Application Layer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="app.html#loaders-and-setup">Loaders and Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app.html#representation-and-manipulation">Representation and Manipulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app.html#simulation">Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app.html#reporting-output">Reporting Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app.html#extras">Extras</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app.html#units">Units</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="library.html">Library Layer</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../userguide/index.html">
+                User's Manual
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../developerguide">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../api-c++/index.html">
+                C++ API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Stanford University and the Authors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/app.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

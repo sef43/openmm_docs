@@ -1,0 +1,7 @@
+.. _OpenMM::OpenMMException:
+
+``OpenMMException``
+===================
+
+.. doxygenclass:: OpenMM::OpenMMException
+   :members:

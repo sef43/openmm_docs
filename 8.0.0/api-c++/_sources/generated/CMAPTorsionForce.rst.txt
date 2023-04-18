@@ -1,0 +1,7 @@
+.. _OpenMM::CMAPTorsionForce:
+
+``CMAPTorsionForce``
+====================
+
+.. doxygenclass:: OpenMM::CMAPTorsionForce
+   :members:

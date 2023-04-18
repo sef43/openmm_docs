@@ -1,0 +1,7 @@
+.. _OpenMM::Discrete2DFunction:
+
+``Discrete2DFunction``
+======================
+
+.. doxygenclass:: OpenMM::Discrete2DFunction
+   :members:

@@ -1,0 +1,243 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>SimulatedTempering &#8212; OpenMM Python API 8.0.0.dev-c7efe3d documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="BaseDimension" href="openmm.unit.basedimension.BaseDimension.html" />
+    <link rel="prev" title="Metadynamics" href="openmm.app.metadynamics.Metadynamics.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="simulatedtempering">
+<h1>SimulatedTempering<a class="headerlink" href="openmm.app.simulatedtempering.SimulatedTempering.html#simulatedtempering" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="openmm.app.simulatedtempering.SimulatedTempering">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">openmm.app.simulatedtempering.</span></span><span class="sig-name descname"><span class="pre">SimulatedTempering</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">simulation</span></em>, <em class="sig-param"><span class="pre">temperatures=None</span></em>, <em class="sig-param"><span class="pre">numTemperatures=None</span></em>, <em class="sig-param"><span class="pre">minTemperature=None</span></em>, <em class="sig-param"><span class="pre">maxTemperature=None</span></em>, <em class="sig-param"><span class="pre">weights=None</span></em>, <em class="sig-param"><span class="pre">tempChangeInterval=25</span></em>, <em class="sig-param"><span class="pre">reportInterval=1000</span></em>, <em class="sig-param"><span class="pre">reportFile=&lt;_io.TextIOWrapper</span> <span class="pre">name='&lt;stdout&gt;'</span> <span class="pre">mode='w'</span> <span class="pre">encoding='UTF-8'&gt;</span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.app.simulatedtempering.SimulatedTempering.html#openmm.app.simulatedtempering.SimulatedTempering" title="Permalink to this definition">¶</a></dt>
+<dd><p>SimulatedTempering implements the simulated tempering algorithm for accelerated sampling.</p>
+<p>It runs a simulation while allowing the temperature to vary.  At high temperatures, it can more easily cross
+energy barriers to explore a wider area of conformation space.  At low temperatures, it can thoroughly
+explore each local region.  For details, see Marinari, E. and Parisi, G., Europhys. Lett. 19(6). pp. 451-458 (1992).</p>
+<p>The set of temperatures to sample can be specified in two ways.  First, you can explicitly provide a list
+of temperatures by using the “temperatures” argument.  Alternatively, you can specify the minimum and
+maximum temperatures, and the total number of temperatures to use.  The temperatures are chosen spaced
+exponentially between the two extremes.  For example,</p>
+<p>st = SimulatedTempering(simulation, numTemperatures=15, minTemperature=300*kelvin, maxTemperature=450*kelvin)</p>
+<p>After creating the SimulatedTempering object, call step() on it to run the simulation.</p>
+<p>Transitions between temperatures are performed at regular intervals, as specified by the “tempChangeInterval”
+argument.  For each transition, a new temperature is selected using the independence sampling method, as
+described in Chodera, J. and Shirts, M., J. Chem. Phys. 135, 194110 (2011).</p>
+<p>Simulated tempering requires a “weight factor” for each temperature.  Ideally, these should be chosen so
+the simulation spends equal time at every temperature.  You can specify the list of weights to use with the
+optional “weights” argument.  If this is omitted, weights are selected automatically using the Wang-Landau
+algorithm as described in Wang, F. and Landau, D. P., Phys. Rev. Lett. 86(10), pp. 2050-2053 (2001).</p>
+<p>To properly analyze the results of the simulation, it is important to know the temperature and weight factors
+at every point in time.  The SimulatedTempering object functions as a reporter, writing this information
+to a file or stdout at regular intervals (which should match the interval at which you save frames from the
+simulation).  You can specify the output file and reporting interval with the “reportFile” and “reportInterval”
+arguments.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.app.simulatedtempering.SimulatedTempering.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">simulation</span></em>, <em class="sig-param"><span class="pre">temperatures=None</span></em>, <em class="sig-param"><span class="pre">numTemperatures=None</span></em>, <em class="sig-param"><span class="pre">minTemperature=None</span></em>, <em class="sig-param"><span class="pre">maxTemperature=None</span></em>, <em class="sig-param"><span class="pre">weights=None</span></em>, <em class="sig-param"><span class="pre">tempChangeInterval=25</span></em>, <em class="sig-param"><span class="pre">reportInterval=1000</span></em>, <em class="sig-param"><span class="pre">reportFile=&lt;_io.TextIOWrapper</span> <span class="pre">name='&lt;stdout&gt;'</span> <span class="pre">mode='w'</span> <span class="pre">encoding='UTF-8'&gt;</span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.app.simulatedtempering.SimulatedTempering.html#openmm.app.simulatedtempering.SimulatedTempering.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new SimulatedTempering.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>simulation</strong> (<a class="reference internal" href="openmm.app.simulation.Simulation.html#openmm.app.simulation.Simulation" title="openmm.app.simulation.Simulation"><em>Simulation</em></a>) – The Simulation defining the System, Context, and Integrator to use</p></li>
+<li><p><strong>temperatures</strong> (<em>list</em>) – The list of temperatures to use for tempering, in increasing order</p></li>
+<li><p><strong>numTemperatures</strong> (<em>int</em>) – The number of temperatures to use for tempering.  If temperatures is not None, this is ignored.</p></li>
+<li><p><strong>minTemperature</strong> (<em>temperature</em>) – The minimum temperature to use for tempering.  If temperatures is not None, this is ignored.</p></li>
+<li><p><strong>maxTemperature</strong> (<em>temperature</em>) – The maximum temperature to use for tempering.  If temperatures is not None, this is ignored.</p></li>
+<li><p><strong>weights</strong> (<em>list</em>) – The weight factor for each temperature.  If none, weights are selected automatically.</p></li>
+<li><p><strong>tempChangeInterval</strong> (<em>int</em>) – The interval (in time steps) at which to attempt transitions between temperatures</p></li>
+<li><p><strong>reportInterval</strong> (<em>int</em>) – The interval (in time steps) at which to write information to the report file</p></li>
+<li><p><strong>reportFile</strong> (<em>string</em><em> or </em><em>file</em>) – The file to write reporting information to, specified as a file name or file object</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.app.simulatedtempering.SimulatedTempering.html#openmm.app.simulatedtempering.SimulatedTempering.__init__" title="openmm.app.simulatedtempering.SimulatedTempering.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(simulation[, temperatures, …])</p></td>
+<td><p>Create a new SimulatedTempering.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="openmm.app.simulatedtempering.SimulatedTempering.html#openmm.app.simulatedtempering.SimulatedTempering.step" title="openmm.app.simulatedtempering.SimulatedTempering.step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">step</span></code></a>(steps)</p></td>
+<td><p>Advance the simulation by integrating a specified number of time steps.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">weights</span></code></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.app.simulatedtempering.SimulatedTempering.step">
+<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">steps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.app.simulatedtempering.SimulatedTempering.html#openmm.app.simulatedtempering.SimulatedTempering.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Advance the simulation by integrating a specified number of time steps.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="openmm.app.metadynamics.Metadynamics.html" title="Previous document">Metadynamics</a>
+        </li>
+        <li>
+          <a href="openmm.unit.basedimension.BaseDimension.html" title="Next document">BaseDimension</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM Python API</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../app.html">Application Layer</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../app.html#loaders-and-setup">Loaders and Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app.html#representation-and-manipulation">Representation and Manipulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app.html#simulation">Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app.html#reporting-output">Reporting Output</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../app.html#extras">Extras</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app.html#units">Units</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../library.html">Library Layer</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../userguide">
+                User's Manual
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../developerguide/index.html">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../api-c++/index.html">
+                C++ API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Stanford University and the Authors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../_sources/generated/openmm.app.simulatedtempering.SimulatedTempering.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

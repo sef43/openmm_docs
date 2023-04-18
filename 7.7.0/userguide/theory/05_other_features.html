@@ -35,9 +35,9 @@
           <div class="body" role="main">
             
   <section id="other-features">
-<span id="id1"></span><h1><span class="section-number">21. </span>Other Features<a class="headerlink" href="05_other_features.html#other-features" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1><span class="section-number">21. </span>Other Features<a class="headerlink" href="#other-features" title="Permalink to this headline">¶</a></h1>
 <section id="periodic-boundary-conditions">
-<h2><span class="section-number">21.1. </span>Periodic Boundary Conditions<a class="headerlink" href="05_other_features.html#periodic-boundary-conditions" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">21.1. </span>Periodic Boundary Conditions<a class="headerlink" href="#periodic-boundary-conditions" title="Permalink to this headline">¶</a></h2>
 <p>Many Force objects support periodic boundary conditions.  They act as if space
 were tiled with infinitely repeating copies of the system, then compute the
 forces acting on a single copy based on the infinite periodic copies.  In most
@@ -73,7 +73,7 @@ but they do not affect the shape or size of each copy.  The volume of the unit
 cell is simply given by <span class="math notranslate nohighlight">\(a_x b_y c_z\)</span>.</p>
 </section>
 <section id="localenergyminimizer">
-<h2><span class="section-number">21.2. </span>LocalEnergyMinimizer<a class="headerlink" href="05_other_features.html#localenergyminimizer" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">21.2. </span>LocalEnergyMinimizer<a class="headerlink" href="#localenergyminimizer" title="Permalink to this headline">¶</a></h2>
 <p>This provides an implementation of the L-BFGS optimization algorithm.
 <span id="id2">[<a class="reference internal" href="../zbibliography.html#id29" title="Dong C. Liu and Jorge Nocedal. On the limited memory BFGS method for large scale optimization. Mathematical Programming, 45:503-528, 1989.">57</a>]</span>  Given a Context specifying initial particle positions, it
 searches for a nearby set of positions that represent a local minimum of the
@@ -84,7 +84,7 @@ configuration satisfies all constraints to within the tolerance specified by the
 Context’s Integrator.</p>
 </section>
 <section id="xmlserializer">
-<h2><span class="section-number">21.3. </span>XMLSerializer<a class="headerlink" href="05_other_features.html#xmlserializer" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">21.3. </span>XMLSerializer<a class="headerlink" href="#xmlserializer" title="Permalink to this headline">¶</a></h2>
 <p>This provides the ability to “serialize” a System, Force, Integrator, or State
 object to a portable XML format, then reconstruct it again later.  When
 serializing a System, the XML data contains a complete copy of the entire system
@@ -103,7 +103,7 @@ serialize any type of object.  At present, however, only System, Force,
 Integrator, and State are supported.</p>
 </section>
 <section id="force-groups">
-<h2><span class="section-number">21.4. </span>Force Groups<a class="headerlink" href="05_other_features.html#force-groups" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">21.4. </span>Force Groups<a class="headerlink" href="#force-groups" title="Permalink to this headline">¶</a></h2>
 <p>It is possible to split the Force objects in a System into groups.  Those groups
 can then be evaluated independently of each other.  This is done by calling
 <code class="code docutils literal notranslate"><span class="pre">setForceGroup()</span></code> on the Force.  Some Force classes also
@@ -123,7 +123,7 @@ omitted will be ignored during simulation, but can be queried at any time by
 calling <code class="code docutils literal notranslate"><span class="pre">getState()</span></code>.</p>
 </section>
 <section id="virtual-sites">
-<h2><span class="section-number">21.5. </span>Virtual Sites<a class="headerlink" href="05_other_features.html#virtual-sites" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">21.5. </span>Virtual Sites<a class="headerlink" href="#virtual-sites" title="Permalink to this headline">¶</a></h2>
 <p>A virtual site is a particle whose position is computed directly from the
 positions of other particles, not by integrating the equations of motion.  An
 important example is the “extra sites” present in 4 and 5 site water models.
@@ -179,7 +179,7 @@ are each specified as a weighted sum of the locations of the other particles:</p
 \[\mathbf{r}=\mathbf{o}+p_1\mathbf{\hat{x}}+p_2\mathbf{\hat{y}}+p_3\mathbf{\hat{z}}\]</div>
 </section>
 <section id="random-numbers-with-stochastic-integrators-and-forces">
-<h2><span class="section-number">21.6. </span>Random Numbers with Stochastic Integrators and Forces<a class="headerlink" href="05_other_features.html#random-numbers-with-stochastic-integrators-and-forces" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">21.6. </span>Random Numbers with Stochastic Integrators and Forces<a class="headerlink" href="#random-numbers-with-stochastic-integrators-and-forces" title="Permalink to this headline">¶</a></h2>
 <p>OpenMM includes many stochastic integrators and forces that make extensive use
 of random numbers. It is impossible to generate truly random numbers on a
 computer like you would with a dice roll or coin flip in real life—instead
@@ -299,13 +299,13 @@ unique value).</p>
 <li class="toctree-l2"><a class="reference internal" href="02_standard_forces.html">18. Standard Forces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03_custom_forces.html">19. Custom Forces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04_integrators.html">20. Integrators</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="05_other_features.html#">21. Other Features</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="05_other_features.html#periodic-boundary-conditions">21.1. Periodic Boundary Conditions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="05_other_features.html#localenergyminimizer">21.2. LocalEnergyMinimizer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="05_other_features.html#xmlserializer">21.3. XMLSerializer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="05_other_features.html#force-groups">21.4. Force Groups</a></li>
-<li class="toctree-l3"><a class="reference internal" href="05_other_features.html#virtual-sites">21.5. Virtual Sites</a></li>
-<li class="toctree-l3"><a class="reference internal" href="05_other_features.html#random-numbers-with-stochastic-integrators-and-forces">21.6. Random Numbers with Stochastic Integrators and Forces</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">21. Other Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#periodic-boundary-conditions">21.1. Periodic Boundary Conditions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#localenergyminimizer">21.2. LocalEnergyMinimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#xmlserializer">21.3. XMLSerializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#force-groups">21.4. Force Groups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#virtual-sites">21.5. Virtual Sites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#random-numbers-with-stochastic-integrators-and-forces">21.6. Random Numbers with Stochastic Integrators and Forces</a></li>
 </ul>
 </li>
 </ul>
@@ -326,19 +326,19 @@ unique value).</p>
         </li>
         
         <li class="toctree-l1">
-            <a href="http://docs.openmm.org/7.7.0/developerguide/">
+            <a href="../../developerguide/">
                 Developer Guide
             </a>
         </li>
         
         <li class="toctree-l1">
-            <a href="http://docs.openmm.org/7.7.0/api-python/">
+            <a href="../../api-python/">
                 Python API reference
             </a>
         </li>
         
         <li class="toctree-l1">
-            <a href="http://docs.openmm.org/7.7.0/api-c++/">
+            <a href="../../api-c++/">
                 C++ API reference
             </a>
         </li>

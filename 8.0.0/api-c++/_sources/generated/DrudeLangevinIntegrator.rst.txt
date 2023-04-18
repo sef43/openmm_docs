@@ -1,0 +1,7 @@
+.. _OpenMM::DrudeLangevinIntegrator:
+
+``DrudeLangevinIntegrator``
+===========================
+
+.. doxygenclass:: OpenMM::DrudeLangevinIntegrator
+   :members:

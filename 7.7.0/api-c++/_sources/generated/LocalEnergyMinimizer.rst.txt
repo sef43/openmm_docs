@@ -1,0 +1,7 @@
+.. _OpenMM::LocalEnergyMinimizer:
+
+``LocalEnergyMinimizer``
+========================
+
+.. doxygenclass:: OpenMM::LocalEnergyMinimizer
+   :members:

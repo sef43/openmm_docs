@@ -1,0 +1,7 @@
+.. _OpenMM::Continuous1DFunction:
+
+``Continuous1DFunction``
+========================
+
+.. doxygenclass:: OpenMM::Continuous1DFunction
+   :members:

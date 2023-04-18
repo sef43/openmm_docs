@@ -34,7 +34,7 @@
           <div class="body" role="main">
             
   <section id="testing-and-validation-of-openmm">
-<span id="id1"></span><h1><span class="section-number">13. </span>Testing and Validation of OpenMM<a class="headerlink" href="07_testing_validation.html#testing-and-validation-of-openmm" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1><span class="section-number">13. </span>Testing and Validation of OpenMM<a class="headerlink" href="#testing-and-validation-of-openmm" title="Permalink to this headline">¶</a></h1>
 <p>The goal of testing and validation is to make sure that OpenMM works correctly.
 That means that it runs without crashing or otherwise failing, and that it
 produces correct results.  Furthermore, it must work correctly on a variety of
@@ -58,9 +58,9 @@ by OpenMM to those computed by other programs for a collection of biomolecules.<
 <p>Each type of test is outlined in greater detail below; a discussion of the
 current status of the tests is then given.</p>
 <section id="description-of-tests">
-<h2><span class="section-number">13.1. </span>Description of Tests<a class="headerlink" href="07_testing_validation.html#description-of-tests" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">13.1. </span>Description of Tests<a class="headerlink" href="#description-of-tests" title="Permalink to this headline">¶</a></h2>
 <section id="unit-tests">
-<h3><span class="section-number">13.1.1. </span>Unit tests<a class="headerlink" href="07_testing_validation.html#unit-tests" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">13.1.1. </span>Unit tests<a class="headerlink" href="#unit-tests" title="Permalink to this headline">¶</a></h3>
 <p>The unit tests are with the source code, so if you build from source you can run
 them yourself.  See Section <a class="reference internal" href="02_compiling.html#test-your-build"><span class="std std-numref">8.1.4</span></a> for details.  When you run the tests
 (for example, by typing “make test” on Linux or Mac), it should produce output
@@ -81,7 +81,7 @@ failed, you can then run them individually (each one is a separate executable)
 to get more details on what went wrong.</p>
 </section>
 <section id="system-tests">
-<h3><span class="section-number">13.1.2. </span>System tests<a class="headerlink" href="07_testing_validation.html#system-tests" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">13.1.2. </span>System tests<a class="headerlink" href="#system-tests" title="Permalink to this headline">¶</a></h3>
 <p>Several different types of system tests are performed.  Each type is run for a
 variety of systems, including both proteins and nucleic acids, and involving
 both implicit and explicit solvent.  The full suite of tests is repeated for
@@ -120,19 +120,19 @@ tests.  Be aware that running the full test suite may take a long time (possibly
 several days) depending on the speed of your GPU.</p>
 </section>
 <section id="direct-comparisons-between-openmm-and-other-programs">
-<h3><span class="section-number">13.1.3. </span>Direct comparisons between OpenMM and other programs<a class="headerlink" href="07_testing_validation.html#direct-comparisons-between-openmm-and-other-programs" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">13.1.3. </span>Direct comparisons between OpenMM and other programs<a class="headerlink" href="#direct-comparisons-between-openmm-and-other-programs" title="Permalink to this headline">¶</a></h3>
 <p>As a final check, identical systems are set up in OpenMM and in another program
 (Gromacs 4.5 or Tinker 6.1), each one is used to compute the forces on atoms,
 and the results are directly compared to each other.</p>
 </section>
 </section>
 <section id="test-results">
-<h2><span class="section-number">13.2. </span>Test Results<a class="headerlink" href="07_testing_validation.html#test-results" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">13.2. </span>Test Results<a class="headerlink" href="#test-results" title="Permalink to this headline">¶</a></h2>
 <p>In this section, we highlight the major results obtained from the tests
 described above.  They are not exhaustive, but should give a reasonable idea of
 the level of accuracy you can expect from OpenMM.</p>
 <section id="comparison-to-reference-platform">
-<h3><span class="section-number">13.2.1. </span>Comparison to Reference Platform<a class="headerlink" href="07_testing_validation.html#comparison-to-reference-platform" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">13.2.1. </span>Comparison to Reference Platform<a class="headerlink" href="#comparison-to-reference-platform" title="Permalink to this headline">¶</a></h3>
 <p>The differences between forces computed with the Reference platform and those
 computed with the OpenCL or CUDA platform are shown in
 Table 13-1.  For every
@@ -244,7 +244,7 @@ systems was computed to give the value shown in the table.</p>
 OpenCL/CUDA platform</p>
 </section>
 <section id="energy-conservation">
-<h3><span class="section-number">13.2.2. </span>Energy Conservation<a class="headerlink" href="07_testing_validation.html#energy-conservation" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">13.2.2. </span>Energy Conservation<a class="headerlink" href="#energy-conservation" title="Permalink to this headline">¶</a></h3>
 <p>Figure 13-1 shows the total system energy versus time for three simulations of
 ubiquitin in OBC implicit solvent.  All three simulations used the CUDA
 platform, a Verlet integrator, a time step of 0.5 fs, no constraints, and no
@@ -254,7 +254,7 @@ precision that was used for calculations (see Chapter <a class="reference intern
 <img alt="../_images/EnergyDrift.png" src="../_images/EnergyDrift.png" />
 <figcaption>
 <p><span class="caption-text">Figure 13-1: Total energy versus time for simulations run in three different
-precision modes.</span><a class="headerlink" href="07_testing_validation.html#id2" title="Permalink to this image">¶</a></p>
+precision modes.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </figcaption>
 </figure>
 <p>For the mixed and double precision simulations, the drift in energy is almost
@@ -284,7 +284,7 @@ error, and the shorter the cutoff is, the greater the error will be.</p></li>
 than in the ones shown above.</p>
 </section>
 <section id="comparison-to-gromacs">
-<h3><span class="section-number">13.2.3. </span>Comparison to Gromacs<a class="headerlink" href="07_testing_validation.html#comparison-to-gromacs" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">13.2.3. </span>Comparison to Gromacs<a class="headerlink" href="#comparison-to-gromacs" title="Permalink to this headline">¶</a></h3>
 <p>OpenMM and Gromacs 4.5.5 were each used to compute the atomic forces for
 dihydrofolate reductase (DHFR) in implicit and explicit solvent.  The implicit
 solvent calculations used the OBC solvent model and no cutoff on nonbonded
@@ -394,9 +394,9 @@ force computed by Gromacs.  The median over all atoms is shown in Table 13-2.</p
 <li class="toctree-l2"><a class="reference internal" href="04_platform_specifics.html">10. Platform-Specific Properties</a></li>
 <li class="toctree-l2"><a class="reference internal" href="05_languages_not_cpp.html">11. Using OpenMM with Software Written in Languages Other than C++</a></li>
 <li class="toctree-l2"><a class="reference internal" href="06_integration_examples.html">12. Examples of OpenMM Integration</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="07_testing_validation.html#">13. Testing and Validation of OpenMM</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="07_testing_validation.html#description-of-tests">13.1. Description of Tests</a></li>
-<li class="toctree-l3"><a class="reference internal" href="07_testing_validation.html#test-results">13.2. Test Results</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">13. Testing and Validation of OpenMM</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#description-of-tests">13.1. Description of Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#test-results">13.2. Test Results</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="08_amoeba_plugin.html">14. AMOEBA Plugin</a></li>
@@ -421,19 +421,19 @@ force computed by Gromacs.  The median over all atoms is shown in Table 13-2.</p
         </li>
         
         <li class="toctree-l1">
-            <a href="http://docs.openmm.org/7.7.0/developerguide/">
+            <a href="../../developerguide/">
                 Developer Guide
             </a>
         </li>
         
         <li class="toctree-l1">
-            <a href="http://docs.openmm.org/7.7.0/api-python/">
+            <a href="../../api-python/">
                 Python API reference
             </a>
         </li>
         
         <li class="toctree-l1">
-            <a href="http://docs.openmm.org/7.7.0/api-c++/">
+            <a href="../../api-c++/">
                 C++ API reference
             </a>
         </li>

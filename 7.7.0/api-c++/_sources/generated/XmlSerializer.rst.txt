@@ -1,0 +1,7 @@
+.. _OpenMM::XmlSerializer:
+
+``XmlSerializer``
+=================
+
+.. doxygenclass:: OpenMM::XmlSerializer
+   :members:

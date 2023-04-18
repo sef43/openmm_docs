@@ -1,0 +1,7 @@
+.. _OpenMM::CustomGBForce:
+
+``CustomGBForce``
+=================
+
+.. doxygenclass:: OpenMM::CustomGBForce
+   :members:

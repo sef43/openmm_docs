@@ -1,0 +1,470 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>CustomTorsionForce &#8212; OpenMM C++ API @OPENMM_MAJOR_VERSION@.@OPENMM_MINOR_VERSION@ documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Integrators" href="../integrators.html" />
+    <link rel="prev" title="CustomNonbondedForce" href="CustomNonbondedForce.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="customtorsionforce">
+<span id="openmm-customtorsionforce"></span><h1><code class="docutils literal notranslate"><span class="pre">CustomTorsionForce</span></code><a class="headerlink" href="CustomTorsionForce.html#customtorsionforce" title="Permalink to this headline">¶</a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM18CustomTorsionForceE">
+<span id="_CPPv3N6OpenMM18CustomTorsionForceE"></span><span id="_CPPv2N6OpenMM18CustomTorsionForceE"></span><span id="OpenMM::CustomTorsionForce"></span><span class="target" id="classOpenMM_1_1CustomTorsionForce"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">OpenMM</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">CustomTorsionForce</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">OpenMM</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="Force.html#_CPPv4N6OpenMM5ForceE" title="OpenMM::Force"><span class="n"><span class="pre">Force</span></span></a><a class="headerlink" href="CustomTorsionForce.html#_CPPv4N6OpenMM18CustomTorsionForceE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This class implements interactions between sets of four particles that depend on the torsion angle between them. Unlike <a class="reference internal" href="PeriodicTorsionForce.html#classOpenMM_1_1PeriodicTorsionForce"><span class="std std-ref">PeriodicTorsionForce</span></a>, the functional form of the interaction is completely customizable, and may involve arbitrary algebraic expressions. In addition to the angle formed by the particles, it may depend on arbitrary global and per-torsion parameters.</p>
+<p>To use this class, create a <a class="reference internal" href="CustomTorsionForce.html#classOpenMM_1_1CustomTorsionForce"><span class="std std-ref">CustomTorsionForce</span></a> object, passing an algebraic expression to the constructor that defines the interaction energy between each set of particles. The expression may depend on theta, the torsion angle formed by the particles, as well as on any parameters you choose. Then call <a class="reference internal" href="CustomTorsionForce.html#classOpenMM_1_1CustomTorsionForce_1a0826fdaf2b589c32d2c59dac8b7a185d"><span class="std std-ref">addPerTorsionParameter()</span></a> to define per-torsion parameters, and <a class="reference internal" href="CustomTorsionForce.html#classOpenMM_1_1CustomTorsionForce_1a5889bc97d40723e649e5de789e28357f"><span class="std std-ref">addGlobalParameter()</span></a> to define global parameters. The values of per-torsion parameters are specified as part of the system definition, while values of global parameters may be modified during a simulation by calling <a class="reference internal" href="Context.html#classOpenMM_1_1Context_1a368b7f53ee35bb151ee686441b7900af"><span class="std std-ref">Context::setParameter()</span></a>. Finally, call <a class="reference internal" href="CustomTorsionForce.html#classOpenMM_1_1CustomTorsionForce_1a8b03205d61eb881cd187cf30c6d74bd1"><span class="std std-ref">addTorsion()</span></a> once for each torsion. After an torsion has been added, you can modify its parameters by calling <a class="reference internal" href="CustomTorsionForce.html#classOpenMM_1_1CustomTorsionForce_1afbe64091afd609c4ed8d4f7d57a7972e"><span class="std std-ref">setTorsionParameters()</span></a>. This will have no effect on Contexts that already exist unless you call <a class="reference internal" href="CustomTorsionForce.html#classOpenMM_1_1CustomTorsionForce_1a174e2da0108cace605b0b2014f368f5c"><span class="std std-ref">updateParametersInContext()</span></a>. Note that theta is guaranteed to be in the range [-pi,+pi], which may cause issues with force discontinuities if the energy function does not respect this domain.</p>
+<p>As an example, the following code creates a <a class="reference internal" href="CustomTorsionForce.html#classOpenMM_1_1CustomTorsionForce"><span class="std std-ref">CustomTorsionForce</span></a> that implements a periodic potential:</p>
+<p><p><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">CustomTorsionForce</span><span class="o">*</span><span class="w"> </span><span class="n">force</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">CustomTorsionForce</span><span class="p">(</span><span class="s">&quot;0.5*k*(1-cos(theta-theta0))&quot;</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</p>
+</p>
+<p>This force depends on two parameters: the spring constant k and equilibrium angle theta0. The following code defines these parameters:</p>
+<p><p><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">force</span><span class="o">-&gt;</span><span class="n">addPerTorsionParameter</span><span class="p">(</span><span class="s">&quot;k&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="n">force</span><span class="o">-&gt;</span><span class="n">addPerTorsionParameter</span><span class="p">(</span><span class="s">&quot;theta0&quot;</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</p>
+</p>
+<p>If a harmonic restraint is desired, it is important to be careful of the domain for theta, using an idiom like this:</p>
+<p><p><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">CustomTorsionForce</span><span class="o">*</span><span class="w"> </span><span class="n">force</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">CustomTorsionForce</span><span class="p">(</span><span class="s">&quot;0.5*k*min(dtheta, 2*pi-dtheta)^2; dtheta = abs(theta-theta0); pi = 3.1415926535&quot;</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</p>
+</p>
+<p>This class also has the ability to compute derivatives of the potential energy with respect to global parameters. Call <a class="reference internal" href="CustomTorsionForce.html#classOpenMM_1_1CustomTorsionForce_1a11a693e1c070361da354ad718f10af44"><span class="std std-ref">addEnergyParameterDerivative()</span></a> to request that the derivative with respect to a particular parameter be computed. You can then query its value in a <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a> by calling getState() on it.</p>
+<p>Expressions may involve the operators + (add), - (subtract), * (multiply), / (divide), and ^ (power), and the following functions: sqrt, exp, log, sin, cos, sec, csc, tan, cot, asin, acos, atan, atan2, sinh, cosh, tanh, erf, erfc, min, max, abs, floor, ceil, step, delta, select. All trigonometric functions are defined in radians, and log is the natural logarithm. step(x) = 0 if x is less than 0, 1 otherwise. delta(x) = 1 if x is 0, 0 otherwise. select(x,y,z) = z if x = 0, y otherwise. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM18CustomTorsionForce18CustomTorsionForceERKNSt6stringE">
+<span id="_CPPv3N6OpenMM18CustomTorsionForce18CustomTorsionForceERKNSt6stringE"></span><span id="_CPPv2N6OpenMM18CustomTorsionForce18CustomTorsionForceERKNSt6stringE"></span><span id="OpenMM::CustomTorsionForce::CustomTorsionForce__ssCR"></span><span class="target" id="classOpenMM_1_1CustomTorsionForce_1ae425ffc435303213c75435c2611850f3"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CustomTorsionForce</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">energy</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomTorsionForce.html#_CPPv4N6OpenMM18CustomTorsionForce18CustomTorsionForceERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a <a class="reference internal" href="CustomTorsionForce.html#classOpenMM_1_1CustomTorsionForce"><span class="std std-ref">CustomTorsionForce</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>energy</strong> – an algebraic expression giving the interaction energy between three particles as a function of theta, the torsion angle between them </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM18CustomTorsionForce14getNumTorsionsEv">
+<span id="_CPPv3NK6OpenMM18CustomTorsionForce14getNumTorsionsEv"></span><span id="_CPPv2NK6OpenMM18CustomTorsionForce14getNumTorsionsEv"></span><span id="OpenMM::CustomTorsionForce::getNumTorsionsC"></span><span class="target" id="classOpenMM_1_1CustomTorsionForce_1a3111c3d8a9dd09161c5a4a2128781f19"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getNumTorsions</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomTorsionForce.html#_CPPv4NK6OpenMM18CustomTorsionForce14getNumTorsionsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the number of torsions for which force field parameters have been defined. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM18CustomTorsionForce26getNumPerTorsionParametersEv">
+<span id="_CPPv3NK6OpenMM18CustomTorsionForce26getNumPerTorsionParametersEv"></span><span id="_CPPv2NK6OpenMM18CustomTorsionForce26getNumPerTorsionParametersEv"></span><span id="OpenMM::CustomTorsionForce::getNumPerTorsionParametersC"></span><span class="target" id="classOpenMM_1_1CustomTorsionForce_1a64101e4ea5414e7ae18c3a0d86d9a434"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getNumPerTorsionParameters</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomTorsionForce.html#_CPPv4NK6OpenMM18CustomTorsionForce26getNumPerTorsionParametersEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the number of per-torsion parameters that the interaction depends on. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM18CustomTorsionForce22getNumGlobalParametersEv">
+<span id="_CPPv3NK6OpenMM18CustomTorsionForce22getNumGlobalParametersEv"></span><span id="_CPPv2NK6OpenMM18CustomTorsionForce22getNumGlobalParametersEv"></span><span id="OpenMM::CustomTorsionForce::getNumGlobalParametersC"></span><span class="target" id="classOpenMM_1_1CustomTorsionForce_1ab896a9b7f8e77915f20d004c161ad2a3"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getNumGlobalParameters</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomTorsionForce.html#_CPPv4NK6OpenMM18CustomTorsionForce22getNumGlobalParametersEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the number of global parameters that the interaction depends on. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM18CustomTorsionForce32getNumEnergyParameterDerivativesEv">
+<span id="_CPPv3NK6OpenMM18CustomTorsionForce32getNumEnergyParameterDerivativesEv"></span><span id="_CPPv2NK6OpenMM18CustomTorsionForce32getNumEnergyParameterDerivativesEv"></span><span id="OpenMM::CustomTorsionForce::getNumEnergyParameterDerivativesC"></span><span class="target" id="classOpenMM_1_1CustomTorsionForce_1a8c5595735a55bfa1add3a61c248bb02e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getNumEnergyParameterDerivatives</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomTorsionForce.html#_CPPv4NK6OpenMM18CustomTorsionForce32getNumEnergyParameterDerivativesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the number of global parameters with respect to which the derivative of the energy should be computed. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM18CustomTorsionForce17getEnergyFunctionEv">
+<span id="_CPPv3NK6OpenMM18CustomTorsionForce17getEnergyFunctionEv"></span><span id="_CPPv2NK6OpenMM18CustomTorsionForce17getEnergyFunctionEv"></span><span id="OpenMM::CustomTorsionForce::getEnergyFunctionC"></span><span class="target" id="classOpenMM_1_1CustomTorsionForce_1a3f1e30de6960ee5a6e0a64d2abd04f75"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getEnergyFunction</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomTorsionForce.html#_CPPv4NK6OpenMM18CustomTorsionForce17getEnergyFunctionEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the algebraic expression that gives the interaction energy for each torsion </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM18CustomTorsionForce17setEnergyFunctionERKNSt6stringE">
+<span id="_CPPv3N6OpenMM18CustomTorsionForce17setEnergyFunctionERKNSt6stringE"></span><span id="_CPPv2N6OpenMM18CustomTorsionForce17setEnergyFunctionERKNSt6stringE"></span><span id="OpenMM::CustomTorsionForce::setEnergyFunction__ssCR"></span><span class="target" id="classOpenMM_1_1CustomTorsionForce_1afa3802d29ab4d1e96663846509e43031"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setEnergyFunction</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">energy</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomTorsionForce.html#_CPPv4N6OpenMM18CustomTorsionForce17setEnergyFunctionERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the algebraic expression that gives the interaction energy for each torsion </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM18CustomTorsionForce22addPerTorsionParameterERKNSt6stringE">
+<span id="_CPPv3N6OpenMM18CustomTorsionForce22addPerTorsionParameterERKNSt6stringE"></span><span id="_CPPv2N6OpenMM18CustomTorsionForce22addPerTorsionParameterERKNSt6stringE"></span><span id="OpenMM::CustomTorsionForce::addPerTorsionParameter__ssCR"></span><span class="target" id="classOpenMM_1_1CustomTorsionForce_1a0826fdaf2b589c32d2c59dac8b7a185d"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addPerTorsionParameter</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomTorsionForce.html#_CPPv4N6OpenMM18CustomTorsionForce22addPerTorsionParameterERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a new per-torsion parameter that the interaction may depend on.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> – the name of the parameter </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the index of the parameter that was added </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM18CustomTorsionForce26getPerTorsionParameterNameEi">
+<span id="_CPPv3NK6OpenMM18CustomTorsionForce26getPerTorsionParameterNameEi"></span><span id="_CPPv2NK6OpenMM18CustomTorsionForce26getPerTorsionParameterNameEi"></span><span id="OpenMM::CustomTorsionForce::getPerTorsionParameterName__iC"></span><span class="target" id="classOpenMM_1_1CustomTorsionForce_1aac4f8c06ea0cd31d4d3f5fc9e4cc19d4"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getPerTorsionParameterName</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomTorsionForce.html#_CPPv4NK6OpenMM18CustomTorsionForce26getPerTorsionParameterNameEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the name of a per-torsion parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – the index of the parameter for which to get the name </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the parameter name </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM18CustomTorsionForce26setPerTorsionParameterNameEiRKNSt6stringE">
+<span id="_CPPv3N6OpenMM18CustomTorsionForce26setPerTorsionParameterNameEiRKNSt6stringE"></span><span id="_CPPv2N6OpenMM18CustomTorsionForce26setPerTorsionParameterNameEiRKNSt6stringE"></span><span id="OpenMM::CustomTorsionForce::setPerTorsionParameterName__i.ssCR"></span><span class="target" id="classOpenMM_1_1CustomTorsionForce_1a1ae872eae7405d728fadbb39bfb38d6f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setPerTorsionParameterName</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomTorsionForce.html#_CPPv4N6OpenMM18CustomTorsionForce26setPerTorsionParameterNameEiRKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the name of a per-torsion parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – the index of the parameter for which to set the name </p></li>
+<li><p><strong>name</strong> – the name of the parameter </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM18CustomTorsionForce18addGlobalParameterERKNSt6stringEd">
+<span id="_CPPv3N6OpenMM18CustomTorsionForce18addGlobalParameterERKNSt6stringEd"></span><span id="_CPPv2N6OpenMM18CustomTorsionForce18addGlobalParameterERKNSt6stringEd"></span><span id="OpenMM::CustomTorsionForce::addGlobalParameter__ssCR.double"></span><span class="target" id="classOpenMM_1_1CustomTorsionForce_1a5889bc97d40723e649e5de789e28357f"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addGlobalParameter</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">defaultValue</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomTorsionForce.html#_CPPv4N6OpenMM18CustomTorsionForce18addGlobalParameterERKNSt6stringEd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a new global parameter that the interaction may depend on. The default value provided to this method is the initial value of the parameter in newly created Contexts. You can change the value at any time by calling setParameter() on the <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – the name of the parameter </p></li>
+<li><p><strong>defaultValue</strong> – the default value of the parameter </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the index of the parameter that was added </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM18CustomTorsionForce22getGlobalParameterNameEi">
+<span id="_CPPv3NK6OpenMM18CustomTorsionForce22getGlobalParameterNameEi"></span><span id="_CPPv2NK6OpenMM18CustomTorsionForce22getGlobalParameterNameEi"></span><span id="OpenMM::CustomTorsionForce::getGlobalParameterName__iC"></span><span class="target" id="classOpenMM_1_1CustomTorsionForce_1aa6100775ea1c15476ed111f971931923"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getGlobalParameterName</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomTorsionForce.html#_CPPv4NK6OpenMM18CustomTorsionForce22getGlobalParameterNameEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the name of a global parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – the index of the parameter for which to get the name </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the parameter name </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM18CustomTorsionForce22setGlobalParameterNameEiRKNSt6stringE">
+<span id="_CPPv3N6OpenMM18CustomTorsionForce22setGlobalParameterNameEiRKNSt6stringE"></span><span id="_CPPv2N6OpenMM18CustomTorsionForce22setGlobalParameterNameEiRKNSt6stringE"></span><span id="OpenMM::CustomTorsionForce::setGlobalParameterName__i.ssCR"></span><span class="target" id="classOpenMM_1_1CustomTorsionForce_1a0f7728a3a7de3e5d6ff79cd3b0856e20"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setGlobalParameterName</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomTorsionForce.html#_CPPv4N6OpenMM18CustomTorsionForce22setGlobalParameterNameEiRKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the name of a global parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – the index of the parameter for which to set the name </p></li>
+<li><p><strong>name</strong> – the name of the parameter </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM18CustomTorsionForce30getGlobalParameterDefaultValueEi">
+<span id="_CPPv3NK6OpenMM18CustomTorsionForce30getGlobalParameterDefaultValueEi"></span><span id="_CPPv2NK6OpenMM18CustomTorsionForce30getGlobalParameterDefaultValueEi"></span><span id="OpenMM::CustomTorsionForce::getGlobalParameterDefaultValue__iC"></span><span class="target" id="classOpenMM_1_1CustomTorsionForce_1af7a2c483640ff98dbcab38c94176b5f4"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getGlobalParameterDefaultValue</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomTorsionForce.html#_CPPv4NK6OpenMM18CustomTorsionForce30getGlobalParameterDefaultValueEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the default value of a global parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – the index of the parameter for which to get the default value </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the parameter default value </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM18CustomTorsionForce30setGlobalParameterDefaultValueEid">
+<span id="_CPPv3N6OpenMM18CustomTorsionForce30setGlobalParameterDefaultValueEid"></span><span id="_CPPv2N6OpenMM18CustomTorsionForce30setGlobalParameterDefaultValueEid"></span><span id="OpenMM::CustomTorsionForce::setGlobalParameterDefaultValue__i.double"></span><span class="target" id="classOpenMM_1_1CustomTorsionForce_1a78f22e87f4b432343dabb0361e1fc77a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setGlobalParameterDefaultValue</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">defaultValue</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomTorsionForce.html#_CPPv4N6OpenMM18CustomTorsionForce30setGlobalParameterDefaultValueEid" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the default value of a global parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – the index of the parameter for which to set the default value </p></li>
+<li><p><strong>defaultValue</strong> – the default value of the parameter </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM18CustomTorsionForce28addEnergyParameterDerivativeERKNSt6stringE">
+<span id="_CPPv3N6OpenMM18CustomTorsionForce28addEnergyParameterDerivativeERKNSt6stringE"></span><span id="_CPPv2N6OpenMM18CustomTorsionForce28addEnergyParameterDerivativeERKNSt6stringE"></span><span id="OpenMM::CustomTorsionForce::addEnergyParameterDerivative__ssCR"></span><span class="target" id="classOpenMM_1_1CustomTorsionForce_1a11a693e1c070361da354ad718f10af44"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addEnergyParameterDerivative</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomTorsionForce.html#_CPPv4N6OpenMM18CustomTorsionForce28addEnergyParameterDerivativeERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Request that this <a class="reference internal" href="Force.html#classOpenMM_1_1Force"><span class="std std-ref">Force</span></a> compute the derivative of its energy with respect to a global parameter. The parameter must have already been added with <a class="reference internal" href="CustomTorsionForce.html#classOpenMM_1_1CustomTorsionForce_1a5889bc97d40723e649e5de789e28357f"><span class="std std-ref">addGlobalParameter()</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> – the name of the parameter </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM18CustomTorsionForce32getEnergyParameterDerivativeNameEi">
+<span id="_CPPv3NK6OpenMM18CustomTorsionForce32getEnergyParameterDerivativeNameEi"></span><span id="_CPPv2NK6OpenMM18CustomTorsionForce32getEnergyParameterDerivativeNameEi"></span><span id="OpenMM::CustomTorsionForce::getEnergyParameterDerivativeName__iC"></span><span class="target" id="classOpenMM_1_1CustomTorsionForce_1ad9804fbb14b1e6ddbef57c49670450aa"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getEnergyParameterDerivativeName</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomTorsionForce.html#_CPPv4NK6OpenMM18CustomTorsionForce32getEnergyParameterDerivativeNameEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the name of a global parameter with respect to which this <a class="reference internal" href="Force.html#classOpenMM_1_1Force"><span class="std std-ref">Force</span></a> should compute the derivative of the energy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – the index of the parameter derivative, between 0 and <a class="reference internal" href="CustomTorsionForce.html#classOpenMM_1_1CustomTorsionForce_1a8c5595735a55bfa1add3a61c248bb02e"><span class="std std-ref">getNumEnergyParameterDerivatives()</span></a> </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the parameter name </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM18CustomTorsionForce10addTorsionEiiiiRKNSt6vectorIdEE">
+<span id="_CPPv3N6OpenMM18CustomTorsionForce10addTorsionEiiiiRKNSt6vectorIdEE"></span><span id="_CPPv2N6OpenMM18CustomTorsionForce10addTorsionEiiiiRKNSt6vectorIdEE"></span><span id="OpenMM::CustomTorsionForce::addTorsion__i.i.i.i.std::vector:double:CR"></span><span class="target" id="classOpenMM_1_1CustomTorsionForce_1a8b03205d61eb881cd187cf30c6d74bd1"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addTorsion</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle1</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle2</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle3</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle4</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">parameters</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomTorsionForce.html#_CPPv4N6OpenMM18CustomTorsionForce10addTorsionEiiiiRKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a torsion term to the force field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>particle1</strong> – the index of the first particle connected by the torsion </p></li>
+<li><p><strong>particle2</strong> – the index of the second particle connected by the torsion </p></li>
+<li><p><strong>particle3</strong> – the index of the third particle connected by the torsion </p></li>
+<li><p><strong>particle4</strong> – the index of the fourth particle connected by the torsion </p></li>
+<li><p><strong>parameters</strong> – the list of parameters for the new torsion </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the index of the torsion that was added </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM18CustomTorsionForce20getTorsionParametersEiRiRiRiRiRNSt6vectorIdEE">
+<span id="_CPPv3NK6OpenMM18CustomTorsionForce20getTorsionParametersEiRiRiRiRiRNSt6vectorIdEE"></span><span id="_CPPv2NK6OpenMM18CustomTorsionForce20getTorsionParametersEiRiRiRiRiRNSt6vectorIdEE"></span><span id="OpenMM::CustomTorsionForce::getTorsionParameters__i.iR.iR.iR.iR.std::vector:double:RC"></span><span class="target" id="classOpenMM_1_1CustomTorsionForce_1a511fd850c1cd057f16de76bfa23be44a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getTorsionParameters</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">particle1</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">particle2</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">particle3</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">particle4</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">parameters</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomTorsionForce.html#_CPPv4NK6OpenMM18CustomTorsionForce20getTorsionParametersEiRiRiRiRiRNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the force field parameters for a torsion term.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – the index of the torsion for which to get parameters </p></li>
+<li><p><strong>particle1</strong> – <strong>[out]</strong> the index of the first particle connected by the torsion </p></li>
+<li><p><strong>particle2</strong> – <strong>[out]</strong> the index of the second particle connected by the torsion </p></li>
+<li><p><strong>particle3</strong> – <strong>[out]</strong> the index of the third particle connected by the torsion </p></li>
+<li><p><strong>particle4</strong> – <strong>[out]</strong> the index of the fourth particle connected by the torsion </p></li>
+<li><p><strong>parameters</strong> – <strong>[out]</strong> the list of parameters for the torsion </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM18CustomTorsionForce20setTorsionParametersEiiiiiRKNSt6vectorIdEE">
+<span id="_CPPv3N6OpenMM18CustomTorsionForce20setTorsionParametersEiiiiiRKNSt6vectorIdEE"></span><span id="_CPPv2N6OpenMM18CustomTorsionForce20setTorsionParametersEiiiiiRKNSt6vectorIdEE"></span><span id="OpenMM::CustomTorsionForce::setTorsionParameters__i.i.i.i.i.std::vector:double:CR"></span><span class="target" id="classOpenMM_1_1CustomTorsionForce_1afbe64091afd609c4ed8d4f7d57a7972e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setTorsionParameters</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle1</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle2</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle3</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">particle4</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">parameters</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomTorsionForce.html#_CPPv4N6OpenMM18CustomTorsionForce20setTorsionParametersEiiiiiRKNSt6vectorIdEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the force field parameters for a torsion term.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – the index of the torsion for which to set parameters </p></li>
+<li><p><strong>particle1</strong> – the index of the first particle connected by the torsion </p></li>
+<li><p><strong>particle2</strong> – the index of the second particle connected by the torsion </p></li>
+<li><p><strong>particle3</strong> – the index of the third particle connected by the torsion </p></li>
+<li><p><strong>particle4</strong> – the index of the fourth particle connected by the torsion </p></li>
+<li><p><strong>parameters</strong> – the list of parameters for the torsion </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM18CustomTorsionForce25updateParametersInContextER7Context">
+<span id="_CPPv3N6OpenMM18CustomTorsionForce25updateParametersInContextER7Context"></span><span id="_CPPv2N6OpenMM18CustomTorsionForce25updateParametersInContextER7Context"></span><span id="OpenMM::CustomTorsionForce::updateParametersInContext__ContextR"></span><span class="target" id="classOpenMM_1_1CustomTorsionForce_1a174e2da0108cace605b0b2014f368f5c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">updateParametersInContext</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="Context.html#_CPPv4N6OpenMM7ContextE" title="OpenMM::Context"><span class="n"><span class="pre">Context</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">context</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomTorsionForce.html#_CPPv4N6OpenMM18CustomTorsionForce25updateParametersInContextER7Context" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Update the per-torsion parameters in a <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a> to match those stored in this <a class="reference internal" href="Force.html#classOpenMM_1_1Force"><span class="std std-ref">Force</span></a> object. This method provides an efficient method to update certain parameters in an existing <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a> without needing to reinitialize it. Simply call <a class="reference internal" href="CustomTorsionForce.html#classOpenMM_1_1CustomTorsionForce_1afbe64091afd609c4ed8d4f7d57a7972e"><span class="std std-ref">setTorsionParameters()</span></a> to modify this object’s parameters, then call <a class="reference internal" href="CustomTorsionForce.html#classOpenMM_1_1CustomTorsionForce_1a174e2da0108cace605b0b2014f368f5c"><span class="std std-ref">updateParametersInContext()</span></a> to copy them over to the <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a>.</p>
+<p>This method has several limitations. The only information it updates is the values of per-torsion parameters. All other aspects of the <a class="reference internal" href="Force.html#classOpenMM_1_1Force"><span class="std std-ref">Force</span></a> (such as the energy function) are unaffected and can only be changed by reinitializing the <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a>. The set of particles involved in a torsion cannot be changed, nor can new torsions be added. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM18CustomTorsionForce33setUsesPeriodicBoundaryConditionsEb">
+<span id="_CPPv3N6OpenMM18CustomTorsionForce33setUsesPeriodicBoundaryConditionsEb"></span><span id="_CPPv2N6OpenMM18CustomTorsionForce33setUsesPeriodicBoundaryConditionsEb"></span><span id="OpenMM::CustomTorsionForce::setUsesPeriodicBoundaryConditions__b"></span><span class="target" id="classOpenMM_1_1CustomTorsionForce_1a45a78dd567f13f430a1904813622d2c0"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setUsesPeriodicBoundaryConditions</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">periodic</span></span><span class="sig-paren">)</span><a class="headerlink" href="CustomTorsionForce.html#_CPPv4N6OpenMM18CustomTorsionForce33setUsesPeriodicBoundaryConditionsEb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set whether this force should apply periodic boundary conditions when calculating displacements. Usually this is not appropriate for bonded forces, but there are situations when it can be useful. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM18CustomTorsionForce30usesPeriodicBoundaryConditionsEv">
+<span id="_CPPv3NK6OpenMM18CustomTorsionForce30usesPeriodicBoundaryConditionsEv"></span><span id="_CPPv2NK6OpenMM18CustomTorsionForce30usesPeriodicBoundaryConditionsEv"></span><span id="OpenMM::CustomTorsionForce::usesPeriodicBoundaryConditionsC"></span><span class="target" id="classOpenMM_1_1CustomTorsionForce_1ab7bf2feaff78468615e3c2b27659a1b2"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">usesPeriodicBoundaryConditions</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="CustomTorsionForce.html#_CPPv4NK6OpenMM18CustomTorsionForce30usesPeriodicBoundaryConditionsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Returns whether or not this force makes use of periodic boundary conditions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>true if force uses PBC and false otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="CustomNonbondedForce.html" title="Previous document"><code class="docutils literal notranslate"><span class="pre">CustomNonbondedForce</span></code></a>
+        </li>
+        <li>
+          <a href="../integrators.html" title="Next document">Integrators</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM C++ API</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="System.html"><code class="docutils literal notranslate"><span class="pre">System</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Context.html"><code class="docutils literal notranslate"><span class="pre">Context</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="State.html"><code class="docutils literal notranslate"><span class="pre">State</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Platform.html"><code class="docutils literal notranslate"><span class="pre">Platform</span></code></a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../forces.html">Forces</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../forces.html#the-force-abstract-class">The <code class="docutils literal notranslate"><span class="pre">Force</span></code> abstract class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forces.html#common-bonded-and-non-bonded-forces">Common bonded and non-bonded forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forces.html#amoeba-forces">AMOEBA forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forces.html#pseudo-forces">Pseudo-forces</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../forces.html#customizing-force">Customizing <code class="docutils literal notranslate"><span class="pre">Force</span></code></a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../integrators.html">Integrators</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../extras.html">Extra classes</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../userguide/index.html">
+                User's Manual
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../developerguide">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../api-python/index.html">
+                Python API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Stanford University and the Authors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/generated/CustomTorsionForce.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

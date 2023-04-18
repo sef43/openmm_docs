@@ -1,0 +1,7 @@
+.. _OpenMM::BrownianIntegrator:
+
+``BrownianIntegrator``
+======================
+
+.. doxygenclass:: OpenMM::BrownianIntegrator
+   :members:

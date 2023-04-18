@@ -1,0 +1,7 @@
+.. _OpenMM::MonteCarloMembraneBarostat:
+
+``MonteCarloMembraneBarostat``
+==============================
+
+.. doxygenclass:: OpenMM::MonteCarloMembraneBarostat
+   :members:

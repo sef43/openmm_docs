@@ -1,0 +1,40 @@
+﻿CompoundIntegrator
+================================
+
+.. currentmodule:: openmm.openmm
+
+.. autoclass:: CompoundIntegrator
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~CompoundIntegrator.__init__
+      ~CompoundIntegrator.addIntegrator
+      ~CompoundIntegrator.getConstraintTolerance
+      ~CompoundIntegrator.getCurrentIntegrator
+      ~CompoundIntegrator.getIntegrationForceGroups
+      ~CompoundIntegrator.getIntegrator
+      ~CompoundIntegrator.getNumIntegrators
+      ~CompoundIntegrator.getStepSize
+      ~CompoundIntegrator.setConstraintTolerance
+      ~CompoundIntegrator.setCurrentIntegrator
+      ~CompoundIntegrator.setIntegrationForceGroups
+      ~CompoundIntegrator.setStepSize
+      ~CompoundIntegrator.step
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CompoundIntegrator.thisown
+   
+   

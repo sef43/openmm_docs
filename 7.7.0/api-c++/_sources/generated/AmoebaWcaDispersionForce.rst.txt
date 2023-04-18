@@ -1,0 +1,7 @@
+.. _OpenMM::AmoebaWcaDispersionForce:
+
+``AmoebaWcaDispersionForce``
+============================
+
+.. doxygenclass:: OpenMM::AmoebaWcaDispersionForce
+   :members:

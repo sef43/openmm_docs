@@ -1,0 +1,22 @@
+﻿BiasVariable
+====================================
+
+.. currentmodule:: openmm.app.metadynamics
+
+.. autoclass:: BiasVariable
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~BiasVariable.__init__
+   
+   
+
+   
+   
+   

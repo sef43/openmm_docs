@@ -1,0 +1,7 @@
+.. _OpenMM::VariableVerletIntegrator:
+
+``VariableVerletIntegrator``
+============================
+
+.. doxygenclass:: OpenMM::VariableVerletIntegrator
+   :members:

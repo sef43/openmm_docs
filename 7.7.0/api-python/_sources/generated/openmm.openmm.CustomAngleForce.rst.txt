@@ -1,0 +1,54 @@
+﻿CustomAngleForce
+==============================
+
+.. currentmodule:: openmm.openmm
+
+.. autoclass:: CustomAngleForce
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~CustomAngleForce.__init__
+      ~CustomAngleForce.addAngle
+      ~CustomAngleForce.addEnergyParameterDerivative
+      ~CustomAngleForce.addGlobalParameter
+      ~CustomAngleForce.addPerAngleParameter
+      ~CustomAngleForce.getAngleParameters
+      ~CustomAngleForce.getEnergyFunction
+      ~CustomAngleForce.getEnergyParameterDerivativeName
+      ~CustomAngleForce.getForceGroup
+      ~CustomAngleForce.getGlobalParameterDefaultValue
+      ~CustomAngleForce.getGlobalParameterName
+      ~CustomAngleForce.getName
+      ~CustomAngleForce.getNumAngles
+      ~CustomAngleForce.getNumEnergyParameterDerivatives
+      ~CustomAngleForce.getNumGlobalParameters
+      ~CustomAngleForce.getNumPerAngleParameters
+      ~CustomAngleForce.getPerAngleParameterName
+      ~CustomAngleForce.setAngleParameters
+      ~CustomAngleForce.setEnergyFunction
+      ~CustomAngleForce.setForceGroup
+      ~CustomAngleForce.setGlobalParameterDefaultValue
+      ~CustomAngleForce.setGlobalParameterName
+      ~CustomAngleForce.setName
+      ~CustomAngleForce.setPerAngleParameterName
+      ~CustomAngleForce.setUsesPeriodicBoundaryConditions
+      ~CustomAngleForce.updateParametersInContext
+      ~CustomAngleForce.usesPeriodicBoundaryConditions
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CustomAngleForce.thisown
+   
+   

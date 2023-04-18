@@ -1,0 +1,7 @@
+.. _OpenMM::LangevinMiddleIntegrator:
+
+``LangevinMiddleIntegrator``
+============================
+
+.. doxygenclass:: OpenMM::LangevinMiddleIntegrator
+   :members:

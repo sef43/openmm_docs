@@ -1,0 +1,7 @@
+.. _OpenMM::DrudeIntegrator:
+
+``DrudeIntegrator``
+===================
+
+.. doxygenclass:: OpenMM::DrudeIntegrator
+   :members:

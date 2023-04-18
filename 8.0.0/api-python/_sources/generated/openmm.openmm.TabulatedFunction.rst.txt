@@ -1,0 +1,31 @@
+﻿TabulatedFunction
+===============================
+
+.. currentmodule:: openmm.openmm
+
+.. autoclass:: TabulatedFunction
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~TabulatedFunction.Copy
+      ~TabulatedFunction.__init__
+      ~TabulatedFunction.getPeriodic
+      ~TabulatedFunction.getUpdateCount
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~TabulatedFunction.thisown
+   
+   

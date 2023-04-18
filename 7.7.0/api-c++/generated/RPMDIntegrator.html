@@ -1,0 +1,359 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>RPMDIntegrator &#8212; OpenMM C++ API @OPENMM_MAJOR_VERSION@.@OPENMM_MINOR_VERSION@ documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CustomIntegrator" href="CustomIntegrator.html" />
+    <link rel="prev" title="DrudeSCFIntegrator" href="DrudeSCFIntegrator.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="rpmdintegrator">
+<span id="openmm-rpmdintegrator"></span><h1><code class="docutils literal notranslate"><span class="pre">RPMDIntegrator</span></code><a class="headerlink" href="RPMDIntegrator.html#rpmdintegrator" title="Permalink to this headline">¶</a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM14RPMDIntegratorE">
+<span id="_CPPv3N6OpenMM14RPMDIntegratorE"></span><span id="_CPPv2N6OpenMM14RPMDIntegratorE"></span><span id="OpenMM::RPMDIntegrator"></span><span class="target" id="classOpenMM_1_1RPMDIntegrator"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">OpenMM</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">RPMDIntegrator</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">OpenMM</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="Integrator.html#_CPPv4N6OpenMM10IntegratorE" title="OpenMM::Integrator"><span class="n"><span class="pre">Integrator</span></span></a><a class="headerlink" href="RPMDIntegrator.html#_CPPv4N6OpenMM14RPMDIntegratorE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This is an <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a> which simulates a <a class="reference internal" href="System.html#classOpenMM_1_1System"><span class="std std-ref">System</span></a> using ring polymer molecular dynamics (RPMD). It simulates many copies of the <a class="reference internal" href="System.html#classOpenMM_1_1System"><span class="std std-ref">System</span></a>, with successive copies connected by harmonic springs to form a ring. This allows certain quantum mechanical effects to be efficiently simulated.</p>
+<p>By default this <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a> applies a PILE thermostat to the system to simulate constant temperature dynamics. You can disable the thermostat by calling setApplyThermostat(false).</p>
+<p>Because this <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a> simulates many copies of the <a class="reference internal" href="System.html#classOpenMM_1_1System"><span class="std std-ref">System</span></a> at once, it must be used differently from other Integrators. Instead of setting positions and velocities by calling methods of the <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a>, you should use the corresponding methods of the <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a> to set them for specific copies of the <a class="reference internal" href="System.html#classOpenMM_1_1System"><span class="std std-ref">System</span></a>. Similarly, you should retrieve state information for particular copies by calling <a class="reference internal" href="RPMDIntegrator.html#classOpenMM_1_1RPMDIntegrator_1aea0e59c256ba1d3cbf5e031d2466bd13"><span class="std std-ref">getState()</span></a> on the <a class="reference internal" href="Integrator.html#classOpenMM_1_1Integrator"><span class="std std-ref">Integrator</span></a>. Do not query the <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a> for state information.</p>
+<p>You can optionally specify a set of “ring polymer contractions”, by which different force groups are evaluated on different numbers of copies, instead of computing every force on every copy. This can be much more efficient, since different forces may vary widely in how many times they must be evaluated to produce sufficient accuracy. For example, you might simulate a 32 copy ring polymer and evaluate bonded forces on every copy, but contract it down to only 6 copies for computing nonbonded interactions, and down to only a single copy (the centroid) for computing the reciprocal space part of PME. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM14RPMDIntegrator14RPMDIntegratorEiddd">
+<span id="_CPPv3N6OpenMM14RPMDIntegrator14RPMDIntegratorEiddd"></span><span id="_CPPv2N6OpenMM14RPMDIntegrator14RPMDIntegratorEiddd"></span><span id="OpenMM::RPMDIntegrator::RPMDIntegrator__i.double.double.double"></span><span class="target" id="classOpenMM_1_1RPMDIntegrator_1a2fab5e330f9d1c16241d98878aaba342"></span><span class="sig-name descname"><span class="n"><span class="pre">RPMDIntegrator</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">numCopies</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">temperature</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">frictionCoeff</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">stepSize</span></span><span class="sig-paren">)</span><a class="headerlink" href="RPMDIntegrator.html#_CPPv4N6OpenMM14RPMDIntegrator14RPMDIntegratorEiddd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a <a class="reference internal" href="RPMDIntegrator.html#classOpenMM_1_1RPMDIntegrator"><span class="std std-ref">RPMDIntegrator</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>numCopies</strong> – the number of copies of the system that should be simulated </p></li>
+<li><p><strong>temperature</strong> – the temperature of the heat bath (in Kelvin) </p></li>
+<li><p><strong>frictionCoeff</strong> – the friction coefficient which couples the system to the heat bath (in inverse picoseconds) </p></li>
+<li><p><strong>stepSize</strong> – the step size with which to integrator the system (in picoseconds) </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM14RPMDIntegrator14RPMDIntegratorEidddRKNSt3mapIiiEE">
+<span id="_CPPv3N6OpenMM14RPMDIntegrator14RPMDIntegratorEidddRKNSt3mapIiiEE"></span><span id="_CPPv2N6OpenMM14RPMDIntegrator14RPMDIntegratorEidddRKNSt3mapIiiEE"></span><span id="OpenMM::RPMDIntegrator::RPMDIntegrator__i.double.double.double.std::map:i.i:CR"></span><span class="target" id="classOpenMM_1_1RPMDIntegrator_1a5ca0030b2891e46fec00f334aec75c9e"></span><span class="sig-name descname"><span class="n"><span class="pre">RPMDIntegrator</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">numCopies</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">temperature</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">frictionCoeff</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">stepSize</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">contractions</span></span><span class="sig-paren">)</span><a class="headerlink" href="RPMDIntegrator.html#_CPPv4N6OpenMM14RPMDIntegrator14RPMDIntegratorEidddRKNSt3mapIiiEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a <a class="reference internal" href="RPMDIntegrator.html#classOpenMM_1_1RPMDIntegrator"><span class="std std-ref">RPMDIntegrator</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>numCopies</strong> – the number of copies of the system that should be simulated </p></li>
+<li><p><strong>temperature</strong> – the temperature of the heat bath (in Kelvin) </p></li>
+<li><p><strong>frictionCoeff</strong> – the friction coefficient which couples the system to the heat bath (in inverse picoseconds) </p></li>
+<li><p><strong>stepSize</strong> – the step size with which to integrator the system (in picoseconds) </p></li>
+<li><p><strong>contractions</strong> – the ring polymer contractions to use for evaluating different force groups. Each key in the map is the index of a force group, and the corresponding value is the number of copies to evaluate that force group on. If no entry is provided for a force group (the default), it is evaluated independently on every copy. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM14RPMDIntegrator12getNumCopiesEv">
+<span id="_CPPv3NK6OpenMM14RPMDIntegrator12getNumCopiesEv"></span><span id="_CPPv2NK6OpenMM14RPMDIntegrator12getNumCopiesEv"></span><span id="OpenMM::RPMDIntegrator::getNumCopiesC"></span><span class="target" id="classOpenMM_1_1RPMDIntegrator_1a4d0dc563c8c6a4e02b528cf115a6d20d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getNumCopies</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="RPMDIntegrator.html#_CPPv4NK6OpenMM14RPMDIntegrator12getNumCopiesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the number of copies of the system being simulated. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM14RPMDIntegrator14getTemperatureEv">
+<span id="_CPPv3NK6OpenMM14RPMDIntegrator14getTemperatureEv"></span><span id="_CPPv2NK6OpenMM14RPMDIntegrator14getTemperatureEv"></span><span id="OpenMM::RPMDIntegrator::getTemperatureC"></span><span class="target" id="classOpenMM_1_1RPMDIntegrator_1ae4ce6cb377050cf108a9390b0d566c56"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getTemperature</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="RPMDIntegrator.html#_CPPv4NK6OpenMM14RPMDIntegrator14getTemperatureEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the temperature of the heat bath (in Kelvin).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the temperature of the heat bath, measured in Kelvin </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM14RPMDIntegrator14setTemperatureEd">
+<span id="_CPPv3N6OpenMM14RPMDIntegrator14setTemperatureEd"></span><span id="_CPPv2N6OpenMM14RPMDIntegrator14setTemperatureEd"></span><span id="OpenMM::RPMDIntegrator::setTemperature__double"></span><span class="target" id="classOpenMM_1_1RPMDIntegrator_1a78455645e3e601ff8d44e35b009a5287"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setTemperature</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">temp</span></span><span class="sig-paren">)</span><a class="headerlink" href="RPMDIntegrator.html#_CPPv4N6OpenMM14RPMDIntegrator14setTemperatureEd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the temperature of the heat bath (in Kelvin).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>temp</strong> – the temperature of the heat bath, measured in Kelvin </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM14RPMDIntegrator11getFrictionEv">
+<span id="_CPPv3NK6OpenMM14RPMDIntegrator11getFrictionEv"></span><span id="_CPPv2NK6OpenMM14RPMDIntegrator11getFrictionEv"></span><span id="OpenMM::RPMDIntegrator::getFrictionC"></span><span class="target" id="classOpenMM_1_1RPMDIntegrator_1ab40ec7f5b0485eca8eb9b95d13ebdebb"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getFriction</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="RPMDIntegrator.html#_CPPv4NK6OpenMM14RPMDIntegrator11getFrictionEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the friction coefficient which determines how strongly the system is coupled to the heat bath (in inverse ps).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the friction coefficient, measured in 1/ps </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM14RPMDIntegrator11setFrictionEd">
+<span id="_CPPv3N6OpenMM14RPMDIntegrator11setFrictionEd"></span><span id="_CPPv2N6OpenMM14RPMDIntegrator11setFrictionEd"></span><span id="OpenMM::RPMDIntegrator::setFriction__double"></span><span class="target" id="classOpenMM_1_1RPMDIntegrator_1ad1dd51eb298724002c674850bebcadb8"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setFriction</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">coeff</span></span><span class="sig-paren">)</span><a class="headerlink" href="RPMDIntegrator.html#_CPPv4N6OpenMM14RPMDIntegrator11setFrictionEd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the friction coefficient which determines how strongly the system is coupled to the heat bath (in inverse ps).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>coeff</strong> – the friction coefficient, measured in 1/ps </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM14RPMDIntegrator18getApplyThermostatEv">
+<span id="_CPPv3NK6OpenMM14RPMDIntegrator18getApplyThermostatEv"></span><span id="_CPPv2NK6OpenMM14RPMDIntegrator18getApplyThermostatEv"></span><span id="OpenMM::RPMDIntegrator::getApplyThermostatC"></span><span class="target" id="classOpenMM_1_1RPMDIntegrator_1a569b9378b213f1ad2f2bcae68718cc0e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getApplyThermostat</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="RPMDIntegrator.html#_CPPv4NK6OpenMM14RPMDIntegrator18getApplyThermostatEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get whether a thermostat is applied to the system. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM14RPMDIntegrator18setApplyThermostatEb">
+<span id="_CPPv3N6OpenMM14RPMDIntegrator18setApplyThermostatEb"></span><span id="_CPPv2N6OpenMM14RPMDIntegrator18setApplyThermostatEb"></span><span id="OpenMM::RPMDIntegrator::setApplyThermostat__b"></span><span class="target" id="classOpenMM_1_1RPMDIntegrator_1a9c96a95a516c01cdce79cc342ea28d8a"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setApplyThermostat</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">apply</span></span><span class="sig-paren">)</span><a class="headerlink" href="RPMDIntegrator.html#_CPPv4N6OpenMM14RPMDIntegrator18setApplyThermostatEb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set whether a thermostat is applied to the system. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM14RPMDIntegrator19getRandomNumberSeedEv">
+<span id="_CPPv3NK6OpenMM14RPMDIntegrator19getRandomNumberSeedEv"></span><span id="_CPPv2NK6OpenMM14RPMDIntegrator19getRandomNumberSeedEv"></span><span id="OpenMM::RPMDIntegrator::getRandomNumberSeedC"></span><span class="target" id="classOpenMM_1_1RPMDIntegrator_1aa4dc920a7ecef99d84acb8f433586671"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getRandomNumberSeed</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="RPMDIntegrator.html#_CPPv4NK6OpenMM14RPMDIntegrator19getRandomNumberSeedEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the random number seed. See <a class="reference internal" href="RPMDIntegrator.html#classOpenMM_1_1RPMDIntegrator_1a357af856ab0bff19803b16d63f58472c"><span class="std std-ref">setRandomNumberSeed()</span></a> for details. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM14RPMDIntegrator19setRandomNumberSeedEi">
+<span id="_CPPv3N6OpenMM14RPMDIntegrator19setRandomNumberSeedEi"></span><span id="_CPPv2N6OpenMM14RPMDIntegrator19setRandomNumberSeedEi"></span><span id="OpenMM::RPMDIntegrator::setRandomNumberSeed__i"></span><span class="target" id="classOpenMM_1_1RPMDIntegrator_1a357af856ab0bff19803b16d63f58472c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setRandomNumberSeed</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">seed</span></span><span class="sig-paren">)</span><a class="headerlink" href="RPMDIntegrator.html#_CPPv4N6OpenMM14RPMDIntegrator19setRandomNumberSeedEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the random number seed. The precise meaning of this parameter is undefined, and is left up to each <a class="reference internal" href="Platform.html#classOpenMM_1_1Platform"><span class="std std-ref">Platform</span></a> to interpret in an appropriate way. It is guaranteed that if two simulations are run with different random number seeds, the sequence of random forces will be different. On the other hand, no guarantees are made about the behavior of simulations that use the same seed. In particular, Platforms are permitted to use non-deterministic algorithms which produce different results on successive runs, even if those runs were initialized identically.</p>
+<p>If seed is set to 0 (which is the default value assigned), a unique seed is chosen when a <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a> is created from this <a class="reference internal" href="Force.html#classOpenMM_1_1Force"><span class="std std-ref">Force</span></a>. This is done to ensure that each <a class="reference internal" href="Context.html#classOpenMM_1_1Context"><span class="std std-ref">Context</span></a> receives unique random seeds without you needing to set them explicitly. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM14RPMDIntegrator15getContractionsEv">
+<span id="_CPPv3NK6OpenMM14RPMDIntegrator15getContractionsEv"></span><span id="_CPPv2NK6OpenMM14RPMDIntegrator15getContractionsEv"></span><span id="OpenMM::RPMDIntegrator::getContractionsC"></span><span class="target" id="classOpenMM_1_1RPMDIntegrator_1a0bb22c0b47d8370835358d7359bd576b"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">getContractions</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="RPMDIntegrator.html#_CPPv4NK6OpenMM14RPMDIntegrator15getContractionsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the ring polymer contractions to use for evaluating different force groups. Each key in the map is the index of a force group, and the corresponding value is the number of copies to evaluate that force group on. If no entry is provided for a force group, it is evaluated independently on every copy. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM14RPMDIntegrator12setPositionsEiRKNSt6vectorI4Vec3EE">
+<span id="_CPPv3N6OpenMM14RPMDIntegrator12setPositionsEiRKNSt6vectorI4Vec3EE"></span><span id="_CPPv2N6OpenMM14RPMDIntegrator12setPositionsEiRKNSt6vectorI4Vec3EE"></span><span id="OpenMM::RPMDIntegrator::setPositions__i.std::vector:Vec3:CR"></span><span class="target" id="classOpenMM_1_1RPMDIntegrator_1a1efdac4f9abec4af430c46ff6ffd1b97"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setPositions</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">copy</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Vec3.html#_CPPv4N6OpenMM4Vec3E" title="OpenMM::Vec3"><span class="n"><span class="pre">Vec3</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">positions</span></span><span class="sig-paren">)</span><a class="headerlink" href="RPMDIntegrator.html#_CPPv4N6OpenMM14RPMDIntegrator12setPositionsEiRKNSt6vectorI4Vec3EE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the positions of all particles in one copy of the system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>copy</strong> – the index of the copy for which to set positions </p></li>
+<li><p><strong>positions</strong> – the positions of all particles in the system </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM14RPMDIntegrator13setVelocitiesEiRKNSt6vectorI4Vec3EE">
+<span id="_CPPv3N6OpenMM14RPMDIntegrator13setVelocitiesEiRKNSt6vectorI4Vec3EE"></span><span id="_CPPv2N6OpenMM14RPMDIntegrator13setVelocitiesEiRKNSt6vectorI4Vec3EE"></span><span id="OpenMM::RPMDIntegrator::setVelocities__i.std::vector:Vec3:CR"></span><span class="target" id="classOpenMM_1_1RPMDIntegrator_1a6a7eb07261e0727999caafd4b1b4b9d8"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setVelocities</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">copy</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="Vec3.html#_CPPv4N6OpenMM4Vec3E" title="OpenMM::Vec3"><span class="n"><span class="pre">Vec3</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">velocities</span></span><span class="sig-paren">)</span><a class="headerlink" href="RPMDIntegrator.html#_CPPv4N6OpenMM14RPMDIntegrator13setVelocitiesEiRKNSt6vectorI4Vec3EE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the velocities of all particles in one copy of the system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>copy</strong> – the index of the copy for which to set velocities </p></li>
+<li><p><strong>velocities</strong> – the velocities of all particles in the system </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM14RPMDIntegrator8getStateEiibi">
+<span id="_CPPv3N6OpenMM14RPMDIntegrator8getStateEiibi"></span><span id="_CPPv2N6OpenMM14RPMDIntegrator8getStateEiibi"></span><span id="OpenMM::RPMDIntegrator::getState__i.i.b.i"></span><span class="target" id="classOpenMM_1_1RPMDIntegrator_1aea0e59c256ba1d3cbf5e031d2466bd13"></span><a class="reference internal" href="State.html#_CPPv4N6OpenMM5StateE" title="OpenMM::State"><span class="n"><span class="pre">State</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getState</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">copy</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">types</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">enforcePeriodicBox</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">groups</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0xFFFFFFFF</span></span><span class="sig-paren">)</span><a class="headerlink" href="RPMDIntegrator.html#_CPPv4N6OpenMM14RPMDIntegrator8getStateEiibi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get a <a class="reference internal" href="State.html#classOpenMM_1_1State"><span class="std std-ref">State</span></a> object recording the current state information about one copy of the system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>copy</strong> – the index of the copy for which to retrieve state information </p></li>
+<li><p><strong>types</strong> – the set of data types which should be stored in the <a class="reference internal" href="State.html#classOpenMM_1_1State"><span class="std std-ref">State</span></a> object. This should be a union of DataType values, e.g. (State::Positions | State::Velocities). </p></li>
+<li><p><strong>enforcePeriodicBox</strong> – if false, the position of each particle will be whatever position is stored by the integrator, regardless of periodic boundary conditions. If true, particle positions will be translated so the center of every molecule lies in the same periodic box. </p></li>
+<li><p><strong>groups</strong> – a set of bit flags for which force groups to include when computing forces and energies. Group i will be included if (groups&amp;(1&lt;&lt;i)) != 0. The default value includes all groups. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM14RPMDIntegrator14getTotalEnergyEv">
+<span id="_CPPv3N6OpenMM14RPMDIntegrator14getTotalEnergyEv"></span><span id="_CPPv2N6OpenMM14RPMDIntegrator14getTotalEnergyEv"></span><span id="OpenMM::RPMDIntegrator::getTotalEnergy"></span><span class="target" id="classOpenMM_1_1RPMDIntegrator_1a2ae276527c121c4e79f3507b327ab1cf"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getTotalEnergy</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="RPMDIntegrator.html#_CPPv4N6OpenMM14RPMDIntegrator14getTotalEnergyEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the total energy of the ring polymer. This includes the potential and kinetic energies of all copies, plus the potential energy of the harmonic springs that link copies together. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM14RPMDIntegrator4stepEi">
+<span id="_CPPv3N6OpenMM14RPMDIntegrator4stepEi"></span><span id="_CPPv2N6OpenMM14RPMDIntegrator4stepEi"></span><span id="OpenMM::RPMDIntegrator::step__i"></span><span class="target" id="classOpenMM_1_1RPMDIntegrator_1a5d179428b1f69ca4f355391fbcb727cd"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">step</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">steps</span></span><span class="sig-paren">)</span><a class="headerlink" href="RPMDIntegrator.html#_CPPv4N6OpenMM14RPMDIntegrator4stepEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Advance a simulation through time by taking a series of time steps.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>steps</strong> – the number of time steps to take </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="DrudeSCFIntegrator.html" title="Previous document"><code class="docutils literal notranslate"><span class="pre">DrudeSCFIntegrator</span></code></a>
+        </li>
+        <li>
+          <a href="CustomIntegrator.html" title="Next document"><code class="docutils literal notranslate"><span class="pre">CustomIntegrator</span></code></a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM C++ API</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="System.html"><code class="docutils literal notranslate"><span class="pre">System</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Context.html"><code class="docutils literal notranslate"><span class="pre">Context</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="State.html"><code class="docutils literal notranslate"><span class="pre">State</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Platform.html"><code class="docutils literal notranslate"><span class="pre">Platform</span></code></a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../forces.html">Forces</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../integrators.html">Integrators</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../integrators.html#the-integrator-abstract-class">The <code class="docutils literal notranslate"><span class="pre">Integrator</span></code> abstract class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../integrators.html#general-purpose-integrators">General purpose integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../integrators.html#drude-integrators">Drude integrators</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../integrators.html#ring-polymer-molecular-dynamics-integrators">Ring Polymer Molecular Dynamics integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../integrators.html#customizing-integrator">Customizing <code class="docutils literal notranslate"><span class="pre">Integrator</span></code></a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../extras.html">Extra classes</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../userguide/index.html">
+                User's Manual
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../developerguide">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../api-python/index.html">
+                Python API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Stanford University and the Authors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/generated/RPMDIntegrator.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,29 @@
+﻿SimulatedTempering
+================================================
+
+.. currentmodule:: openmm.app.simulatedtempering
+
+.. autoclass:: SimulatedTempering
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~SimulatedTempering.__init__
+      ~SimulatedTempering.step
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~SimulatedTempering.weights
+   
+   

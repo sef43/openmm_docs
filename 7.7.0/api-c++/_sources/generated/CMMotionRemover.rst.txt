@@ -1,0 +1,7 @@
+.. _OpenMM::CMMotionRemover:
+
+``CMMotionRemover``
+===================
+
+.. doxygenclass:: OpenMM::CMMotionRemover
+   :members:

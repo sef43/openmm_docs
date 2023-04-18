@@ -1,0 +1,7 @@
+.. _OpenMM::CustomManyParticleForce:
+
+``CustomManyParticleForce``
+===========================
+
+.. doxygenclass:: OpenMM::CustomManyParticleForce
+   :members:

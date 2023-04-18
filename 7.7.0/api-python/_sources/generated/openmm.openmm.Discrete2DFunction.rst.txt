@@ -1,0 +1,32 @@
+﻿Discrete2DFunction
+================================
+
+.. currentmodule:: openmm.openmm
+
+.. autoclass:: Discrete2DFunction
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Discrete2DFunction.Copy
+      ~Discrete2DFunction.__init__
+      ~Discrete2DFunction.getFunctionParameters
+      ~Discrete2DFunction.getPeriodic
+      ~Discrete2DFunction.setFunctionParameters
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Discrete2DFunction.thisown
+   
+   

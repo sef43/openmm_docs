@@ -1,0 +1,7 @@
+.. _OpenMM::CustomExternalForce:
+
+``CustomExternalForce``
+=======================
+
+.. doxygenclass:: OpenMM::CustomExternalForce
+   :members:

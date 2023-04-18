@@ -1,0 +1,7 @@
+.. _OpenMM::CustomHbondForce:
+
+``CustomHbondForce``
+====================
+
+.. doxygenclass:: OpenMM::CustomHbondForce
+   :members:

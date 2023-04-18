@@ -1,0 +1,47 @@
+﻿State
+===================
+
+.. currentmodule:: openmm.openmm
+
+.. autoclass:: State
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~State.__init__
+      ~State.getDataTypes
+      ~State.getEnergyParameterDerivatives
+      ~State.getForces
+      ~State.getKineticEnergy
+      ~State.getParameters
+      ~State.getPeriodicBoxVectors
+      ~State.getPeriodicBoxVolume
+      ~State.getPositions
+      ~State.getPotentialEnergy
+      ~State.getStepCount
+      ~State.getTime
+      ~State.getVelocities
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~State.Energy
+      ~State.Forces
+      ~State.IntegratorParameters
+      ~State.ParameterDerivatives
+      ~State.Parameters
+      ~State.Positions
+      ~State.Velocities
+      ~State.thisown
+   
+   

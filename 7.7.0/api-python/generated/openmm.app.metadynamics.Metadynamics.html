@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Metadynamics &#8212; OpenMM Python API 7.7.0.dev-130124a documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="SimulatedTempering" href="openmm.app.simulatedtempering.SimulatedTempering.html" />
+    <link rel="prev" title="Element" href="openmm.app.element.Element.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="metadynamics">
+<h1>Metadynamics<a class="headerlink" href="openmm.app.metadynamics.Metadynamics.html#metadynamics" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="openmm.app.metadynamics.Metadynamics">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">openmm.app.metadynamics.</span></span><span class="sig-name descname"><span class="pre">Metadynamics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variables</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">biasFactor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frequency</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveFrequency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">biasDir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.app.metadynamics.Metadynamics.html#openmm.app.metadynamics.Metadynamics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs metadynamics.</p>
+<p>This class implements well-tempered metadynamics, as described in Barducci et al.,
+“Well-Tempered Metadynamics: A Smoothly Converging and Tunable Free-Energy Method”
+(<a class="reference external" href="https://doi.org/10.1103/PhysRevLett.100.020603">https://doi.org/10.1103/PhysRevLett.100.020603</a>).  You specify from one to three
+collective variables whose sampling should be accelerated.  A biasing force that
+depends on the collective variables is added to the simulation.  Initially the bias
+is zero.  As the simulation runs, Gaussian bumps are periodically added to the bias
+at the current location of the simulation.  This pushes the simulation away from areas
+it has already explored, encouraging it to sample other regions.  At the end of the
+simulation, the bias function can be used to calculate the system’s free energy as a
+function of the collective variables.</p>
+<p>To use the class you create a Metadynamics object, passing to it the System you want
+to simulate and a list of BiasVariable objects defining the collective variables.
+It creates a biasing force and adds it to the System.  You then run the simulation
+as usual, but call step() on the Metadynamics object instead of on the Simulation.</p>
+<p>You can optionally specify a directory on disk where the current bias function should
+periodically be written.  In addition, it loads biases from any other files in the
+same directory and includes them in the simulation.  It loads files when the
+Metqdynamics object is first created, and also checks for any new files every time it
+updates its own bias on disk.</p>
+<p>This serves two important functions.  First, it lets you stop a metadynamics run and
+resume it later.  When you begin the new simulation, it will load the biases computed
+in the earlier simulation and continue adding to them.  Second, it provides an easy
+way to parallelize metadynamics sampling across many computers.  Just point all of
+them to a shared directory on disk.  Each process will save its biases to that
+directory, and also load in and apply the biases added by other processes.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.app.metadynamics.Metadynamics.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variables</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">biasFactor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frequency</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveFrequency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">biasDir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.app.metadynamics.Metadynamics.html#openmm.app.metadynamics.Metadynamics.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Metadynamics object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>system</strong> (<a class="reference internal" href="openmm.openmm.System.html#openmm.openmm.System" title="openmm.openmm.System"><em>System</em></a>) – the System to simulate.  A CustomCVForce implementing the bias is created and
+added to the System.</p></li>
+<li><p><strong>variables</strong> (<em>list of BiasVariables</em>) – the collective variables to sample</p></li>
+<li><p><strong>temperature</strong> (<em>temperature</em>) – the temperature at which the simulation is being run.  This is used in computing
+the free energy.</p></li>
+<li><p><strong>biasFactor</strong> (<em>float</em>) – used in scaling the height of the Gaussians added to the bias.  The collective
+variables are sampled as if the effective temperature of the simulation were
+temperature*biasFactor.</p></li>
+<li><p><strong>height</strong> (<em>energy</em>) – the initial height of the Gaussians to add</p></li>
+<li><p><strong>frequency</strong> (<em>int</em>) – the interval in time steps at which Gaussians should be added to the bias potential</p></li>
+<li><p><strong>saveFrequency</strong> (<em>int</em><em> (</em><em>optional</em><em>)</em>) – the interval in time steps at which to write out the current biases to disk.  At
+the same time it writes biases, it also checks for updated biases written by other
+processes and loads them in.  This must be a multiple of frequency.</p></li>
+<li><p><strong>biasDir</strong> (<em>str</em><em> (</em><em>optional</em><em>)</em>) – the directory to which biases should be written, and from which biases written by
+other processes should be loaded</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.app.metadynamics.Metadynamics.html#openmm.app.metadynamics.Metadynamics.__init__" title="openmm.app.metadynamics.Metadynamics.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(system, variables, temperature, …)</p></td>
+<td><p>Create a Metadynamics object.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="openmm.app.metadynamics.Metadynamics.html#openmm.app.metadynamics.Metadynamics.getCollectiveVariables" title="openmm.app.metadynamics.Metadynamics.getCollectiveVariables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getCollectiveVariables</span></code></a>(simulation)</p></td>
+<td><p>Get the current values of all collective variables in a Simulation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="openmm.app.metadynamics.Metadynamics.html#openmm.app.metadynamics.Metadynamics.getFreeEnergy" title="openmm.app.metadynamics.Metadynamics.getFreeEnergy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getFreeEnergy</span></code></a>()</p></td>
+<td><p>Get the free energy of the system as a function of the collective variables.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="openmm.app.metadynamics.Metadynamics.html#openmm.app.metadynamics.Metadynamics.step" title="openmm.app.metadynamics.Metadynamics.step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">step</span></code></a>(simulation, steps)</p></td>
+<td><p>Advance the simulation by integrating a specified number of time steps.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.app.metadynamics.Metadynamics.step">
+<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.app.metadynamics.Metadynamics.html#openmm.app.metadynamics.Metadynamics.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Advance the simulation by integrating a specified number of time steps.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>simulation</strong> (<a class="reference internal" href="openmm.app.simulation.Simulation.html#openmm.app.simulation.Simulation" title="openmm.app.simulation.Simulation"><em>Simulation</em></a>) – the Simulation to advance</p></li>
+<li><p><strong>steps</strong> (<em>int</em>) – the number of time steps to integrate</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.app.metadynamics.Metadynamics.getFreeEnergy">
+<span class="sig-name descname"><span class="pre">getFreeEnergy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="openmm.app.metadynamics.Metadynamics.html#openmm.app.metadynamics.Metadynamics.getFreeEnergy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the free energy of the system as a function of the collective variables.</p>
+<p>The result is returned as a N-dimensional NumPy array, where N is the number of collective
+variables.  The values are in kJ/mole.  The i’th position along an axis corresponds to
+minValue + i*(maxValue-minValue)/gridWidth.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openmm.app.metadynamics.Metadynamics.getCollectiveVariables">
+<span class="sig-name descname"><span class="pre">getCollectiveVariables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulation</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="openmm.app.metadynamics.Metadynamics.html#openmm.app.metadynamics.Metadynamics.getCollectiveVariables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current values of all collective variables in a Simulation.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="openmm.app.element.Element.html" title="Previous document">Element</a>
+        </li>
+        <li>
+          <a href="openmm.app.simulatedtempering.SimulatedTempering.html" title="Next document">SimulatedTempering</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM Python API</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../app.html">Application Layer</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../app.html#loaders-and-setup">Loaders and Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app.html#representation-and-manipulation">Representation and Manipulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app.html#simulation">Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app.html#reporting-output">Reporting Output</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../app.html#extras">Extras</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app.html#units">Units</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../library.html">Library Layer</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../userguide/index.html">
+                User's Manual
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../developerguide">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../api-c++/index.html">
+                C++ API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Stanford University and the Authors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/generated/openmm.app.metadynamics.Metadynamics.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

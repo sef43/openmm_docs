@@ -1,0 +1,22 @@
+﻿SiPrefix
+===========================
+
+.. currentmodule:: openmm.unit.prefix
+
+.. autoclass:: SiPrefix
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~SiPrefix.__init__
+   
+   
+
+   
+   
+   

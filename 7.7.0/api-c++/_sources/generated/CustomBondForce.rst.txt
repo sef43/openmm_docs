@@ -1,0 +1,7 @@
+.. _OpenMM::CustomBondForce:
+
+``CustomBondForce``
+===================
+
+.. doxygenclass:: OpenMM::CustomBondForce
+   :members:

@@ -1,0 +1,38 @@
+﻿RMSDForce
+=======================
+
+.. currentmodule:: openmm.openmm
+
+.. autoclass:: RMSDForce
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~RMSDForce.__init__
+      ~RMSDForce.getForceGroup
+      ~RMSDForce.getName
+      ~RMSDForce.getParticles
+      ~RMSDForce.getReferencePositions
+      ~RMSDForce.setForceGroup
+      ~RMSDForce.setName
+      ~RMSDForce.setParticles
+      ~RMSDForce.setReferencePositions
+      ~RMSDForce.updateParametersInContext
+      ~RMSDForce.usesPeriodicBoundaryConditions
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RMSDForce.thisown
+   
+   

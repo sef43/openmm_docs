@@ -1,0 +1,205 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>TabulatedFunction &#8212; OpenMM C++ API @OPENMM_MAJOR_VERSION@.@OPENMM_MINOR_VERSION@ documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Continuous1DFunction" href="Continuous1DFunction.html" />
+    <link rel="prev" title="Extra classes" href="../extras.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="tabulatedfunction">
+<span id="openmm-tabulatedfunction"></span><h1><code class="docutils literal notranslate"><span class="pre">TabulatedFunction</span></code><a class="headerlink" href="TabulatedFunction.html#tabulatedfunction" title="Permalink to this headline">¶</a></h1>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6OpenMM17TabulatedFunctionE">
+<span id="_CPPv3N6OpenMM17TabulatedFunctionE"></span><span id="_CPPv2N6OpenMM17TabulatedFunctionE"></span><span id="OpenMM::TabulatedFunction"></span><span class="target" id="classOpenMM_1_1TabulatedFunction"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">OpenMM</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">TabulatedFunction</span></span></span><a class="headerlink" href="TabulatedFunction.html#_CPPv4N6OpenMM17TabulatedFunctionE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>A <a class="reference internal" href="TabulatedFunction.html#classOpenMM_1_1TabulatedFunction"><span class="std std-ref">TabulatedFunction</span></a> uses a set of tabulated values to define a mathematical function. It can be used by various custom forces.</p>
+<p><a class="reference internal" href="TabulatedFunction.html#classOpenMM_1_1TabulatedFunction"><span class="std std-ref">TabulatedFunction</span></a> is an abstract class with concrete subclasses for more specific types of functions. There are subclasses for:</p>
+<p><ul class="simple">
+<li><p>1, 2, and 3 dimensional functions. The dimensionality of a function means the number of input arguments it takes. </p></li>
+<li><p>Continuous and discrete functions. A continuous function is interpolated by fitting a natural cubic spline to the tabulated values. A discrete function is only defined for integer values of its arguments (that is, at the tabulated points), and does not try to interpolate between them. Discrete function can be evaluated more quickly than continuous ones. </p></li>
+</ul>
+</p>
+<p>Subclassed by <a class="reference internal" href="Continuous1DFunction.html#classOpenMM_1_1Continuous1DFunction"><span class="std std-ref">OpenMM::Continuous1DFunction</span></a>, <a class="reference internal" href="Continuous2DFunction.html#classOpenMM_1_1Continuous2DFunction"><span class="std std-ref">OpenMM::Continuous2DFunction</span></a>, <a class="reference internal" href="Continuous3DFunction.html#classOpenMM_1_1Continuous3DFunction"><span class="std std-ref">OpenMM::Continuous3DFunction</span></a>, <a class="reference internal" href="Discrete1DFunction.html#classOpenMM_1_1Discrete1DFunction"><span class="std std-ref">OpenMM::Discrete1DFunction</span></a>, <a class="reference internal" href="Discrete2DFunction.html#classOpenMM_1_1Discrete2DFunction"><span class="std std-ref">OpenMM::Discrete2DFunction</span></a>, <a class="reference internal" href="Discrete3DFunction.html#classOpenMM_1_1Discrete3DFunction"><span class="std std-ref">OpenMM::Discrete3DFunction</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM17TabulatedFunction4CopyEv">
+<span id="_CPPv3NK6OpenMM17TabulatedFunction4CopyEv"></span><span id="_CPPv2NK6OpenMM17TabulatedFunction4CopyEv"></span><span id="OpenMM::TabulatedFunction::CopyC"></span><span class="target" id="classOpenMM_1_1TabulatedFunction_1abeff78bec7bba6f538e16b571404342c"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="TabulatedFunction.html#_CPPv4N6OpenMM17TabulatedFunctionE" title="OpenMM::TabulatedFunction"><span class="n"><span class="pre">TabulatedFunction</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Copy</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="TabulatedFunction.html#_CPPv4NK6OpenMM17TabulatedFunction4CopyEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><dl>
+<dt class="sig sig-object cpp">
+<em><span class="pre">Deprecated:</span></em></dt>
+<dd><p>This will be removed in a future release. </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6OpenMM17TabulatedFunction11getPeriodicEv">
+<span id="_CPPv3NK6OpenMM17TabulatedFunction11getPeriodicEv"></span><span id="_CPPv2NK6OpenMM17TabulatedFunction11getPeriodicEv"></span><span id="OpenMM::TabulatedFunction::getPeriodicC"></span><span class="target" id="classOpenMM_1_1TabulatedFunction_1aef47933ac326aae1ea502c2b6a7dffd2"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getPeriodic</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="TabulatedFunction.html#_CPPv4NK6OpenMM17TabulatedFunction11getPeriodicEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the periodicity status of the tabulated function. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="../extras.html" title="Previous document">Extra classes</a>
+        </li>
+        <li>
+          <a href="Continuous1DFunction.html" title="Next document"><code class="docutils literal notranslate"><span class="pre">Continuous1DFunction</span></code></a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM C++ API</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="System.html"><code class="docutils literal notranslate"><span class="pre">System</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Context.html"><code class="docutils literal notranslate"><span class="pre">Context</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="State.html"><code class="docutils literal notranslate"><span class="pre">State</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Platform.html"><code class="docutils literal notranslate"><span class="pre">Platform</span></code></a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../forces.html">Forces</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../integrators.html">Integrators</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../extras.html">Extra classes</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../extras.html#tabulated-functions">Tabulated functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../extras.html#virtual-sites">Virtual Sites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../extras.html#serialization">Serialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../extras.html#other-classes">Other classes</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../userguide/index.html">
+                User's Manual
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../developerguide">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../../api-python/index.html">
+                Python API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Stanford University and the Authors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/generated/TabulatedFunction.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

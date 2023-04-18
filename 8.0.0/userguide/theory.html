@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Part III: The Theory Behind OpenMM &#8212; OpenMM User Guide 8.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="http://docs.openmm.org/8.0.0/userguide/_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="http://docs.openmm.org/8.0.0/userguide/_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="http://docs.openmm.org/8.0.0/userguide/_static/documentation_options.js"></script>
+    <script src="http://docs.openmm.org/8.0.0/userguide/_static/jquery.js"></script>
+    <script src="http://docs.openmm.org/8.0.0/userguide/_static/underscore.js"></script>
+    <script src="http://docs.openmm.org/8.0.0/userguide/_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="17. Introduction" href="theory/01_introduction.html" />
+    <link rel="prev" title="16. Drude Plugin" href="library/10_drude_plugin.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="part-iii-the-theory-behind-openmm">
+<span id="the-theory-behind-openmm"></span><h1>Part III: The Theory Behind OpenMM<a class="headerlink" href="theory.html#part-iii-the-theory-behind-openmm" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="theory/01_introduction.html">17. Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="theory/01_introduction.html#overview">17.1. Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/01_introduction.html#units">17.2. Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/01_introduction.html#physical-constants">17.3. Physical Constants</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="theory/02_standard_forces.html">18. Standard Forces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="theory/02_standard_forces.html#harmonicbondforce">18.1. HarmonicBondForce</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/02_standard_forces.html#harmonicangleforce">18.2. HarmonicAngleForce</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/02_standard_forces.html#periodictorsionforce">18.3. PeriodicTorsionForce</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/02_standard_forces.html#rbtorsionforce">18.4. RBTorsionForce</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/02_standard_forces.html#cmaptorsionforce">18.5. CMAPTorsionForce</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/02_standard_forces.html#nonbondedforce">18.6. NonbondedForce</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="theory/02_standard_forces.html#lennard-jones-interaction">18.6.1. Lennard-Jones Interaction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/02_standard_forces.html#coulomb-interaction-without-cutoff">18.6.2. Coulomb Interaction Without Cutoff</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/02_standard_forces.html#coulomb-interaction-with-cutoff">18.6.3. Coulomb Interaction With Cutoff</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/02_standard_forces.html#coulomb-interaction-with-ewald-summation">18.6.4. Coulomb Interaction With Ewald Summation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/02_standard_forces.html#coulomb-interaction-with-particle-mesh-ewald">18.6.5. Coulomb Interaction With Particle Mesh Ewald</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/02_standard_forces.html#lennard-jones-interaction-with-particle-mesh-ewald">18.6.6. Lennard-Jones Interaction With Particle Mesh Ewald</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="theory/02_standard_forces.html#gbsaobcforce">18.7. GBSAOBCForce</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="theory/02_standard_forces.html#generalized-born-term">18.7.1. Generalized Born Term</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/02_standard_forces.html#surface-area-term">18.7.2. Surface Area Term</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="theory/02_standard_forces.html#gayberneforce">18.8. GayBerneForce</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/02_standard_forces.html#andersenthermostat">18.9. AndersenThermostat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/02_standard_forces.html#montecarlobarostat">18.10. MonteCarloBarostat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/02_standard_forces.html#montecarloanisotropicbarostat">18.11. MonteCarloAnisotropicBarostat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/02_standard_forces.html#montecarlomembranebarostat">18.12. MonteCarloMembraneBarostat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/02_standard_forces.html#montecarloflexiblebarostat">18.13. MonteCarloFlexibleBarostat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/02_standard_forces.html#cmmotionremover">18.14. CMMotionRemover</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/02_standard_forces.html#rmsdforce">18.15. RMSDForce</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="theory/03_custom_forces.html">19. Custom Forces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="theory/03_custom_forces.html#custombondforce">19.1. CustomBondForce</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/03_custom_forces.html#customangleforce">19.2. CustomAngleForce</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/03_custom_forces.html#customtorsionforce">19.3. CustomTorsionForce</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/03_custom_forces.html#customnonbondedforce">19.4. CustomNonbondedForce</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/03_custom_forces.html#customexternalforce">19.5. CustomExternalForce</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/03_custom_forces.html#customcompoundbondforce">19.6. CustomCompoundBondForce</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/03_custom_forces.html#customcentroidbondforce">19.7. CustomCentroidBondForce</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/03_custom_forces.html#custommanyparticleforce">19.8. CustomManyParticleForce</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/03_custom_forces.html#customgbforce">19.9. CustomGBForce</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/03_custom_forces.html#customhbondforce">19.10. CustomHbondForce</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/03_custom_forces.html#customcvforce">19.11. CustomCVForce</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/03_custom_forces.html#writing-custom-expressions">19.12. Writing Custom Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/03_custom_forces.html#setting-parameters">19.13. Setting Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/03_custom_forces.html#parameter-derivatives">19.14. Parameter Derivatives</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="theory/04_integrators.html">20. Integrators</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="theory/04_integrators.html#verletintegrator">20.1. VerletIntegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/04_integrators.html#langevinintegator">20.2. LangevinIntegator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/04_integrators.html#langevinmiddleintegrator">20.3. LangevinMiddleIntegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/04_integrators.html#nosehooverintegrator">20.4. NoseHooverIntegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/04_integrators.html#brownianintegrator">20.5. BrownianIntegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/04_integrators.html#variableverletintegrator">20.6. VariableVerletIntegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/04_integrators.html#variablelangevinintegrator">20.7. VariableLangevinIntegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/04_integrators.html#customintegrator">20.8. CustomIntegrator</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="theory/05_other_features.html">21. Other Features</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="theory/05_other_features.html#periodic-boundary-conditions">21.1. Periodic Boundary Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/05_other_features.html#localenergyminimizer">21.2. LocalEnergyMinimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/05_other_features.html#xmlserializer">21.3. XMLSerializer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/05_other_features.html#force-groups">21.4. Force Groups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/05_other_features.html#virtual-sites">21.5. Virtual Sites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/05_other_features.html#random-numbers-with-stochastic-integrators-and-forces">21.6. Random Numbers with Stochastic Integrators and Forces</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="library/10_drude_plugin.html" title="Previous document"><span class="section-number">16. </span>Drude Plugin</a>
+        </li>
+        <li>
+          <a href="theory/01_introduction.html" title="Next document"><span class="section-number">17. </span>Introduction</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">OpenMM User Guide</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><div class="navigation-scrollbox">
+    <div class="nav-toctree">
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="application.html">Part I: The OpenMM Application Layer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="library.html">Part II: The OpenMM Library</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="theory.html#">Part III: The Theory Behind OpenMM</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="theory/01_introduction.html">17. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/02_standard_forces.html">18. Standard Forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/03_custom_forces.html">19. Custom Forces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/04_integrators.html">20. Integrators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/05_other_features.html">21. Other Features</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="zbibliography.html">22. Bibliography</a></li>
+</ul>
+
+    </div>
+    
+    <ul class="extra-nav-links">
+        
+        <li class="toctree-l1">
+            <a href="https://openmm.org">
+                OpenMM.org
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../developerguide/index.html">
+                Developer Guide
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../api-python/index.html">
+                Python API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="../api-c++/index.html">
+                C++ API reference
+            </a>
+        </li>
+        
+        <li class="toctree-l1">
+            <a href="https://github.com/openmm">
+                GitHub
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2008-2017, Stanford University.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/theory.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

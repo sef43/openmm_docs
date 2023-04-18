@@ -1,0 +1,7 @@
+.. _OpenMM::CustomCVForce:
+
+``CustomCVForce``
+=================
+
+.. doxygenclass:: OpenMM::CustomCVForce
+   :members:

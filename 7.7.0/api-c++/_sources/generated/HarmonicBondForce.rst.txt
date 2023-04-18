@@ -1,0 +1,7 @@
+.. _OpenMM::HarmonicBondForce:
+
+``HarmonicBondForce``
+=====================
+
+.. doxygenclass:: OpenMM::HarmonicBondForce
+   :members:
