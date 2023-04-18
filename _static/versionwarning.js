@@ -7,9 +7,9 @@
 */
 
 
-
- let versionUrl="/versions.json"
- let versionPage="/all_versions.html"
+// TODO: remove hardcoded links
+ let versionUrl="/openmm_docs/versions.json"
+ let versionPage="/openmm_docs/all_versions.html"
  
  async function getJson(url) {
      let response = await fetch(url);
