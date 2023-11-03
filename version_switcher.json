@@ -1,0 +1,58 @@
+[
+    {
+        "version": "development",
+        "url": "http://docs.openmm.org/development/"
+    },
+    {
+        "version": "latest",
+        "url": "http://docs.openmm.org/latest/"
+    },
+    {
+        "version": "8.0.0",
+        "url": "http://docs.openmm.org/8.0.0/"
+    },
+    {
+        "version": "7.7.0",
+        "url": "http://docs.openmm.org/7.7.0/"
+    },
+    {
+        "version": "7.6.0",
+        "url": "http://docs.openmm.org/7.6.0/"
+    },
+    {
+        "version": "7.5.0",
+        "url": "http://docs.openmm.org/7.5.0/"
+    },
+    {
+        "version": "7.4.0",
+        "url": "http://docs.openmm.org/7.4.0/"
+    },
+    {
+        "version": "7.3.0",
+        "url": "http://docs.openmm.org/7.3.0/"
+    },
+    {
+        "version": "7.2.0",
+        "url": "http://docs.openmm.org/7.2.0/"
+    },
+    {
+        "version": "7.1.0",
+        "url": "http://docs.openmm.org/7.1.0/"
+    },
+    {
+        "version": "7.0.0",
+        "url": "http://docs.openmm.org/7.0.0/"
+    },
+    {
+        "version": "6.3.0",
+        "url": "http://docs.openmm.org/6.3.0/"
+    },
+    {
+        "version": "6.2.0",
+        "url": "http://docs.openmm.org/6.2.0/"
+    },
+    {
+        "version": "6.1.0",
+        "url": "http://docs.openmm.org/6.1.0/"
+    }
+]
